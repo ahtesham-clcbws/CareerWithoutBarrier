@@ -44,7 +44,7 @@ Route::post('/reset_forget_password', [HomeController::class, 'resetForgotPasswo
 
 Route::prefix('homepage')->group(function () {
     Route::get('/slider', [HomeController::class, 'slider'])->name('home.slider');
-      Route::get('/govtwebsite', [HomeController::class, 'govtwebsite'])->name('home.govtwebsite');
+    Route::get('/govtwebsite', [HomeController::class, 'govtwebsite'])->name('home.govtwebsite');
     Route::post('/savegovtwebsite', [HomeController::class, 'savegovtwebsite'])->name('home.savegovtwebsite');
     Route::get('/deleteGovtwebsite/{id}', [HomeController::class, 'deleteGovtwebsite'])->name('home.deleteGovtwebsite');
     Route::post('/saveSlider', [HomeController::class, 'saveSlider'])->name('home.saveSlider');
@@ -91,7 +91,6 @@ Route::prefix('students')->group(function () {
     Route::post('/uploadexcel', [StudentController::class, 'uploadexcel'])->name('students.uploadexcel');
 
     Route::get('/scholorshipApplyList', [StudentController::class, 'scholorshipApplyList'])->name('students.scholorshipApplyList');
-
 });
 
 Route::prefix('result')->group(function () {
@@ -158,12 +157,12 @@ Route::prefix('students')->group(function () {
         Route::post('/admin_card', [StudentController::class, 'admitCard'])->name('students.admitCard');
         Route::get('/result_download', [StudentController::class, 'resultDownload'])->name('students.resultdownload');
         Route::post('/coupon_code_apply', [StudentController::class, 'applyCoupon'])->name('students.couponCodeApply');
-        Route::post('/removeCoupon', [StudentController::class,'removeCoupon'])->name('students.removeCoupon');
-        Route::any('/change_password', [StudentController::class,'changePassword'])->name('students.changePassword');
-        Route::any('/profile', [StudentController::class,'profilePage'])->name('students.profilePage');
-        Route::post('/upload-photo',  [StudentController::class,'uploadPhoto'])->name('upload.photo');
+        Route::post('/removeCoupon', [StudentController::class, 'removeCoupon'])->name('students.removeCoupon');
+        Route::any('/change_password', [StudentController::class, 'changePassword'])->name('students.changePassword');
+        Route::any('/profile', [StudentController::class, 'profilePage'])->name('students.profilePage');
+        Route::post('/upload-photo',  [StudentController::class, 'uploadPhoto'])->name('upload.photo');
 
-        Route::any('/say_about_us', [StudentController::class,'studentSayAboutUs'])->name('student.sayAboutUs');
+        Route::any('/say_about_us', [StudentController::class, 'studentSayAboutUs'])->name('student.sayAboutUs');
 
         Route::post('razorpay-payment', [Razorpay::class, 'store'])->name('razorpay.payment.store');
 
@@ -189,7 +188,3 @@ Route::get('districts/{state}', [CommonController::class, 'districts']);
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
-
-
-
-  

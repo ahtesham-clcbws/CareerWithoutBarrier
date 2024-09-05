@@ -69,7 +69,7 @@ Student
                                           <td><b>Name</b></td>
                                           <td colspan="2" class="information-txt">{{$student->name}}</td>
                                           <td class="userImageCell" rowspan="2" colspan="2">
-                                             <img src="{{url('/public/upload/student/')}}/{{$student->photograph}}" class="img-fluid" style="width: 100px;border: 1px double #dee2e6;padding: 4px;height: 100px;">
+                                             <img src="{{url('/upload/student/')}}/{{$student->photograph}}" class="img-fluid" style="width: 100px;border: 1px double #dee2e6;padding: 4px;height: 100px;">
                                           </td>
 
                                        </tr>
@@ -401,7 +401,7 @@ Student
 </script>
 <script>
         if("{{$student->scholarship_category}}"){
-            console.log({{$student->scholarship_category}})
+            console.log(<?=$student->scholarship_category?>)
             getScholarshipCategory("{{$student->scholarship_category}}",'Yes') 
         }
 function getScholarshipCategory(id, type=null){
@@ -413,7 +413,7 @@ console.log(response.data !=null)
 
             $('#scholarship_category').empty().append('<option value="">--Select Option--</option>');
             $.each(response.data, function(index, st) {
-        var selected = ({{$student->scholarship_category ?? 'null'}} == st.id) ? 'selected' : '';
+        var selected = (<?=$student->scholarship_category ?? 'null'?> == st.id) ? 'selected' : '';
 
          $('#scholarship_category').append('<option value="' + st.id + '" ' + selected + '>' + st.name + '</option>');
         });
@@ -437,7 +437,7 @@ function getScholarshipoptedfor(id){
 
 $('#scholarship_opted_for').empty().append('<option value="">--Select Scholarship Opted For--</option>');
  $.each(response.scholarOptedFor, function(index, optedfor) {
-    var selected = ({{$student->scholarship_opted_for ?? 'null'}} == optedfor.id) ? 'selected' : '';
+    var selected = (<?=$student->scholarship_opted_for ?? 'null'?> == optedfor.id) ? 'selected' : '';
     $('#scholarship_opted_for').append('<option value="' + optedfor.id + '" ' + selected + '>' + optedfor.name + '</option>');
  });
  }else{

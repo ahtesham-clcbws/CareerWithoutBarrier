@@ -33,7 +33,7 @@
                   @foreach ($institute as $institutes)
                   <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
-                    <td><img src="{{ asset('public/upload/corporate/'.$institutes->attachment)}}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;"></td>
+                    <td><img src="{{ asset('upload/corporate/'.$institutes->attachment)}}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;"></td>
                     <td>
                     {{ $institutes->name }}</td>
                     <td>{{ $institutes->institute_name }} <br><span style="color:blue">{{ $institutes->city }}</span></td>

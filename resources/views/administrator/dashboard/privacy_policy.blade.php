@@ -79,7 +79,7 @@ Privacy Policy
                                                     <a href="{{ asset('home/'.$pros->terms_condition_pdf) }}" target="_blank"> <img src="{{ asset('home/'.$pros->terms_condition_pdf) }}" alt="Prospectus Image" style="max-width: 50px; max-height: 40px;">
                                                     </a>
                                                     @else
-                                                    <a target="_blank" href="{{ asset('public/home/'.$pros->terms_condition_pdf) }}">
+                                                    <a target="_blank" href="{{ asset('home/'.$pros->terms_condition_pdf) }}">
                                                         <i class="fa fa-download ml-2" aria-hidden="true"></i>
                                                     </a>
                                                     @endif

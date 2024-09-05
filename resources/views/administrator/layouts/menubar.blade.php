@@ -293,19 +293,19 @@ $user = Auth::user();
         <li class="nav-item">
             <button class="panel-heading last_p">
                 @if ($user->photograph != null)
-                    <img src="{{ asset('public/upload/'.$user->photograph) }}">
+                    <img src="{{ asset('upload/'.$user->photograph) }}">
                 @else
-                    <img src="{{ asset('public/upload/admin.png') }}">
+                    <img src="{{ asset('upload/admin.png') }}">
                 @endif
             </button>
             <div class="dropdown-content panel-collapse profile-noti">
                 <div class="profile-box">
                     @if ($user->photograph != null)
-                         <img src="{{ asset('public/upload/'.$user->photograph) }}">
+                         <img src="{{ asset('upload/'.$user->photograph) }}">
                     @else
-                        <img src="{{ asset('public/upload/admin.png') }}">
+                        <img src="{{ asset('upload/admin.png') }}">
                     @endif
-                    {{-- <img src="{{ asset('public/upload/'.$user->photograph) }}"> --}}
+                    {{-- <img src="{{ asset('upload/'.$user->photograph) }}"> --}}
                     <h6> {{$user->name}}</h6>
                     <p>{{strtoupper($user->roles)}}</p>
                 </div>

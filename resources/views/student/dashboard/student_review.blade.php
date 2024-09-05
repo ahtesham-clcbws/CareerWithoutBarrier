@@ -100,8 +100,8 @@ $studentCode = $student->studentCode()->first();
                                  </td>
                                  <td rowspan="5" colspan="2" align="center">
                                     <div class="text-center" style="display: inline-grid;">
-                                       <img src="{{url('public/upload/student/')}}/{{$student->photograph}}" class="img-fluid" style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: 150px;">
-                                       <img src="{{url('public/upload/student/')}}/{{$student->signature}}" class="img-fluid" style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: 60px;">
+                                       <img src="{{url('upload/student/')}}/{{$student->photograph}}" class="img-fluid" style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: 150px;">
+                                       <img src="{{url('upload/student/')}}/{{$student->signature}}" class="img-fluid" style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: 60px;">
                                     </div>
                                  </td>
                               </tr>
@@ -306,7 +306,7 @@ $studentCode = $student->studentCode()->first();
                               </tr>
                               <tr>
                                  <td colspan="4">
-                                    <b>I agree for Career without Barrier’s @if($student->terms_conditions && $termsCondition) <a href="{{ asset('public/home/'.$termsCondition->terms_condition_pdf) }}" target="_blank" style="text-decoration: underline;"> Terms & Conditions </a></b> &nbsp;&nbsp; &check; @endif
+                                    <b>I agree for Career without Barrier’s @if($student->terms_conditions && $termsCondition) <a href="{{ asset('home/'.$termsCondition->terms_condition_pdf) }}" target="_blank" style="text-decoration: underline;"> Terms & Conditions </a></b> &nbsp;&nbsp; &check; @endif
 
                                  </td>
                               </tr>

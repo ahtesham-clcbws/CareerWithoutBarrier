@@ -114,8 +114,8 @@
                                     </div>
                                     @if($corporate->photograph)
                                     <div class="input-group-append photograph-image" style="margin-left: 10px;margin-top: -4rem;">
-                                        <a target="_blank" class="btn btn-outline-secondary btn-success" href="{{ asset('public/upload/corporate/'.$corporate->photograph) }}" style="background: none;border: none;">
-                                            <img src="{{ asset('public/upload/corporate/'.$corporate->photograph) }}" alt="photograph" style="width: 7rem;height: 8rem;margin-top: -10re;">
+                                        <a target="_blank" class="btn btn-outline-secondary btn-success" href="{{ asset('upload/corporate/'.$corporate->photograph) }}" style="background: none;border: none;">
+                                            <img src="{{ asset('upload/corporate/'.$corporate->photograph) }}" alt="photograph" style="width: 7rem;height: 8rem;margin-top: -10re;">
                                         </a>
                                     </div>
                                     @endif

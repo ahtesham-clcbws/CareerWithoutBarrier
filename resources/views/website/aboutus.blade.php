@@ -23,18 +23,19 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
 
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
-                @foreach($founderThoughts as $key => $founderThought)
+                    @foreach($founderThoughts as $key => $founderThought)
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link {{$key == 0? 'active' : ''}}" id="thought-tab{{$key+1}}" data-toggle="tab" href="#thought{{$key+1}}" role="tab" aria-controls="thought" aria-selected="true">
+                        <a class="nav-link <?= $key == 0 ? 'active' : '' ?>" id="thought-tab{{$key+1}}" data-toggle="tab" href="#thought{{$key+1}}" role="tab" aria-controls="thought" aria-selected="<?= $key == 0 ? 'true' : 'false' ?>">
                             <span class="mr-1 tab-icon">
                                 <img class="img-fluid" src="{{ asset('home/aboutus/'.$founderThought?->icon) }}" alt="img">
-                               {{$founderThought?->title}}
+                                {{$founderThought?->title}}
+                            </span>
                         </a>
                     </li>
                     @endforeach
                     @foreach($bannerSectionTwos as $sectionTwo)
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link " id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                        <a class="nav-link " id="home-tab" data-toggle="tab" href="#section-tab{{$key+1}}" role="tab" aria-controls="section-tab{{$key+1}}" aria-selected="false">
                             <span class="mr-1 tab-icon">
                                 <img src="{{ asset('home/aboutus/'.$sectionTwo->banner) }}" alt="img"></span>
                             {{$sectionTwo->title}}
@@ -43,8 +44,8 @@
                     @endforeach
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                @foreach($founderThoughts as $key => $founderThought)
-                    <div class="tab-pane fade show {{$key > 0? 'active' : ''}}" id="thought{{$key+1}}" role="tabpanel" aria-labelledby="thought-tab{{$key+1}}" >
+                    @foreach($founderThoughts as $key => $founderThought)
+                    <div class="tab-pane <?= $key == 0 ? ' active show ' : '' ?>" id="thought{{$key+1}}" role="tabpanel" aria-labelledby="thought-tab{{$key+1}}">
                         <div class="container">
                             <!-- About 1 - Bootstrap Brain Component -->
                             <section class="">
@@ -66,7 +67,7 @@
 
                                         </div>
                                         <div class="col-12 col-lg-9" style="border-left: 1px solid #848e8e;">
-                                        {!! $founderThought?->message !!}
+                                            {!! $founderThought?->message !!}
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +76,7 @@
                     </div>
                     @endforeach
                     @foreach($bannerSectionTwos as $sectionTwo)
-                    <div class="tab-pane fade show" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane" id="section-tab{{$key+1}}" role="tabpanel" aria-labelledby="section-tab{{$key+1}}">
                         <div class="custom-tooltip-container">
                             <div class="add">
                                 <div class="custom-grid">
@@ -111,7 +112,7 @@
                                             <div class="custom-tooltip-list-content">
                                                 <h6>{{$sectionTwo->service_b}}</h6>
                                                 {!! $sectionTwo->service_b_descriptio !!}
-                                           
+
                                             </div>
                                         </div>
                                     </div>
@@ -124,7 +125,7 @@
                                             <div class="custom-tooltip-list-content">
                                                 <h6>{{$sectionTwo->service_c}}</h6>
                                                 {!! $sectionTwo->service_c_descriptio !!}
-                                           
+
                                             </div>
                                         </div>
                                     </div>
@@ -228,7 +229,7 @@
             @foreach($bannerSectionFives as $bannerSectionFive)
             <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                 <div class="our-values-widget d-flex" style="max-height: 137px;">
-                    <div class="our-values-icon mr-3" >
+                    <div class="our-values-icon mr-3">
                         <img src="{{ asset('home/aboutus/'.$bannerSectionFive->image) }}" alt="icon">
                     </div>
                     <div class="our-values-widget-content" style="max-height: 78px;overflow: hidden;">

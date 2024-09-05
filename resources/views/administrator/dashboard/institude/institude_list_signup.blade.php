@@ -34,7 +34,7 @@
                                     @foreach ($institute as $institutes)
                                     <tr>
                                         <td style="text-align:left;">{{ $loop->iteration }}</td>
-                                        <td><img src="{{ asset('public/upload/corporate/'.$institutes->attachment)}}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;"></td>
+                                        <td><img src="{{ asset('upload/corporate/'.$institutes->attachment)}}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;"></td>
                     
                                         <td>
                                         

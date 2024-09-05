@@ -23,7 +23,7 @@
       <div class="logo_area mb-2">
          <a href="{{('corporateDashboard')}}" class="brand-link"> 
          @if($corporate->attachment_profile)
-         <img src="{{asset('public/upload/corporate/')}}/{{$corporate->photograph}}" alt="Prifle Dp" class="brand-image img-circle elevation-3" style="opacity: .8">
+         <img src="{{asset('upload/corporate/')}}/{{$corporate->photograph}}" alt="Prifle Dp" class="brand-image img-circle elevation-3" style="opacity: .8">
             @else
              <img src="{{asset('corporate/images/th_5.png')}}" class="brand-image img-circle elevation-3" style="opacity: .8">
             @endif 

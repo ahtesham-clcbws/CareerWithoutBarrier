@@ -17,7 +17,7 @@
                                     <h3> <a href="{{route('institute.list')}}" class="text-black">{{$APPinsititute}}</a></h3>
                                 </div>
                                 <div class="db-icon">
-                                    <img src="{{asset('public/admin/icons/ApprovedInstitute.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                    <img src="{{asset('admin/icons/ApprovedInstitute.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                                 </div>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                                     <h3> <a href="{{route('institute.list.new')}}" class="text-black">{{$insititute}}</a></h3>
                                 </div>
                                 <div class="db-icon">
-                                    <img src="{{asset('public/admin/icons/InstituteEnquiry.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                    <img src="{{asset('admin/icons/InstituteEnquiry.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                                 </div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                                     <h3> <a href="{{route('admin.contactEnquiry')}}" class="text-black">{{$contactInfo}}</a></h3>
                                 </div>
                                 <div class="db-icon">
-                                    <img src="{{asset('public/admin/icons/ContactEnquiry.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                    <img src="{{asset('admin/icons/ContactEnquiry.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                                     <h3> <a href="{{route('admin.studentList')}}" class="text-black">{{$student}}</a></h3>
                                 </div>
                                 <div class="db-icon">
-                                    <img src="{{asset('public/admin/icons/Students.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                    <img src="{{asset('admin/icons/Students.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                                     <h3> <a href="{{route('dashboard_subjects')}}" class="text-black">{{$subjects}}</a></h3>
                                 </div>
                                 <div class="db-icon">
-                                    <img src="{{asset('public/admin/icons/Subject.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                    <img src="{{asset('admin/icons/Subject.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                                     <h3> <a href="{{route('admin.testimonialList')}}" class="text-black">{{$testimonials}}</a></h3>
                                 </div>
                                 <div class="db-icon">
-                                    <img src="{{asset('public/admin/icons/Testimony1.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                    <img src="{{asset('admin/icons/Testimony1.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                                 </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                                     <h3>{{$contactInfo}}</h3>
                                 </div>
                                 <div class="db-icon">
-                                    <img src="{{asset('public/admin/icons/ContactEnquiry.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                    <img src="{{asset('admin/icons/ContactEnquiry.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                                 </div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                                     <h3>{{@$student}}</h3>
                                 </div>
                                 <div class="db-icon">
-                                    <img src="{{asset('public/admin/icons/Students.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                    <img src="{{asset('admin/icons/Students.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                                 </div>
                             </div>
                         </div>

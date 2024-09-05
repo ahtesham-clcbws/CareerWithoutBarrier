@@ -15,7 +15,7 @@
       ?> 
       <li class="nav-item">
          <button class="panel-heading last_p">@if($corporate->attachment_profile)
-         <img src="{{asset('public/upload/corporate/')}}/{{$corporate->photograph}}">
+         <img src="{{asset('upload/corporate/')}}/{{$corporate->photograph}}">
             @else
              <img src="{{asset('student/images/th_5.png')}}">
             @endif           
@@ -23,7 +23,7 @@
          <div class="dropdown-content panel-collapse profile-noti">
             <div class="profile-box">
             @if($corporate->photograph)
-         <img src="{{asset('public/upload/corporate/')}}/{{$corporate->photograph}}">
+         <img src="{{asset('upload/corporate/')}}/{{$corporate->photograph}}">
             @else
              <img src="{{asset('student/images/th_5.png')}}">
             @endif 

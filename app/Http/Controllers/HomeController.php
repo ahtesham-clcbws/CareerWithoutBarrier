@@ -101,7 +101,7 @@ class HomeController extends Controller
             $scholarshipExam->instruction = $request->input('instruction');
             $scholarshipExam->price = $request->input('price');
             // Handle image upload and save path to 'image' field
-            $imagePath = $request->file('image')->store('public/images');
+            $imagePath = $request->file('image')->store('images');
             $scholarshipExam->image = $imagePath;
             $scholarshipExam->available_from = $request->input('available_from');
             $scholarshipExam->available_to = $request->input('available_to');

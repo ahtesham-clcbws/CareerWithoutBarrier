@@ -77,7 +77,7 @@
     <div class="slider u-slick">
         @foreach($sliders as $key => $slider)
         <div class="slide-wrapper">
-            <img class="w-100" style="height: 500px" src="{{ asset('/home/slider/'.$slider->image) }}" alt="Banner Image">
+            <img class="w-100" style="height: 500px" src="{{ asset('home/slider/'.$slider->image) }}" alt="Banner Image">
         </div>
         @endforeach
     </div>
@@ -95,7 +95,7 @@
                         @foreach($educations as $key=>$education)
                         <li class="responsive-item">
                             <div class="ban-box-com {{( $key==1)? 'act':""}}">
-                                <img src="{{ asset('public/website/assets/images/icons/diploma.png') }}" alt="">
+                                <img src="{{ asset('website/assets/images/icons/diploma.png') }}" alt="">
                                 <h4>{{$education->name}}</h4>
                                 <a href="#"  data-toggle="modal" data-target="#myModalSignUp">Apply Now <i class="fa fa-long-arrow-right"
                                         aria-hidden="true"></i></a>

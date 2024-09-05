@@ -4,78 +4,84 @@
 @section('title', 'Career Page')
 
 @section('content')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        .faq-rhs p {
-            display: block !important;
-        }
-        .mainSectionCar{
-            margin-top:72px;
-            background:#253a53;
-            color:#fff;
-        }
-        .mainSectionCar a{
-            color:#fff;
-        }
-        .gvtJobs{
-            height: 27px;
-        }
-        /* responsive  */
-        @media screen and (max-width: 600px) { 
-            .width{
-                max-width:100%;
-                padding-bottom:10px;
-            }
-            .row{
-                display:block !important;
-                text-align:center;
-            }
-            .centerContent{
-                text-align:center;
-            }
-            .wave{
-                max-width:600px;   
-            }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+    .faq-rhs p {
+        display: block !important;
+    }
 
-            .exam-details{
-                margin-top:10px;
-            }
+    .mainSectionCar {
+        margin-top: 72px;
+        background: #253a53;
+        color: #fff;
+    }
+
+    .mainSectionCar a {
+        color: #fff;
+    }
+
+    .gvtJobs {
+        height: 27px;
+    }
+
+    /* responsive  */
+    @media screen and (max-width: 600px) {
+        .width {
+            max-width: 100%;
+            padding-bottom: 10px;
         }
-    
-    </style>
+
+        .row {
+            display: block !important;
+            text-align: center;
+        }
+
+        .centerContent {
+            text-align: center;
+        }
+
+        .wave {
+            max-width: 600px;
+        }
+
+        .exam-details {
+            margin-top: 10px;
+        }
+    }
+</style>
 <div style="background:#e6f6fd">
 
-    <div class="perpration-career-banner mainSectionCar" >
-        <div class="container text-center" >
+    <div class="perpration-career-banner mainSectionCar">
+        <div class="container text-center">
             <div class="row" style="padding-top:85px;padding-bottom:85px">
                 <div class="col-2 width">
                     <img src="{{asset('home/course/'.$course?->course_logo)}}" width="115px" height="100px" class="img-thumbnail" alt="Responsive image">
                 </div>
                 <div class="col-7 width centerContent" style="text-align: justify;">
                     <div class="row">
-                        <div class="col-5 width gvtJobs" >
+                        <div class="col-5 width gvtJobs">
                             <p style="font-size: small;max-width:100%">Union Govt Job</p>
                         </div>
                         <div class="col-12 width">
                             <h4>{{$course?->course_full_name}} ({{$course?->title}})</h4>
                         </div>
                         <div class="div col-5 width">
-                                <i class="bi bi-megaphone"></i>
-                             <a class="" href="{{asset('home/course/'.$course->notification_file_path)}}">Gazette Notification
-                               <i class="bi bi-download text-success"></i>
+                            <i class="bi bi-megaphone"></i>
+                            <a class="" href="{{asset('home/course/'.$course->notification_file_path)}}">Gazette Notification
+                                <i class="bi bi-download text-success"></i>
                             </a>
                         </div>
-                        <div class="div col-5 width"> 
+                        <div class="div col-5 width">
                             <i class="bi bi-book"></i>
                             <a class="" href="{{asset('home/course/'.$course->exam_details_file_path)}}">Course/Exam Details
-                               <i class="bi bi-download text-success"></i>
+                                <i class="bi bi-download text-success"></i>
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-3 width">
                     <!-- <h style=""> -->
-                        <span>Get 100% Scholarship For Preparation </span>
+                    <span>Get 100% Scholarship For Preparation </span>
                     <!-- </h6> -->
                     <div class="">
                         <!-- <a href="http://ppn.test/scholarshipForm"> -->
@@ -87,7 +93,7 @@
             </div>
         </div>
     </div>
-    <div class="container mt-5 mb-5" >
+    <div class="container mt-5 mb-5">
         <div class="row">
             <!-- FAQ RIGHT SIDE CONTENT-->
             <div class="col-lg-7 col-md-12 ">
@@ -96,7 +102,7 @@
                     {!!$course?->overview !!} {!!$course?->otherdetails !!}
                 </div>
             </div>
-    
+
             <!-- FAQ LEFT SIDE IMG-->
             <div class="col-lg-5 col-md-12 exam-details">
                 <h4>Exam Details</h4>
@@ -107,7 +113,7 @@
                                 <td style="border-top:0 !important;color: black;font-weight: bold;">
                                     Notification:
                                 </td>
-    
+
                                 <td style=" border-top:0 !important;color: black;font-weight: bold;">
                                     {{$course?->notification}}
                                 </td>
@@ -116,7 +122,7 @@
                                 <td style="color: black;font-weight: bold;">
                                     Registration:
                                 </td>
-    
+
                                 <td>
                                     {{$course?->registration}}
                                 </td>
@@ -125,7 +131,7 @@
                                 <td style="color: black;font-weight: bold;">
                                     Exam Date:
                                 </td>
-    
+
                                 <td>
                                     {{$course?->exam_Date}}
                                 </td>
@@ -134,17 +140,17 @@
                                 <td style="color: black;font-weight: bold;">
                                     Exam Mode:
                                 </td>
-    
+
                                 <td>
                                     {{$course?->exam_mode}}
-    
+
                                 </td>
                             </tr>
                             <tr>
                                 <td style="color: black;font-weight: bold;">
                                     Exam Pattern:
                                 </td>
-    
+
                                 <td>
                                     {{$course?->exam_pattern}}
                                 </td>
@@ -153,7 +159,7 @@
                                 <td style="color: black;font-weight: bold;">
                                     Vacancy:
                                 </td>
-    
+
                                 <td>
                                     {{$course?->vacancies}}
                                 </td>
@@ -162,7 +168,7 @@
                                 <td style="color: black;font-weight: bold;">
                                     Pay Scale:
                                 </td>
-    
+
                                 <td>
                                     {{$course?->pay_scale}}
                                 </td>
@@ -171,7 +177,7 @@
                                 <td style="color: black;font-weight: bold;">
                                     Age Criteria:
                                 </td>
-    
+
                                 <td>
                                     {{$course?->age_criteria}}
                                 </td>
@@ -180,13 +186,13 @@
                                 <td style="color: black;font-weight: bold;">
                                     Eligibility:
                                 </td>
-    
+
                                 <td>
                                     {{$course?->eligibility}}
                                 </td>
                             </tr>
                             <tr>
-                            @if($course?->prospectus)
+                                @if($course?->prospectus)
                                 <td style="color: black;font-weight: bold;">
                                     E-Prospectus:
                                 </td>
@@ -208,20 +214,20 @@
                                 <td style="color: black;font-weight: bold;">
                                     Official site:
                                 </td>
-    
+
                                 <td>
                                     {{$course?->official_site}}
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-    
+
                 </div>
             </div>
             <!-- FAQ RIGHT SIDE CONTENT END-->
         </div>
     </div>
-   
+
     <!-- <div class="contact-wave-effect ">
         <div class="ocean">
             <div class="wave"></div>

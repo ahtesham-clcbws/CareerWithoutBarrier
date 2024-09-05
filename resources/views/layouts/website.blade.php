@@ -97,8 +97,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                     <div class="col-lg-7 col-md-7 col-sm-4 col-4 nav-lhs d-none">
                         <ul>
                             <li>
-                                <a href="#" data-toggle="modal" data-target="#instituteModel" style="background-color: red;padding: 11px;color: white;font-size: larger;
-"> Institute
+                                <a href="#" data-toggle="modal" data-target="#instituteModel" style="background-color: red;padding: 11px;color: white;font-size: larger;"> Institute
                                     Enquiry</a>
                             </li>
 
@@ -376,10 +375,10 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                         <div class="features-foter">
                             <h2>Important Link</h2>
                             <p><a data-toggle="modal" data-target="#instituteModel" href="javascipt:void(0)">Institutional Enquiry</a></p>
-                            <p><a href="{{ $imp_link ? asset('public/home/'.$imp_link->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $imp_link ? '_blank' : '_self'}}">Important Links</a></p>
+                            <p><a href="{{ $imp_link ? asset('home/'.$imp_link->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $imp_link ? '_blank' : '_self'}}">Important Links</a></p>
                             <!--<p><a href="javascipt:void(0)">Downloads</a></p>-->
-                            <p><a href="{{ $privacy_policy ? asset('public/home/'.$privacy_policy->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Privacy Policy</a></p>
-                            <p><a href="{{ $termsCondition ? asset('public/home/'.$termsCondition->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Terms & Conditions</a>
+                            <p><a href="{{ $privacy_policy ? asset('home/'.$privacy_policy->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Privacy Policy</a></p>
+                            <p><a href="{{ $termsCondition ? asset('home/'.$termsCondition->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Terms & Conditions</a>
                             </p>
                             <p><a href="{{URL::to('homepage/faq')}}">Faq</a></a>
                             </p>
@@ -748,7 +747,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                                     </li>
                                     <li class="full" style="font-size: 13px;display:flex">
                                         <input type="checkbox" style="width: 20px;height:20px" name="privacy_policy" id="privacy_policy" required> &nbsp; I accept the &nbsp;
-                                        @if($institudeTermsCondition) <a style="text-decoration: underline;" href="{{ asset('public/home/'.$institudeTermsCondition->terms_condition_pdf) }}" target="_blank"> Terms & Conditions </a>@endif
+                                        @if($institudeTermsCondition) <a style="text-decoration: underline;" href="{{ asset('home/'.$institudeTermsCondition->terms_condition_pdf) }}" target="_blank"> Terms & Conditions </a>@endif
 
                                     </li>
                                     <li class="full">
@@ -963,7 +962,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
 
                                         @php($institudeTermsCondition = DB::table('terms_conditions')->where([['status',1],['type','student'],['page_name','terms-and-condition']])->first())
                                         <input type="checkbox" style="width: 20px;height:20px" name="privacy_policy" id="privacy_policy" required> &nbsp; I accept the &nbsp;
-                                        @if($institudeTermsCondition) <a style="text-decoration: underline;" href="{{ asset('public/home/'.$institudeTermsCondition->terms_condition_pdf) }}" target="_blank"> Terms & Conditions </a>@endif
+                                        @if($institudeTermsCondition) <a style="text-decoration: underline;" href="{{ asset('home/'.$institudeTermsCondition->terms_condition_pdf) }}" target="_blank"> Terms & Conditions </a>@endif
 
 
                                     </div>

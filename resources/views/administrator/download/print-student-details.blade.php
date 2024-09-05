@@ -33,7 +33,7 @@ body{
 <table style="width:100%;"> 
     <tr>
         <td style="width:25%;float:left;">Registration Details</td>
-        <td style="width:50%"><center><img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(asset('/public/upload/main-logo.jpeg'))) }}" style="width:250px;"></center></td>
+        <td style="width:50%"><center><img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(asset('/upload/main-logo.jpeg'))) }}" style="width:250px;"></center></td>
         <td style="width:20%;float:right;"><span style="color:red">Printed on <br> {{date('d/m/Y h:i:s A')}}</span></td>
     </tr>
 </table>
@@ -46,7 +46,7 @@ body{
                                           <td><b>Name</b></td>
                                           <td colspan="3" class="information-txt">{{$student->name}}</td>
                                           <td>
-                                             <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(asset('/public/upload/student/'.$student->photograph))) }}" class="img-fluid" style="width: 100px;border: 1px double #dee2e6;padding: 4px;height: 100px;">
+                                             <img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(asset('/upload/student/'.$student->photograph))) }}" class="img-fluid" style="width: 100px;border: 1px double #dee2e6;padding: 4px;height: 100px;">
                                           </td>
 
                                        </tr>

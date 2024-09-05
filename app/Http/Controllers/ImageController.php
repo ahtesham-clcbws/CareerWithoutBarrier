@@ -25,7 +25,7 @@ class ImageController extends Controller
                 $name = rand(10000, 99999) . '-' . date('His') . preg_replace('/[^\w\-\.]/', '', $files->getClientOriginalName());
                 $files->move(public_path('uploads'), $name);
 
-                $imageUrl = asset('public/uploads/' . $name);
+                $imageUrl = asset('uploads/' . $name);
 
                 $image = new Image();
                 $image->url =  $imageUrl;

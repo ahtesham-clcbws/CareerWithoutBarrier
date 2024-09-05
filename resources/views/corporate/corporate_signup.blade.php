@@ -113,7 +113,7 @@
                           <div style="display: flex;">
                             @php($institudeTermsCondition = DB::table('terms_conditions')->where([['status',1],['type','institute'],['page_name','terms-and-condition']])->first())
                             <input type="checkbox" style="width: 20px;height:20px" name="privacy_policy" id="privacy_policy" required> &nbsp; I accept the  &nbsp;
-                             @if($institudeTermsCondition) <a style="text-decoration: underline;" href="{{ asset('public/home/'.$institudeTermsCondition->terms_condition_pdf) }}" target="_blank">  Terms & Conditions </a>@endif
+                             @if($institudeTermsCondition) <a style="text-decoration: underline;" href="{{ asset('home/'.$institudeTermsCondition->terms_condition_pdf) }}" target="_blank">  Terms & Conditions </a>@endif
                          
                           </div>
                           

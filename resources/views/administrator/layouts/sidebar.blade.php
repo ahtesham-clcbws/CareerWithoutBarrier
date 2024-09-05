@@ -11,9 +11,6 @@
       background: #414040 !important;
       color: #fff !important;
   }
-  .content{
-      /* padding-left: 10px; */
-  }
 </style>
 <!-- Sidebar -->
 <nav class=" sidebar navbar-inverse fixed-top elevation-4" id="sidebar-wrapper" role="navigation" style="  font-family: 'Sansita', sans-serif;  font-style: italic !important;overflow-y: hidden;">
@@ -37,7 +34,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('home')}}">
-          <img src="{{asset('public/admin/icons/Dashboard.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/Dashboard.png')}}" alt="" class="nav_icon">
           <p class="content">Dashboard</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -46,7 +43,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('file.upload')}}" role="button">
-          <img src="{{asset('public/admin/icons/UploadImage.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/UploadImage.png')}}" alt="" class="nav_icon">
           <p class="content">Upload Image</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -55,7 +52,7 @@
     <li>
       <div class="dropdown  open show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent"    role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          <img src="{{asset('public/admin/icons/HomePageMaster.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/HomePageMaster.png')}}" alt="" class="nav_icon">
           <p class="content">Home Page Master</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -77,7 +74,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('admin.aboutus')}}">
-          <img src="{{asset('public/admin/icons/AboutUs.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/AboutUs.png')}}" alt="" class="nav_icon">
           <p class="content">About Us Page Master</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -86,7 +83,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('admin.scholarship')}}">
-          <img src="{{asset('public/admin/icons/ScholarshipPage.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/ScholarshipPage.png')}}" alt="" class="nav_icon">
           <p class="content">Scholarship Page</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -95,7 +92,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('admin.testimonialList')}}">
-          <img src="{{asset('public/admin/icons/Testimony1.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/Testimony1.png')}}" alt="" class="nav_icon">
           <p class="content">Testimonial List</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -104,7 +101,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img src="{{asset('public/admin/icons/DiscountVoucher.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/DiscountVoucher.png')}}" alt="" class="nav_icon">
           <p class="content">Discount Voucher</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -120,7 +117,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('institute.list.new')}}">
-          <img src="{{asset('public/admin/icons/InstituteEnquiry.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/InstituteEnquiry.png')}}" alt="" class="nav_icon">
           <p class="content">New Institude Enquiry</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -129,7 +126,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('institute.list.signup')}}">
-          <img src="{{asset('public/admin/icons/SignUp.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/SignUp.png')}}" alt="" class="nav_icon">
           <p class="content">SignUp Institude</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -138,7 +135,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('institute.list')}}">
-          <img src="{{asset('public/admin/icons/ApprovedInstitute.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/ApprovedInstitute.png')}}" alt="" class="nav_icon">
           <p class="content">Approved Institude</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -148,7 +145,7 @@
     <li>
       <div class="dropdown active open show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent " style="color:#000 !important;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          <img src="{{asset('public/admin/icons/Students.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/Students.png')}}" alt="" class="nav_icon">
           <p class="content">Student</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -164,7 +161,7 @@
     <li>
       <div class="dropdown active open show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent " style="color:#000 !important;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          <img src="{{asset('public/admin/icons/Setting.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/Setting.png')}}" alt="" class="nav_icon">
           <p class="content">Settings</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -178,7 +175,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('dashboard_eductaion_type')}}" role="button">
-          <img src="{{asset('public/admin/icons/ScholarshipExam.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/ScholarshipExam.png')}}" alt="" class="nav_icon">
           <p class="content">Scholarship exam</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -187,7 +184,7 @@
     <li>
       <div class="dropdown active open show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent " style="color:#000 !important;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          <img src="{{asset('public/admin/icons/ExamCentre.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/ExamCentre.png')}}" alt="" class="nav_icon">
           <p class="content">Exam Center</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -201,7 +198,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('dashboard_subjects')}}">
-          <img src="{{asset('public/admin/icons/Subject.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/Subject.png')}}" alt="" class="nav_icon">
           <p class="content">Subjects</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -211,7 +208,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('admin.contactEnquiry')}}">
-          <img src="{{asset('public/admin/icons/ContactEnquiry.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/ContactEnquiry.png')}}" alt="" class="nav_icon">
           <p class="content">New Contact Enquiry</p>
           <i class="fa fa-chevron-right"></i>
         </a>
@@ -220,7 +217,7 @@
     <li>
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('admin.terms_condition')}}">
-          <img src="{{asset('public/admin/icons/PDFContentUpload.png')}}" alt="" class="nav_icon">
+          <img src="{{asset('admin/icons/PDFContentUpload.png')}}" alt="" class="nav_icon">
           <p class="content">PDF Content Upload</p>
           <i class="fa fa-chevron-right"></i>
         </a>
