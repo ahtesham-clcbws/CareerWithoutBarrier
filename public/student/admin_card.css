@@ -1,0 +1,459 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-indent: 0;
+}
+
+.sansita {
+font-family: 'Sansita', sans-serif;
+font-size: 12px;
+}
+
+.sansita-regular {
+font-family: "Sansita", sans-serif;
+font-weight: 400;
+font-style: normal;
+}
+
+.sansita-bold {
+font-family: "Sansita", sans-serif;
+font-weight: 700;
+font-style: normal;
+}
+
+.sansita-extrabold {
+font-family: "Sansita", sans-serif;
+font-weight: 800;
+font-style: normal;
+}
+
+.sansita-black {
+font-family: "Sansita", sans-serif;
+font-weight: 900;
+font-style: normal;
+}
+
+.sansita-regular-italic {
+font-family: "Sansita", sans-serif;
+font-weight: 400;
+font-style: italic;
+}
+
+.sansita-bold-italic {
+font-family: "Sansita", sans-serif;
+font-weight: 700;
+font-style: italic;
+}
+
+.sansita-extrabold-italic {
+font-family: "Sansita", sans-serif;
+font-weight: 800;
+font-style: italic;
+}
+
+.sansita-black-italic {
+font-family: "Sansita", sans-serif;
+font-weight: 900;
+font-style: italic;
+}
+
+body {
+    background-color: #FFFFFF;
+}
+
+.s1 {
+    color: #FFF;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 12.5pt;
+}
+
+.s2 {
+    color: #FFF;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 10pt;
+    vertical-align: 1pt;
+}
+
+.s3 {
+    color: #FFF;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 5.5pt;
+}
+
+p {
+    color: #231F20;
+   font-family: 'Sansita', sans-serif;
+    font-style: italic;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 7pt;
+    margin: 0pt;
+}
+
+.s4 {
+    color: #231F20;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 0.5pt;
+}
+
+.s5 {
+    color: #231F20;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.5pt;
+}
+
+.s6 {
+    color: #ED1C24;
+    font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 1.5pt;
+}
+
+.s7 {
+    color: #F00;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 10pt;
+}
+
+.s8 {
+    color: #19497A;
+    font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 6pt;
+}
+
+h1 {
+    color: #10387E;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16.5pt;
+}
+
+h2 {
+    color: #00A650;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 12pt;
+}
+
+.s9 {
+    color: #6C6E70;
+    font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 9pt;
+}
+
+.s10 {
+    color: #231F20;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 9pt;
+}
+
+.s11 {
+    color: #231F20;
+    font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 9pt;
+}
+
+.s12 {
+    color: #231F20;
+   font-family: 'Sansita', sans-serif;
+    font-style: italic;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 22pt;
+}
+
+.s13 {
+    color: #BBBDC0;
+    font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 11pt;
+}
+
+h4 {
+    color: #231F20;
+    font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 11pt;
+}
+
+h3 {
+    color: #F00;
+    font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 11.5pt;
+}
+
+.s14 {
+    color: #2E3092;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 11.5pt;
+}
+
+.s15 {
+    color: #00A650;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 11.5pt;
+}
+
+.s16 {
+    color: #231F20;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 11pt;
+}
+
+.s17 {
+    color: #231F20;
+   font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 11pt;
+}
+
+.s18 {
+    color: #F00;
+    font-family: 'Sansita', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 11pt;
+}
+.tb1{
+    border-top-style:solid;border-top-width:1pt;border-top-color:#231F20;border-left-style:solid;border-left-width:1pt;border-left-color:#231F20;border-bottom-style:solid;border-bottom-width:1pt;border-bottom-color:#231F20;border-right-style:solid;border-right-width:1pt;border-right-color:#231F20
+}
+table,
+tbody {
+    vertical-align: top;
+    overflow: visible;
+}
+.main{
+    padding: 10px;
+    border: thin groove #000;
+}
+.s9 {
+    color: #6C6E70;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 9pt;
+}
+
+.s10 {
+    color: #231F20;
+    font-family: "Asap Condensed";
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 12pt;
+}
+
+.s11 {
+    color: #231F20;
+    font-family: "Comic Sans MS";
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 9pt;
+}
+
+.s12 {
+    color: #6C6E70;
+    font-family: "Asap Condensed";
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 11.5pt;
+}
+
+.s13 {
+    color: #231F20;
+    font-family: "Asap Condensed";
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 11.5pt;
+}
+
+.s14 {
+    color: #231F20;
+    font-family: "Asap Condensed";
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 12pt;
+}
+
+.s15 {
+    color: #231F20;
+    font-family: "Asap Condensed";
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 12pt;
+}
+
+.s16 {
+    color: #F00;
+    font-family: "Asap Condensed";
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 12pt;
+}
+
+.s17 {
+    color: #231F20;
+    font-family: "Asap Condensed";
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 12pt;
+}     .s1 {
+    color: #231F20;
+    font-family: "Asap Condensed";
+    font-style: italic;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 7pt;
+}
+
+.s2 {
+    color: #231F20;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 0.5pt;
+}
+
+.s3 {
+    color: #FFF;
+    font-family: Impact, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 12.5pt;
+}
+
+.s4 {
+    color: #FFF;
+    font-family: Impact, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 10pt;
+    vertical-align: 1pt;
+}
+
+.s5 {
+    color: #FFF;
+    font-family: "Palatino Linotype", serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 5.5pt;
+}
+
+h3 {
+    color: #231F20;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.s6 {
+    color: #ED1C24;
+    font-family: "Asap Condensed";
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 1.5pt;
+}
+
+.s7 {
+    color: #F00;
+    font-family: "Asap Condensed";
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 10pt;
+}
+
+.s8 {
+    color: #19497A;
+    font-family: "Asap Condensed";
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 6pt;
+}
+
+h1 {
+    color: #10387E;
+    font-family: "Asap Condensed";
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16.5pt;
+}
+
+h2 {
+    color: #00A650;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 12pt;
+}
