@@ -5,9 +5,9 @@
 
 
 @section('content')
-<div class="perpration-page-banner common-banner mb-0">
-    <div class="container text-center">
-        <h2 style="font-size:32px">CAREER wthout BARRIER 15 SCHOLARSHIP PROGRAM - 2024</h2>
+<div class="perpration-page-banner common-banner" style="margin-top:72px;">
+    <div class="container text-center py-5 pb-4">
+        <h2 style="font-size:32px">CAREER wthout BARRIER 15 SCHOLARSHIP PROGRAM's</h2>
     </div>
 </div>
 
@@ -34,7 +34,7 @@
             </div>
             <div class="col-lg-7 col-md-7 col-sm-7 col-12">
                 @foreach($scholarShips as $key => $scholarShip)
-                <div class="scolarship-rightpanel-content text-center content{{$key+1}}" style="{{$key == 0 ? '' : 'display:none'}}">
+                <div class="scolarship-rightpanel-content text-center content{{$key+1}}" style="<?= $key == 0 ? '' : 'display:none' ?>">
                     <div class="scolarship-programe-img">
                         <img class="img-fluid" src="{{ asset('home/aboutus/'.$scholarShip->picture) }}" alt="img">
                     </div>
@@ -61,7 +61,7 @@ if ($scholarOverview) {
 }
 ?>
 
-<div class="career-overview career-overview-content content{{$key+1}}" style="{{$key == 0 ? '' : 'display:none'}}">
+<div class="career-overview career-overview-content content{{$key+1}}" style="<?= $key == 0 ? '' : 'display:none' ?>">
     <div class="container">
         <div class="career-overview-header d-flex mb-5 align-items-center flex-wrap">
             <h2 class="mr-auto mb-0">{{$scholarShip->educationType?->name}}</h2>
@@ -107,7 +107,7 @@ if ($scholarOverview) {
             if ($('.scolarship-leftpanel-widget').hasClass('active')) {
                 $('.scolarship-leftpanel-widget').removeClass('active')
             }
-            
+
             $(this).addClass('active')
 
             $('.scolarship-rightpanel-content').hide();

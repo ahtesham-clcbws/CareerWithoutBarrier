@@ -15,8 +15,11 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestController;
+use App\Livewire\Pages\FreeForm;
 use App\Services\TextlocalService;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -30,6 +33,14 @@ use Inertia\Inertia;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('storage-link', function () {
+    Artisan::call('storage:link');
+});
+
+
+Route::any('testing', [TestController::class, 'index']);
+
 
 Route::get('/', [HomeController::class, 'index'])->name('website.homepage');
 
@@ -77,6 +88,9 @@ Route::prefix('homepage')->group(function () {
     Route::post('/usersignup', [HomeController::class, 'usersignup'])->name('home.usersignup');
     Route::post('/userLogins', [HomeController::class, 'userLoginCheck'])->name('home.userLogins');
     Route::get('/logout', [HomeController::class, 'logout'])->name('home.logout');
+
+    // ahtesham create those routes
+    Route::get('/free-form', FreeForm::class)->name('freeform');
 });
 
 Route::prefix('students')->group(function () {
@@ -147,9 +161,6 @@ Route::prefix('students')->group(function () {
         Route::get('/get_scholarship_category/{id?}/{type?}', [StudentController::class, 'getScholarshipCategory']);
         Route::get('/get_scholarship_opted_for/{id?}/{qualificationId?}', [StudentController::class, 'getScholarshipCategoryOptedFor']);
     });
-});
-
-Route::prefix('students')->group(function () {
     Route::group(['middleware' => ['StudentCommanMiddleware']], function () {
         Route::get('/student_logout', [StudentController::class, 'logout'])->name('student.logout');
         Route::get('/form_review', [StudentController::class, 'form_review'])->name('students.formReview');
@@ -170,9 +181,6 @@ Route::prefix('students')->group(function () {
         Route::any('/claim_scholarship_form_save', [StudentController::class, 'claimScholarshipFormSave'])->name('students.claimScholarshipFormSave');
         Route::get('/studentDashboard', [StudentController::class, 'studentDashboardsss'])->name('studentDashboard');
     });
-});
-
-Route::prefix('students')->group(function () {
     Route::group(['middleware' => ['IsStudentFinallySubmitted']], function () {
         Route::get('/payment', [StudentController::class, 'student_payment'])->name('student.payment');
         Route::get('/studentDashboardpaid', [StudentController::class, 'studentDashboardAfterPaid'])->name('studentDashboardAfterPaid');

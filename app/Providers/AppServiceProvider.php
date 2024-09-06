@@ -7,6 +7,8 @@ use App\Services\TextlocalService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Pagination\Paginator;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(TextlocalService::class, function ($app) {
             return new TextlocalService('MzQ0YzZhMzU2ZTY2NjI0YjU4Mzc0NDMxNmU3MjYzNmM=', 'GYNLGY');
         });
+        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        $loader->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
     }
 
     /**
@@ -29,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrapFive();
+
         Schema::defaultStringLength(191);
 
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {

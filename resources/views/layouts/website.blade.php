@@ -44,6 +44,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    @livewireStyles
+
     <style>
         label {
             font-size: 13px
@@ -301,8 +304,11 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
         </div>
     </section>
     @yield('content')
+    @if (isset( $slot))
+    {{ $slot }}
+    @endif
 
-    <div class="bottom-menu mt-5">
+    <div class="bottom-menu d-none">
         <div class="container">
             <!--<ul class="d-flex justify-content-center">
     
@@ -321,12 +327,17 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
         </div>
     </div>
 
-    <section>
+    <section class="mt-5">
         <div class="footer comm-p-t-b">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-12">
-                        <div class="logo"> <a href="#"><img src="{{ asset('website/assets/images/brand/logo.png') }}" alt="logo"></a>
+                        <div class="logo">
+                            <a href="/"><img src="{{ asset('logos/logo-square.png') }}" alt="logo"></a>
+                            <p style="font-size: 80%;" class="mt-4 text-lowercase">
+                                <a href="https://www.sqsfoundation.com" class="text-white"><i class="fa fa-globe"></i>&nbsp;&nbsp;www.sqsfoundation.com</a><br />
+                                <a href="mailto:info@sqsfoundation.com" class="text-white"><i class="fa fa-envelope"></i>&nbsp;&nbsp;info@sqsfoundation.com</a>
+                            </p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-12">
@@ -380,36 +391,18 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                             <p><a href="{{ $privacy_policy ? asset('home/'.$privacy_policy->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Privacy Policy</a></p>
                             <p><a href="{{ $termsCondition ? asset('home/'.$termsCondition->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Terms & Conditions</a>
                             </p>
-                            <p><a href="{{URL::to('homepage/faq')}}">Faq</a></a>
-                            </p>
+                            <p><a href="{{URL::to('homepage/faq')}}">Faq</a></p>
+                            <p><a href="{{ route('freeform') }}" style="color:crimson;">Get 100% Free Form (Limited)</a></p>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-3 col-md-3 col-sm-3 col-12">
-                        <div class="features-foter">
-                            <h2>Quick Contact Now</h2>
-                            <form class="quick-contact-form" action="{{ route('home.contactPage') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <input type="text" name="name" class="form-control" placeholder="Name">
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" name="mobile" class="form-control" placeholder="Mobile">
-                    </div>
-                    <div class="mb-3">
-                        <textarea class="form-control" name="message" rows="3" placeholder="Message ..."></textarea>
-                    </div>
-                    <input type="submit" class="btn btn-outline-primary btn-apply-now" value="Submit">
-                    </form>
                 </div>
-            </div> --}}
-        </div>
-        </div>
+            </div>
         </div>
     </section>
     <!-- SECTION: COPY RIGHT -->
     <section>
         <div class="cpy-right">
-            <p>Copyrights@2024 SQS Foundation. All rights reserved.</p>
+            <a><img src="{{ asset('logos/weblies-logo.png') }}" class="mx-auto" style="max-width:350px;" alt="Weblies equations private limited"></a>
         </div>
     </section>
 
@@ -1022,14 +1015,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
             </div>
         </div>
     </div>
-    {{--
- <!--POP UP EMAIL ADDTESS-->
-                                    <li class="half"> <span>Email Address </span>
-                                        <input type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                            name="email" placeholder="Email id *"
-                                            title="Please enter valid email id" class="form-control" required>
-                                    </li>
-                        <!--POP UP PHONE--> --}}
+
 
     <!-- Optional JavaScript -->
     <script src="{{ asset('website/assets/js/jquery.marquee.min.js') }}"></script>
@@ -1430,6 +1416,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
 
     @stack('custom-scripts')
     <x-message />
+    @livewireScripts
 </body>
 
 </html>

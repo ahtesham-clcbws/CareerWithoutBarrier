@@ -25,24 +25,22 @@
                         <input type="hidden" name="filter-category" value="42">
                     </form>
                 </aside>
-   
+
                 @foreach($featuredCourses->groupBy('scholarship_category') as $courses)
                 <aside class="widget widget_apus_course_filter_category">
-                    <?php
-            
-                    $scholarshipName =  $courses->first()?->scholarshipCategory?->name;
-                    ?>
+                    <?php $scholarshipName =  $courses->first()?->scholarshipCategory?->name; ?>
                     <h6 class="widget-title"><span>{{$scholarshipName}}</span></h6>
+                    
                     <div class="filter-categories-widget">
                         <form action="https://demoapus1.com/skillup/lp-courses/" method="get">
                             <ul class="course-category-list course-list-check">
                                 @foreach($courses as $course)
                                 <li>
-                                    <input id="filter-category-42" class="d-none" type="radio" name="filter-category" value="{{$course->id}}" {{ $course->is_featured ==1 ? 'checked' : ''}}>
+                                    <input id="filter-category-42" class="d-none" type="radio" name="filter-category" value="{{$course->id}}" <?= $course->is_featured ==1 ? 'checked' : '' ?>>
                                     <label for="filter-category-42">
-                                    <a href="{{route('home.career',encodeId($course->id))}}">
-                                        {{$course->title}}
-                                    </a>
+                                        <a href="{{route('home.career',encodeId($course->id))}}">
+                                            {{$course->title}}
+                                        </a>
                                     </label>
                                 </li>
                                 @endforeach
@@ -81,15 +79,16 @@
                 <div class="learn-press-courses row">
                     @foreach($featuredCourses as $featuredCourse)
                     <div class="col-lg-6 col-md-6 col-12">
-                        <div class="course-grid post-1092 lp_course type-lp_course status-publish has-post-thumbnail hentry course_category-it-software course_category-web-designing course" >
+                        <div class="course-grid post-1092 lp_course type-lp_course status-publish has-post-thumbnail hentry course_category-it-software course_category-web-designing course">
                             <div class="course-layout-item">
                                 <div class="course-entry">
 
-                                    <!-- course thumbnail -->
                                     <div class="course-cover">
                                         <div class="course-cover-thumb">
                                             <figure class="entry-thumb"><a class="post-thumbnail" href="{{route('home.career',encodeId($featuredCourse->id))}}" aria-hidden="true">
-                                                    <div class="image-wrapper"><center><img src="{{ asset('home/course/'.$featuredCourse->featured_image) }}" style="width:250px;height:250px;" class="img-fluid" alt=""></center></div>
+                                                    <div class="image-wrapper">
+                                                        <center><img src="{{ asset('home/course/'.$featuredCourse->featured_image) }}" style="width:250px;height:250px;" class="img-fluid" alt=""></center>
+                                                    </div>
                                                 </a></figure>
                                         </div>
                                     </div>
@@ -103,35 +102,10 @@
                         </div>
                     </div>
                     @endforeach
-                    <!-- <div class="col-lg-6 col-md-6 col-12">
-                            <div
-                                class="course-grid post-1092 lp_course type-lp_course status-publish has-post-thumbnail hentry course_category-it-software course_category-web-designing course">
-                                <div class="course-layout-item">
-                                    <div class="course-entry">
-                                        <div class="course-cover">
-                                            <div class="course-cover-thumb">
-                                                <figure class="entry-thumb"><a class="post-thumbnail" href="{{route('home.career')}}"
-                                                        aria-hidden="true">
-                                                        <div class="image-wrapper"><img width="525" height="345"
-                                                                src="{{ asset('website/assets/images/prepration/bank-img-1.jpg') }}"
-                                                                class="img-fluid" alt=""></div>
-                                                    </a></figure>
-                                            </div>
-                                        </div>
-                                        <div class="course-layout-content">
-                                            <h3 class="course-title"><a href="{{route('home.career')}}">Education
-                                                    State Bank of india Probationary Officer SBI-PO (1400 Vacancies)</a>
-                                            </h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
 
                 </div>
-            </main><!-- .site-main -->
-        </div><!-- .content-area -->
-
+            </main>
+        </div>
 
     </div>
 </section>

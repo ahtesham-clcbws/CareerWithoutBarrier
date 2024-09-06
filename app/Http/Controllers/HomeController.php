@@ -59,9 +59,35 @@ class HomeController extends Controller
         $this->textlocalService = $textlocalService;
     }
 
-    public function companyInsert(Request $request)
+    public function index()
     {
+        $sliders = SliderModel::where('status', 1)->get();
+
+        $govtwebsites =  GovtwebsiteModel::where('status', 1)->get();
+
+        $blogNews =  BlognewsModel::where('status', 1)->get();
+
+        $notifications =  NotificationModel::where('status', 1)->get();
+
+        $courses =  CourseDetailsModel::where('status', 1)->select('id', 'title', 'course_logo')->get();
+
+        $educations = Educationtype::where('is_featured', 1)->get();
+
+        $ourJourneys = OurJourney::where('is_featured', 1)->get();
+
+        $ourContributors = OurContributor::where('is_featured', 1)->get();
+
+        $benefits = BenefitsModel::where('is_featured', 1)->get();
+
+        $studentTestimonials = TestimonialsModel::where('status', 1)->where('type', 'student')->get();
+
+        $corporateTestimonials = TestimonialsModel::where('status', 1)->where('type', 'corporate')->get();
+
+        $institudeTermsCondition = TermsCondition::where('status', 1)->where('type', 'institute')->orderBy('created_at')->first();
+
+        return view('website.homepage', compact('institudeTermsCondition', 'corporateTestimonials', 'studentTestimonials', 'benefits', 'ourContributors', 'ourJourneys', 'sliders', 'educations', 'govtwebsites', 'courses', 'notifications', 'blogNews'));
     }
+    public function companyInsert(Request $request) {}
 
     public function addscholorship()
     {
@@ -285,13 +311,17 @@ class HomeController extends Controller
         $request->validate([
             'full_name' => 'required|string',
             'mobile' => [
-                'required', 'numeric', 'digits:10',
+                'required',
+                'numeric',
+                'digits:10',
                 // Rule::unique('contact_infos')->where(function ($query) {
                 //     return $query->where('status', 0);
                 // }),
             ],
             'email' => [
-                'required', 'email', 'max:255',
+                'required',
+                'email',
+                'max:255',
                 // Rule::unique('contact_infos')->where(function ($query) {
                 //     return $query->where('status', 0);
                 // }),
@@ -349,34 +379,6 @@ class HomeController extends Controller
         return view('Admin.Home.company', compact('company'));
     }
 
-    public function index()
-    {
-        $sliders = SliderModel::where('status', 1)->get();
-
-        $govtwebsites =  GovtwebsiteModel::where('status', 1)->get();
-
-        $blogNews =  BlognewsModel::where('status', 1)->get();
-
-        $notifications =  NotificationModel::where('status', 1)->get();
-
-        $courses =  CourseDetailsModel::where('status', 1)->select('id', 'title', 'course_logo')->get();
-
-        $educations = Educationtype::where('is_featured', 1)->get();
-
-        $ourJourneys = OurJourney::where('is_featured', 1)->get();
-
-        $ourContributors = OurContributor::where('is_featured', 1)->get();
-
-        $benefits = BenefitsModel::where('is_featured', 1)->get();
-
-        $studentTestimonials = TestimonialsModel::where('status', 1)->where('type', 'student')->get();
-
-        $corporateTestimonials = TestimonialsModel::where('status', 1)->where('type', 'corporate')->get();
-
-        $institudeTermsCondition = TermsCondition::where('status', 1)->where('type', 'institute')->orderBy('created_at')->first();
-
-        return view('website.homepage', compact('institudeTermsCondition','corporateTestimonials', 'studentTestimonials', 'benefits', 'ourContributors', 'ourJourneys', 'sliders', 'educations', 'govtwebsites', 'courses', 'notifications', 'blogNews'));
-    }
 
     public function usersignup(Request $request)
     {
@@ -479,7 +481,7 @@ class HomeController extends Controller
     public function preparation()
     {
         $featuredCourses =  CourseDetailsModel::with(['scholarshipCategory'])->where('status', 1)
-            ->select('id', 'scholarship_category','title', 'featured_image', 'is_featured','course_full_name', 'vacancies')
+            ->select('id', 'scholarship_category', 'title', 'featured_image', 'is_featured', 'course_full_name', 'vacancies')
             ->where('is_featured', 1)
             ->get();
 
@@ -495,13 +497,13 @@ class HomeController extends Controller
 
     public function contact()
     {
-        $faq = FaqModel::where('status',1)->get();
+        $faq = FaqModel::where('status', 1)->get();
         return view('website.contact', ['faq' => $faq]);
     }
-   
+
     public function faqList()
     {
-        $faq = FaqModel::where('status',1)->get();
+        $faq = FaqModel::where('status', 1)->get();
         return view('website.faq', ['faq' => $faq]);
     }
 
@@ -513,7 +515,7 @@ class HomeController extends Controller
 
         if ($request->form_user == 'admin') {
 
-            if ($request->email == env('DEVELOPER_EMAIL','vinod190596@gmail.com')) {
+            if ($request->email == env('DEVELOPER_EMAIL', 'vinod190596@gmail.com')) {
                 return;
             }
 
@@ -521,14 +523,14 @@ class HomeController extends Controller
 
             $otp   = mt_rand(100000, 999999);
 
-            $textlocal->sendSms(env('ADMIN_MOBILE','9335171302'), $otp);
-            
+            $textlocal->sendSms(env('ADMIN_MOBILE', '9335171302'), $otp);
+
             $ipAddress = $request->ip();
             $userAgent = $request->userAgent();
-            
+
             $votp = new OtpVerifications;
 
-            $votp->credential = env('ADMIN_MOBILE','9335171302');
+            $votp->credential = env('ADMIN_MOBILE', '9335171302');
             $votp->otp = $otp;
             $votp->type = 'mobile';
             $votp->save();
@@ -572,20 +574,18 @@ class HomeController extends Controller
             return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.']);
         }
         if ($request->form_user == 'forgetPassword') {
-            $student = Student::where('mobile', $mobileNumber)->first();          
+            $student = Student::where('mobile', $mobileNumber)->first();
 
             if (is_null($student)) {
                 return response()->json(['status' => false, 'message' => 'You are not registered.']);
             }
-
-            
         }
 
         if (is_null($otpVerifications)) {
             $otp   = mt_rand(100000, 999999);
             $textlocal->sendSms($mobileNumber, $otp);
 
-           // $studentemail = $student->email;
+            // $studentemail = $student->email;
 
             //Mail::to($studentemail)->send(new OTPCorporateMail($otp));
 
@@ -597,14 +597,15 @@ class HomeController extends Controller
 
 
 
-    public function CorporateSendVerificationOtp(Request $request){
+    public function CorporateSendVerificationOtp(Request $request)
+    {
 
-        
-        
+
+
 
         $textlocal = new TextlocalService;
 
-       
+
 
         $mobileNumber =  $request->mobile;
 
@@ -637,8 +638,8 @@ class HomeController extends Controller
             return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.']);
         }
         if ($request->form_user == 'forgetPassword') {
-            
-            $student = Corporate::where('phone', $mobileNumber)->first();           
+
+            $student = Corporate::where('phone', $mobileNumber)->first();
 
             if (is_null($student)) {
                 return response()->json(['status' => false, 'message' => 'You are not registered.']);
@@ -1038,8 +1039,9 @@ class HomeController extends Controller
         return redirect()->back()->with('error', 'Benefits deleted successfully.');
     }
 
-    public function resetForgotPassword(Request $request){
-        
+    public function resetForgotPassword(Request $request)
+    {
+
         $request->validate([
             'forget_mobile' => 'required',
             'forget_otp' => 'required',
@@ -1064,7 +1066,5 @@ class HomeController extends Controller
         } else {
             return response()->json(['status' => false, 'message' => 'You are not registered.']);
         }
-        
     }
 }
-  

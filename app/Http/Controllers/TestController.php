@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Test;
 use App\Http\Requests\StoreTestRequest;
 use App\Http\Requests\UpdateTestRequest;
+use App\Models\Corporate;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class TestController extends Controller
 {
@@ -13,7 +16,19 @@ class TestController extends Controller
      */
     public function index()
     {
-        //
+        $institutes = Corporate::where('is_approved', 1)
+            ->where('signup_approved', 1)
+            ->whereNotNull('signup_at')
+            ->orderBy('id', 'desc')
+            ->paginate(1)->toArray();
+
+        $cities = Corporate::select('city')->groupBy('city')->pluck('city')->toArray();
+
+        // $user = User::find(1);
+        // $user->name = 'Ahtesham-'.time();
+        // $user->password = Hash::make('123456789');
+        // $user->mobile = 9810763314;
+        return print_r($cities);
     }
 
     /**

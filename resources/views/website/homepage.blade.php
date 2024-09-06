@@ -33,10 +33,6 @@
 
     }
 
-    .slider.u-slick {
-        height: 450px;
-    }
-
     .ban-box ul li .ban-box-com {
         padding: 40px;
     }
@@ -67,6 +63,30 @@
             width: calc(100% / <?= count($educations) ?>) !important;
         }
     }
+
+    .sliderBackgroundImage,
+    .slider.u-slick {
+        min-height: 350px !important;
+        overflow: hidden;
+    }
+
+    :root {
+        --slider-height: calc(100vh - 30%);
+    }
+
+    @media (max-aspect-ratio: 1/1) {
+        :root {
+            --slider-height: calc(100vw - 80%);
+        }
+    }
+
+    .sliderBackgroundImage {
+        /* height: calc(100vh - 40%) !important; */
+        height: var(--slider-height) !important;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 </style>
 
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -76,8 +96,9 @@
 <section>
     <div class="slider u-slick">
         @foreach($sliders as $key => $slider)
-        <div class="slide-wrapper">
-            <img class="w-100" style="height: 500px" src="{{ asset('home/slider/'.$slider->image) }}" alt="Banner Image">
+        <?php $thisImage = asset('home/slider/' . $slider->image); ?>
+        <div class="slide-wrapper sliderBackgroundImage" style="background-image:url('<?= $thisImage ?>')">
+            <!-- <img class="img-fluid w-100" src="{{ asset('home/slider/'.$slider->image) }}" alt="Banner Image"> -->
         </div>
         @endforeach
     </div>
@@ -85,7 +106,6 @@
 
 
 @if (isset($educations) && count($educations)>0)
-
 <section>
     <div class="travl-features">
         <div class="container">
@@ -97,7 +117,7 @@
                             <div class="ban-box-com {{( $key==1)? 'act':""}}">
                                 <img src="{{ asset('website/assets/images/icons/diploma.png') }}" alt="">
                                 <h4>{{$education->name}}</h4>
-                                <a href="#"  data-toggle="modal" data-target="#myModalSignUp">Apply Now <i class="fa fa-long-arrow-right"
+                                <a href="#" data-toggle="modal" data-target="#myModalSignUp">Apply Now <i class="fa fa-long-arrow-right"
                                         aria-hidden="true"></i></a>
                                 <span class="bg-1"></span>
                             </div>
@@ -512,7 +532,7 @@
         slidesToShow: 1,
         autoplay: true,
         autoplaySpeed: 1000,
-        centerMode: true,
+        // centerMode: true,
         arrows: false,
     });
 </script>
