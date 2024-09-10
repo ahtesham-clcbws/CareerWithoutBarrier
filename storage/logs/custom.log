@@ -1,0 +1,772 @@
+[2024-06-01 10:57:47] local.INFO: from student signup -method  index  
+[2024-06-01 10:57:47] local.INFO: from student signup -method  post deleteEducationType  
+[2024-06-01 10:58:10] local.INFO: from student signup -method  index  
+[2024-06-01 10:58:10] local.INFO: from student signup -method  post deleteClass  
+[2024-06-01 10:58:13] local.INFO: from student signup -method  index  
+[2024-06-01 10:58:13] local.INFO: from student signup -method  post deleteEducationType  
+[2024-06-01 10:58:20] local.INFO: from student signup -method  index  
+[2024-06-01 10:58:20] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 10:58:38] local.INFO: from student signup -method  index  
+[2024-06-01 10:58:38] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 10:59:05] local.INFO: from student signup -method  index  
+[2024-06-01 10:59:05] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 10:59:08] local.INFO: from student signup -method  index  
+[2024-06-01 10:59:08] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 10:59:09] local.INFO: from student signup -method  index  
+[2024-06-01 10:59:09] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 10:59:09] local.INFO: from student signup -method  index  
+[2024-06-01 10:59:09] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 10:59:09] local.INFO: from student signup -method  index  
+[2024-06-01 10:59:09] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 10:59:32] local.INFO: from student signup -method  index  
+[2024-06-01 10:59:32] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 10:59:33] local.INFO: from student signup -method  index  
+[2024-06-01 10:59:33] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 10:59:34] local.INFO: from student signup -method  index  
+[2024-06-01 10:59:34] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 11:00:19] local.INFO: from student signup -method  index  
+[2024-06-01 11:00:19] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 11:00:21] local.INFO: from student signup -method  index  
+[2024-06-01 11:00:21] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 11:00:21] local.INFO: from student signup -method  index  
+[2024-06-01 11:00:21] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 11:00:32] local.INFO: from student signup -method  index  
+[2024-06-01 11:00:32] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 11:00:51] local.INFO: from student signup -method  index  
+[2024-06-01 11:00:51] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 11:00:52] local.INFO: from student signup -method  index  
+[2024-06-01 11:00:52] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-01 11:01:14] local.INFO: from student signup -method  index  
+[2024-06-01 11:01:14] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-01 11:47:16] local.INFO: from student signup -method  index  
+[2024-06-01 11:47:16] local.INFO: from student signup -method  post deleteEducationType  
+[2024-06-01 11:47:18] local.INFO: from student signup -method  index  
+[2024-06-01 11:47:18] local.INFO: from student signup -method  post deleteEducationType  
+[2024-06-01 11:47:19] local.INFO: from student signup -method  index  
+[2024-06-01 11:47:19] local.INFO: from student signup -method  post deleteEducationType  
+[2024-06-01 11:47:20] local.INFO: from student signup -method  index  
+[2024-06-01 11:47:20] local.INFO: from student signup -method  post deleteEducationType  
+[2024-06-01 11:47:21] local.INFO: from student signup -method  index  
+[2024-06-01 11:47:21] local.INFO: from student signup -method  post deleteEducationType  
+[2024-06-01 12:02:59] local.INFO: from student signup -method  index  
+[2024-06-01 12:02:59] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 12:04:33] local.INFO: from student signup -method  index  
+[2024-06-01 12:04:33] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 12:05:06] local.INFO: from student signup -method  index  
+[2024-06-01 12:05:06] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 12:06:21] local.INFO: from student signup -method  index  
+[2024-06-01 12:06:21] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-01 12:06:24] local.INFO: from student signup -method  index  
+[2024-06-01 12:06:24] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-02 09:43:15] local.INFO: from student signup -method  index  
+[2024-06-02 09:43:15] local.INFO: from student signup -method  post deleteEducationType  
+[2024-06-02 09:43:16] local.INFO: from student signup -method  index  
+[2024-06-02 09:43:16] local.INFO: from student signup -method  post deleteEducationType  
+[2024-06-02 09:43:18] local.INFO: from student signup -method  index  
+[2024-06-02 09:43:18] local.INFO: from student signup -method  post deleteEducationType  
+[2024-06-02 10:51:07] local.INFO: from student signup -method  index  
+[2024-06-02 10:51:07] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-03 16:30:23] local.INFO: from student signup -method  index  
+[2024-06-03 16:30:23] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-03 16:30:31] local.INFO: from student signup -method  index  
+[2024-06-03 16:30:31] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-04 17:57:46] local.INFO: from student signup -method  index  
+[2024-06-04 17:57:46] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-04 17:58:00] local.INFO: from student signup -method  index  
+[2024-06-04 17:58:00] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-04 17:58:02] local.INFO: from student signup -method  index  
+[2024-06-04 17:58:02] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 00:23:47] local.INFO: from student signup -method  index  
+[2024-06-05 00:23:47] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 00:23:49] local.INFO: from student signup -method  index  
+[2024-06-05 00:23:49] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 00:24:00] local.INFO: from student signup -method  index  
+[2024-06-05 00:24:00] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 00:27:57] local.INFO: from student signup -method  index  
+[2024-06-05 00:27:57] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 00:27:59] local.INFO: from student signup -method  index  
+[2024-06-05 00:27:59] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 00:34:10] local.INFO: from student signup -method  index  
+[2024-06-05 00:34:10] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 00:34:12] local.INFO: from student signup -method  index  
+[2024-06-05 00:34:12] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 00:46:03] local.INFO: from student signup -method  index  
+[2024-06-05 00:46:03] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:27:18] local.INFO: from student signup -method  index  
+[2024-06-05 17:27:18] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:28:45] local.INFO: from student signup -method  index  
+[2024-06-05 17:28:45] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:31:07] local.INFO: from student signup -method  index  
+[2024-06-05 17:31:07] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:32:30] local.INFO: from student signup -method  index  
+[2024-06-05 17:32:30] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:32:35] local.INFO: from student signup -method  index  
+[2024-06-05 17:32:35] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:32:37] local.INFO: from student signup -method  index  
+[2024-06-05 17:32:37] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 17:34:49] local.INFO: from student signup -method  index  
+[2024-06-05 17:34:49] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:34:51] local.INFO: from student signup -method  index  
+[2024-06-05 17:34:51] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 17:35:58] local.INFO: from student signup -method  index  
+[2024-06-05 17:35:58] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:41:58] local.INFO: from student signup -method  index  
+[2024-06-05 17:41:58] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:43:10] local.INFO: from student signup -method  index  
+[2024-06-05 17:43:10] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:43:13] local.INFO: from student signup -method  index  
+[2024-06-05 17:43:13] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:43:20] local.INFO: from student signup -method  index  
+[2024-06-05 17:43:20] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:43:23] local.INFO: from student signup -method  index  
+[2024-06-05 17:43:23] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:43:24] local.INFO: from student signup -method  index  
+[2024-06-05 17:43:24] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:43:29] local.INFO: from student signup -method  index  
+[2024-06-05 17:43:29] local.INFO: from student signup -method  post deleteExamAgencyBoard  
+[2024-06-05 17:43:38] local.INFO: from student signup -method  index  
+[2024-06-05 17:43:38] local.INFO: from student signup -method  post deleteExamAgencyBoard  
+[2024-06-05 17:43:55] local.INFO: from student signup -method  index  
+[2024-06-05 17:43:55] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:44:44] local.INFO: from student signup -method  index  
+[2024-06-05 17:44:44] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:47:03] local.INFO: from student signup -method  index  
+[2024-06-05 17:47:03] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:48:03] local.INFO: from student signup -method  index  
+[2024-06-05 17:48:03] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:48:05] local.INFO: from student signup -method  index  
+[2024-06-05 17:48:05] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 17:49:37] local.INFO: from student signup -method  index  
+[2024-06-05 17:49:37] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:49:39] local.INFO: from student signup -method  index  
+[2024-06-05 17:49:39] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 17:50:19] local.INFO: from student signup -method  index  
+[2024-06-05 17:50:19] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:50:21] local.INFO: from student signup -method  index  
+[2024-06-05 17:50:21] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 17:52:00] local.INFO: from student signup -method  index  
+[2024-06-05 17:52:00] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:52:02] local.INFO: from student signup -method  index  
+[2024-06-05 17:52:02] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 17:52:45] local.INFO: from student signup -method  index  
+[2024-06-05 17:52:45] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:52:47] local.INFO: from student signup -method  index  
+[2024-06-05 17:52:47] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 17:53:49] local.INFO: from student signup -method  index  
+[2024-06-05 17:53:49] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:53:51] local.INFO: from student signup -method  index  
+[2024-06-05 17:53:51] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 17:56:16] local.INFO: from student signup -method  index  
+[2024-06-05 17:56:16] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:57:44] local.INFO: from student signup -method  index  
+[2024-06-05 17:57:44] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 17:57:59] local.INFO: from student signup -method  index  
+[2024-06-05 17:57:59] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-05 17:58:02] local.INFO: from student signup -method  index  
+[2024-06-05 17:58:02] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-05 17:58:34] local.INFO: from student signup -method  index  
+[2024-06-05 17:58:34] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:09:49] local.INFO: from student signup -method  index  
+[2024-06-06 21:09:49] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-06 21:09:59] local.INFO: from student signup -method  index  
+[2024-06-06 21:09:59] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-06 21:10:10] local.INFO: from student signup -method  index  
+[2024-06-06 21:10:10] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:10:13] local.INFO: from student signup -method  index  
+[2024-06-06 21:10:13] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:16:49] local.INFO: from student signup -method  index  
+[2024-06-06 21:16:49] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:16:52] local.INFO: from student signup -method  index  
+[2024-06-06 21:16:52] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:33:14] local.INFO: from student signup -method  index  
+[2024-06-06 21:33:14] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:33:16] local.INFO: from student signup -method  index  
+[2024-06-06 21:33:16] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:35:23] local.INFO: from student signup -method  index  
+[2024-06-06 21:35:23] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:35:25] local.INFO: from student signup -method  index  
+[2024-06-06 21:35:25] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-06 21:35:30] local.INFO: from student signup -method  index  
+[2024-06-06 21:35:30] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:35:33] local.INFO: from student signup -method  index  
+[2024-06-06 21:35:33] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:36:17] local.INFO: from student signup -method  index  
+[2024-06-06 21:36:17] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:37:21] local.INFO: from student signup -method  index  
+[2024-06-06 21:37:21] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:37:23] local.INFO: from student signup -method  index  
+[2024-06-06 21:37:23] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:39:22] local.INFO: from student signup -method  index  
+[2024-06-06 21:39:22] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-06 21:39:55] local.INFO: from student signup -method  index  
+[2024-06-06 21:39:55] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:39:55] local.INFO: from student signup -method  index  
+[2024-06-06 21:39:55] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:40:28] local.INFO: from student signup -method  index  
+[2024-06-06 21:40:28] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:41:31] local.INFO: from student signup -method  index  
+[2024-06-06 21:41:31] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:41:33] local.INFO: from student signup -method  index  
+[2024-06-06 21:41:33] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:43:55] local.INFO: from student signup -method  index  
+[2024-06-06 21:43:55] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:46:28] local.INFO: from student signup -method  index  
+[2024-06-06 21:46:28] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:47:38] local.INFO: from student signup -method  index  
+[2024-06-06 21:47:38] local.INFO: from student signup -method  post deleteExamAgencyBoard  
+[2024-06-06 21:47:55] local.INFO: from student signup -method  index  
+[2024-06-06 21:47:55] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:47:59] local.INFO: from student signup -method  index  
+[2024-06-06 21:47:59] local.INFO: from student signup -method  post deleteExamAgencyBoard  
+[2024-06-06 21:48:05] local.INFO: from student signup -method  index  
+[2024-06-06 21:48:05] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:48:09] local.INFO: from student signup -method  index  
+[2024-06-06 21:48:09] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:50:26] local.INFO: from student signup -method  index  
+[2024-06-06 21:50:26] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:51:18] local.INFO: from student signup -method  index  
+[2024-06-06 21:51:18] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:51:25] local.INFO: from student signup -method  index  
+[2024-06-06 21:51:25] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:53:33] local.INFO: from student signup -method  index  
+[2024-06-06 21:53:33] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:53:35] local.INFO: from student signup -method  index  
+[2024-06-06 21:53:35] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:55:56] local.INFO: from student signup -method  index  
+[2024-06-06 21:55:56] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:56:29] local.INFO: from student signup -method  index  
+[2024-06-06 21:56:29] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:56:50] local.INFO: from student signup -method  index  
+[2024-06-06 21:56:50] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:56:52] local.INFO: from student signup -method  index  
+[2024-06-06 21:56:52] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:59:00] local.INFO: from student signup -method  index  
+[2024-06-06 21:59:00] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:59:00] local.INFO: from student signup -method  index  
+[2024-06-06 21:59:00] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:59:16] local.INFO: from student signup -method  index  
+[2024-06-06 21:59:16] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:59:16] local.INFO: from student signup -method  index  
+[2024-06-06 21:59:16] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 21:59:43] local.INFO: from student signup -method  index  
+[2024-06-06 21:59:43] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 21:59:45] local.INFO: from student signup -method  index  
+[2024-06-06 21:59:45] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 22:00:23] local.INFO: from student signup -method  index  
+[2024-06-06 22:00:23] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 22:00:25] local.INFO: from student signup -method  index  
+[2024-06-06 22:00:25] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 22:00:34] local.INFO: from student signup -method  index  
+[2024-06-06 22:00:34] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 22:00:36] local.INFO: from student signup -method  index  
+[2024-06-06 22:00:36] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-06 22:02:06] local.INFO: from student signup -method  index  
+[2024-06-06 22:02:06] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-06 22:02:08] local.INFO: from student signup -method  index  
+[2024-06-06 22:02:08] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-07 00:42:48] local.INFO: from student signup -method  index  
+[2024-06-07 00:42:48] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-07 00:42:50] local.INFO: from student signup -method  index  
+[2024-06-07 00:42:50] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-07 00:42:52] local.INFO: from student signup -method  index  
+[2024-06-07 00:42:52] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-07 00:42:54] local.INFO: from student signup -method  index  
+[2024-06-07 00:42:54] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-07 00:42:55] local.INFO: from student signup -method  index  
+[2024-06-07 00:42:55] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-07 00:42:56] local.INFO: from student signup -method  index  
+[2024-06-07 00:42:56] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-07 00:43:18] local.INFO: from student signup -method  index  
+[2024-06-07 00:43:18] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-07 00:43:34] local.INFO: from student signup -method  index  
+[2024-06-07 00:43:34] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-07 00:43:36] local.INFO: from student signup -method  index  
+[2024-06-07 00:43:36] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-07 01:05:51] local.INFO: from student signup -method  index  
+[2024-06-07 01:05:51] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-07 01:05:53] local.INFO: from student signup -method  index  
+[2024-06-07 01:05:53] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-07 01:06:15] local.INFO: from student signup -method  index  
+[2024-06-07 01:06:15] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-07 01:06:17] local.INFO: from student signup -method  index  
+[2024-06-07 01:06:17] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-07 01:07:20] local.INFO: from student signup -method  index  
+[2024-06-07 01:07:20] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-07 01:07:22] local.INFO: from student signup -method  index  
+[2024-06-07 01:07:22] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-07 01:09:48] local.INFO: from student signup -method  index  
+[2024-06-07 01:09:48] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-07 01:09:48] local.INFO: from student signup -method  index  
+[2024-06-07 01:09:48] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-07 01:11:01] local.INFO: from student signup -method  index  
+[2024-06-07 01:11:01] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-07 01:11:03] local.INFO: from student signup -method  index  
+[2024-06-07 01:11:03] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-23 14:27:10] local.INFO: from student signup -method  index  
+[2024-06-23 14:27:10] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-23 14:27:12] local.INFO: from student signup -method  index  
+[2024-06-23 14:27:12] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-28 07:25:30] local.INFO: from student signup -method  index  
+[2024-06-28 07:25:30] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-28 07:25:32] local.INFO: from student signup -method  index  
+[2024-06-28 07:25:32] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-28 07:25:35] local.INFO: from student signup -method  index  
+[2024-06-28 07:25:35] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-06-28 07:25:51] local.INFO: from student signup -method  index  
+[2024-06-28 07:25:51] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-06-28 23:45:13] local.INFO: from student signup -method  index  
+[2024-06-28 23:45:13] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-28 23:45:13] local.INFO: from student signup -method  index  
+[2024-06-28 23:45:13] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-28 23:47:19] local.INFO: from student signup -method  index  
+[2024-06-28 23:47:19] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-28 23:47:22] local.INFO: from student signup -method  index  
+[2024-06-28 23:47:22] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-28 23:48:25] local.INFO: from student signup -method  index  
+[2024-06-28 23:48:25] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-28 23:48:25] local.INFO: from student signup -method  index  
+[2024-06-28 23:48:25] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-28 23:48:29] local.INFO: from student signup -method  index  
+[2024-06-28 23:48:29] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-28 23:48:29] local.INFO: from student signup -method  index  
+[2024-06-28 23:48:29] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-28 23:48:33] local.INFO: from student signup -method  index  
+[2024-06-28 23:48:33] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-28 23:48:33] local.INFO: from student signup -method  index  
+[2024-06-28 23:48:33] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:19:41] local.INFO: from student signup -method  index  
+[2024-06-29 01:19:41] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:24:18] local.INFO: from student signup -method  index  
+[2024-06-29 01:24:18] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:25:05] local.INFO: from student signup -method  index  
+[2024-06-29 01:25:05] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:25:07] local.INFO: from student signup -method  index  
+[2024-06-29 01:25:07] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:27:12] local.INFO: from student signup -method  index  
+[2024-06-29 01:27:12] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-29 01:27:37] local.INFO: from student signup -method  index  
+[2024-06-29 01:27:37] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-29 01:27:45] local.INFO: from student signup -method  index  
+[2024-06-29 01:27:45] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-29 01:27:50] local.INFO: from student signup -method  index  
+[2024-06-29 01:27:50] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-29 01:27:53] local.INFO: from student signup -method  index  
+[2024-06-29 01:27:53] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-29 01:28:00] local.INFO: from student signup -method  index  
+[2024-06-29 01:28:00] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:28:03] local.INFO: from student signup -method  index  
+[2024-06-29 01:28:03] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:29:17] local.INFO: from student signup -method  index  
+[2024-06-29 01:29:17] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:29:20] local.INFO: from student signup -method  index  
+[2024-06-29 01:29:20] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:30:00] local.INFO: from student signup -method  index  
+[2024-06-29 01:30:00] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:30:02] local.INFO: from student signup -method  index  
+[2024-06-29 01:30:02] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:30:57] local.INFO: from student signup -method  index  
+[2024-06-29 01:30:57] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:31:00] local.INFO: from student signup -method  index  
+[2024-06-29 01:31:00] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:31:02] local.INFO: from student signup -method  index  
+[2024-06-29 01:31:02] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:31:35] local.INFO: from student signup -method  index  
+[2024-06-29 01:31:35] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:31:36] local.INFO: from student signup -method  index  
+[2024-06-29 01:31:36] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:33:52] local.INFO: from student signup -method  index  
+[2024-06-29 01:33:52] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:33:55] local.INFO: from student signup -method  index  
+[2024-06-29 01:33:55] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:33:57] local.INFO: from student signup -method  index  
+[2024-06-29 01:33:57] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:35:51] local.INFO: from student signup -method  index  
+[2024-06-29 01:35:51] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:35:53] local.INFO: from student signup -method  index  
+[2024-06-29 01:35:53] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:37:53] local.INFO: from student signup -method  index  
+[2024-06-29 01:37:53] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:37:56] local.INFO: from student signup -method  index  
+[2024-06-29 01:37:56] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:38:19] local.INFO: from student signup -method  index  
+[2024-06-29 01:38:19] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-29 01:38:30] local.INFO: from student signup -method  index  
+[2024-06-29 01:38:30] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:38:30] local.INFO: from student signup -method  index  
+[2024-06-29 01:38:30] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:38:53] local.INFO: from student signup -method  index  
+[2024-06-29 01:38:53] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:38:53] local.INFO: from student signup -method  index  
+[2024-06-29 01:38:53] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:39:09] local.INFO: from student signup -method  index  
+[2024-06-29 01:39:09] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:39:09] local.INFO: from student signup -method  index  
+[2024-06-29 01:39:09] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:39:38] local.INFO: from student signup -method  index  
+[2024-06-29 01:39:38] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:39:38] local.INFO: from student signup -method  index  
+[2024-06-29 01:39:38] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:40:32] local.INFO: from student signup -method  index  
+[2024-06-29 01:40:32] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:40:35] local.INFO: from student signup -method  index  
+[2024-06-29 01:40:35] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:40:38] local.INFO: from student signup -method  index  
+[2024-06-29 01:40:38] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-06-29 01:41:08] local.INFO: from student signup -method  index  
+[2024-06-29 01:41:08] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:41:10] local.INFO: from student signup -method  index  
+[2024-06-29 01:41:10] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:43:07] local.INFO: from student signup -method  index  
+[2024-06-29 01:43:07] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:43:09] local.INFO: from student signup -method  index  
+[2024-06-29 01:43:09] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:44:38] local.INFO: from student signup -method  index  
+[2024-06-29 01:44:38] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:44:40] local.INFO: from student signup -method  index  
+[2024-06-29 01:44:40] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:46:14] local.INFO: from student signup -method  index  
+[2024-06-29 01:46:14] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:46:16] local.INFO: from student signup -method  index  
+[2024-06-29 01:46:16] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:48:34] local.INFO: from student signup -method  index  
+[2024-06-29 01:48:34] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:48:34] local.INFO: from student signup -method  index  
+[2024-06-29 01:48:34] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:50:05] local.INFO: from student signup -method  index  
+[2024-06-29 01:50:05] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:50:05] local.INFO: from student signup -method  index  
+[2024-06-29 01:50:05] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:51:59] local.INFO: from student signup -method  index  
+[2024-06-29 01:51:59] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:51:59] local.INFO: from student signup -method  index  
+[2024-06-29 01:51:59] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:54:56] local.INFO: from student signup -method  index  
+[2024-06-29 01:54:56] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:54:56] local.INFO: from student signup -method  index  
+[2024-06-29 01:54:56] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:55:48] local.INFO: from student signup -method  index  
+[2024-06-29 01:55:48] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:55:50] local.INFO: from student signup -method  index  
+[2024-06-29 01:55:50] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 01:57:12] local.INFO: from student signup -method  index  
+[2024-06-29 01:57:12] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-29 01:57:22] local.INFO: from student signup -method  index  
+[2024-06-29 01:57:22] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-29 01:57:28] local.INFO: from student signup -method  index  
+[2024-06-29 01:57:28] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-29 01:58:08] local.INFO: from student signup -method  index  
+[2024-06-29 01:58:08] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 01:58:10] local.INFO: from student signup -method  index  
+[2024-06-29 01:58:10] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 02:34:27] local.INFO: from student signup -method  index  
+[2024-06-29 02:34:27] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 02:34:29] local.INFO: from student signup -method  index  
+[2024-06-29 02:34:29] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 02:39:17] local.INFO: from student signup -method  index  
+[2024-06-29 02:39:17] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 02:39:18] local.INFO: from student signup -method  index  
+[2024-06-29 02:39:18] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 02:39:30] local.INFO: from student signup -method  index  
+[2024-06-29 02:39:30] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 02:39:30] local.INFO: from student signup -method  index  
+[2024-06-29 02:39:30] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 02:40:17] local.INFO: from student signup -method  index  
+[2024-06-29 02:40:17] local.INFO: from student signup -method  post deleteOtherExamClass  
+[2024-06-29 02:40:31] local.INFO: from student signup -method  index  
+[2024-06-29 02:40:31] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 02:40:33] local.INFO: from student signup -method  index  
+[2024-06-29 02:40:33] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 02:45:25] local.INFO: from student signup -method  index  
+[2024-06-29 02:45:25] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 02:45:29] local.INFO: from student signup -method  index  
+[2024-06-29 02:45:29] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 02:48:45] local.INFO: from student signup -method  index  
+[2024-06-29 02:48:45] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 02:48:48] local.INFO: from student signup -method  index  
+[2024-06-29 02:48:48] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 02:48:55] local.INFO: from student signup -method  index  
+[2024-06-29 02:48:55] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-06-29 08:11:57] local.INFO: from student signup -method  index  
+[2024-06-29 08:11:57] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 08:12:00] local.INFO: from student signup -method  index  
+[2024-06-29 08:12:00] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 08:12:01] local.INFO: from student signup -method  index  
+[2024-06-29 08:12:01] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-06-29 08:12:11] local.INFO: from student signup -method  index  
+[2024-06-29 08:12:11] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-06-29 09:33:47] local.INFO: from student signup -method  index  
+[2024-06-29 09:33:47] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 09:33:52] local.INFO: from student signup -method  index  
+[2024-06-29 09:33:52] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 09:33:56] local.INFO: from student signup -method  index  
+[2024-06-29 09:33:56] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-06-29 09:37:07] local.INFO: from student signup -method  index  
+[2024-06-29 09:37:07] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 09:37:09] local.INFO: from student signup -method  index  
+[2024-06-29 09:37:09] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 14:29:39] local.INFO: from student signup -method  index  
+[2024-06-29 14:29:39] local.INFO: from student signup -method  index  
+[2024-06-29 14:29:39] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 14:29:39] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 14:29:39] local.INFO: from student signup -method  index  
+[2024-06-29 14:29:39] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 14:29:43] local.INFO: from student signup -method  index  
+[2024-06-29 14:29:43] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 14:29:48] local.INFO: from student signup -method  index  
+[2024-06-29 14:29:48] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 14:29:48] local.INFO: from student signup -method  index  
+[2024-06-29 14:29:48] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-06-29 14:29:58] local.INFO: from student signup -method  index  
+[2024-06-29 14:29:58] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 14:30:02] local.INFO: from student signup -method  index  
+[2024-06-29 14:30:02] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 14:30:05] local.INFO: from student signup -method  index  
+[2024-06-29 14:30:05] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-06-29 14:30:35] local.INFO: from student signup -method  index  
+[2024-06-29 14:30:35] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 14:30:36] local.INFO: from student signup -method  index  
+[2024-06-29 14:30:36] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 14:30:39] local.INFO: from student signup -method  index  
+[2024-06-29 14:30:39] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-06-29 14:45:26] local.INFO: from student signup -method  index  
+[2024-06-29 14:45:26] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 14:45:28] local.INFO: from student signup -method  index  
+[2024-06-29 14:45:28] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 14:45:31] local.INFO: from student signup -method  index  
+[2024-06-29 14:45:31] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-06-29 16:46:01] local.INFO: from student signup -method  index  
+[2024-06-29 16:46:01] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-06-29 16:46:05] local.INFO: from student signup -method  index  
+[2024-06-29 16:46:05] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-06-29 16:46:33] local.INFO: from student signup -method  index  
+[2024-06-29 16:46:33] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-06-29 16:46:39] local.INFO: from student signup -method  index  
+[2024-06-29 16:46:39] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-06-29 16:46:42] local.INFO: from student signup -method  index  
+[2024-06-29 16:46:42] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-01 23:43:41] local.INFO: from student signup -method  index  
+[2024-07-01 23:43:41] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-01 23:43:43] local.INFO: from student signup -method  index  
+[2024-07-01 23:43:43] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-01 23:45:20] local.INFO: from student signup -method  index  
+[2024-07-01 23:45:20] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-01 23:45:23] local.INFO: from student signup -method  index  
+[2024-07-01 23:45:23] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-01 23:45:25] local.INFO: from student signup -method  index  
+[2024-07-01 23:45:25] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-02 05:31:20] local.INFO: from student signup -method  index  
+[2024-07-02 05:31:20] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-07-02 05:31:41] local.INFO: from student signup -method  index  
+[2024-07-02 05:31:41] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-02 05:31:43] local.INFO: from student signup -method  index  
+[2024-07-02 05:31:43] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-02 05:31:45] local.INFO: from student signup -method  index  
+[2024-07-02 05:31:45] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-02 05:33:10] local.INFO: from student signup -method  index  
+[2024-07-02 05:33:10] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-02 05:33:12] local.INFO: from student signup -method  index  
+[2024-07-02 05:33:12] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-02 05:33:14] local.INFO: from student signup -method  index  
+[2024-07-02 05:33:14] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-02 05:34:14] local.INFO: from student signup -method  index  
+[2024-07-02 05:34:14] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-02 05:34:16] local.INFO: from student signup -method  index  
+[2024-07-02 05:34:16] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-02 05:34:18] local.INFO: from student signup -method  index  
+[2024-07-02 05:34:18] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-09 00:15:18] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:18] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:21] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:21] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:24] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:24] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:26] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:26] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:29] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:29] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:33] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:33] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:36] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:36] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:39] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:39] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:42] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:42] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:44] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:44] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:47] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:47] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:49] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:49] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:52] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:52] local.INFO: from student signup -method  post deleteSubjectPartChapter  
+[2024-07-09 00:15:57] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:57] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:15:59] local.INFO: from student signup -method  index  
+[2024-07-09 00:15:59] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:01] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:01] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:01] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:01] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:01] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:01] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:01] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:01] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:02] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:02] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:02] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:02] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:02] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:02] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:02] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:02] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:07] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:07] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:10] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:10] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:13] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:13] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:15] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:15] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:17] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:17] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:19] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:19] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:21] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:21] local.INFO: from student signup -method  post deleteSubjectpart  
+[2024-07-09 00:16:25] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:25] local.INFO: from student signup -method  post deleteSubject  
+[2024-07-09 00:16:27] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:27] local.INFO: from student signup -method  post deleteSubject  
+[2024-07-09 00:16:29] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:29] local.INFO: from student signup -method  post deleteSubject  
+[2024-07-09 00:16:31] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:31] local.INFO: from student signup -method  post deleteSubject  
+[2024-07-09 00:16:33] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:33] local.INFO: from student signup -method  post deleteSubject  
+[2024-07-09 00:16:49] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:49] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-07-09 00:16:54] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:54] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-07-09 00:16:59] local.INFO: from student signup -method  index  
+[2024-07-09 00:16:59] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-07-09 00:17:40] local.INFO: from student signup -method  index  
+[2024-07-09 00:17:40] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 00:17:41] local.INFO: from student signup -method  index  
+[2024-07-09 00:17:41] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-09 00:17:47] local.INFO: from student signup -method  index  
+[2024-07-09 00:17:47] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 00:17:49] local.INFO: from student signup -method  index  
+[2024-07-09 00:17:49] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-09 00:17:51] local.INFO: from student signup -method  index  
+[2024-07-09 00:17:51] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-09 00:17:54] local.INFO: from student signup -method  index  
+[2024-07-09 00:17:54] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-09 00:21:04] local.INFO: from student signup -method  index  
+[2024-07-09 00:21:04] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 00:21:06] local.INFO: from student signup -method  index  
+[2024-07-09 00:21:06] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 00:21:08] local.INFO: from student signup -method  index  
+[2024-07-09 00:21:08] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-09 00:21:10] local.INFO: from student signup -method  index  
+[2024-07-09 00:21:10] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-09 07:19:42] local.INFO: from student signup -method  index  
+[2024-07-09 07:19:42] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 07:19:44] local.INFO: from student signup -method  index  
+[2024-07-09 07:19:44] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-09 07:19:47] local.INFO: from student signup -method  index  
+[2024-07-09 07:19:47] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-09 07:33:11] local.INFO: from student signup -method  index  
+[2024-07-09 07:33:11] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 07:33:13] local.INFO: from student signup -method  index  
+[2024-07-09 07:33:13] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-09 07:33:16] local.INFO: from student signup -method  index  
+[2024-07-09 07:33:16] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-09 07:34:11] local.INFO: from student signup -method  index  
+[2024-07-09 07:34:11] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 07:34:13] local.INFO: from student signup -method  index  
+[2024-07-09 07:34:13] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-09 07:34:34] local.INFO: from student signup -method  index  
+[2024-07-09 07:34:34] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 07:34:36] local.INFO: from student signup -method  index  
+[2024-07-09 07:34:36] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-07-09 07:34:42] local.INFO: from student signup -method  index  
+[2024-07-09 07:34:42] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 07:34:44] local.INFO: from student signup -method  index  
+[2024-07-09 07:34:44] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-09 07:34:46] local.INFO: from student signup -method  index  
+[2024-07-09 07:34:46] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-09 07:38:27] local.INFO: from student signup -method  index  
+[2024-07-09 07:38:27] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 07:38:29] local.INFO: from student signup -method  index  
+[2024-07-09 07:38:29] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-09 07:38:31] local.INFO: from student signup -method  index  
+[2024-07-09 07:38:31] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-09 08:14:10] local.INFO: from student signup -method  index  
+[2024-07-09 08:14:10] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-07-09 08:14:15] local.INFO: from student signup -method  index  
+[2024-07-09 08:14:15] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 08:14:18] local.INFO: from student signup -method  index  
+[2024-07-09 08:14:18] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-09 08:14:20] local.INFO: from student signup -method  index  
+[2024-07-09 08:14:20] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-09 08:15:53] local.INFO: from student signup -method  index  
+[2024-07-09 08:15:53] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 08:15:55] local.INFO: from student signup -method  index  
+[2024-07-09 08:15:55] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-09 08:15:59] local.INFO: from student signup -method  index  
+[2024-07-09 08:15:59] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-09 22:59:46] local.INFO: from student signup -method  index  
+[2024-07-09 22:59:46] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-07-09 22:59:49] local.INFO: from student signup -method  index  
+[2024-07-09 22:59:49] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-07-09 22:59:53] local.INFO: from student signup -method  index  
+[2024-07-09 22:59:53] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-07-09 22:59:55] local.INFO: from student signup -method  index  
+[2024-07-09 22:59:55] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-07-09 22:59:57] local.INFO: from student signup -method  index  
+[2024-07-09 22:59:57] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-07-25 23:04:45] local.INFO: from student signup -method  index  
+[2024-07-25 23:04:45] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-08-16 17:20:40] local.INFO: from student signup -method  index  
+[2024-08-16 17:20:40] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-08-16 17:20:43] local.INFO: from student signup -method  index  
+[2024-08-16 17:20:43] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-08-16 17:20:45] local.INFO: from student signup -method  index  
+[2024-08-16 17:20:45] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-08-21 16:00:56] local.INFO: from student signup -method  index  
+[2024-08-21 16:00:56] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-08-21 16:00:59] local.INFO: from student signup -method  index  
+[2024-08-21 16:00:59] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-08-21 16:01:02] local.INFO: from student signup -method  index  
+[2024-08-21 16:01:02] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-08-21 16:28:25] local.INFO: from student signup -method  index  
+[2024-08-21 16:28:25] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-08-21 16:28:26] local.INFO: from student signup -method  index  
+[2024-08-21 16:28:26] local.INFO: from student signup -method  post deleteresultSubjectMap  
+[2024-08-21 16:28:29] local.INFO: from student signup -method  index  
+[2024-08-21 16:28:29] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-08-21 16:28:31] local.INFO: from student signup -method  index  
+[2024-08-21 16:28:31] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-08-21 16:28:34] local.INFO: from student signup -method  index  
+[2024-08-21 16:28:34] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-08-21 16:29:17] local.INFO: from student signup -method  index  
+[2024-08-21 16:29:17] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-08-21 16:29:19] local.INFO: from student signup -method  index  
+[2024-08-21 16:29:19] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-08-21 16:29:21] local.INFO: from student signup -method  index  
+[2024-08-21 16:29:21] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-08-21 16:29:24] local.INFO: from student signup -method  index  
+[2024-08-21 16:29:24] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-08-21 16:29:59] local.INFO: from student signup -method  index  
+[2024-08-21 16:29:59] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-08-21 16:30:01] local.INFO: from student signup -method  index  
+[2024-08-21 16:30:01] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-08-21 16:30:04] local.INFO: from student signup -method  index  
+[2024-08-21 16:30:04] local.INFO: from student signup -method  post get_agency_board_qualification  
+[2024-08-21 16:30:30] local.INFO: from student signup -method  index  
+[2024-08-21 16:30:30] local.INFO: from student signup -method  post get_class_group_exam  
+[2024-08-21 16:30:34] local.INFO: from student signup -method  index  
+[2024-08-21 16:30:34] local.INFO: from student signup -method  post get_agency_board_university  
+[2024-08-21 16:30:36] local.INFO: from student signup -method  index  
+[2024-08-21 16:30:36] local.INFO: from student signup -method  post get_agency_board_qualification  
