@@ -15,7 +15,7 @@
       <div class="sidebar-brand">
          <div class="info">
             <a href="{{('corporateDashboard')}}">
-               <h5 style="margin-top: 20px;"> Dashboard</h5>
+               <h5 style="margin-top: 20px;"> Institute Panel</h5>
             </a>
             <!-- <img src="{{asset('corporate/images/logo big')}} size.png" alt=""> -->
          </div>

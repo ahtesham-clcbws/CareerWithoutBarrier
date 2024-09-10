@@ -3442,8 +3442,7 @@ p.ani-tit {
     position: relative;
 }
 
-.fav-pack:before,
-.traveller-advice:before {
+.fav-pack:before {
     position: absolute;
     z-index: 0;
     right: -25px;

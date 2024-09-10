@@ -1,43 +1,53 @@
 <?php
 
+use App\Models\Corporate;
+use App\Models\CouponCode;
+use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
 
 $user = Auth::user();
 
+$newInstituteInquiry = Corporate::where('is_approved', 0)->whereNull('signup_at')->select('id')->count();
+
+$appliedCount = CouponCode::select('id')->where('is_applied', 1)->count();
+
+// $newStudents = Student::doesntHave('latestStudentCode')->count();
+$newStudents = Student::whereHas('latestStudentCode', function ($query) {
+    $query->whereNull('roll_no');
+})->count();
 
 
- ?>
+?>
 
 <nav class="main-header navbar navbar-expand-lg navbar-light">
     <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
-        <!-- <span class="hamb-top"></span>
-                    <span class="hamb-middle"></span>
-                    <span class="hamb-bottom"></span> -->
-        <i class=" fa fa-bars"></i>
+        <i class="fa fa-bars"></i>
     </button>
     <div class="header-left-box">
         <div class="required_area">
             <img src="{{asset('admin/images/watch.png')}}" alt="clock" class="watch_ic">
             <span class="required_text">
-                Required Text
+                New Student
             </span>
-            <span class="required_num">21</span>
-        </div>
-        <div class="required_area">
-            <img src="{{asset('admin/images/watch.png')}}" alt="clock" class="watch_ic">
-            <span class="required_text">Required Text</span>
-            <span class="required_num">21</span>
+            <span class="required_num">{{$newStudents}}</span>
         </div>
         <div class="required_area">
             <img src="{{asset('admin/images/watch.png')}}" alt="clock" class="watch_ic">
             <span class="required_text">
-                Required Text
+                Applied Discount Voucher Code
             </span>
-            <span class="required_num">21</span>
+            <span class="required_num">{{$appliedCount}}</span>
+        </div>
+        <div class="required_area">
+            <img src="{{asset('admin/images/watch.png')}}" alt="clock" class="watch_ic">
+            <span class="required_text">
+                New Institute Inquiry
+            </span>
+            <span class="required_num">{{$newInstituteInquiry}}</span>
         </div>
     </div>
     <ul class="navbar-nav dashboard2" id="menu1-top">
-        <li class="nav-item search-box-css" style="margin-right: 38px;">
+        <!-- <li class="nav-item search-box-css" style="margin-right: 38px;">
             <button class="panel-heading">
 
                 <i class="fa fa-search" aria-hidden="true"></i>
@@ -47,8 +57,8 @@ $user = Auth::user();
                 <input type="text" placeholder="Search.....">
                 <button class="res_btn">Result</button>
             </div>
-        </li>
-        <li class="nav-item" style="margin-right: 3px;">
+        </li> -->
+        <!-- <li class="nav-item" style="margin-right: 3px;">
             <button class="panel-heading">
                 <i class="fa fa-file-text"></i>
                 <span class="qty">5</span>
@@ -99,8 +109,8 @@ $user = Auth::user();
                     <a href=""> View All</a>
                 </div>
             </div>
-        </li>
-        <li class="nav-item">
+        </li> -->
+        <!-- <li class="nav-item">
             <button class="panel-heading">
                 <i class="fa fa-heart" aria-hidden="true"></i>
                 <span class="qty">3</span>
@@ -110,8 +120,6 @@ $user = Auth::user();
                     <div class="asu_area">
                         <div class="row">
                             <div class="col-md-6 col-6">
-                                <!-- <span class="assu_text">Assured by</span>
-                                      <img src="images/Logo.png"> --->
                                 <div class="asu_area2">
 
                                     <span class="my_wh">My Wishlist (3)</span>
@@ -193,8 +201,8 @@ $user = Auth::user();
                 </ul>
                 <div class="view_area cart-view no_rd2"><a href="">Go to Cart</a></div>
             </div>
-        </li>
-        <li class="nav-item">
+        </li> -->
+        <!-- <li class="nav-item">
             <button class="panel-heading last_p">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                 <span class="qty">3</span>
@@ -289,21 +297,21 @@ $user = Auth::user();
                 </ul>
                 <div class="view_area  cart-view no_rd2"><a href="">Go to Cart</a></div>
             </div>
-        </li>
+        </li> -->
         <li class="nav-item">
             <button class="panel-heading last_p">
                 @if ($user->photograph != null)
-                    <img src="{{ asset('upload/'.$user->photograph) }}">
+                <img src="{{ asset('upload/'.$user->photograph) }}">
                 @else
-                    <img src="{{ asset('upload/admin.png') }}">
+                <img src="{{ asset('upload/admin.png') }}">
                 @endif
             </button>
             <div class="dropdown-content panel-collapse profile-noti">
                 <div class="profile-box">
                     @if ($user->photograph != null)
-                         <img src="{{ asset('upload/'.$user->photograph) }}">
+                    <img src="{{ asset('upload/'.$user->photograph) }}">
                     @else
-                        <img src="{{ asset('upload/admin.png') }}">
+                    <img src="{{ asset('upload/admin.png') }}">
                     @endif
                     {{-- <img src="{{ asset('upload/'.$user->photograph) }}"> --}}
                     <h6> {{$user->name}}</h6>

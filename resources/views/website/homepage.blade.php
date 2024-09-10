@@ -66,12 +66,12 @@
 
     .sliderBackgroundImage,
     .slider.u-slick {
-        min-height: 350px !important;
+        min-height: 450px !important;
         overflow: hidden;
     }
 
     :root {
-        --slider-height: calc(100vh - 30%);
+        --slider-height: 90vh;
     }
 
     @media (max-aspect-ratio: 1/1) {
@@ -87,6 +87,17 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
+
+    .customAnchor,
+    .customAnchor * {
+        text-decoration: none !important;
+        color: inherit !important;
+    }
+
+    .customAnchor:hover,
+    .customAnchor:hover * {
+        text-decoration: none !important;
+    }
 </style>
 
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -98,7 +109,6 @@
         @foreach($sliders as $key => $slider)
         <?php $thisImage = asset('home/slider/' . $slider->image); ?>
         <div class="slide-wrapper sliderBackgroundImage" style="background-image:url('<?= $thisImage ?>')">
-            <!-- <img class="img-fluid w-100" src="{{ asset('home/slider/'.$slider->image) }}" alt="Banner Image"> -->
         </div>
         @endforeach
     </div>
@@ -140,24 +150,18 @@
             <p>Popular Courses</p>
             <h2>For <span>100% Scholarship</span><br></h2><span class="line"></span>
         </div>
-        <!-- PACKAGES BACKGROUND IMG AND ANIMATIONS -->
-        <!-- <div class="leaf-2">
-                        <img class="comm-tit-ani designs-pack" src="assets/images/icons/open-book.png" alt="">
-                        <img class="comm-tit-ani designs-pack-1" src="assets/images/icons/5.png" alt="">
-                    </div> -->
-        <!-- END -->
+
         <div class="container">
             <div class="row">
-                <!--TRAVEL PACKAGES IMG & FEATURES BOX-->
                 @foreach($courses as $course)
-                <div class="ani-eql col-lg-3 col-md-6 packages-ani">
-                    <div class="most-packages">
-                        <div class="packages-img">
-                            <a href="{{route('home.career',encodeId($course->id))}}" target="_blank">
-                                <img src="{{ asset('home/course/'.$course->course_logo) }}" alt="Courses">
-                                <h2>{{$course->title}}</h2>
-                            </a>
-                        </div>
+                <div class="ani-eql col-lg-4 col-md-6 packages-ani mb-5">
+                    <div class="shadow p-3 bg-white overflow-hidden customAnchor" style="border-radius: 15px;">
+                        <a href="{{route('home.career',encodeId($course->id))}}" target="_blank" class="d-flex align-items-center">
+                            <div style="width: 50px; height: 50px;">
+                                <img src="{{ asset('home/course/'.$course->course_logo) }}" class="h-100 mx-auto" alt="{{$course->title}}">
+                            </div>
+                            <p style="line-height: 50px; font-size:18px; font-weight:700; margin-left:12px;" class="mb-0">{{$course->title}}</p>
+                        </a>
                     </div>
                 </div>
                 @endforeach
@@ -193,9 +197,6 @@
                 </div>
             </div>
         </div>
-        <div class="bg-dt">
-            <div class="dt-1"></div>
-        </div>
     </div>
 </section>
 
@@ -208,16 +209,16 @@
                     <p>Important</p>
                     <h2>Information <span>& Notice</span><br></h2><span class="line"></span>
                 </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-12 pr-0">
-                        <div class="important-information-img">
+                <div class="row h-100">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-12 pr-0 h-100">
+                        <div class="important-information-img h-100">
                             <img class="img-fluid" src="{{ asset('website/assets/images/information/important-information.png') }}" alt="img">
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-12 pl-0">
-                        <div class="important-information-news">
-                            <div class="news-slider">
-                                <div class='marquee-vert'>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-12 pl-0 h-100">
+                        <div class="important-information-news h-100">
+                            <div class="news-slider h-100 overflow-hidden">
+                                <div class='marquee-vert' style="height: 470px !important;min-height: 470px !important;">
                                     @foreach($notifications as $notice)
                                     <a href="#" class="news-link"><i class="fa fa-arrow-right" aria-hidden="true"></i> {!! $notice->title !!} {!! $notice->details !!}</a>
                                     @endforeach
@@ -262,7 +263,7 @@
                         <div class="govt-web-logo">
                             <div class="d-flex align-items-center justify-content-center">
                                 <a href="{{$govtwebsite->website_link}}">
-                                    <img class="img-fluid" src="{{ asset('home/courses/' . $govtwebsite->image) }}" alt="img">
+                                    <img class="" style="width: 100px; height: 100px;" src="{{ asset('home/courses/' . $govtwebsite->image) }}" alt="img">
                                 </a>
                                 <span class="remark">{{$govtwebsite->remark}}</span>
                             </div>
@@ -283,8 +284,9 @@
                     <div class="counter-section-icon mb-3 d-flex align-items-center justify-content-center mx-auto">
                         <img class="img-fluid" src="{{ asset('website/assets/images/icons/student-icon.png') }}" alt="img">
                     </div>
-                    <h6>Students Enrolled</h6>
-                    <h2><span class="counter" data-count-start="50" data-count-end="80" data-speed="70">80</span><span class="plus-icon">+</span></h2>
+                    <h6>100% Scholarship for</h6>
+                    <h2><span class="counter" data-count-start="990" data-count-end="1000" data-speed="70">1000</span><span class="plus-icon"></span></h2>
+                    <h6>Applicants</h6>
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12">
@@ -292,8 +294,9 @@
                     <div class="counter-section-icon mb-3 d-flex align-items-center justify-content-center mx-auto">
                         <img class="img-fluid" src="{{ asset('website/assets/images/icons/certificate-icon.png') }}" alt="img">
                     </div>
-                    <h6>Certified Teachers</h6>
-                    <h2><span class="counter" data-count-start="50" data-count-end="100" data-speed="70">100</span><span class="plus-icon">+</span></h2>
+                    <h6>Offered Institutes</h6>
+                    <h2><span class="counter" data-count-start="240" data-count-end="250" data-speed="70">250</span></h2>
+                    <h6>Applicants</h6>
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12">
@@ -301,8 +304,9 @@
                     <div class="counter-section-icon mb-3 d-flex align-items-center justify-content-center mx-auto">
                         <img class="img-fluid" src="{{ asset('website/assets/images/icons/class-icon.png') }}" alt="img">
                     </div>
-                    <h6>Classes Complete</h6>
-                    <h2><span class="counter" data-count-start="50" data-count-end="150" data-speed="70">150</span><span class="plus-icon">+</span></h2>
+                    <h6>Zero Form Fee For</h6>
+                    <h2><span class="counter" data-count-start="4990" data-count-end="5000" data-speed="70">5000</span></h2>
+                    <h6>Applicants</h6>
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-12">
@@ -310,8 +314,9 @@
                     <div class="counter-section-icon mb-3 d-flex align-items-center justify-content-center mx-auto">
                         <img class="img-fluid" src="{{ asset('website/assets/images/icons/forign-icon.png') }}" alt="img">
                     </div>
-                    <h6>Foreign Followers</h6>
-                    <h2><span class="counter" data-count-start="50" data-count-end="200" data-speed="70">200</span><span class="plus-icon">+</span></h2>
+                    <h2><span class="counter">Free</span></h2>
+                    <h6>Online Education</h6>
+                    <h6>For All</h6>
                 </div>
             </div>
         </div>
@@ -477,14 +482,14 @@
     </div>
 </section>
 
-<div class="great-contributor">
+<div class="great-contributor mb-5">
     <div class="container relative">
         <div class="comm-tit-ani tit ani-tit">
             <p>WE WOULD LIKE TO SAY</p>
             <h2>Thanks To Our <span>Great Contributor</span><br></h2><span class="line"></span>
         </div>
 
-        <div id="great-contributor" class="carousel slide" data-ride="carousel">
+        <div id="great-contributor" class="carousel slide px-4" data-ride="carousel">
             <div class="carousel-inner">
                 @foreach($ourContributors->chunk(4) as $keyChunk => $chunks )
                 <div class="carousel-item {{$keyChunk ==0 ? 'active' : ''}}">

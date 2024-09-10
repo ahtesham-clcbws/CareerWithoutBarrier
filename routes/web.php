@@ -53,7 +53,8 @@ Route::post('/reset_forget_password', [HomeController::class, 'resetForgotPasswo
 
 
 
-Route::prefix('homepage')->group(function () {
+// Route::prefix('homepage')->group(function () {
+Route::prefix('')->group(function () {
     Route::get('/slider', [HomeController::class, 'slider'])->name('home.slider');
     Route::get('/govtwebsite', [HomeController::class, 'govtwebsite'])->name('home.govtwebsite');
     Route::post('/savegovtwebsite', [HomeController::class, 'savegovtwebsite'])->name('home.savegovtwebsite');
@@ -69,8 +70,9 @@ Route::prefix('homepage')->group(function () {
     Route::post('/sendOtp', [HomeController::class, 'sendOtp'])->name('home.sendOtp');
     Route::post('/sendMail', [HomeController::class, 'sendMail'])->name('home.sendMail');
     Route::get('/aboutus', [HomeController::class, 'aboutus'])->name('home.aboutus');
-    Route::get('/career/{course?}', [HomeController::class, 'career'])->name('home.career');
+    // Route::get('/career/{course?}', [HomeController::class, 'career'])->name('home.career');
     Route::get('/preparation', [HomeController::class, 'preparation'])->name('home.preparation');
+    Route::get('/preparation-course/{course?}', [HomeController::class, 'career'])->name('home.career');
     Route::get('/scholarship', [HomeController::class, 'scholarship'])->name('home.scholarship');
     Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
     Route::get('/faq', [HomeController::class, 'faqList'])->name('home.faq');

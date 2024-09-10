@@ -103,7 +103,7 @@ Student List
                     <th>Payment & Voucher</th>
                     <th>Scholarship Category</th>
                     <th>Scholarship Opted For</th>
-                    <th>Roll No.</th>
+                    <!-- <th>Roll No.</th> -->
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -149,7 +149,7 @@ Student List
                     </td>
                     <td>{{ $student->scholarShipCategory?->name ?? 'N/A' }}</td>
                     <td>{{ $student->qualifications?->name }} <hr> {{ $student->scholarShipOptedFor?->name ?? 'N/A' }}</td>
-                    <td class="color-primary">{{ $studCode?->roll_no }}</td>
+                    <!-- <td class="color-primary">{{ $studCode?->roll_no }}</td> -->
                     <td style="text-align:center">
                       <a href="{{ route('admin.student', $student->id) }}" class="btn btn-primary" style="text-decoration: none;"></i> View</a>
                       <!-- <ul style="list-style: none;">

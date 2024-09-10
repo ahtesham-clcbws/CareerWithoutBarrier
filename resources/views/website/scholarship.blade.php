@@ -16,15 +16,12 @@
         <div class="row">
             <div class="col-lg-5 col-md-5 col-sm-5 col-12">
                 @foreach($scholarShips as $key => $scholarShip)
-                <div class="scolarship-leftpanel">
+                <div class="scolarship-leftpanel mb-3">
                     <div class="scolarship-leftpanel-widget d-flex" data-target="content{{$key+1}}" style="cursor: pointer;">
-                        <div class="scolarship-leftpanel-img mr-3 pr-3">
+                        <div class="scolarship-leftpanel-img d-flex justify-content-center align-items-center">
                             <img style="max-width: 80px;" class="img-fluid" src="{{ asset('home/aboutus/'.$scholarShip->icon) }}" alt="img">
                         </div>
                         <div class="scolarship-leftpanel-content text-center">
-                            <div class="career-logo">
-                                <img class="img-fluid" src="{{ asset('website/assets/images/prepration/career-logo.jpg') }}" alt="img">
-                            </div>
                             <h4>{{$scholarShip->educationType?->name}}</h4>
                             <p>{{$scholarShip->remark}}</p>
                         </div>
@@ -34,8 +31,8 @@
             </div>
             <div class="col-lg-7 col-md-7 col-sm-7 col-12">
                 @foreach($scholarShips as $key => $scholarShip)
-                <div class="scolarship-rightpanel-content text-center content{{$key+1}}" style="<?= $key == 0 ? '' : 'display:none' ?>">
-                    <div class="scolarship-programe-img">
+                <div class="scolarship-rightpanel-content text-center content{{$key+1}} h-100" style="<?= $key == 0 ? '' : 'display:none' ?>">
+                    <div class="scolarship-programe-img h-100">
                         <img class="img-fluid" src="{{ asset('home/aboutus/'.$scholarShip->picture) }}" alt="img">
                     </div>
                 </div>

@@ -48,6 +48,18 @@
     @livewireStyles
 
     <style>
+        .carousel-control-next,
+        .carousel-control-prev {
+            background-color: rgba(0, 0, 0, 0.3) !important;
+            width: 25px !important;
+            height: 25px !important;
+        }
+        .great-contributor .carousel-control-next i,
+        .great-contributor .carousel-control-prev i {
+            width: 16px !important;
+            height: 16px !important;
+        }
+
         label {
             font-size: 13px
         }
@@ -107,7 +119,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                         </ul>
                     </div>
                     <!-- SECTION: TOP NAV RIGH SIDE SOCIAL MEDIA ICONS $ BOOKING BUTTON -->
-                    <div class="col-lg-5 col-md-5 col-sm-8 col-8 nav-lhs nav-rhs ml-auto">
+                    <div class="ml-md-auto col-12 col-sm-8 col-md-5 col-lg-5 nav-lhs nav-rhs">
                         <ul>
                             <li>
                                 @if($prospectus?->e_prospectus)
@@ -308,31 +320,13 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
     {{ $slot }}
     @endif
 
-    <div class="bottom-menu d-none">
-        <div class="container">
-            <!--<ul class="d-flex justify-content-center">
-    
-                <li><a data-toggle="modal" data-target="#instituteModel" href="javascipt:void(0)">Institutional Enquiry</a></li>
-                <li><a href="javascipt:void(0)">Important Links</a></li>
-                <li><a href="javascipt:void(0)">Downloads</a></li>
-                <li><a href="javascipt:void(0)">Facilities</a></li>
-                <li>
-           
-                
-            </li>
-            </ul>--->
-            <div class="sqs-logo mt-4 mx-auto">
-                <img class="img-fluid" src="{{ asset('website/assets/images/bottom-menu/sqs-logo.png') }}" alt="img">
-            </div>
-        </div>
-    </div>
 
-    <section class="mt-5">
+    <section class="">
         <div class="footer comm-p-t-b">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-12">
-                        <div class="logo">
+                        <div class="logo h-100 d-flex flex-column justify-content-between">
                             <a href="/"><img src="{{ asset('logos/logo-square.png') }}" alt="logo"></a>
                             <p style="font-size: 80%;" class="mt-4 text-lowercase">
                                 <a href="https://www.sqsfoundation.com" class="text-white"><i class="fa fa-globe"></i>&nbsp;&nbsp;www.sqsfoundation.com</a><br />
@@ -391,8 +385,8 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                             <p><a href="{{ $privacy_policy ? asset('home/'.$privacy_policy->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Privacy Policy</a></p>
                             <p><a href="{{ $termsCondition ? asset('home/'.$termsCondition->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Terms & Conditions</a>
                             </p>
-                            <p><a href="{{URL::to('homepage/faq')}}">Faq</a></p>
-                            <p><a href="{{ route('freeform') }}" style="color:crimson;">Get 100% Free Form (Limited)</a></p>
+                            <p><a href="{{URL::to('/faq')}}">Faq</a></p>
+                            <p><a href="{{ route('freeform') }}" style="color:white;">Get 100% Free Form (Limited)</a></p>
                         </div>
                     </div>
                 </div>

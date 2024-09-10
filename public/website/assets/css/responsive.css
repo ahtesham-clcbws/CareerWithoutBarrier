@@ -313,6 +313,7 @@
     .cl-func {
         justify-content: flex-end;
     }
+
     .menu-head .menu a.act {
         color: #ff0000;
     }
@@ -822,7 +823,7 @@
 
     .faq-img {
         margin: 0 0 60px;
-        0;
+
     }
 
     .faq:before {
@@ -1117,19 +1118,38 @@
     .menu ul {
         box-shadow: none;
     }
-    
-    .cl-func{top: -2px;}
-    
-    .tab-head ul li:nth-child(1), .tab-head ul li:nth-child(2), .tab-head ul li:nth-child(3), .tab-head ul li:nth-child(4){opacity: 1;transform: scale(1);}
-    
-    .fav-pack.act{    transform: translateY(0) scaleX(1);
-    opacity: 1;}
-    
-     .country-wise h2, .brands h2{font-size: 22px;line-height: 30px;}
-    
-    .country-wise h2:before{bottom: -12px;}
-    
-    .sub-off-content h2{line-height: 38px;font-size: 30px;}
+
+    .cl-func {
+        top: -2px;
+    }
+
+    .tab-head ul li:nth-child(1),
+    .tab-head ul li:nth-child(2),
+    .tab-head ul li:nth-child(3),
+    .tab-head ul li:nth-child(4) {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .fav-pack.act {
+        transform: translateY(0) scaleX(1);
+        opacity: 1;
+    }
+
+    .country-wise h2,
+    .brands h2 {
+        font-size: 22px;
+        line-height: 30px;
+    }
+
+    .country-wise h2:before {
+        bottom: -12px;
+    }
+
+    .sub-off-content h2 {
+        line-height: 38px;
+        font-size: 30px;
+    }
 
 
 }
@@ -1526,6 +1546,10 @@
         width: 50%;
     }
 
+    .traveller-advice li:last-child {
+        display: none;
+    }
+
     .ask-exp-img {
         display: none;
     }
@@ -1601,8 +1625,10 @@
     .pack-det-icon ul li:nth-child(4) i {
         width: 45px;
     }
-    
-    .common-banner{padding: 120px 0 0 0;}
+
+    .common-banner {
+        padding: 120px 0 0 0;
+    }
 
 }
 
@@ -1611,8 +1637,7 @@
 /*-------------------------------------------------------*/
 @media screen and (max-width:670px) {
 
-    .experts-bg-dt,
-        {
+    .experts-bg-dt {
         display: none;
     }
 
@@ -2003,7 +2028,7 @@
     }
 
     .sub2-img {
-       display: none;
+        display: none;
     }
 
 
@@ -2047,8 +2072,10 @@
     .customer h4 {
         padding-left: 0;
     }
-    
-    .sub-off-content{padding-top: 40px;}
+
+    .sub-off-content {
+        padding-top: 40px;
+    }
 
 }
 
@@ -2231,12 +2258,20 @@
     .pack-det-icon ul li:nth-child(4):after {
         display: none;
     }
-    .plan-travel-content h2{font-size: 38px;line-height: 45px;}
-    
-    .plan-travel-content p{padding-top: 25px;}
-    
-    .destination:before{left: -200px;}
-    
+
+    .plan-travel-content h2 {
+        font-size: 38px;
+        line-height: 45px;
+    }
+
+    .plan-travel-content p {
+        padding-top: 25px;
+    }
+
+    .destination:before {
+        left: -200px;
+    }
+
 }
 
 /*-------------------------------------------------------*/

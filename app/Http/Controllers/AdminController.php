@@ -59,16 +59,25 @@ class AdminController extends Controller
 
     public function index()
     {
-        $student = Student::count();
-        
+
+        $newStudents = Student::whereHas('latestStudentCode', function ($query) {
+            $query->whereNull('roll_no');
+        })->count();
+        $appliedCount = CouponCode::select('id')->where('is_applied', 1)->count();
+        $newInstituteInquiry = Corporate::where('is_approved', 0)->whereNull('signup_at')->select('id')->count();
+
         $data = [
-            'student'=>Student::count(),
-            'contactInfo'=>ContactInfo::count(),
-            'APPinsititute'=>Corporate::where('is_approved', 1)->where('signup_approved', 1)->whereNotNull('signup_at')->count(),
-            'insititute'=>Corporate::where('is_approved', 0)->whereNull('signup_at')->count(),
-            'subjects'=>Subject::count(),
-            'testimonials'=>TestimonialsModel::count(),
-                
+            'newStudents' => $newStudents,
+            'appliedCount' => $appliedCount,
+            'newInstituteInquiry' => $newInstituteInquiry,
+
+            'student' => Student::count(),
+            'contactInfo' => ContactInfo::count(),
+            'APPinsititute' => Corporate::where('is_approved', 1)->where('signup_approved', 1)->whereNotNull('signup_at')->count(),
+            'insititute' => Corporate::where('is_approved', 0)->whereNull('signup_at')->count(),
+            'subjects' => Subject::count(),
+            'testimonials' => TestimonialsModel::count(),
+
         ];
         return view('administrator.dashboard.home')->with($data);
     }
@@ -150,7 +159,7 @@ class AdminController extends Controller
         $cities = District::get();
         $classexam = ClassGoupExamModel::all();
         $qualifications = BoardAgencyStateModel::all();
-        return  view('administrator.dashboard.student_view', compact('student', 'states','scholarshipTypes','cities','classexam','qualifications'));
+        return  view('administrator.dashboard.student_view', compact('student', 'states', 'scholarshipTypes', 'cities', 'classexam', 'qualifications'));
     }
 
     public function updateCoupons(Request $request)
@@ -226,9 +235,9 @@ class AdminController extends Controller
     {
         $students = Student::where('is_final_submitted', 1)->get();
 
-        $district_id =$request->district_id;
-        $gender =$request->gender;
-        $qualification =$request->qualification;
+        $district_id = $request->district_id;
+        $gender = $request->gender;
+        $qualification = $request->qualification;
 
         if (!empty($district_id)) {
             $students = $students->WhereIn('district_id', $district_id);
@@ -1148,13 +1157,13 @@ class AdminController extends Controller
             'title' => 'required',
             'terms_condition_pdf' => 'required',
             'type' => 'required',
-            'page_name'=>'required'
+            'page_name' => 'required'
         ]);
         try {
 
             //chevck data already exist or not 
-            $pdfexist = DB::table('terms_conditions')->where('type',$request->type)->where('page_name',$request->page_name)->first();
-            if(isset($pdfexist) && !empty($pdfexist)){
+            $pdfexist = DB::table('terms_conditions')->where('type', $request->type)->where('page_name', $request->page_name)->first();
+            if (isset($pdfexist) && !empty($pdfexist)) {
                 return redirect()->back()->with('error', 'PDF Data already exist! Please delete previous data and try to re ipload again');
             }
             $terms_condition_pdf = null;
@@ -1338,7 +1347,7 @@ class AdminController extends Controller
         // if ($request->isMethod('POST')) {
 
 
-        $query->select('students.*', 's.percentage') 
+        $query->select('students.*', 's.percentage')
             ->leftJoin('student_codes as s', 'students.id', '=', 's.stud_id')
             ->leftJoin('student_paper_exporteds as sp', 'students.id', '=', 'sp.student_id')
             ->where('is_final_submitted', 1)
@@ -1360,7 +1369,7 @@ class AdminController extends Controller
         $students =  $query->orderByDesc('s.percentage')
             ->distinct('students.id')
             ->get();
-//dd($students);
+        //dd($students);
         // }
 
         return view('administrator.dashboard.student_result', compact('students', 'scholarshipTypes', 'classes'));
@@ -1398,32 +1407,33 @@ class AdminController extends Controller
         return back()->with('success', 'Updated Successfully');
     }
 
-    public function studentAdminCard(Student $student) {
+    public function studentAdminCard(Student $student)
+    {
 
         $appCode = $student->latestStudentCode;
-        
+
         if ($appCode && $appCode->exam_center) {
             $appCode->load(['examCenter.state', 'examCenter.city']);
         }
 
         return view('administrator.dashboard.student.admitCard', compact('student', 'appCode'));
-        
     }
 
-    public function studentClaimScholarship(Student $student)  {
+    public function studentClaimScholarship(Student $student)
+    {
 
         $cities = $student->state?->districts;
         $claimForm = StudentClaimForm::where('student_id', $student->id)->first();
 
         return view('administrator.dashboard.student.claim_scholarship', compact('cities', 'student', 'claimForm'));
-
     }
 
-    public function refreshStudentRank(){
+    public function refreshStudentRank()
+    {
         $students = Student::with(['latestStudentCode'])->get();
 
         $this->studentRankService = new StudentRankService;
-        
+
         $studentCount = 0;
         foreach ($students as $student) {
             if ($student->percentage) {
@@ -1440,7 +1450,7 @@ class AdminController extends Controller
             }
         }
 
-        return back()->with('success',"$studentCount Students Rank Updated Successfully.");
+        return back()->with('success', "$studentCount Students Rank Updated Successfully.");
     }
 
     public function privacyPolicy()
@@ -1462,18 +1472,18 @@ class AdminController extends Controller
             // if ($request->hasFile('terms_condition_pdf')){
             //     $terms_condition_pdf =  moveFile('home/', $request->terms_condition_pdf);
             // }
-                //$terms_condition_pdf = moveFile('home', $request->file('terms_condition_pdf'));
+            //$terms_condition_pdf = moveFile('home', $request->file('terms_condition_pdf'));
 
             $termsCondition = new PrivacyPolicy();
 
             if ($request->hasFile('terms_condition_pdf')) {
-                $termsCondition->terms_condition_pdf =moveFile('home/', $request->terms_condition_pdf);
-            }else{
+                $termsCondition->terms_condition_pdf = moveFile('home/', $request->terms_condition_pdf);
+            } else {
                 return redirect()->back()->with('error', 'privacy policies  pdf not added!');
             }
             $termsCondition->title = $request->title;
             $termsCondition->type = $request->type;
-            
+
             $termsCondition->save();
             return redirect()->back()->with('success', 'privacy policies  pdf added successfully!');
         } catch (\Throwable $th) {
@@ -1508,7 +1518,8 @@ class AdminController extends Controller
 
     */
 
-    public function printStudentList(Request $request){
+    public function printStudentList(Request $request)
+    {
 
         $scholarshipTypes = Educationtype::get();
 
@@ -1540,19 +1551,18 @@ class AdminController extends Controller
             $students = $query->with('latestStudentCode')->get();
         }
         //'students', 'cities', 'scholarshipTypes', 'classes'
-        $pdf = Pdf::loadView('administrator/download/print-student-list', ['students' => $students,'cities'=>$cities,'scholarshipTypes' => $scholarshipTypes, 'classes'=>$classes ]);
+        $pdf = Pdf::loadView('administrator/download/print-student-list', ['students' => $students, 'cities' => $cities, 'scholarshipTypes' => $scholarshipTypes, 'classes' => $classes]);
         $pdf->setPaper('A4', 'landscape');
-        return $pdf->stream('Generate Student List on '.date('d-m-Y His A').'.pdf');
-
-
+        return $pdf->stream('Generate Student List on ' . date('d-m-Y His A') . '.pdf');
     }
 
-    public function printstudentView(Student $student){
+    public function printstudentView(Student $student)
+    {
         $states = State::all();
         $scholarshipTypes = Educationtype::get(); //'student', 'states','scholarshipTypes'
-        $pdf = Pdf::loadView('administrator/download/print-student-details', ['student' => $student,'states'=>$states,'scholarshipTypes'=>$scholarshipTypes ]);
+        $pdf = Pdf::loadView('administrator/download/print-student-details', ['student' => $student, 'states' => $states, 'scholarshipTypes' => $scholarshipTypes]);
         $pdf->setPaper('A4');
-        return $pdf->stream('Registration Details of '.$student->name.'.pdf'); 
+        return $pdf->stream('Registration Details of ' . $student->name . '.pdf');
     }
 
     public function getScholarshipCategory($id, $type = null)
