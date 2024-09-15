@@ -193,7 +193,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/studentsignup', [StudentController::class, 'usersignup'])->name('studentSignup');
-Route::post('/studentlogin', [StudentController::class, 'login'])->name('studentlogin');
+Route::post('/student-login', [StudentController::class, 'login'])->name('studentlogin');
 Route::prefix('students')->group(function () {
     Route::group(['middleware' => ['student']], function () {
         Route::get('/studentDashboard', [StudentController::class, 'studentDashboard'])->name('studentDashboard');

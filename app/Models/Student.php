@@ -54,10 +54,10 @@ class Student extends Authenticatable
     {
         return $this->latestStudentCode?->percentage;
     }
-    
+
     public function studentClaimForm()
     {
-        return $this->hasOne(StudentClaimForm::class,'student_id');
+        return $this->hasOne(StudentClaimForm::class, 'student_id');
     }
 
     public function studentPayment()
@@ -104,7 +104,20 @@ class Student extends Authenticatable
             ->where('type', 'student');
     }
 
-    public function studentPaperDetails(){
-        return $this->hasMany(StudentPaperExported::class,'student_id');
+    public function studentPaperDetails()
+    {
+        return $this->hasMany(StudentPaperExported::class, 'student_id');
     }
+
+
+    // ahtesham
+    public function scholarship_granted()
+    {
+        return $this->belongsTo(ScholarshipClaimGeneration::class);
+    }
+    public function studentPaperExported()
+    {
+        return $this->hasMany(StudentPaperExported::class, 'student_id');
+    }
+
 }

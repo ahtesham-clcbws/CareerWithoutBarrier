@@ -558,13 +558,13 @@ class HomeController extends Controller
             ->first();
         // send once in only 10 minutes
 
-        if ('otp_verify' == $request->form_name) {
+        if ($request->form_name == 'otp_verify') {
             $otp = $request->otp;
             if (is_null($otp)) {
                 return response()->json(['status' => false, 'message' => 'Please Enter OTP.']);
             }
 
-            if (is_null($otpVerifications)) {
+            if (is_null($otpVerifications) || $otp != $otpVerifications->otp) {
                 return response()->json(['status' => false, 'message' => 'Invalid Otp.']);
             }
 

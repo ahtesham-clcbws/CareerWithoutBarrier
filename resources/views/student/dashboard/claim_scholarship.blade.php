@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="col-md-12 mb-2">
                                     <label class="form-label">Institute Address<span class="text-danger">*</span></label>
-                                    <input required pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address1" value="{{$claimForm?->institude_address1}}" />
+                                    <input required  class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address1" value="{{$claimForm?->institude_address1}}" />
                                     @error('institude_address')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
@@ -196,7 +196,7 @@
                                 </div>
                                 <div class="col-md-12 mb-2">
                                     <label class="form-label">Institute Address<span class="text-danger">*</span></label>
-                                    <input required pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address2" value="{{$claimForm?->institude_address2}}" />
+                                    <input required class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address2" value="{{$claimForm?->institude_address2}}" />
                                     @error('institude_address')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
@@ -295,7 +295,7 @@
                                 </div>
                                 <div class="col-md-12 mb-2">
                                     <label class="form-label">Institute Address</label>
-                                    <input pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address3" value="{{$claimForm?->institude_address3}}" />
+                                    <input  class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address3" value="{{$claimForm?->institude_address3}}" />
                                     @error('institude_address')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
@@ -338,7 +338,7 @@
                             </h5>
                             <div class="row mt-2 ">
                                 <div class="col-md-12 col mb-2">
-                                    <label class="form-label">Institude Name<span class="text-danger">*</span></label>
+                                    <label class="form-label">Institude Name</label>
                                     <input pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Enter Name of institude" name="institude_name4" value="{{$claimForm?->institude_name4}}" />
                                     @error('institude_name')
                                     <div class="text-danger">{{$message}}</div>
@@ -371,12 +371,12 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-6 col mb-2">
-                                    <label class="form-label">State<span class="text-danger">*</span></label>
+                                    <label class="form-label">State</label>
                                     <input pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="State" name="state4" value="{{$student->state?->name}}" />
 
                                 </div>
                                 <div class="col-md-6 col mb-2">
-                                    <label class="form-label">City<span class="text-danger">*</span></label>
+                                    <label class="form-label">City</label>
                                     <select name="city_id4" class="form-control form-select" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" id="district">
                                         <option value="">--Select City--</option>
 
@@ -389,21 +389,21 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-12 mb-2">
-                                    <label class="form-label">Institute Address<span class="text-danger">*</span></label>
-                                    <input pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address4" value="{{$claimForm?->institude_address4}}" />
+                                    <label class="form-label">Institute Address</label>
+                                    <input class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address4" value="{{$claimForm?->institude_address4}}" />
                                     @error('institude_address')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-12 mb-2">
-                                    <label class="form-label">Desired Course Detail<span class="text-danger">*</span></label>
+                                    <label class="form-label">Desired Course Detail</label>
                                     <input class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Desired Course Detail*" value="" name="desired_course_detail4" value="{{$claimForm?->desired_course_detail4}}" />
                                     @error('desired_course_detail')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6 col mb-2 ">
-                                    <label class="form-label">Course Fee<span class="text-danger">*</span></label>
+                                    <label class="form-label">Course Fee</label>
                                     <input class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" name="course_fee4" value="{{$claimForm?->course_fee4}}" placeholder="Enter address" />
                                     @error('course_duration')
                                     <div class="text-danger">{{$message}}</div>
@@ -413,7 +413,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-6 col mb-2">
-                                    <label class="form-label">Course Duration<span class="text-danger">*</span></label>
+                                    <label class="form-label">Course Duration</label>
                                     <input class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" name="course_duration4" value="{{$claimForm?->course_duration4}}" placeholder="Enter Duration" />
                                 </div>
                                 <div class="col-md-12 col mb-2">

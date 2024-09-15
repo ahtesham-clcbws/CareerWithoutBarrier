@@ -36,14 +36,14 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'url' => env('MAIL_URL'),
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+            // 'url' => env('MAIL_URL'),
+            'host' => env('MAIL_HOST', 'smtp.zoho.in'),
             'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'username' => env('MAIL_USERNAME', 'noreply@careerwithoutbarrier.com'),
+            'password' => env('MAIL_PASSWORD', 'Aa@171302##'),
+            // 'timeout' => null,
+            // 'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
 
         'ses' => [

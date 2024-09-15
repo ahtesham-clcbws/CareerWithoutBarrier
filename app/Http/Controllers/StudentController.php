@@ -112,9 +112,7 @@ class StudentController extends Controller
         return  view('student.dashboard.home', compact('student'));
     }
 
-    public function notification()
-    {
-    }
+    public function notification() {}
 
     public function logout()
     {
@@ -185,19 +183,19 @@ class StudentController extends Controller
         if (!$request->mobile) {
             return response()->json(['success' => false, 'msg' => 'Mobile number  is required.']);
         }
-        $verifiedMobile = MobileNumber::where('mobile', $request->mobile)->where('isOtpRequired', 1)->first();
-        if ($verifiedMobile) {
-            $uniqueMobile = '';
-            $uniqueEmail = '';
-        } else {
-            $uniqueMobile = "unique:" . Student::class;
-            $uniqueEmail = "unique:" . Student::class;
-        }
+        // $verifiedMobile = MobileNumber::where('mobile', $request->mobile)->where('isOtpRequired', 1)->first();
+        // if ($verifiedMobile) {
+        //     $uniqueMobile = '';
+        //     $uniqueEmail = '';
+        // } else {
+        $uniqueMobile = "unique:" . Student::class;
+        $uniqueEmail = "unique:" . Student::class;
+        // }
 
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'email' => "required|string|lowercase|email|$uniqueMobile",
-            'mobile' => "required|digits:10|$uniqueEmail",
+            'email' => "required|string|lowercase|email|$uniqueEmail",
+            'mobile' => "required|digits:10|$uniqueMobile",
             'gender' => 'required',
             'otp' => 'required',
             'password' => 'required',
@@ -206,11 +204,8 @@ class StudentController extends Controller
         ]);
 
         try {
-
-            if (is_null($verifiedMobile)) {
-                if (OtpVerifications::where([['credential', '=', $request->mobile], ['otp', '=', $request->otp], ['status', '=', 1]])->count() == 0) {
-                    return response()->json(['success' => false, 'msg' => 'Otp is not verified.']);
-                }
+            if (OtpVerifications::where([['credential', '=', $request->mobile], ['otp', '=', $request->otp], ['status', '=', 1]])->count() == 0) {
+                return response()->json(['success' => false, 'msg' => 'Otp is not verified.']);
             }
             $student = new Student();
             $student->forceFill(collect($validatedData)->except('confirmpassword', 'otp')->all());
@@ -443,11 +438,6 @@ class StudentController extends Controller
 
             $city = $student->district->name;
             $cityPrefix = strtoupper(substr($city, 0, 3));
-
-            $currentMonth = now()->month;
-
-            $currentYear = now()->year % 1000; // Get last three digits of the year
-            $yearCode = str_pad($currentYear, 2, '0', STR_PAD_LEFT);
 
             // Check if the city already exists in the roll_numbers table
             $appCodeRecord = ApplicationCodeList::orderBy('last_app_code', 'desc')->first();
@@ -825,8 +815,6 @@ class StudentController extends Controller
             ], [
                 'terms_conditions_scholarship.required' => 'The Term and Condition is required.'
             ]);
-
-
 
             $student->terms_conditions_scholarship = $request->terms_conditions_scholarship;
             $student->save();

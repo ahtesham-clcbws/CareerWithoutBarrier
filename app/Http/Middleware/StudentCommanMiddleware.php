@@ -20,6 +20,6 @@ class StudentCommanMiddleware
         if (Auth::guard('student')->check() && ($student->is_final_submitted || !$student->is_final_submitted)) {
             return $next($request);
         } elseif (!Auth::guard('student')->check())
-            return redirect('/studentlogin');
+            return redirect('/');
     }
 }

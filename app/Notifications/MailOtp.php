@@ -38,8 +38,8 @@ class MailOtp extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-        ->subject('Success: Verification OTP')
-        ->markdown('mail.institude.ApprovedNotification',compact( $this->otp));
+            ->subject('Success: Verification OTP')
+            ->markdown('mail.institude.ApprovedNotification', compact($this->otp));
     }
 
     /**

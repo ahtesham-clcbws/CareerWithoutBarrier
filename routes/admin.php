@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminExamController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CouponCodeController;
 use App\Http\Controllers\CourseController;
@@ -84,11 +85,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/save_center', [AdminController::class, 'saveCenter'])->name('admin.saveCenter');
     Route::any('/list_center', [AdminController::class, 'centerList'])->name('admin.listCenter');
     Route::any('/exam_center_allotment', [AdminController::class, 'examCenterAllotment'])->name('admin.studentExamCenter');
+    
     Route::any('/exam_center_allot', [AdminController::class, 'examCenterAllot'])->name('admin.studentExamCenterAllotment');
+    Route::any('/exam_center_allot_to_all/{exam_center}', [AdminController::class, 'examCenterAllottoAll'])->name('admin.studentExamCenterAllotmenttoAll');
+
+
     Route::post('/update-admitcard-status', [AdminController::class, 'updateAdmitCardStatus'])->name('update.admitcard.status');
     Route::get('/testimonial_list', [AdminController::class, 'testimonialList'])->name('admin.testimonialList');
     Route::get('/export_markfill_excel/{id}', [AdminController::class, 'exportMarkFillExcel'])->name('admin.exportMarkFillExcel');
     Route::any('/profile', [AdminController::class, 'profile'])->name('admin.profile');
+
+    Route::post('/generate-scholarship-eligible-students', [AdminExamController::class, 'generateScholarshipEligibleStudents'])->name('admin.generateScholarshipEligibleStudents');
+
     Route::any('/student_result', [AdminController::class, 'studentResult'])->name('admin.student.result');
     Route::any('/student_result_detail/{student}', [AdminController::class, 'studentResultDetail'])->name('admin.student.result.detail');
     Route::post('/student_result_claim_scholarship', [AdminController::class, 'studentResultClaimScholarship'])->name('admin.student.result.allow_claim');
@@ -102,7 +110,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::any('/print-student-list', [AdminController::class, 'printStudentList'])->name('admin.print.studentList');
     Route::any('/print-student-view/{student}', [AdminController::class, 'printstudentView'])->name('admin.print.studentView');
 
-Route::any('/student_rank_refresh', [AdminController::class, 'refreshStudentRank'])->name('admin.refreshStudentRank');
+    Route::any('/student_rank_refresh', [AdminController::class, 'refreshStudentRank'])->name('admin.refreshStudentRank');
 
     Route::prefix('home')->group(function () {
         Route::get('/slider', [HomeController::class, 'slider'])->name('home.slider');
@@ -155,15 +163,15 @@ Route::any('/student_rank_refresh', [AdminController::class, 'refreshStudentRank
         Route::post('/terms_conditionSave', [AdminController::class, 'termsConditionSave'])->name('admin.terms_conditionSave');
         Route::get('/terms_conditionDelete/{id}', [AdminController::class, 'termsConditionDelete'])->name('admin.terms_conditionDelete');
         Route::post('/terms_condition_toggle_status', [AdminController::class, 'termsConditionToggleStatus'])->name('terms_condition_toggle.status');
-        
+
 
         Route::get('/privacy_policy', [AdminController::class, 'privacyPolicy'])->name('admin.privacy_policy');
         Route::post('/privacyPolicySave', [AdminController::class, 'privacyPolicySave'])->name('admin.privacyPolicySave');
         Route::get('/privacyPolicyDelete/{id}', [AdminController::class, 'privacyPolicyDelete'])->name('admin.privacyPolicyDelete');
         Route::post('/privacyPolicyToggleStatus', [AdminController::class, 'privacyPolicyToggleStatus'])->name('privacyPolicyToggleStatus.status');
-        
-        
-        
+
+
+
         Route::match(['get', 'post'], 'payment-settings', [AdminController::class, 'paymentSettings'])->name('payment-settings.store');
         Route::any('/mobile_number', [AdminController::class, 'mobileNumber'])->name('admin.mobile_number');
         Route::any('/mobile_toggle-status', [AdminController::class, 'toggleMobileStatus'])->name('mobile.number.statusToggle');
@@ -194,8 +202,7 @@ Route::prefix('coupon')->group(function () {
         Route::post('/saveCoupon', [CouponCodeController::class, 'saveCoupon'])->name('coupon.saveCoupon');
     });
 
-    Route::any('/change_password', [AdminController::class,'changePassword'])->name('admin.changePassword');
-
+    Route::any('/change_password', [AdminController::class, 'changePassword'])->name('admin.changePassword');
 });
 
 Route::prefix('course')->group(function () {
@@ -222,7 +229,7 @@ Route::prefix('course')->group(function () {
     // Route::get('/classList', [CourseController::class, 'classList'])->name('course.classList');
 
 
-    Route::any('eductaion-type', [ExamsController::class, 'eductaion_type'])->name('dashboard_eductaion_type');
+    Route::any('education-type', [ExamsController::class, 'eductaion_type'])->name('dashboard_eductaion_type');
     Route::any('subjects', [ExamsController::class, 'subjects'])->name('dashboard_subjects');
 });
 require __DIR__ . '/auth.php';

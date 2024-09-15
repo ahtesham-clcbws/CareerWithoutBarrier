@@ -1,4 +1,3 @@
-<!-- resources/views/home.blade.php -->
 @extends('layouts.website')
 
 @section('title', 'Home Page')
@@ -505,12 +504,12 @@
             </div>
             <ul class="carousel-indicators">
                 <li>
-                    <a class="carousel-control-prev" href="#great-contributor" data-slide="prev">
+                    <a class="carousel-control-prev" href="#great-contributor" data-slide="prev" title="previous">
                         <i class="fa fa-long-arrow-left carousel-control-prev-icon" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li>
-                    <a class="carousel-control-next" href="#great-contributor" data-slide="next">
+                    <a class="carousel-control-next" href="#great-contributor" data-slide="next" title="next">
                         <i class="fa fa-long-arrow-right carousel-control-next-icon" aria-hidden="true"></i>
                     </a>
                 </li>

@@ -5559,29 +5559,31 @@ p.ani-tit {
 
 .pop-up {
     width: 100%;
-    float: left;
-    padding-bottom: 35px;
+    overflow: hidden;
+    /* float: left; */
+    /* padding-bottom: 35px; */
 }
 
 .modal-content {
     border: 0;
+    overflow: hidden;
 }
 
-.pop-up1 {
+/* .pop-up1 {
     float: left;
     width: 50%;
     position: relative;
     background: #00bcd4;
-}
+} */
 
-.pop-up1 img,
+/* .pop-up1 img,
 .pop-im {
     width: 100%;
-    height: 450px;
+    height: 100%;
     position: relative;
     z-index: 10;
     object-fit: cover;
-}
+} */
 
 .pop-up2 {
     padding: 35px 30px;
@@ -5722,7 +5724,7 @@ p.ani-tit {
     letter-spacing: 0.2px;
     color: #fff;
     transition: all 0.5s ease;
-    padding: 5px;
+    padding: 0;
     border: 1px solid #f73f05;
 }
 

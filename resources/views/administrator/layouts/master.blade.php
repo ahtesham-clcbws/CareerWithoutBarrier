@@ -115,6 +115,8 @@
         <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.print.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.colVis.min.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.min.css" rel="stylesheet">
 
         <script src="{{asset('admin/index.js')}}"></script>
         <script>
@@ -158,7 +160,7 @@
 
             new DataTable('.table-striped.datatablecl', {
                 responsive: true,
-                "iDisplayLength": 600,
+                "iDisplayLength": 10,
                 "aLengthMenu": [
                     [5, 10, 25, 50, 100, 600, -1],
                     [5, 10, 25, 50, 100, 600, "All"]
@@ -166,7 +168,7 @@
             });
             new DataTable('.table-bordered.datatablecl', {
                 responsive: true,
-                "iDisplayLength": 600,
+                "iDisplayLength": 10,
                 "aLengthMenu": [
                     [5, 10, 25, 50, 100, 600, -1],
                     [5, 10, 25, 50, 100, 600, "All"]
@@ -174,7 +176,7 @@
             });
             new DataTable('.table-bordered.datatablecll', {
                 responsive: true,
-                "iDisplayLength": 600,
+                "iDisplayLength": 10,
                 "columnDefs": [{
                     "orderable": false,
                     "targets": 0
@@ -226,7 +228,10 @@
 
         @stack('custom-scripts')
         <x-message />
-
+        <script>
+            // var tomSelectConfig = {};
+            // new TomSelect('.tom-select', tomSelectConfig);
+        </script>
         <script>
             new DataTable('#example');
 

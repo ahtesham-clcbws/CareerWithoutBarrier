@@ -1,10 +1,11 @@
 <?php
- 
+
 namespace App\Observers;
- 
+
 use App\Models\Student;
 use App\Models\User;
 use App\Notifications\Student\StudentPaymentMail;
+use App\Notifications\Admin\StudentRegisteredMail as AdminStudentRegisteredMail;
 use App\Notifications\Student\StudentRegisteredMail;
 
 class StudentObserver
@@ -15,17 +16,17 @@ class StudentObserver
     public function created(Student $student): void
     {
         $adminUser = User::where('email', 'careerwithoutbarrier@gmail.com')->orWhere('email', 'vinod190596@gmail.com')->first();
-        if ($adminUser)
-       $adminUser->notify(new StudentRegisteredMail($student));
+        if ($adminUser) {
+            $adminUser->notify(new AdminStudentRegisteredMail($student));
+        }
+        $student->notify(new StudentRegisteredMail($student));
     }
- 
+
     /**
      * Handle the Student "updated" event.
      */
-    public function updated(Student $student): void
-    {
-    }
- 
+    public function updated(Student $student): void {}
+
     /**
      * Handle the Student "deleted" event.
      */
@@ -33,7 +34,7 @@ class StudentObserver
     {
         // ...
     }
- 
+
     /**
      * Handle the Student "restored" event.
      */
@@ -41,7 +42,7 @@ class StudentObserver
     {
         // ...
     }
- 
+
     /**
      * Handle the Student "forceDeleted" event.
      */

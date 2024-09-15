@@ -22,7 +22,8 @@ Student Claim Form
         <div class="pagebody  pt-2">
             <div class=" col-md-12" style="padding: 8px 25px;" id="prodiv">
                 <!-- Choice One / Two -->
-                <div class="dn mt-2 " style="text-align: center;">                        <h3 style="margin-top:2px;margin-bottom:2px">
+                <div class="dn mt-2 " style="text-align: center;">
+                    <h3 style="margin-top:2px;margin-bottom:2px">
 
                         Career Without Barrier
 

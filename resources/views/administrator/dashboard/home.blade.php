@@ -29,7 +29,7 @@ Home
                     <div class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>Applied Discount Voucher Code</h6>
+                                <h6>Applied Voucher</h6>
                                 <h3> <a href="{{route('coupon.lists')}}" class="text-black">{{$appliedCount}}</a></h3>
                             </div>
                             <div class="db-icon">

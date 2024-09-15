@@ -165,8 +165,8 @@ if (!function_exists('genderShort')) {
 	{
 		return match (strtolower($gender)) {
 			'male' => 'M',
-			'femail' => 'F',
-			default => ''
+			'female' => 'F',
+			default => 'T'
 		};
 	}
 }

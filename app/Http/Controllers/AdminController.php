@@ -50,7 +50,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Subject;
 
 class AdminController extends Controller
@@ -112,6 +111,7 @@ class AdminController extends Controller
             $students = $query->with('latestStudentCode')->get();
         } else {
             $students = $query->with('latestStudentCode')->get();
+            // return print_r($students);
         }
 
         return view('administrator.dashboard.studentlist', compact('students', 'cities', 'scholarshipTypes', 'classes'));
@@ -231,107 +231,158 @@ class AdminController extends Controller
         return view('administrator.dashboard.corporate_coupon_list', compact('issuedCount', 'coupons', 'counts', 'appliedCount', 'prefix', 'codeValue', 'corporate'));
     }
 
+    // public function studentGenerateRollNo(Request $request)
+    // {
+    //     $students = Student::where('is_final_submitted', 1)->with('district');
+
+    //     $nowStudents = $students->get();
+
+    //     if ($nowStudents) {
+    //         $generatedRollNumbers = 0;
+    //         $femaileStudents = [];
+    //         $maleStudents = [];
+    //         $transgenderStudents = [];
+
+    //         foreach ($nowStudents as  $student) {
+    //             if ($student->gender == 'Male' || $student->gender == 'male') {
+    //                 array_push($maleStudents, $student);
+    //             }
+    //             if ($student->gender == 'Female' || $student->gender == 'female') {
+    //                 array_push($femaileStudents, $student);
+    //             }
+    //             if ($student->gender == 'Transgender' || $student->gender == 'transgender') {
+    //                 array_push($transgenderStudents, $student);
+    //             }
+    //         }
+    //         foreach ($femaileStudents as $key => $student) {
+    //             $generateRollNumber =  $this->rollNumberGenerate($student);
+    //             if ($generateRollNumber['generated']) {
+    //                 $generatedRollNumbers++;
+    //             }
+    //         }
+    //         foreach ($maleStudents as $key => $student) {
+    //             $generateRollNumber =  $this->rollNumberGenerate($student);
+    //             if ($generateRollNumber['generated']) {
+    //                 $generatedRollNumbers++;
+    //             }
+    //         }
+    //         foreach ($transgenderStudents as $key => $student) {
+    //             $generateRollNumber =  $this->rollNumberGenerate($student);
+    //             if ($generateRollNumber['generated']) {
+    //                 $generatedRollNumbers++;
+    //             }
+    //         }
+
+    //         if ($generatedRollNumbers > 0) {
+    //             return redirect()->back()->with('success', 'Roll Number generated Successfully (' . $generatedRollNumbers . ')');
+    //         }
+    //         return back()->with('error', "No roll numbers generated.");
+    //     } else {
+    //         return back()->with('error', "No Data Available for applied Filter.");
+    //     }
+    // }
     public function studentGenerateRollNo(Request $request)
     {
-        $students = Student::where('is_final_submitted', 1)->get();
+        // Fetch students that have final submission and include district relation
+        $students = Student::where('is_final_submitted', 1)->with('district')->get();
 
-        $district_id = $request->district_id;
-        $gender = $request->gender;
-        $qualification = $request->qualification;
-
-        if (!empty($district_id)) {
-            $students = $students->WhereIn('district_id', $district_id);
+        if ($students->isEmpty()) {
+            return back()->with('error', "No Data Available for applied Filter.");
         }
 
-        if (!empty($gender)) {
-            $students = $students->WhereIn('gender', $gender);
+        // Classify students by gender
+        $groupedStudents = $this->groupStudentsByGender($students);
+
+        // Generate roll numbers for all student groups
+        $generatedRollNumbers = $this->generateRollNumbersForGroups($groupedStudents);
+
+        if ($generatedRollNumbers > 0) {
+            return redirect()->back()->with('success', 'Roll Numbers generated successfully (' . $generatedRollNumbers . ')');
         }
 
-        if (!empty($qualification)) {
-            $students = $students->WhereIn('qualification', $qualification);
-        }
+        return back()->with('error', "No roll numbers generated.");
+    }
 
-        $students = $students->sortBy(function ($student) {
-            switch ($student->gender) {
-                case 'male':
-                    return 1;
-                case 'female':
-                    return 2;
-                case 'transgender':
-                    return 3;
-                default:
-                    return 4;
+    private function groupStudentsByGender($students)
+    {
+        // Group students based on gender
+        $grouped = [
+            'male' => [],
+            'female' => [],
+            'transgender' => [],
+        ];
+
+        foreach ($students as $student) {
+            $gender = strtolower($student->gender);
+            if (isset($grouped[$gender])) {
+                $grouped[$gender][] = $student;
             }
-        });
-
-        if ($students->isNotEmpty()) {
-            $students->load(['district', 'qualifications', 'latestStudentCode']);
-            foreach ($students as  $student) {
-                $studentCode = $student->latestStudentCode;
-                if ($studentCode && is_null($studentCode->roll_no)) {
-                    $this->rollNumberGenerate($student);
-                }
-            }
-            session()->flash('district_id');
-            session()->flash('gender');
-            session()->flash('qualification');
-            session()->flash('education_name');
-            return response()->json(['status' => true, 'message' => 'Roll Number generated Successfully.']);
-        } else {
-            return response()->json(['status' => false, 'message' => 'No Data Available for applied Filter.']);
         }
+
+        return $grouped;
+    }
+
+    private function generateRollNumbersForGroups($groupedStudents)
+    {
+        $totalGenerated = 0;
+
+        // Loop through each gender group
+        foreach ($groupedStudents as $genderGroup) {
+            $totalGenerated += $this->generateRollNumbersForGroup($genderGroup);
+        }
+
+        return $totalGenerated;
+    }
+
+    private function generateRollNumbersForGroup($students)
+    {
+        $generatedCount = 0;
+
+        foreach ($students as $student) {
+            $result = $this->rollNumberGenerate($student);
+            if ($result['generated']) {
+                $generatedCount++;
+            }
+        }
+
+        return $generatedCount;
     }
 
     public function rollNumberGenerate($student)
     {
-        try {
-            DB::beginTransaction();
+        $district = $student->district;
+        if ($district && $district->id) {
+            // Get roll number starting from district id
+            $rollStartFrom = sprintf("%03d", $district->id);
 
-            $city = $student?->district?->name;
+            // Check how many students already exist in that district
+            $checkUsersCountOnDistrict = Student::select('id')->where('district_id', $district->id)->count();
 
-            // Check if the city already exists in the roll_numbers table
-            $rollNumberRecord = RollNumber::orderBy('last_roll_number', 'desc')->first();
+            // Ensure roll number is unique
+            do {
+                $roll = $checkUsersCountOnDistrict + 1;
+                $rollNumberEnd = sprintf("%04d", $roll);
+                $fullRollNumber = '1' . $rollStartFrom . $rollNumberEnd;
 
-            if ($city && $rollNumberRecord) {
-                $existCityRollNumber = RollNumber::where('city', $city)->orderBy('last_roll_number', 'desc')->first();
+                // Check if this roll number already exists for another student
+                $existingRollNumber = StudentCode::where('roll_no', $fullRollNumber)->exists();
 
-                if ($existCityRollNumber) {
-                    $defaultStartNumber = $rollNumberRecord->last_roll_number;
-                    $defaultStartNumber =  $defaultStartNumber++;
-                } else {
-                    $defaultStartNumber = $rollNumberRecord->last_roll_number;
-                    $additionalIncrement = 20;
-                    $defaultStartNumber =  $defaultStartNumber + $additionalIncrement;
+                // If roll number exists, increase the count to get a unique roll number
+                if ($existingRollNumber) {
+                    $checkUsersCountOnDistrict++;
                 }
-                $rollNumberRecord = new RollNumber();
-                $rollNumberRecord->city = $city;
-                $rollNumberRecord->last_roll_number = $defaultStartNumber;
-                $rollNumberRecord->save();
-            } else {
-                $defaultStartNumber = 1003101;
+            } while ($existingRollNumber); // Loop until a unique roll number is found
 
-                $rollNumberRecord = new RollNumber();
-
-                $rollNumberRecord->city = $city;
-                $rollNumberRecord->last_roll_number = $defaultStartNumber;
-                $rollNumberRecord->save();
-            }
-
-            // Generate the full roll number
-            $rollNumber = $rollNumberRecord->last_roll_number;
-            $fullRollNumber =  $rollNumber;
-
+            // Assign roll number only if the student does not already have one
             $studentCode = $student->latestStudentCode;
-
-            $studentCode->roll_no = $fullRollNumber;
-            $studentCode->save();
-
-
-            DB::commit();
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            logger('Failed to generate Roll number', [$th]);
+            if (!$studentCode->roll_no) {
+                $studentCode->roll_no = $fullRollNumber;
+                $studentCode->save();
+                return ['generated' => true];
+            }
         }
+
+        return ['generated' => false];
     }
 
     public function getClassByScholarshipType(Request $request)
@@ -477,27 +528,22 @@ class AdminController extends Controller
 
     public function examCenterAllot(Request $request)
     {
-
-        $examCenter = $request->exam_center;
+        // return response()->json(['status' => false, 'message' => json_encode($request->input())]);
+        // return print_r($request->input());
         $examCenter = $request->exam_center;
         $studentNumber = $request->student_number;
 
         $students = Student::where('is_final_submitted', 1)->limit($studentNumber)->get();
 
-        if (is_null($examCenter)) {
-            return response()->json(['status' => false, 'message' => 'Please select Exam center']);
-        }
-
-        if (is_null($request->exam_mins)) {
-            return response()->json(['status' => false, 'message' => 'Please select Exam Duration Mins']);
-        }
-        if (is_null($request->exam_date_time)) {
-            return response()->json(['status' => false, 'message' => 'Please select Exam Date and time.']);
-        }
-
-
-        if (is_null($studentNumber)) {
-            return response()->json(['status' => false, 'message' => 'Please select Student Number']);
+        if (is_null($examCenter) || is_null($request->exam_mins) || is_null($request->exam_date_time) || is_null($studentNumber)) {
+            $message = is_null($examCenter) ? 'Please select Exam center' : (
+                is_null($request->exam_mins) ? 'Please select Exam Duration Mins' : (
+                    is_null($request->exam_date_time) ?  'Please select Exam Date and time.' : (
+                        is_null($studentNumber) ? 'Please select Student Number' : 'Some error occurs.'
+                    )
+                )
+            );
+            return response()->json(['status' => false, 'message' => $message]);
         }
 
         if (!empty($request->district_id)) {
@@ -513,22 +559,22 @@ class AdminController extends Controller
         }
 
         $students = $students->sortBy(function ($student) {
+            $sortNumber = 4;
             switch ($student->gender) {
                 case 'male':
-                    return 1;
+                    $sortNumber = 1;
                 case 'female':
-                    return 2;
+                    $sortNumber = 2;
                 case 'transgender':
-                    return 3;
-                default:
-                    return 4;
+                    $sortNumber = 3;
             }
+            return $sortNumber;
         });
         $nullCountStudent = 0;
         if ($students->isNotEmpty()) {
             $students->load(['district', 'qualifications', 'studentCode']);
 
-            foreach ($students as  $key => $student) {
+            foreach ($students as  $student) {
                 $studentCode = $student->studentCode->sortBy('created_at')->last();
                 if (!is_null($studentCode) && is_null($studentCode->exam_center)) {
                     $studentCode->exam_center = $request->exam_center;
@@ -536,8 +582,9 @@ class AdminController extends Controller
                     $studentCode->exam_mins = $request->exam_mins;
                     $studentCode->admitcard_before = $request->admitcard_before;
 
-                    if (!$studentCode->corporate_stop_admitcard)
+                    if (!$studentCode->corporate_stop_admitcard) {
                         $studentCode->issued_admitcard = 1;
+                    }
 
                     $studentCode->save();
                 }
@@ -552,6 +599,48 @@ class AdminController extends Controller
             return response()->json(['status' => true, 'message' => "Roll Number generated Successfully. $msg"]);
         } else {
             return response()->json(['status' => false, 'message' => 'No Data Available for applied Filter.']);
+        }
+    }
+
+    public function examCenterAllottoAll($exam_center, Request $request)
+    {
+
+        $query = Student::where('is_final_submitted', 1);
+        if ($request->student_number && intval($request->student_number)) {
+            $query->limit(intval($request->student_number));
+        }
+        $students = $query->get();
+
+        $nullCountStudent = 0;
+        if ($students->isNotEmpty()) {
+            $students->load(['district', 'qualifications', 'studentCode']);
+
+            foreach ($students as  $student) {
+                $studentCode = $student->studentCode->sortBy('created_at')->last();
+                if (!is_null($studentCode) && is_null($studentCode->exam_center)) {
+                    $studentCode->exam_center = $exam_center;
+                    $studentCode->exam_at = $request->exam_date_time;
+                    $studentCode->exam_mins = $request->exam_mins;
+                    $studentCode->admitcard_before = $request->admitcard_before;
+
+                    if (!$studentCode->corporate_stop_admitcard) {
+                        $studentCode->issued_admitcard = 1;
+                    }
+
+                    $studentCode->save();
+                }
+                if (is_null($studentCode)) {
+                    $nullCountStudent++;
+                }
+            }
+            $msg = '';
+            if ($nullCountStudent > 0) {
+                $msg = 'And ' . $nullCountStudent . " Student Application Code is not generated.";
+            }
+            return redirect()->back()->with('success', "Exam center alloted Successfully. $msg");
+            // return response()->json(['status' => true, 'message' => "Exam center alloted Successfully. $msg"]);
+        } else {
+            return back()->withErrors('No Data Available.');
         }
     }
 
@@ -603,10 +692,11 @@ class AdminController extends Controller
         try {
             $subjectMapping = GnResultSubjectMapping::find(decodeId($id));
 
-            return Excel::download(new StudentsSubjectMarkFillExport($subjectMapping), "studentMarkFillExport.xlsx");
+            $filename = 'Student-Mark-fill-' . time() . '.xlsx';
+            return Excel::download(new StudentsSubjectMarkFillExport($subjectMapping), $filename);
         } catch (\Throwable $th) {
             logger('Failed to export excel:', [$th]);
-            return back()->withErrors('Failed to Export');
+            return back()->withErrors('Failed to Export: ' . json_encode($th->getMessage()));
         }
     }
 
@@ -614,8 +704,6 @@ class AdminController extends Controller
     {
         $data = [];
 
-
-        //    dd($request->all());
         if ($request->isMethod('POST')) {
 
             if ($request->form_type == 'about_banner') {
@@ -968,8 +1056,9 @@ class AdminController extends Controller
             $mesage = 'Notification ';
         }
 
-        if ($mesage)
+        if ($mesage) {
             return response()->json(['status' => $request->status == 1 ? true : false, 'message' => "$mesage Status updated successfully."]);
+        }
 
         return response()->json(['status' => false, 'message' => 'Record not found.']);
     }
@@ -1316,12 +1405,9 @@ class AdminController extends Controller
                 'confirm_password' => 'required|same:new_password',
             ]);
 
-            if (!Hash::check($request->old_password, $user->password)) {
-                return back()->with('error', 'The old password incorrect.');
-            }
-
-            if (Hash::check($request->new_password, $user->password)) {
-                return back()->with('error', 'The New Password can not be the same as the Current Password.');
+            if (!Hash::check($request->old_password, $user->password) || Hash::check($request->new_password, $user->password)) {
+                $message = !Hash::check($request->old_password, $user->password) ? 'The old password incorrect.' : 'The New Password can not be the same as the Current Password.';
+                return back()->with('error', $message);
             }
 
             $user->password = bcrypt($request->new_password);

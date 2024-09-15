@@ -91,9 +91,26 @@ class ExamsController extends Controller
             if (!empty($search_value)) {
                 // dd($search_value);
                 $testTableData = TestModal::select([
-                    'test.id as id', 'test.user_id', 'title', 'sections', 'total_questions', 'questions_submitted', 'education_type_id',
-                    'test_cat', 'price', 'test_type', 'questions_approved', 'reviewed', 'reviewed_status', 'published', 'test.created_at as created_at', 'education_type_child_id', 'published_status',
-                    'featured', 'users.name as username', 'franchise_details.institute_name as institute_name'
+                    'test.id as id',
+                    'test.user_id',
+                    'title',
+                    'sections',
+                    'total_questions',
+                    'questions_submitted',
+                    'education_type_id',
+                    'test_cat',
+                    'price',
+                    'test_type',
+                    'questions_approved',
+                    'reviewed',
+                    'reviewed_status',
+                    'published',
+                    'test.created_at as created_at',
+                    'education_type_child_id',
+                    'published_status',
+                    'featured',
+                    'users.name as username',
+                    'franchise_details.institute_name as institute_name'
                 ])
                     ->leftJoin('users', 'users.id', 'test.user_id')
                     ->leftJoin('franchise_details', 'franchise_details.user_id', 'users.id')
@@ -102,9 +119,26 @@ class ExamsController extends Controller
                 $count = $testTableData->count();
             } else {
                 $testTableData = TestModal::select([
-                    'test.id as id', 'test.user_id', 'title', 'sections', 'total_questions', 'questions_submitted', 'education_type_id',
-                    'test_cat', 'price', 'test_type', 'questions_approved', 'reviewed', 'reviewed_status', 'published', 'test.created_at as created_at', 'education_type_child_id', 'published_status',
-                    'featured', 'users.name as username', 'franchise_details.institute_name as institute_name'
+                    'test.id as id',
+                    'test.user_id',
+                    'title',
+                    'sections',
+                    'total_questions',
+                    'questions_submitted',
+                    'education_type_id',
+                    'test_cat',
+                    'price',
+                    'test_type',
+                    'questions_approved',
+                    'reviewed',
+                    'reviewed_status',
+                    'published',
+                    'test.created_at as created_at',
+                    'education_type_child_id',
+                    'published_status',
+                    'featured',
+                    'users.name as username',
+                    'franchise_details.institute_name as institute_name'
                 ])
                     ->leftJoin('users', 'users.id', 'test.user_id')
                     ->leftJoin('franchise_details', 'franchise_details.user_id', 'users.id')
@@ -1344,9 +1378,9 @@ class ExamsController extends Controller
                 $subjectIds = $req->input('subject_id');
 
                 // Encode the subject_id array to JSON
-                $subjectIdJson = str_replace('"','',json_encode($subjectIds));
-                $nameJson = str_replace('"','',json_encode($name));
-        
+                $subjectIdJson = str_replace('"', '', json_encode($subjectIds));
+                $nameJson = str_replace('"', '', json_encode($name));
+
                 // Create a new mapping entry and save it to the database
                 $mappId = GnResultSubjectMapping::create([
                     'education_type_id' => $educationTypeId,
@@ -1356,7 +1390,7 @@ class ExamsController extends Controller
                     'subject_id' => $subjectIdJson,
                 ])->id;
 
-                foreach($subjectIds as $sub){
+                foreach ($subjectIds as $sub) {
                     $subject = Subject::find($sub);
 
                     $subPaper = new SubjectPaperDetail();
@@ -1366,7 +1400,7 @@ class ExamsController extends Controller
                     $subPaper->save();
                 }
 
-             
+
                 return redirect()->back()->with('success', 'Data saved successfully!');
             }
 
@@ -1396,7 +1430,7 @@ class ExamsController extends Controller
         $this->data['subjects'] = Subject::get();
 
         $this->data['exams']    =   Gn_AssignClassGroupExamName::all()->groupBy('education_type_id');
-        // dd($this->data['exams']);
+
         $educations = Educationtype::get();
         foreach ($educations as $key => $education) {
             $educations[$key]['classes'] = ClassGoupExamModel::where('education_type_id', $education['id'])->count();
@@ -1413,14 +1447,14 @@ class ExamsController extends Controller
         $this->data['class_data'] = ClassGoupExamModel::get();
 
         $this->data['exam'] = Gn_DisplayClassGroupExamName::get();
-        // $this->data['exam'] = Gn_DisplayClassGroupExamName::first();
+
         $this->data['gn_exam_agency_board'] = Gn_DisplayExamAgencyBoardUniversity::get();
         $this->data['board_data'] = Gn_EducationClassExamAgencyBoardUniversity::get();
         $this->data['gn_other_exam_classes'] = Gn_OtherExamClassDetailModel::get();
         $this->data['subjects'] = Subject::get();
         $this->data['other_exam_classes'] = Gn_DisplayOtherExamClassDetail::get();
 
-        $this->data['resultSubjectMappings'] = GnResultSubjectMapping::with('subjectPaperDetails')->orderBy('created_at','asc')->get();
+        $this->data['resultSubjectMappings'] = GnResultSubjectMapping::with('subjectPaperDetails')->orderBy('created_at', 'asc')->get();
 
 
         return view('administrator/courses/sholarship_category')->with('data', $this->data);
@@ -1522,7 +1556,7 @@ class ExamsController extends Controller
                 } else {
                     foreach ($inputs['name'] as $key => $value) {
 
-                        $cleanedValue = preg_replace('/[^a-zA-Z\s]/', '',$value);
+                        $cleanedValue = preg_replace('/[^a-zA-Z\s]/', '', $value);
                         $subjectMd       = new Subject();
                         $subjectMd->name = $cleanedValue;
                         $subjectMd->save();
@@ -1897,9 +1931,21 @@ class ExamsController extends Controller
 
             if (!empty($search_value)) {
                 $testTableData = TestModal::selectselect([
-                    'test.id as id', 'test.user_id', 'title', 'sections', 'total_questions', 'questions_submitted',
-                    'questions_approved', 'reviewed', 'reviewed_status', 'published', 'test.created_at as created_at', 'education_type_child_id', 'published_status',
-                    'users.name as username', 'franchise_details.institute_name as institute_name'
+                    'test.id as id',
+                    'test.user_id',
+                    'title',
+                    'sections',
+                    'total_questions',
+                    'questions_submitted',
+                    'questions_approved',
+                    'reviewed',
+                    'reviewed_status',
+                    'published',
+                    'test.created_at as created_at',
+                    'education_type_child_id',
+                    'published_status',
+                    'users.name as username',
+                    'franchise_details.institute_name as institute_name'
                 ])
                     ->leftJoin('users', 'users.id', 'test.user_id')
                     ->leftJoin('franchise_details', 'franchise_details.user_id', 'users.id')
@@ -1908,9 +1954,21 @@ class ExamsController extends Controller
                 $count = TestModal::where("title", "like", "%" . $search_value . "%")->count();
             } else {
                 $testTableData = TestModal::select([
-                    'test.id as id', 'test.user_id', 'title', 'sections', 'total_questions', 'questions_submitted',
-                    'questions_approved', 'reviewed', 'reviewed_status', 'published', 'test.created_at as created_at', 'education_type_child_id', 'published_status',
-                    'users.name as username', 'franchise_details.institute_name as institute_name'
+                    'test.id as id',
+                    'test.user_id',
+                    'title',
+                    'sections',
+                    'total_questions',
+                    'questions_submitted',
+                    'questions_approved',
+                    'reviewed',
+                    'reviewed_status',
+                    'published',
+                    'test.created_at as created_at',
+                    'education_type_child_id',
+                    'published_status',
+                    'users.name as username',
+                    'franchise_details.institute_name as institute_name'
                 ])
                     ->leftJoin('users', 'users.id', 'test.user_id')
                     ->leftJoin('franchise_details', 'franchise_details.user_id', 'users.id')

@@ -55,6 +55,7 @@
             width: 25px !important;
             height: 25px !important;
         }
+
         .great-contributor .carousel-control-next i,
         .great-contributor .carousel-control-prev i {
             width: 16px !important;
@@ -88,6 +89,21 @@
             opacity: 5 !important;
             font-size: 20px
         }
+
+        /* .modal-dialog .modal-content .pop-up {
+            padding-bottom: 0px;
+        } */
+
+        /* .modal-dialog .modal-content .pop-up>.pop-up1 {
+            height: 100% !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        .modal-dialog .modal-content .pop-up>.pop-up1 .pop-im {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+        } */
     </style>
 </head>
 <?php
@@ -412,7 +428,6 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
         </div>
     </section>
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -453,11 +468,11 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
 
     
     <div id="applynow" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <!-- Modal content-->
             <div class="modal-content">
                 <!-- SECTION: POP UP TRAVEL BOOKING FORM AND IMG -->
-                <div class="pop-up" style="padding-bottom:35px">
+                <div class="pop-up row">
                     <!--POP UP TRAVEL BOOKING FORM DEATILES-->
                     <form action="<?php echo e(route('home.corporateSubmit')); ?>" method="POST" enctype="multipart/form-data">
                         <?php echo csrf_field(); ?>
@@ -638,14 +653,14 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
             </div>
         </div>
     </div>
-    <!-- Modal -->
+
     <div id="instituteModel" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <!-- Modal content-->
             <div class="modal-content">
                 <!-- SECTION: POP UP TRAVEL BOOKING FORM AND IMG -->
 
-                <div class="pop-up" style="padding-bottom:35px">
+                <div class="pop-up row">
                     <!--POP UP TRAVEL BOOKING FORM DEATILES-->
                     <form action="<?php echo e(route('home.corporateSubmit')); ?>" method="POST" enctype="multipart/form-data" id="corporateForm">
                         <?php echo csrf_field(); ?>
@@ -756,19 +771,19 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
         </div>
     </div>
 
-    
     <div id="myModalLogin" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <!-- Modal content-->
             <div class="modal-content">
                 <!-- SECTION: POP UP TRAVEL BOOKING FORM AND IMG -->
-                <div class="pop-up">
+                <div class="pop-up row">
                     <!--POP UP IMG-->
-                    <div class="pop-up1">
-                        <img class="pop-im" src="https://www.21kschool.com/blog/wp-content/uploads/2021/01/rptgtpxd-1396254731.jpg" alt="">
+                    <div class="pop-up1 col-12 col-lg-6" style="background: url('https://www.21kschool.com/blog/wp-content/uploads/2021/01/rptgtpxd-1396254731.jpg');">
+                        <!-- <img class="pop-im" src="https://www.21kschool.com/blog/wp-content/uploads/2021/01/rptgtpxd-1396254731.jpg" alt=""> -->
+
                     </div>
                     <!--POP UP TRAVEL BOOKING FORM DEATILES-->
-                    <div class="pop-up2" style="padding: 23px 27px 0px 30px;">
+                    <div class="pop-up2">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h2 class="book-tit">Login</h2>
                         <p>wherever you go make your self at home</p>
@@ -822,20 +837,18 @@ unset($__errorArgs, $__bag); ?>
         </div>
     </div>
 
-    <!-- Forget Password Start -->
-
     <div id="myModalForget" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <!-- Modal content-->
             <div class="modal-content">
                 <!-- SECTION: POP UP TRAVEL BOOKING FORM AND IMG -->
-                <div class="pop-up">
+                <div class="pop-up row">
                     <!--POP UP IMG-->
-                    <div class="pop-up1">
-                        <img class="pop-im" src="https://www.21kschool.com/blog/wp-content/uploads/2021/01/rptgtpxd-1396254731.jpg" alt="">
+                    <div class="pop-up1 col-12 col-lg-6" style="background: url('https://www.21kschool.com/blog/wp-content/uploads/2021/01/rptgtpxd-1396254731.jpg');">
+                        <!-- <img class="pop-im" src="https://www.21kschool.com/blog/wp-content/uploads/2021/01/rptgtpxd-1396254731.jpg" alt=""> -->
                     </div>
                     <!--POP UP TRAVEL BOOKING FORM DEATILES-->
-                    <div class="pop-up2" style="padding: 23px 27px 0px 30px;">
+                    <div class="pop-up2">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h2 class="book-tit">Forget Password</h2>
                         <p>wherever you go make your self at home</p>
@@ -904,19 +917,15 @@ unset($__errorArgs, $__bag); ?>
         </div>
     </div>
 
-    <!-- Forget Password End -->
+
     
     <div id="myModalSignUp" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <!-- Modal content-->
             <div class="modal-content">
-                <!-- SECTION: POP UP TRAVEL BOOKING FORM AND IMG -->
-                <div class="pop-up">
+                <div class="pop-up row">
                     <!--POP UP IMG-->
-                    <div class="pop-up1">
-                        <img class="pop-im" src="https://www.21kschool.com/blog/wp-content/uploads/2021/01/rptgtpxd-1396254731.jpg" alt="">
-                    </div>
-                    <!--POP UP TRAVEL BOOKING FORM DEATILES-->
+                    <div class="pop-up1 col-12 col-lg-6" style="background: url('https://www.21kschool.com/blog/wp-content/uploads/2021/01/rptgtpxd-1396254731.jpg');"></div>
                     <div class="pop-up2">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h2 class="book-tit">SignUp</h2>
@@ -926,10 +935,12 @@ unset($__errorArgs, $__bag); ?>
                                 <?php echo csrf_field(); ?>
                                 <div class="contact__msg">Thank you.</div>
                                 <ul>
-                                    <li class="half"> <span style="display: flex;">Name<validation class="text-danger">*</validation> </span>
+                                    <li class="half">
+                                        <span style="display: flex;">Name<validation class="text-danger">*</validation> </span>
                                         <input type="text" name="name" placeholder="Name" title="Please enter valid Name" class="form-control" required>
                                     </li>
-                                    <li class="half"> <span>Gender </span>
+                                    <li class="half">
+                                        <span>Gender </span>
                                         <select name="gender" class="form-control">
                                             <option value="">Select Gender</option>
                                             <option value="Male">Male</option>
@@ -937,7 +948,8 @@ unset($__errorArgs, $__bag); ?>
                                             <option value="Transgender">Transgender</option>
                                         </select>
                                     </li>
-                                    <li class="half"> <span style="display: flex;"> Mobile <validation class="text-danger">*</validation></span>
+                                    <li class="half">
+                                        <span style="display: flex;"> Mobile <validation class="text-danger">*</validation></span>
                                         <div class="input-group">
                                             <input type="text" pattern="[6-9]{1}[0-9]{9}" name="mobile" placeholder="Mobile Number" id="student_mobile" title="Please enter valid mobile" class="form-control" required>
                                             <button class="btn bg-dark text-white append student_send_otp_btn" onclick="sendOtp('register','otp_send')" type="button" style="border-bottom-left-radius: 0;font-size: 14px;padding: 7px;border-top-left-radius: 0;">
@@ -945,7 +957,8 @@ unset($__errorArgs, $__bag); ?>
                                             </button>
                                         </div>
                                     </li>
-                                    <li class="half"> <span style="display: flex;">Verify Otp <validation class="text-danger">*</validation></span>
+                                    <li class="half">
+                                        <span style="display: flex;">Verify Otp <validation class="text-danger">*</validation></span>
                                         <div class="input-group">
                                             <input type="text" name="otp" placeholder="otp Number" id="student_otp" title="Please enter valid otp" class="form-control" required>
                                             <button class="btn bg-dark text-white append student_verify_otp_btn" onclick="sendOtp('register','otp_verify')" type="button" style="border-bottom-left-radius: 0;font-size: 14px;padding: 7px;border-top-left-radius: 0;">
@@ -954,16 +967,19 @@ unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </li>
                                     <!--POP UP EMAIL ADDTESS-->
-                                    <li class="full"> <span style="display: flex;">Email ID<validation class="text-danger">*</validation> </span>
+                                    <li class="full">
+                                        <span style="display: flex;">Email ID<validation class="text-danger">*</validation> </span>
                                         <input type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" placeholder="Email id *" title="Please enter valid email id" class="form-control" required>
                                     </li>
 
                                     <!--POP UP PHONE-->
-                                    <li class="half"> <span> Password<validation class="text-danger">*</validation></span>
+                                    <li class="half">
+                                        <span> Password<validation class="text-danger">*</validation></span>
                                         <input type="password" name="password" placeholder="Password *" class="form-control" required>
                                         <i toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password"></i>
                                     </li>
-                                    <li class="half"> <span style="display: flex;">Confirm Password<validation class="text-danger">*</validation></span>
+                                    <li class="half">
+                                        <span style="display: flex;">Confirm Password<validation class="text-danger">*</validation></span>
                                         <input type="password" name="confirmpassword" placeholder="Confirm Password *" class="form-control" required>
                                         <i toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password"></i>
                                     </li>
@@ -1000,14 +1016,15 @@ unset($__errorArgs, $__bag); ?>
 
     <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <!-- Modal content-->
             <div class="modal-content">
                 <!-- SECTION: POP UP TRAVEL BOOKING FORM AND IMG -->
-                <div class="pop-up">
+                <div class="pop-up row">
                     <!--POP UP IMG-->
-                    <div class="pop-up1">
-                        <img class="pop-im" src="https://www.21kschool.com/blog/wp-content/uploads/2021/01/rptgtpxd-1396254731.jpg" alt="">
+                    <div class="pop-up1 col-12 col-lg-6" style="background: url('https://www.21kschool.com/blog/wp-content/uploads/2021/01/rptgtpxd-1396254731.jpg');">
+                        <!-- <img class="pop-im" src="https://www.21kschool.com/blog/wp-content/uploads/2021/01/rptgtpxd-1396254731.jpg" alt=""> -->
+
                     </div>
                     <!--POP UP TRAVEL BOOKING FORM DEATILES-->
                     <div class="pop-up2">

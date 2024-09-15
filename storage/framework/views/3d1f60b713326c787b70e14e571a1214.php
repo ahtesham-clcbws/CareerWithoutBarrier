@@ -34,7 +34,7 @@ $newStudents = Student::whereHas('latestStudentCode', function ($query) {
         <div class="required_area">
             <img src="<?php echo e(asset('admin/images/watch.png')); ?>" alt="clock" class="watch_ic">
             <span class="required_text">
-                Applied Discount Voucher Code
+                Applied Voucher
             </span>
             <span class="required_num"><?php echo e($appliedCount); ?></span>
         </div>

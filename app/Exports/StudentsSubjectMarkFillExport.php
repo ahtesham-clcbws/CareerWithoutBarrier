@@ -27,8 +27,17 @@ class StudentsSubjectMarkFillExport implements FromCollection, WithHeadings, Wit
     {
         $this->students = Student::where('scholarship_category', $subjectMapping->education_type_id)
             ->whereIn('scholarship_opted_for', json_decode($subjectMapping->name))
+            ->whereHas('latestStudentCode', function ($query) {
+                $query->whereNotNull('roll_no')
+                    ->whereNotNull('application_code');
+            })
             ->with(['latestStudentCode', 'scholarShipCategory'])
             ->get();
+        // $this->students = Student::where('scholarship_category', $subjectMapping->education_type_id)
+        //     ->whereIn('scholarship_opted_for', json_decode($subjectMapping->name))
+        //     ->with(['latestStudentCode', 'scholarShipCategory'])
+        //     ->get();
+
 
         $this->subjects = $subjectMapping->subjects();
 
@@ -49,40 +58,51 @@ class StudentsSubjectMarkFillExport implements FromCollection, WithHeadings, Wit
         }
 
         $studPaperExporteds = StudentPaperExported::where('student_id', $row->id)->where('app_code', $row->latestStudentCode?->application_code)->orderBy('subject_id')->get();
-        
+
         if ($studPaperExporteds->isEmpty()) {
             foreach ($this->subjects as $subject) {
 
-                $subjectPaper = DB::table('subject_paper_details')
-                ->where('subject_mapping_id',$this->subjectMapping->id)
-                ->where('subject_id', $subject->id)->get();
+                if ($row->latestStudentCode?->application_code && $row->latestStudentCode?->roll_no) {
+                    $subjectPaper = DB::table('subject_paper_details')
+                        ->where('subject_mapping_id', $this->subjectMapping->id)
+                        ->where('subject_id', $subject->id)->get();
 
-                $studPaperExporteds = new StudentPaperExported;
-                $studPaperExporteds->student_id = $row->id;
-                $studPaperExporteds->subject_mapping_id = $this->subjectMapping->id;
-                $studPaperExporteds->app_code = $row->latestStudentCode?->application_code;
-                $studPaperExporteds->subject_id = $subject->id;
-                $studPaperExporteds->subject_name = $subject->name;
-                $studPaperExporteds->max_marks = $subjectPaper->sum('max_marks');
-                $studPaperExporteds->save();
+                    $studPaperExporteds = new StudentPaperExported;
+                    $studPaperExporteds->student_id = $row->id;
+                    $studPaperExporteds->subject_mapping_id = $this->subjectMapping->id;
+                    $studPaperExporteds->app_code = $row->latestStudentCode?->application_code;
+                    $studPaperExporteds->subject_id = $subject->id;
+                    $studPaperExporteds->subject_name = $subject->name;
+                    $studPaperExporteds->max_marks = $subjectPaper->sum('max_marks');
+                    $studPaperExporteds->save();
+                }
             }
         }
 
-        return [
-            $this->rowNumber++,
-            $studPaperExporteds->first()?->id,
-            ucfirst($row->name),
-            $row->father_name,
-            $row->gender == 'Male' ? 'M' : ($row->gender == 'Female' ? 'F' : 'T'),
-            Date::dateTimeToExcel(Carbon::parse($row->dob)),
-            $row->state?->name,
-            $row->district?->name,
-            $row->latestStudentCode?->application_code,
-            $row->latestStudentCode?->roll_no,
-            $row->scholarShipCategory?->name,
-            '',
-            ''
-        ];
+        if ($row->latestStudentCode?->application_code && $row->latestStudentCode?->roll_no) {
+            return [
+                $this->rowNumber++,
+                $studPaperExporteds->first()?->id,
+                ucfirst($row->name),
+                $this->calculateAge($row->dob),
+                $row->disability,
+                $row->father_name,
+                $row->gender == 'Male' ? 'M' : ($row->gender == 'Female' ? 'F' : 'T'),
+                Date::dateTimeToExcel(Carbon::parse($row->dob)),
+                $row->state?->name,
+                $row->district?->name,
+                $row->latestStudentCode?->application_code,
+                $row->latestStudentCode?->roll_no,
+                $row->scholarShipCategory?->name,
+                '',
+                ''
+            ];
+        }
+        return null;
+    }
+    private function calculateAge($dob)
+    {
+        return \Carbon\Carbon::parse($dob)->age;
     }
 
     public function headings(): array
@@ -91,6 +111,8 @@ class StudentsSubjectMarkFillExport implements FromCollection, WithHeadings, Wit
             'Sr.No',
             'student_id',
             'Name',
+            'Age',
+            'Disabled',
             'Father\'s Name',
             'Gender',
             'Date of Birth',
