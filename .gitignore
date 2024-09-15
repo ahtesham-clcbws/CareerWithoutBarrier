@@ -17,3 +17,5 @@ yarn-error.log
 /.vscode
 _ide_helper.php
 *.zip
+/storage/debugbar.*
+/storage/debugbar/.*
