@@ -31,11 +31,12 @@ class GnResultSubjectMapping extends Model
         $subjectIds = json_decode($this->subject_id, true);
         $subject = collect();
 
-        if(is_array($subjectIds))
-        $subject = Subject::whereIn('id', $subjectIds)->get();
+        if (is_array($subjectIds)) {
+            $subject = Subject::whereIn('id', $subjectIds)->get();
+        }
 
-        if($name){
-          return implode(',',$subject ->pluck('name')->all());
+        if ($name) {
+            return implode(',', $subject->pluck('name', 'max_marks')->all());
         }
         return   $subject;
     }
@@ -45,16 +46,17 @@ class GnResultSubjectMapping extends Model
         $nameId = json_decode($this->name, true);
         $scholar = collect();
 
-        if(is_array($nameId))
-        $scholar = Gn_OtherExamClassDetailModel::whereIn('id', $nameId)->get();
+        if (is_array($nameId))
+            $scholar = Gn_OtherExamClassDetailModel::whereIn('id', $nameId)->get();
 
-        if($name){
-          return implode(',',$scholar->pluck('name')->all());
+        if ($name) {
+            return implode(',', $scholar->pluck('name')->all());
         }
         return   $name;
     }
 
-    public function subjectPaperDetails(){
-        return $this->hasMany(SubjectPaperDetail::class,'subject_mapping_id','id')->orderBy('created_at','asc');
+    public function subjectPaperDetails()
+    {
+        return $this->hasMany(SubjectPaperDetail::class, 'subject_mapping_id', 'id')->orderBy('created_at', 'asc');
     }
 }

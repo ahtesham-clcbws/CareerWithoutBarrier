@@ -1,5 +1,5 @@
 function inititateSelect2() {
-    
+
     $("#education_type_id").select2({
         placeholder: "Scholarship Category",
         allowClear: true
@@ -8,7 +8,7 @@ function inititateSelect2() {
         placeholder: "Board / State / Agency",
         allowClear: true,
         tags: true
-        });
+    });
     $("#class_other_exam_detail").select2({
         placeholder: "  jects",
         allowClear: true,
@@ -97,20 +97,20 @@ function resetSubjectMappingForm() {
 function editForm(id, name, formName, education = 0, boards = '', subjects = '', class_exam = '') {
     $('#' + formName + '_id').val(id);
     $('#' + formName + '_name').empty();
-    $('#' + formName + '_name').append("<option value="+ name +" selected>"+ name +"</option>");
+    $('#' + formName + '_name').append("<option value=" + name + " selected>" + name + "</option>");
     console.log(formName);
     if (formName == 'class_group_exam') {
         $('#exam_education_type_id').val(education);
         $("#class_group_exam_name_id").empty();
         $("#class_group_exam_name_id").append(value);
-            // inititateSelect2();
+        // inititateSelect2();
         console.log(JSON.parse(name));
         $('#class_group_exam_name_id').val(JSON.parse(name));
         inititateSelect2();
     }
-    
+
     if (formName == 'board') {
-        educationTypeChange(education,class_exam);
+        educationTypeChange(education, class_exam);
         $('#board_education_type_id').val(education);
         $('#board_class_group_exam').val(class_exam);
         $('#board_name_id').val(JSON.parse(name));
@@ -118,15 +118,15 @@ function editForm(id, name, formName, education = 0, boards = '', subjects = '',
         $('#genders-filters').val(JSON.parse(name));
         inititateSelect2();
     }
-    
-    if(formName== 'otherExam'){
+
+    if (formName == 'otherExam') {
 
         other_exam_education_type_change(education).finally(() => {
             $('#other_exam_class_group_exam_id').val(class_exam);
             other_exam_classes_group_exams_change(class_exam).finally(() => {
                 $('#other_exam_agency_board_university_id').val(boards);
-            })
-        })
+            });
+        });
         $('#other_exam_education_type_id').val(education);
         $("#other_exam_name_id").empty();
         $("#other_exam_name_id").append(other_exam_name_id);
@@ -143,7 +143,7 @@ function editForm(id, name, formName, education = 0, boards = '', subjects = '',
     $('#' + formName + 'Reset').show();
 }
 
-async function educationTypeChange(id,class_exam) {
+async function educationTypeChange(id, class_exam) {
     var formData = new FormData();
     formData.append('form_name', 'get_class_group_exam');
     formData.append('education_type_id', id);
@@ -153,17 +153,17 @@ async function educationTypeChange(id,class_exam) {
         data: formData,
         contentType: false,
         processData: false,
-          headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-      
+
     }).done(function (data) {
         if (data && data.success) {
             const class_group_exam = data.message;
             var options = '<option value=""></option>';
             if (class_group_exam.length > 0) {
                 $(class_group_exam).each(function (index, item) {
-                    options += '<option value="' + item.id + '" '+(item.id == class_exam ? "selected" : "")+'>' + item.name + '</option>';
+                    options += '<option value="' + item.id + '" ' + (item.id == class_exam ? "selected" : "") + '>' + item.name + '</option>';
                 });
                 $('#board_class_group_exam').removeAttr('disabled');
             } else {
@@ -177,16 +177,16 @@ async function educationTypeChange(id,class_exam) {
         }
     }).fail(function (data) {
         console.log(data);
-    })
+    });
 }
 
-async function other_exam_education_type_change(id,class_exam) {
+async function other_exam_education_type_change(id, class_exam) {
 
-if(class_exam == 'resultMapping'){
-    var $educationTypeAdd =  $('#other_exam_class_group_exam_sub_id');  
-}else{
-    var $educationTypeAdd =  $('#other_exam_class_group_exam_id');  
-}
+    if (class_exam == 'resultMapping') {
+        var $educationTypeAdd = $('#other_exam_class_group_exam_sub_id');
+    } else {
+        var $educationTypeAdd = $('#other_exam_class_group_exam_id');
+    }
     var formData = new FormData();
     formData.append('form_name', 'get_class_group_exam');
     formData.append('education_type_id', id);
@@ -196,17 +196,17 @@ if(class_exam == 'resultMapping'){
         data: formData,
         contentType: false,
         processData: false,
-          headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-      
+
     }).done(function (data) {
         if (data && data.success) {
             const class_group_exam = data.message;
             var options = '<option value=""></option>';
             if (class_group_exam.length > 0) {
                 $(class_group_exam).each(function (index, item) {
-                    options += '<option value="' + item.id + '" '+(item.id == class_exam ? "selected" : "")+'>' + item.name + '</option>';
+                    options += '<option value="' + item.id + '" ' + (item.id == class_exam ? "selected" : "") + '>' + item.name + '</option>';
                 });
                 $educationTypeAdd.removeAttr('disabled');
             } else {
@@ -220,15 +220,15 @@ if(class_exam == 'resultMapping'){
         }
     }).fail(function (data) {
         console.log(data);
-    })
-    
-    if(class_exam && class_exam != 'resultMapping'){
+    });
+
+    if (class_exam && class_exam != 'resultMapping') {
         other_exam_classes_group_exams_change(class_exam);
         other_exam_classes_group_exams_sub_change(class_exam);
     }
 }
 
-async function other_exam_classes_group_exams_change(id,boards) {
+async function other_exam_classes_group_exams_change(id, boards) {
     var education_type_id = $("#other_exam_education_type_id").val();
     var formData = new FormData();
     formData.append('form_name', 'get_agency_board_university');
@@ -240,17 +240,17 @@ async function other_exam_classes_group_exams_change(id,boards) {
         data: formData,
         contentType: false,
         processData: false,
-          headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-      
+
     }).done(function (data) {
         if (data && data.success) {
             const agency_board_university = data.message;
             var options = '<option value=""></option>';
             if (agency_board_university.length > 0) {
                 $(agency_board_university).each(function (index, item) {
-                    options += '<option value="' + item.id + '" '+(item.id == boards ? "selected" : "")+'>' + item.name + '</option>';
+                    options += '<option value="' + item.id + '" ' + (item.id == boards ? "selected" : "") + '>' + item.name + '</option>';
                 });
                 $('#other_exam_agency_board_university_id').removeAttr('disabled');
             } else {
@@ -264,10 +264,10 @@ async function other_exam_classes_group_exams_change(id,boards) {
         }
     }).fail(function (data) {
         console.log(data);
-    })  
+    });
 }
 
-async function other_exam_classes_group_exams_sub_change(id,boards) {
+async function other_exam_classes_group_exams_sub_change(id, boards) {
 
     var education_type_id = $("#other_exam_education_type_sub_id").val();
     var formData = new FormData();
@@ -280,17 +280,17 @@ async function other_exam_classes_group_exams_sub_change(id,boards) {
         data: formData,
         contentType: false,
         processData: false,
-          headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-      
+
     }).done(function (data) {
         if (data && data.success) {
             const agency_board_university = data.message;
             var options = '<option value=""></option>';
             if (agency_board_university.length > 0) {
                 $(agency_board_university).each(function (index, item) {
-                    options += '<option value="' + item.id + '" '+(item.id == boards ? "selected" : "")+'>' + item.name + '</option>';
+                    options += '<option value="' + item.id + '" ' + (item.id == boards ? "selected" : "") + '>' + item.name + '</option>';
                 });
                 $('#other_exam_agency_board_university_sub_id').removeAttr('disabled');
             } else {
@@ -304,10 +304,10 @@ async function other_exam_classes_group_exams_sub_change(id,boards) {
         }
     }).fail(function (data) {
         console.log(data);
-    })  
+    });
 }
 
-async function other_exam_classes_scholarship_opt_sub_change(id,boards) {
+async function other_exam_classes_scholarship_opt_sub_change(id, boards) {
     var scholarshipCat = $("#other_exam_education_type_sub_id").val();
     var educationType = $("#other_exam_class_group_exam_sub_id").val();
     var qualification = $("#other_exam_agency_board_university_sub_id").val();
@@ -325,17 +325,17 @@ async function other_exam_classes_scholarship_opt_sub_change(id,boards) {
         data: formData,
         contentType: false,
         processData: false,
-          headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-      
+
     }).done(function (data) {
         if (data && data.success) {
             const agency_board_university = data.message;
             var options = '<option value=""></option>';
             if (agency_board_university.length > 0) {
                 $(agency_board_university).each(function (index, item) {
-                    options += '<option value="' + item.id + '" '+(item.id == boards ? "selected" : "")+'>' + item.name + '</option>';
+                    options += '<option value="' + item.id + '" ' + (item.id == boards ? "selected" : "") + '>' + item.name + '</option>';
                 });
                 $('#other_exam_name_sub_id').removeAttr('disabled');
             } else {
@@ -349,7 +349,7 @@ async function other_exam_classes_scholarship_opt_sub_change(id,boards) {
         }
     }).fail(function (data) {
         console.log(data);
-    })  
+    });
 }
 
 async function quickAddEducationTypeChange(id) {
@@ -362,9 +362,10 @@ async function quickAddEducationTypeChange(id) {
         data: formData,
         contentType: false,
         processData: false,
-      headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-        }    }).done(function (data) {
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    }).done(function (data) {
         if (data && data.success) {
             const class_group_exam = data.message;
             var options = '<option value=""></option>';
@@ -384,7 +385,7 @@ async function quickAddEducationTypeChange(id) {
         }
     }).fail(function (data) {
         console.log(data);
-    })
+    });
 }
 
 async function classes_group_exams_change(id) {
@@ -395,18 +396,19 @@ async function classes_group_exams_change(id) {
     formData.append('form_name', 'gn_get_agency_board_university');
     formData.append('education_type_id', education_type_id);
     for (let i = 0; i < classes_group_exams_id.length; i++) {
-        formData.append('classes_group_exams_id[]',classes_group_exams_id[i]);
+        formData.append('classes_group_exams_id[]', classes_group_exams_id[i]);
     }
- 
+
     await $.ajax({
         url: '/',
         type: 'post',
         data: formData,
         contentType: false,
         processData: false,
-      headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-        }    }).done(function (data) {
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    }).done(function (data) {
         if (data && data.success) {
             const agency_board_university = data.message;
             var options = '<option value=""></option>';
@@ -426,34 +428,35 @@ async function classes_group_exams_change(id) {
         }
     }).fail(function (data) {
         console.log(data);
-    })  
+    });
 }
 
 async function classes_exams_board_change(id) {
-    
-    var education_type_id       = $("#education_type_id").val();
-    var classes_group_exams_id  = $('#class_group_exam').val();
-    var class_boards_id         = $('#class_boards').val();
+
+    var education_type_id = $("#education_type_id").val();
+    var classes_group_exams_id = $('#class_group_exam').val();
+    var class_boards_id = $('#class_boards').val();
 
     var formData = new FormData();
     formData.append('form_name', 'get_other_exam_class_detail');
     formData.append('education_type_id', education_type_id);
     for (let i = 0; i < classes_group_exams_id.length; i++) {
-        formData.append('classes_group_exams_id[]',classes_group_exams_id[i]);
+        formData.append('classes_group_exams_id[]', classes_group_exams_id[i]);
     }
     for (let i = 0; i < class_boards_id.length; i++) {
-        formData.append('class_boards_id[]',class_boards_id[i]);
+        formData.append('class_boards_id[]', class_boards_id[i]);
     }
- 
+
     await $.ajax({
         url: '/',
         type: 'post',
         data: formData,
         contentType: false,
         processData: false,
-      headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-        }    }).done(function (data) {
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    }).done(function (data) {
         if (data && data.success) {
             const agency_board_university = data.message;
             var options = '<option value=""></option>';
@@ -473,10 +476,10 @@ async function classes_exams_board_change(id) {
         }
     }).fail(function (data) {
         console.log(data);
-    })  
+    });
 }
 
-async function deleteEducationType(id){
+async function deleteEducationType(id) {
 
     var formData = new FormData();
     formData.append('form_name', 'deleteEducationType');
@@ -488,17 +491,18 @@ async function deleteEducationType(id){
         data: formData,
         contentType: false,
         processData: false,
-      headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-        }    }).done(function (data) {
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    }).done(function (data) {
         console.log('data deleted');
         location.reload();
     }).fail(function (data) {
         console.log(data);
-    })  
+    });
 }
 
-async function deleteClassGroup(class_id,education_id){
+async function deleteClassGroup(class_id, education_id) {
 
     var formData = new FormData();
     formData.append('form_name', 'deleteClass');
@@ -511,17 +515,18 @@ async function deleteClassGroup(class_id,education_id){
         data: formData,
         contentType: false,
         processData: false,
-      headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-        }    }).done(function (data) {
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    }).done(function (data) {
         console.log('data deleted');
         location.reload();
     }).fail(function (data) {
         console.log(data);
-    })  
+    });
 }
 
-async function deleteExamAgencyBoard(education_id,class_id,exam_agency_id,gn_display_id){
+async function deleteExamAgencyBoard(education_id, class_id, exam_agency_id, gn_display_id) {
 
     var formData = new FormData();
     formData.append('form_name', 'deleteExamAgencyBoard');
@@ -536,17 +541,18 @@ async function deleteExamAgencyBoard(education_id,class_id,exam_agency_id,gn_dis
         data: formData,
         contentType: false,
         processData: false,
-      headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-        }    }).done(function (data) {
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    }).done(function (data) {
         console.log('data deleted');
         location.reload();
     }).fail(function (data) {
         console.log(data);
-    })  
+    });
 }
 
-async function deleteOtherExamClass(education_type_id,classes_group_exams_id,agency_board_university_id){
+async function deleteOtherExamClass(education_type_id, classes_group_exams_id, agency_board_university_id) {
 
     var formData = new FormData();
     formData.append('form_name', 'deleteOtherExamClass');
@@ -560,40 +566,41 @@ async function deleteOtherExamClass(education_type_id,classes_group_exams_id,age
         data: formData,
         contentType: false,
         processData: false,
-      headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-        }    }).done(function (data) {
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    }).done(function (data) {
         console.log('data deleted');
         location.reload();
     }).fail(function (data) {
         console.log(data);
-    })  
+    });
 }
 
 function editFormResultMapping(id, educationType, classes_group_exams_id, agency_board_university_id = 0, name = '', subject_ids = '') {
     return;
     $('#resultSubjectMapForm_id').val(id);
-    $('#other_exam_education_type_sub_id').append("<option value="+ educationType +" selected>"+ name +"</option>");
+    $('#other_exam_education_type_sub_id').append("<option value=" + educationType + " selected>" + name + "</option>");
     console.log(formName);
 
 
-        other_exam_education_type_change(education).finally(() => {
-            $('#other_exam_class_group_exam_id').val(class_exam);
-            other_exam_classes_group_exams_change(class_exam).finally(() => {
-                $('#other_exam_agency_board_university_id').val(boards);
-            })
-        })
-        $('#other_exam_education_type_id').val(education);
-        $("#other_exam_name_id").empty();
-        $("#other_exam_name_id").append(other_exam_name_id);
-        $('#other_exam_name_id').val(JSON.parse(name));
-        inititateSelect2();
+    other_exam_education_type_change(education).finally(() => {
+        $('#other_exam_class_group_exam_id').val(class_exam);
+        other_exam_classes_group_exams_change(class_exam).finally(() => {
+            $('#other_exam_agency_board_university_id').val(boards);
+        });
+    });
+    $('#other_exam_education_type_id').val(education);
+    $("#other_exam_name_id").empty();
+    $("#other_exam_name_id").append(other_exam_name_id);
+    $('#other_exam_name_id').val(JSON.parse(name));
+    inititateSelect2();
 
-  
+
     $('#resultSubjectMapFormReset').show();
 }
 
-async function deleteresultSubjectMapFormClass(id){
+async function deleteresultSubjectMapFormClass(id) {
 
     var formData = new FormData();
     formData.append('form_name', 'deleteresultSubjectMap');
@@ -605,16 +612,17 @@ async function deleteresultSubjectMapFormClass(id){
         data: formData,
         contentType: false,
         processData: false,
-      headers: { 
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-        }    }).done(function (data) {
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    }).done(function (data) {
         console.log('data deleted');
         location.reload();
     }).fail(function (data) {
         console.log(data);
-    })  
+    });
 }
 
- 
+
 
 

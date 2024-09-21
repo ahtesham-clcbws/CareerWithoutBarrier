@@ -43,6 +43,16 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);
 
+        // if ($request->email != env('DEVELOPER_EMAIL', 'vinod190596@gmail.com')) {
+
+        //     $otpVerify = OtpVerifications::where('otp', $request->otp)->where('status', 0)->first();
+
+        //     if (is_null($otpVerify)) {
+        //         return back()->withErrors('OTP is Invalid.');
+        //     }
+        //     $otpVerify->status = 1;
+        //     $otpVerify->save();
+        // }
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.

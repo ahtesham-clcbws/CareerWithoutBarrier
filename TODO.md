@@ -9,3 +9,13 @@ php artisan config:clear
 
 
 MyT&N@2024#!
+UPDATE `student_codes` SET `exam_center` = NULL,`exam_at` = NULL,`admitcard_before` = NULL,`exam_mins` = NULL;
+
+
+UPDATE `student_codes` 
+SET `roll_no` = NULL,
+`exam_center` = NULL,
+`exam_at` = NULL,
+`admitcard_before` = NULL,
+`issued_admitcard` = 0,
+`exam_mins` = NULL;

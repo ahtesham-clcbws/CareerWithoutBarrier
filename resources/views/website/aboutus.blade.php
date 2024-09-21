@@ -164,7 +164,7 @@
                 <div class="comm-tit-ani tit ani-tit text-left pb-2">
                     <p>{{$bannerSectionThreeHeader?->section_remarks}}</p>
                     @if($bannerSectionThreeHeader?->section_title)
-                    <h2>{!! wrap_half_title_in_span($bannerSectionThreeHeader?->section_title) !!}<br></h2><span class="line"></span>
+                    <h2>{!! wrapHalfTitleInSpan($bannerSectionThreeHeader?->section_title) !!}<br></h2><span class="line"></span>
                     @endif
                 </div>
                 <div class="row">
@@ -198,7 +198,7 @@
         <!-- END -->
         <!--ALL SECTION COMMEN TITTLE-->
         <div class="comm-tit-ani tit ani-tit">
-            <h2>{!! wrap_half_title_in_span($bannerSectionFourHeader?->section_title) !!}<br></h2><span class="line"></span>
+            <h2>{!! wrapHalfTitleInSpan($bannerSectionFourHeader?->section_title) !!}<br></h2><span class="line"></span>
             <h6>{{$bannerSectionFourHeader?->section_remarks}}</h6>
         </div>
         <div class="container">
@@ -223,7 +223,7 @@
     <div class="container">
         <div class="comm-tit-ani tit ani-tit text-center pb-2">
             <p>{{$bannerSectionFiveHeader?->section_remarks}}</p>
-            <h2>{!! wrap_half_title_in_span($bannerSectionFiveHeader?->section_title) !!}<br></h2><span class="line"></span>
+            <h2>{!! wrapHalfTitleInSpan($bannerSectionFiveHeader?->section_title) !!}<br></h2><span class="line"></span>
         </div>
         <div class="row">
             @foreach($bannerSectionFives as $bannerSectionFive)
@@ -317,7 +317,7 @@
 <div class="our-values strategy-consult">
     <div class="container">
         <div class="comm-tit-ani tit ani-tit text-center pb-2">
-            <h2>{!! wrap_half_title_in_span($bannerSectionSixHeader?->section_title) !!}<br></h2><span class="line"></span>
+            <h2>{!! wrapHalfTitleInSpan($bannerSectionSixHeader?->section_title) !!}<br></h2><span class="line"></span>
             <h6 class="mb-5">{{$bannerSectionSixHeader?->section_remarks}}</h6>
         </div>
         <div class="row">

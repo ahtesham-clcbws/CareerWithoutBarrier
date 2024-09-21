@@ -10,7 +10,7 @@ Student Exam Center Allotment
     #board_name_id,
     #genders-filters,
     #exam_center,
-    /* #student_number, */
+    #student_number,
     #admitcard_before,
     #exam_mins {
         display: none;
@@ -41,7 +41,7 @@ Student Exam Center Allotment
                     <div class="card-body">
                         <div id="alotmentForm">
                             <form class="row" method="get" style="margin-bottom: 15px" id="filterForm">
-
+                                @csrf
                                 <div class="col-md-3 col mb-3">
                                     <select name="district_id[]" multiple class="customSelect" id="district-ids">
                                         @foreach($cities as $city)
@@ -149,7 +149,13 @@ Student Exam Center Allotment
                                         <div class="col-lg-2 mb-2">
                                             <label for="form-label">Max students</label>
                                             <div>
-                                                <input class="w-100 form-control" type="number" id="student_number" name="student_number" value="0" />
+                                                <select class="customSelect w-100" id="student_number" name="student_number">
+                                                    <option value=""></option>
+                                                    @for ($i = 50; $i <= 400; $i +=50) <option value="{{ $i }}">
+                                                        {{ $i }}
+                                                        </option>
+                                                        @endfor
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 mb-2">
@@ -178,21 +184,16 @@ Student Exam Center Allotment
                     <div class="card-body">
                         <div class="table-responsive">
                             @if($filters && count($filters)>0)
-                            <div class="card-header d-flex gap-5 justify-content-between w-100 px-0">
-                                <div class="d-flex flex-wrap gap-2 flex-grow-1">
-                                    @foreach($filters as $key => $filter)
-                                    @if(count($filter)>0)
-                                    @foreach($filter as $filteredValue)
-                                    <span class="badge text-bg-<?= $key == 'district' ? 'primary' : ($key == 'scholarship' ? 'secondary' : ($key == 'class' ? 'success' : 'danger')) ?> fs-6">
-                                        {{ $filteredValue }}
-                                    </span>
-                                    @endforeach
-                                    @endif
-                                    @endforeach
-                                </div>
-                                <div class="d-inline">
-                                    <span class="badge text-bg-warning fs-6">Total Students:- {{ count($students) }}</span>
-                                </div>
+                            <div class="card-header d-flex gap-2 w-100 px-0">
+                                @foreach($filters as $key => $filter)
+                                @if(count($filter)>0)
+                                @foreach($filter as $filteredValue)
+                                <span class="badge text-bg-<?= $key == 'district' ? 'primary' : ($key == 'scholarship' ? 'secondary' : ($key == 'class' ? 'success' : 'danger')) ?> fs-6">
+                                    {{ $filteredValue }}
+                                </span>
+                                @endforeach
+                                @endif
+                                @endforeach
                             </div>
                             @endif
                             <table class="table display table-bordered datatablecll">
@@ -269,6 +270,32 @@ Student Exam Center Allotment
 
 <script>
     $(document).ready(function() {
+        $('#allotCenterToAll').on('click', function(e) {
+            if ($('#exam_center').val() === "") {
+                return alert("Please select an Exam Center.");
+            }
+            if ($('#flatpickrInstance').val() === "") {
+                return alert("Please select the Date and Time.");
+            }
+            if ($('#exam_mins').val() === "") {
+                return alert("Please select test duration.");
+            }
+            if ($('#admitcard_before').val() === "") {
+                return alert("Please select admin card before show.");
+            }
+            if (confirm('Are you sure to allot all the students to selected exams center?')) {
+                console.log('exam center:- ', $('#exam_center').val())
+                var url = "/administrator/exam_center_allot_to_all/" + $('#exam_center').val() + '?exam_date_time=' + $('#flatpickrInstance').val() + '&exam_mins=' + $('#exam_mins').val() + '&admitcard_before=' + $('#admitcard_before').val();
+
+                if ($('#student_number').val() != "") {
+                    url += '&exam_date_time=' + $('#student_number').val()
+                }
+            }
+        })
+    });
+</script>
+<script>
+    $(document).ready(function() {
         let tomSelectCommonOptions = {
             closeAfterSelect: true,
             hidePlaceholder: true,
@@ -310,13 +337,13 @@ Student Exam Center Allotment
         exam_center.inputState();
         let examCenterSelect = exam_center;
 
-        // let student_number = new TomSelect('#student_number', {
-        //     ...tomSelectCommonOptions,
-        //     create: true
-        // });
+        let student_number = new TomSelect('#student_number', {
+            ...tomSelectCommonOptions,
+            create: true
+        });
         // student_number.settings.placeholder = "Select students";
         // student_number.inputState();
-        // let studentNumberSelect = student_number;
+        let studentNumberSelect = student_number;
 
         let exam_mins = new TomSelect('#exam_mins', tomSelectCommonOptions);
         // exam_mins.settings.placeholder = "Select duration";

@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\StudentCode;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use App\Models\Student;
 use App\Models\StudentPaperExported;
@@ -25,14 +26,48 @@ class StudentsSubjectMarkFillExport implements FromCollection, WithHeadings, Wit
 
     public function __construct($subjectMapping)
     {
+        // $this->students = Student::where('scholarship_category', $subjectMapping->education_type_id)
+        //     ->whereIn('scholarship_opted_for', json_decode($subjectMapping->name))
+        //     ->whereHas('latestStudentCode', function ($query) {
+        //         $query->whereNotNull('roll_no')
+        //             ->whereNotNull('application_code');
+        //     })
+        //     ->with(['latestStudentCode', 'scholarShipCategory'])
+        //     ->join('student_codes', 'students.id', '=', 'student_codes.stud_id') // Join with the related table
+        //     ->orderBy('student_codes.roll_no', 'asc') // Order by roll_no ascending
+        //     ->select('students.*') // Select the student columns
+        //     ->get();
+
         $this->students = Student::where('scholarship_category', $subjectMapping->education_type_id)
             ->whereIn('scholarship_opted_for', json_decode($subjectMapping->name))
             ->whereHas('latestStudentCode', function ($query) {
                 $query->whereNotNull('roll_no')
                     ->whereNotNull('application_code');
             })
-            ->with(['latestStudentCode', 'scholarShipCategory'])
+            ->with([
+                'latestStudentCode' => function ($query) {
+                    $query->orderBy('roll_no', 'asc'); // Order within the relationship
+                },
+                'scholarShipCategory'
+            ]) // Eager load the necessary relationships
+            ->orderBy(
+                StudentCode::select('roll_no')
+                    ->whereColumn('student_codes.stud_id', 'students.id')
+                    ->limit(1)
+            ) // Order by roll_no without a join
+            ->distinct() // Ensure no duplicate students are returned
             ->get();
+
+
+
+        // $this->students = Student::where('scholarship_category', $subjectMapping->education_type_id)
+        //     ->whereIn('scholarship_opted_for', json_decode($subjectMapping->name))
+        //     ->whereHas('latestStudentCode', function ($query) {
+        //         $query->whereNotNull('roll_no')
+        //             ->whereNotNull('application_code');
+        //     })
+        //     ->with(['latestStudentCode', 'scholarShipCategory'])
+        //     ->get();
         // $this->students = Student::where('scholarship_category', $subjectMapping->education_type_id)
         //     ->whereIn('scholarship_opted_for', json_decode($subjectMapping->name))
         //     ->with(['latestStudentCode', 'scholarShipCategory'])
@@ -84,11 +119,12 @@ class StudentsSubjectMarkFillExport implements FromCollection, WithHeadings, Wit
                 $this->rowNumber++,
                 $studPaperExporteds->first()?->id,
                 ucfirst($row->name),
-                $this->calculateAge($row->dob),
+                // $this->calculateAge($row->dob),
                 $row->disability,
                 $row->father_name,
-                $row->gender == 'Male' ? 'M' : ($row->gender == 'Female' ? 'F' : 'T'),
-                Date::dateTimeToExcel(Carbon::parse($row->dob)),
+                // $row->gender == 'Male' ? 'M' : ($row->gender == 'Female' ? 'F' : 'T'),
+                $row->gender,
+                date('d-m-Y', strtotime($row->dob)),
                 $row->state?->name,
                 $row->district?->name,
                 $row->latestStudentCode?->application_code,
@@ -111,7 +147,7 @@ class StudentsSubjectMarkFillExport implements FromCollection, WithHeadings, Wit
             'Sr.No',
             'student_id',
             'Name',
-            'Age',
+            // 'Age',
             'Disabled',
             'Father\'s Name',
             'Gender',

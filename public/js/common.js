@@ -71,7 +71,8 @@ $(document).ready(function() {
   });
 
   function scholarshipTypesChange(value) {
-    var scholarshipCategory = $("#education_name").val();
+    console.log('init scholarshipTypesChange')
+    let scholarshipCategory = $("#education_name").val();
     console.log("Valur : ", scholarshipCategory);
     $.ajaxSetup({
       headers: {

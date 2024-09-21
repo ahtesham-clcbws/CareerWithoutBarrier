@@ -585,10 +585,6 @@ class HomeController extends Controller
             $otp   = mt_rand(100000, 999999);
             $textlocal->sendSms($mobileNumber, $otp);
 
-            // $studentemail = $student->email;
-
-            //Mail::to($studentemail)->send(new OTPCorporateMail($otp));
-
             return response()->json(['status' => true, 'message' => 'Otp sent Successfully.']);
         } else {
             return response()->json(['status' => false, 'message' => 'Invalid attempt.']);

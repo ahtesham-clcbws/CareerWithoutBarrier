@@ -159,7 +159,7 @@ class AdminController extends Controller
         $cities = District::get();
         $classexam = ClassGoupExamModel::all();
         $qualifications = BoardAgencyStateModel::all();
-        return view('administrator.dashboard.student_view', compact('student', 'states', 'scholarshipTypes', 'cities', 'classexam', 'qualifications'));
+        return  view('administrator.dashboard.student_view', compact('student', 'states', 'scholarshipTypes', 'cities', 'classexam', 'qualifications'));
     }
 
     public function updateCoupons(Request $request)
@@ -235,44 +235,18 @@ class AdminController extends Controller
     // start roll number generation
     public function studentGenerateRollNo(Request $request)
     {
-        // Fetch students based on final submission and include district relation
-        $students = Student::where('is_final_submitted', 1)
-            ->whereIn('district_id', $request->district_id) // Fetch students from selected districts
-            ->with('district');
-
-        // Apply filters based on scholarship, class, and gender
-        if (!empty($request->scholarship_type) && $request->scholarship_type[0] != null) {
-            $scholarshipIds = array_map('intval', $request->scholarship_type);
-            $students = $students->whereHas('scholarShipCategory', function ($subQuery) use ($scholarshipIds) {
-                $subQuery->whereIn('id', $scholarshipIds);
-            });
-        }
-
-        if (!empty($request->class) && $request->class[0] != null) {
-            $classIds = array_map('intval', $request->class);
-            $students = $students->whereIn('qualification', $classIds);
-        }
-
-        if (!empty($request->gender) && $request->gender[0] != null) {
-            $genderIds = array_map('intval', $request->gender);
-            $students = $students->whereIn('gender', $genderIds);
-        }
-
-        // Get the students after applying filters
-        $students = $students->get();
+        // Fetch students that have final submission and include district relation
+        $students = Student::where('is_final_submitted', 1)->with('district')->get();
 
         if ($students->isEmpty()) {
             return back()->with('error', "No Data Available for applied Filter.");
         }
 
-        // Group students by district and gender
-        $groupedStudents = $this->groupStudentsByDistrictAndGender($students);
+        // Classify students by gender
+        $groupedStudents = $this->groupStudentsByGender($students);
 
-        // Get the current highest roll number (defaults to 10000000)
-        $lastRollNumber = StudentCode::max('roll_no') ?? 10000000;
-
-        // Generate roll numbers for all district and gender groups
-        $generatedRollNumbers = $this->generateRollNumbersForDistricts($groupedStudents, $lastRollNumber);
+        // Generate roll numbers for all student groups
+        $generatedRollNumbers = $this->generateRollNumbersForGroups($groupedStudents);
 
         if ($generatedRollNumbers > 0) {
             return redirect()->back()->with('success', 'Roll Numbers generated successfully (' . $generatedRollNumbers . ')');
@@ -281,58 +255,43 @@ class AdminController extends Controller
         return back()->with('error', "No roll numbers generated.");
     }
 
-    private function groupStudentsByDistrictAndGender($students)
+    private function groupStudentsByGender($students)
     {
-        $grouped = [];
+        // Group students based on gender
+        $grouped = [
+            'male' => [],
+            'female' => [],
+            'transgender' => [],
+        ];
 
         foreach ($students as $student) {
-            $districtId = $student->district->id;
             $gender = strtolower($student->gender);
-
-            // Initialize the district and gender groups
-            if (!isset($grouped[$districtId])) {
-                $grouped[$districtId] = [
-                    'male' => [],
-                    'female' => [],
-                    'transgender' => []
-                ];
-            }
-
-            // Add student to the correct gender group within the district
-            if (isset($grouped[$districtId][$gender])) {
-                $grouped[$districtId][$gender][] = $student;
+            if (isset($grouped[$gender])) {
+                $grouped[$gender][] = $student;
             }
         }
 
         return $grouped;
     }
 
-    private function generateRollNumbersForDistricts($groupedStudents, &$lastRollNumber)
+    private function generateRollNumbersForGroups($groupedStudents)
     {
         $totalGenerated = 0;
 
-        // Loop through each district group
-        foreach ($groupedStudents as $districtId => $genderGroup) {
-            // Generate roll numbers for each gender group within the district
-            foreach (['male', 'female', 'transgender'] as $gender) {
-                if (!empty($genderGroup[$gender])) {
-                    $totalGenerated += $this->generateRollNumbersForGroup($genderGroup[$gender], $lastRollNumber);
-                    // Increment the roll number by the number of generated students
-                    $lastRollNumber += count($genderGroup[$gender]);
-                }
-            }
+        // Loop through each gender group
+        foreach ($groupedStudents as $genderGroup) {
+            $totalGenerated += $this->generateRollNumbersForGroup($genderGroup);
         }
 
         return $totalGenerated;
     }
 
-    private function generateRollNumbersForGroup($students, &$lastRollNumber)
+    private function generateRollNumbersForGroup($students)
     {
         $generatedCount = 0;
 
         foreach ($students as $student) {
-            // Generate roll number for each student in the group
-            $result = $this->rollNumberGenerate($student, $lastRollNumber);
+            $result = $this->rollNumberGenerate($student);
             if ($result['generated']) {
                 $generatedCount++;
             }
@@ -341,22 +300,42 @@ class AdminController extends Controller
         return $generatedCount;
     }
 
-    public function rollNumberGenerate($student, &$lastRollNumber)
+    public function rollNumberGenerate($student)
     {
-        $studentCode = $student->latestStudentCode;
+        $district = $student->district;
+        if ($district && $district->id) {
+            // Get roll number starting from district id
+            $rollStartFrom = sprintf("%03d", $district->id);
 
-        // Assign roll number only if the student does not already have one
-        if (!$studentCode->roll_no) {
-            $lastRollNumber++; // Increment the last roll number
-            $studentCode->roll_no = sprintf("%08d", $lastRollNumber); // Format roll number as 8 digits
-            $studentCode->save();
+            // Check how many students already exist in that district
+            $checkUsersCountOnDistrict = Student::select('id')->where('district_id', $district->id)->count();
 
-            return ['generated' => true];
+            // Ensure roll number is unique
+            do {
+                $roll = $checkUsersCountOnDistrict + 1;
+                $rollNumberEnd = sprintf("%04d", $roll);
+                $fullRollNumber = '1' . $rollStartFrom . $rollNumberEnd;
+
+                // Check if this roll number already exists for another student
+                $existingRollNumber = StudentCode::where('roll_no', $fullRollNumber)->exists();
+
+                // If roll number exists, increase the count to get a unique roll number
+                if ($existingRollNumber) {
+                    $checkUsersCountOnDistrict++;
+                }
+            } while ($existingRollNumber); // Loop until a unique roll number is found
+
+            // Assign roll number only if the student does not already have one
+            $studentCode = $student->latestStudentCode;
+            if (!$studentCode->roll_no) {
+                $studentCode->roll_no = $fullRollNumber;
+                $studentCode->save();
+                return ['generated' => true];
+            }
         }
 
         return ['generated' => false];
     }
-
     // end roll number generation
 
     public function getClassByScholarshipType(Request $request)
@@ -365,7 +344,7 @@ class AdminController extends Controller
             $ids = array_map(function ($id) {
                 return intval($id);
             }, $request->ids);
-            $classGroupId = Gn_EducationClassExamAgencyBoardUniversity::whereIn('education_type_id', $ids)->get()->pluck('board_agency_exam_id');
+            $classGroupId = Gn_EducationClassExamAgencyBoardUniversity::whereIn('education_type_id',  $ids)->get()->pluck('board_agency_exam_id');
             if (!empty($classGroupId)) {
                 $classes = BoardAgencyStateModel::whereIn('id', $classGroupId)->select('id', 'name')->get();
                 return response()->json(['status' => true, 'data' => $classes]);
@@ -487,7 +466,7 @@ class AdminController extends Controller
 
             // cget all classes
 
-            $classGroupId = Gn_EducationClassExamAgencyBoardUniversity::whereIn('education_type_id', $scholarshipIds)->get()->pluck('board_agency_exam_id');
+            $classGroupId = Gn_EducationClassExamAgencyBoardUniversity::whereIn('education_type_id',  $scholarshipIds)->get()->pluck('board_agency_exam_id');
             $preloadedClasses = BoardAgencyStateModel::whereIn('id', $classGroupId)->select('id', 'name')->get();
 
             $filters['scholarship'] = Educationtype::whereIn('id', $scholarshipIds)->pluck('name');
@@ -528,175 +507,89 @@ class AdminController extends Controller
 
         return view('administrator.dashboard.student_exam_center_allot', compact('preloadedClasses', 'examCenters', 'students', 'cities', 'scholarshipTypes', 'filters'));
     }
+
     public function examCenterAllot(Request $request)
     {
         $examCenter = $request->exam_center;
-        $studentNumber = intval($request->student_number ?? 0);
-    
-        // Check if all required parameters are present
-        if (is_null($examCenter) || is_null($request->exam_mins) || is_null($request->exam_date_time) || $studentNumber <= 0) {
+        $studentNumber = intval(isset($request->student_number) ?? 0);
+
+        if (is_null($examCenter) || is_null($request->exam_mins) || is_null($request->exam_date_time) || is_null($studentNumber)) {
             $message = is_null($examCenter) ? 'Please select Exam center' : (
                 is_null($request->exam_mins) ? 'Please select Exam Duration Mins' : (
-                    is_null($request->exam_date_time) ? 'Please select Exam Date and time.' : 'Please provide the number of students.'
+                    is_null($request->exam_date_time) ?  'Please select Exam Date and time.' : (
+                        is_null($studentNumber) ? 'Please select Student Number' : 'Some error occurs.'
+                    )
                 )
             );
             return response()->json(['status' => false, 'message' => $message]);
         }
-    
-        // Start the query
-        $query = Student::where('is_final_submitted', 1)->with('studentCode');
-    
-        // Apply district filter if provided
+
+        $query = Student::query();
+        $query = $query->where('is_final_submitted', 1)->with('studentCode');
+
         if (!empty($request->district_id) && $request->district_id[0] != null) {
-            $districtIds = array_map('intval', $request->district_id);
+            $districtIds = array_map(function ($id) {
+                return intval($id);
+            }, $request->district_id);
             $query = $query->whereIn('district_id', $districtIds);
         }
-    
-        // Apply scholarship filter if provided
         if (!empty($request->scholarship) && $request->scholarship[0] != null) {
-            $scholarshipIds = array_map('intval', $request->scholarship);
+            // $student->scholarShipCategory->name
+            $scholarshipIds = array_map(function ($id) {
+                return intval($id);
+            }, $request->scholarship);
+
+            // Join the scholarShipCategory relationship and filter by scholarship IDs
             $query = $query->whereHas('scholarShipCategory', function ($subQuery) use ($scholarshipIds) {
                 $subQuery->whereIn('id', $scholarshipIds);
             });
         }
-    
-        // Apply class filter if provided
         if (!empty($request->class) && $request->class[0] != null) {
-            $classIds = array_map('intval', $request->class);
+            $classIds = array_map(function ($id) {
+                return intval($id);
+            }, $request->class);
             $query = $query->whereIn('qualification', $classIds);
         }
-    
-        // Apply gender filter if provided
         if (!empty($request->gender) && $request->gender[0] != null) {
-            $genderIds = array_map('intval', $request->gender);
+            $genderIds = array_map(function ($id) {
+                return intval($id);
+            }, $request->gender);
             $query = $query->whereIn('gender', $genderIds);
         }
-    
-        // Only students with roll numbers should be selected
+
+        // // Join the studentCode relationship for checking if student has roll_no alloted or not
         $query = $query->whereHas('studentCode', function ($subQuery) {
             $subQuery->where('roll_no', '!=', null);
         });
-    
-        // Limit the number of students if provided
+
         if ($studentNumber > 0) {
             $query = $query->limit($studentNumber);
         }
-    
-        // Get the students who match the query
-        $students = $query->get();
-    
-        // Check if any students match the criteria
-        if ($students->isEmpty()) {
-            return response()->json(['status' => false, 'message' => 'No Data Available for applied Filter.']);
-        }
-    
-        // Loop through the students and assign the exam center
-        foreach ($students as $student) {
-            // Get the latest student code
-            $studentCode = $student->studentCode->sortByDesc('created_at')->first();
-    
-            // Assign exam center and details if not already assigned
-            if ($studentCode && !$studentCode->exam_center) {
-                $studentCode->exam_center = $examCenter;
-                $studentCode->exam_at = $request->exam_date_time;
-                $studentCode->exam_mins = $request->exam_mins;
-                $studentCode->admitcard_before = $request->admitcard_before;
-    
-                // Issue admit card if the corporate stop is not applied
-                if (!$studentCode->corporate_stop_admitcard) {
-                    $studentCode->issued_admitcard = 1;
+
+        $students = $query = $query->get();
+
+        if ($students && count($students) > 0) {
+            foreach ($students as  $student) {
+                $studentCode = $student->studentCode->sortBy('created_at')->last();
+                if ($studentCode && !$studentCode->exam_center) {
+                    $studentCode->exam_center = $request->exam_center;
+                    $studentCode->exam_at = $request->exam_date_time;
+                    $studentCode->exam_mins = $request->exam_mins;
+                    $studentCode->admitcard_before = $request->admitcard_before;
+
+                    if (!$studentCode->corporate_stop_admitcard) {
+                        $studentCode->issued_admitcard = 1;
+                    }
+
+                    $studentCode->save();
                 }
-    
-                // Save the updated student code
-                $studentCode->save();
             }
+
+            return response()->json(['status' => true, 'message' => "Exam center alloted Successfully."]);
+        } else {
+            return response()->json(['status' => false, 'message' => 'No Data Available for applied Filter.' . json_encode($students)]);
         }
-    
-        return response()->json(['status' => true, 'message' => "Exam center allotted successfully."]);
     }
-    
-    // public function examCenterAllot(Request $request)
-    // {
-    //     $examCenter = $request->exam_center;
-    //     $studentNumber = intval(isset($request->student_number) ?? 0);
-
-    //     if (is_null($examCenter) || is_null($request->exam_mins) || is_null($request->exam_date_time) || is_null($studentNumber)) {
-    //         $message = is_null($examCenter) ? 'Please select Exam center' : (
-    //             is_null($request->exam_mins) ? 'Please select Exam Duration Mins' : (
-    //                 is_null($request->exam_date_time) ? 'Please select Exam Date and time.' : (
-    //                     is_null($studentNumber) ? 'Please select Student Number' : 'Some error occurs.'
-    //                 )
-    //             )
-    //         );
-    //         return response()->json(['status' => false, 'message' => $message]);
-    //     }
-
-    //     $query = Student::query();
-    //     $query = $query->where('is_final_submitted', 1)->with('studentCode');
-
-    //     if (!empty($request->district_id) && $request->district_id[0] != null) {
-    //         $districtIds = array_map(function ($id) {
-    //             return intval($id);
-    //         }, $request->district_id);
-    //         $query = $query->whereIn('district_id', $districtIds);
-    //     }
-    //     if (!empty($request->scholarship) && $request->scholarship[0] != null) {
-    //         // $student->scholarShipCategory->name
-    //         $scholarshipIds = array_map(function ($id) {
-    //             return intval($id);
-    //         }, $request->scholarship);
-
-    //         // Join the scholarShipCategory relationship and filter by scholarship IDs
-    //         $query = $query->whereHas('scholarShipCategory', function ($subQuery) use ($scholarshipIds) {
-    //             $subQuery->whereIn('id', $scholarshipIds);
-    //         });
-    //     }
-    //     if (!empty($request->class) && $request->class[0] != null) {
-    //         $classIds = array_map(function ($id) {
-    //             return intval($id);
-    //         }, $request->class);
-    //         $query = $query->whereIn('qualification', $classIds);
-    //     }
-    //     if (!empty($request->gender) && $request->gender[0] != null) {
-    //         $genderIds = array_map(function ($id) {
-    //             return intval($id);
-    //         }, $request->gender);
-    //         $query = $query->whereIn('gender', $genderIds);
-    //     }
-
-    //     // // Join the studentCode relationship for checking if student has roll_no alloted or not
-    //     $query = $query->whereHas('studentCode', function ($subQuery) {
-    //         $subQuery->where('roll_no', '!=', null);
-    //     });
-
-    //     if ($studentNumber > 0) {
-    //         $query = $query->limit($studentNumber);
-    //     }
-
-    //     $students = $query->get();
-
-    //     if ($students && count($students) > 0) {
-    //         foreach ($students as $student) {
-    //             $studentCode = $student->studentCode->sortByDesc('created_at')->first();
-    //             if ($studentCode && !$studentCode->exam_center) {
-    //                 $studentCode->exam_center = $request->exam_center;
-    //                 $studentCode->exam_at = $request->exam_date_time;
-    //                 $studentCode->exam_mins = $request->exam_mins;
-    //                 $studentCode->admitcard_before = $request->admitcard_before;
-
-    //                 if (!$studentCode->corporate_stop_admitcard) {
-    //                     $studentCode->issued_admitcard = 1;
-    //                 }
-
-    //                 $studentCode->save();
-    //             }
-    //         }
-
-    //         return response()->json(['status' => true, 'message' => "Exam center alloted Successfully."]);
-    //     } else {
-    //         return response()->json(['status' => false, 'message' => 'No Data Available for applied Filter.' . json_encode($students)]);
-    //     }
-    // }
 
     public function examCenterAllottoAll($exam_center, Request $request)
     {
@@ -711,7 +604,7 @@ class AdminController extends Controller
         if ($students->isNotEmpty()) {
             $students->load(['district', 'qualifications', 'studentCode']);
 
-            foreach ($students as $student) {
+            foreach ($students as  $student) {
                 $studentCode = $student->studentCode->sortBy('created_at')->last();
                 if (!is_null($studentCode) && is_null($studentCode->exam_center)) {
                     $studentCode->exam_center = $exam_center;
@@ -756,7 +649,7 @@ class AdminController extends Controller
             $studentCode = StudentCode::find($studCodeIds);
             if ($studentCode) {
                 if ($studentCode->corporate_stop_admitcard == 0) {
-                    $studentCode->issued_admitcard = $status;
+                    $studentCode->issued_admitcard =  $status;
                 }
                 $studentCode->save();
             }
@@ -809,7 +702,7 @@ class AdminController extends Controller
                     'banner' => 'required | image | mimes:jpeg,png,jpg,gif|max:2048',
                 ]);
 
-                $aboutUs = $request->banner_id ? AboutUs::find($request->banner_id) : new AboutUs();
+                $aboutUs = $request->banner_id ? AboutUs::find($request->banner_id) :  new AboutUs();
 
                 $validated['banner'] = moveFile($homeAboutFolder, $request->banner);
 
@@ -862,11 +755,11 @@ class AdminController extends Controller
             if ($request->form_type == 'about_section3') {
 
                 $validated = $request->validate([
-                    'section_title' => 'nullable |string',
+                    'section_title'   => 'nullable |string',
                     'section_remarks' => 'nullable',
-                    'title' => 'required  |  string',
-                    'image' => 'required|  image|mimes:jpeg,png,jpg,gif|  max:2048',
-                    'description' => 'required|   string'
+                    'title'           => 'required  |  string',
+                    'image'           => 'required|  image|mimes:jpeg,png,jpg,gif|  max:2048',
+                    'description'     => 'required|   string'
                 ]);
 
                 $validated['image'] = moveFile($homeAboutFolder, $request->image);
@@ -881,11 +774,11 @@ class AdminController extends Controller
             if ($request->form_type == 'about_section4') {
 
                 $validated = $request->validate([
-                    'section_title' => 'nullable|string',
+                    'section_title'   => 'nullable|string',
                     'section_remarks' => 'nullable',
-                    'title' => 'required|string',
-                    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'description' => 'required|string'
+                    'title'           => 'required|string',
+                    'image'           => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'description'     => 'required|string'
                 ]);
 
                 $validated['image'] = moveFile($homeAboutFolder, $request->image);
@@ -900,11 +793,11 @@ class AdminController extends Controller
             if ($request->form_type == 'about_section5') {
 
                 $validated = $request->validate([
-                    'section_title' => 'nullable|string',
+                    'section_title'   => 'nullable|string',
                     'section_remarks' => 'nullable',
-                    'title' => 'required|string',
-                    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'description' => 'required|string'
+                    'title'           => 'required|string',
+                    'image'           => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'description'     => 'required|string'
                 ]);
 
                 $validated['image'] = moveFile($homeAboutFolder, $request->image);
@@ -918,11 +811,11 @@ class AdminController extends Controller
             if ($request->form_type == 'about_section6') {
 
                 $validated = $request->validate([
-                    'section_title' => 'nullable|string',
+                    'section_title'   => 'nullable|string',
                     'section_remarks' => 'nullable',
-                    'title' => 'required|string',
-                    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-                    'description' => 'required|string'
+                    'title'           => 'required|string',
+                    'image'           => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'description'     => 'required|string'
                 ]);
 
                 $validated['image'] = moveFile($homeAboutFolder, $request->image);
@@ -972,7 +865,7 @@ class AdminController extends Controller
 
             if ($form_type == 'about_banner') {
 
-                $aboutUs = AboutUs::find($id);
+                $aboutUs =  AboutUs::find($id);
                 $aboutUs->delete();
 
                 $message = 'About Us Banner';
@@ -1191,7 +1084,7 @@ class AdminController extends Controller
                     'picture.max' => 'The picture must not be larger than 2048 kilobytes.',
                 ]);
 
-                $aboutUs = $request->scholarship_id ? ScholarshipHome::find($request->scholarship_id) : new ScholarshipHome();
+                $aboutUs = $request->scholarship_id ? ScholarshipHome::find($request->scholarship_id) :  new ScholarshipHome();
 
                 $validated['icon'] = moveFile($homeAboutFolder, $request->icon);
                 $validated['picture'] = moveFile($homeAboutFolder, $request->picture);
@@ -1243,7 +1136,7 @@ class AdminController extends Controller
 
             if ($form_type == 'scholarship') {
 
-                $aboutUs = ScholarshipHome::find($id);
+                $aboutUs =  ScholarshipHome::find($id);
                 $aboutUs->delete();
 
                 $message = 'scholarship';
@@ -1551,7 +1444,7 @@ class AdminController extends Controller
             $query->limit($request->limit);
         }
 
-        $students = $query->orderByDesc('s.percentage')
+        $students =  $query->orderByDesc('s.percentage')
             ->distinct('students.id')
             ->get();
 
@@ -1748,7 +1641,7 @@ class AdminController extends Controller
         if ($type == 'Yes') {
             $education = Educationtype::where('id', $id)->get();
 
-            return response()->json(['status' => true, 'message' => 'Select another Qualification.', 'data' => $education]);
+            return response()->json(['status' => true, 'message' => 'Select another Qualification.', 'data' =>   $education]);
         }
         $boardConnection = Gn_DisplayExamAgencyBoardUniversity::where('board_id', 'LIKE', '%' . $id . '%')
             ->with('educations')

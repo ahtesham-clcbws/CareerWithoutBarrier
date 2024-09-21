@@ -65,8 +65,8 @@ Student List
                                     </select>
                                 </div>
                                 <div class="col-md-2 col mb-1">
-                                    <label class="form-label">Gender<span class="text-danger">*</span></label>
-                                    <select name="gender[]" class="form-control form-select" id="genders-filters" multiple required>
+                                    <label class="form-label">Gender</label>
+                                    <select name="gender[]" class="form-control form-select" id="genders-filters" multiple>
                                         <option value="">--Select Gender--</option>
                                         <option value="Male" {{ (is_array(request()->gender) && in_array('Male', request()->gender)) ? 'selected' : '' }}>Male</option>
                                         <option value="Female" {{ (is_array(request()->gender) && in_array('Female', request()->gender)) ? 'selected' : '' }}>Female</option>

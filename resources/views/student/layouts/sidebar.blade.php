@@ -13,17 +13,13 @@ $student = Student::find(Auth::guard('student')->id());
 $student->student_paper_details;
 $isResultAvailable = false;
 
-if ($student->studentPaperDetails && $student->studentPaperDetails[0]->is_imported) {
+if ($student->studentPaperDetails && is_array($student->studentPaperDetails) && count($student->studentPaperDetails) >0 && $student->studentPaperDetails[0]->is_imported) {
     // foreach ($student->studentPaperDetails[0] as $key => $paper) {
     //     if($paper->is_imported) {
     $isResultAvailable = true;
     //     }
     // }
 }
-// echo 'isResultAvailable: '.json_encode($isResultAvailable);
-// return print_r($student->studentPaperDetails);
-
-// $studentPaperDetail = $student->student_paper_details()[0];
 
 $studCode = $student->latestStudentCode;
 
