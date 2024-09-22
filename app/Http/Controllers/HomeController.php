@@ -509,8 +509,6 @@ class HomeController extends Controller
 
     public function sendVerificationOtp(Request $request)
     {
-
-
         $textlocal = new TextlocalService;
 
         if ($request->form_user == 'admin') {
@@ -521,8 +519,6 @@ class HomeController extends Controller
 
             $admins = User::where('roles', 'admin')->whereNotNull('email')->get();
 
-            $otp   = mt_rand(100000, 999999);
-
             $textlocal->sendSms(env('ADMIN_MOBILE', '9335171302'), $otp);
 
             $ipAddress = $request->ip();
@@ -530,6 +526,7 @@ class HomeController extends Controller
 
             $votp = new OtpVerifications;
 
+            $otp   = mt_rand(100000, 999999);
             $votp->credential = env('ADMIN_MOBILE', '9335171302');
             $votp->otp = $otp;
             $votp->type = 'mobile';
@@ -576,7 +573,7 @@ class HomeController extends Controller
         if ($request->form_user == 'forgetPassword') {
             $student = Student::where('mobile', $mobileNumber)->first();
 
-            if (is_null($student)) {
+            if (is_null(value: $student)) {
                 return response()->json(['status' => false, 'message' => 'You are not registered.']);
             }
         }

@@ -12,25 +12,147 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
+    /**
+     * Verifies the provided mobile and email to ensure they are not already in use.
+     * If not in use, generates and saves an OTP for the mobile number.
+     *
+     * @param Request $request The request object containing the email and mobile number to be verified.
+     * @return \Illuminate\Http\JsonResponse Returns a JSON response with success status, message, and optionally, error details.
+     * @throws \Throwable If an error occurs during the process.
+     */
     public function verifyMobileEmail(Request $request)
     {
-        $checkEmail = Student::where('email', $request->email)->first();
-        if ($checkEmail) {
-            return response()->json(['success' => false, 'message' => 'Email already in use.']);
+        try {
+            $message = '';
+            $success = true;
+
+            // Check if email is in use
+            $checkEmail = Student::where('email', $request->email)->first();
+            if ($checkEmail) {
+                $message = 'Email already in use.';
+                $success = false;
+            }
+
+            // Check if mobile is in use
+            $checkMobile = Student::where('mobile', $request->mobile)->first();
+            if ($checkMobile) {
+                $message = 'Mobile number already in use.';
+                $success = false;
+            }
+
+            // If either email or mobile is already in use
+            if (!$success) {
+                return response()->json(['success' => $success, 'message' => $message], 200);
+            }
+
+            // Generate and save OTP
+            $otpVerification = new OtpVerifications;
+            $otp = mt_rand(100000, 999999);
+            $otpVerification->credential = $request->mobile;
+            $otpVerification->otp = $otp;
+            $otpVerification->type = 'mobile';
+            $otpVerification->save();
+
+            // Return success response
+            return response()->json(['status' => true, 'message' => 'OTP Sent Successfully'], 200);
+        } catch (\Throwable $th) {
+            // Return error response
+            return response()->json(['success' => false, 'message' => $th->getMessage()], $th->getCode());
         }
-        $checkMobile = Student::where('mobile', $request->mobile)->first();
-        if ($checkMobile) {
-            return response()->json(['success' => false, 'message' => 'Mobile number in use.']);
-        }
-        OtpVerifications::insert([
-            [
-                'type'=>'mobile',
-                'credential'=>$request->mobile,
-                'otp'=>'mobile',
-                'status'=>0,
-            ]
-        ]);
     }
+
+    /**
+     * Verifies the provided OTP for the mobile number.
+     *
+     * @param Request $request The request object containing the mobile number and OTP to be verified.
+     * @return \Illuminate\Http\JsonResponse Returns a JSON response with success status, message, and optionally, error details.
+     * @throws \Throwable If an error occurs during the process.
+     */
+    public function verifyOTP(Request $request)
+    {
+        try {
+            $otpVerification = OtpVerifications::where([['credential', '=', $request->mobile], ['otp', '=', $request->otp], ['status', '=', 0]])->first();
+
+            if (!$otpVerification) {
+                return response()->json(['success' => false, 'message' => 'Invalid OTP.']);
+            }
+
+            $otpVerification->status = 1;
+            $otpVerification->save();
+
+            return response()->json(['success' => true, 'message' => 'OTP verified successfully.']);
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false, 'message' => $th->getMessage()], $th->getCode());
+        }
+    }
+
+    /**
+     * Registers a new student user.
+     *
+     * @param Request $request The request object containing the registration details.
+     * @return \Illuminate\Http\JsonResponse Returns a JSON response with success status, message, and optionally, error details.
+     * @throws \Throwable If an error occurs during the process.
+     */
+    public function rgisterUser(Request $request)
+    {
+        try {
+            $uniqueMobile = "unique:" . Student::class;
+            $uniqueEmail = "unique:" . Student::class;
+
+            $request->validate([
+                'name' => 'required|string',
+                'email' => "required|string|lowercase|email|$uniqueEmail",
+                'mobile' => "required|digits:10|$uniqueMobile",
+                'gender' => 'required',
+                'disability' => 'required',
+                'password' => 'required',
+                'confirmpassword' => 'required|same:password',
+            ]);
+
+            $student = new Student();
+
+            $student->name = $request->name;
+            $student->email = $request->email;
+            $student->mobile = $request->mobile;
+            $student->gender = $request->gender;
+            $student->disability = $request->disability;
+
+            $student->password = Hash::make($request->password);
+            $student->login_password = $request->password;
+            $student->save();
+
+            // Log the user in after registration
+            Auth::guard('student')->login($student);
+
+            $user = Auth::guard('student')->user();
+            $user->token = $user->createToken($request->email);
+
+            return response()->json(['success' => true, 'message' => 'User registered successfully.', 'user' => $user]);
+        } catch (\Throwable $th) {
+            return response()->json(['success' => false, 'message' => $th->getMessage()]);
+        }
+    }
+
+    public function loginUser(Request $request){
+        if (!$request->mobile) {
+            return response()->json(['success' => false,'msg' => 'Mobile number is required.']);
+        }
+
+        $student = Student::where('mobile', $request->mobile)->first();
+
+        if (!$student) {
+            return response()->json(['success' => false,'msg' => 'Student not found.']);
+        }
+
+        if (Hash::check($request->password, $student->password)) {
+            $token = $student->createToken($request->mobile);
+            $student->token = $token->plainTextToken;
+            return response()->json(['success' => true,'msg' => 'Student logged in successfully.', 'user' => $student]);
+        } else {
+            return response()->json(['success' => false,'msg' => 'Invalid password.']);
+        }
+    }
+
 
     public function usersignup(Request $request)
     {
@@ -73,8 +195,6 @@ class AuthController extends Controller
             logger('message failed:', [$th]);
             return response()->json(['success' => false, 'msg' => $th->getMessage()]);
         }
-        // Redirect back or return a response
-        return redirect()->route('studentDashboard');
     }
 
     // public function login(Request $request)
