@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Image;
+use App\Models\Student;
 use Carbon\Carbon;
 
 function moveFile($path, $files)
@@ -86,7 +87,7 @@ function maskEmail($email)
     $atPos = strpos($email, '@');
 
     if ($atPos !== false) {
-       return substr($email, 0, 2) . str_repeat('*', $atPos - 2) . substr($email, $atPos);
+        return substr($email, 0, 2) . str_repeat('*', $atPos - 2) . substr($email, $atPos);
     }
     return $email;
 }
@@ -147,7 +148,7 @@ if (!function_exists('wrapHalfTitleInSpan')) {
 if (!function_exists('decimal_Number')) {
     function decimal_Number($number)
     {
-        $number = (string)$number;
+        $number = (string) $number;
 
         if (strpos($number, '.') === false) {
             return $number . '.00';
@@ -165,4 +166,27 @@ if (!function_exists('genderShort')) {
             default => 'T'
         };
     }
+}
+
+
+function getStudentById($id)
+{
+    $student = Student::with([
+        'studentCode',
+        'latestStudentCode',
+        'studentClaimForm',
+        'studentPayment',
+        'state',
+        'district',
+        'choiceCenterA',
+        'choiceCenterB',
+        'qualifications',
+        'scholarShipCategory',
+        'scholarShipOptedFor',
+        'studentPaperDetails',
+        'scholarship_granted',
+        'testimonial',
+    ])->find($id);
+    $student->career_one_year = $student->year;
+    return $student;
 }

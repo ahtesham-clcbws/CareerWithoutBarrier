@@ -202,7 +202,7 @@
                 </div>
                 
                 @if ($corporate->signup_approved == 0)
-                    <form class="card" id="reply-hidden">
+                    <form class="card d-none" id="reply-hidden">
                         <div class="card-header" style="background-color:#19467a; color: #fff;">
                             <h5>Set Franchise Type/Role/Subscription</h5>
                         </div>

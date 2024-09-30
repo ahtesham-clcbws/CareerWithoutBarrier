@@ -67,9 +67,6 @@ use App\Models\CouponCode;
                             <h5>Enquiry Detail: </h5>
                         </div>
 
-                        <div>
-                            <h5>Created on: {{$corporate->created_at}}</h5>
-                        </div>
                     </div>
                     <div class="card-body">
                         <div class="col-md-12">
@@ -156,10 +153,14 @@ use App\Models\CouponCode;
                                                 {{$corporate->institude_code}}
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <td colspan="2"><b>Subscription</b></td>
                                             <td colspan="2">
                                             </td>
+                                        </tr> -->
+                                        <tr>
+                                            <td colspan="2"><b>Created on</b></td>
+                                            <td colspan="2">{{$corporate->created_at}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -241,7 +242,7 @@ use App\Models\CouponCode;
                     </div>
                 </div>
                 @if( $corporate->is_approved )
-                <div class="card" id="coupon-allotment-show">
+                <div class="card" id="coupon-allotment-show" style="display:none;">
                     <div class="card-header" style="background-color:#F48134; color: #fff;">
                         <h5>Coupon allotment: </h5>
 

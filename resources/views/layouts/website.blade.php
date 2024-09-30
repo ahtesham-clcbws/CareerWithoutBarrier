@@ -402,7 +402,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                             <p><a href="{{ $termsCondition ? asset('home/'.$termsCondition->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Terms & Conditions</a>
                             </p>
                             <p><a href="{{URL::to('/faq')}}">Faq</a></p>
-                            <p><a href="{{ route('freeform') }}" style="color:white;">Get 100% Free Form (Limited)</a></p>
+                            <p><a href="{{ route('freeform') }}">Get 100% Free Form (Limited)</a></p>
                         </div>
                     </div>
                 </div>
@@ -411,7 +411,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
     </section>
     <!-- SECTION: COPY RIGHT -->
     <section>
-        <div class="cpy-right">
+        <div class="cpy-right py-3">
             <a><img src="{{ asset('logos/weblies-logo.png') }}" class="mx-auto" style="max-width:350px;" alt="Weblies equations private limited"></a>
         </div>
     </section>

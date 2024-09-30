@@ -74,7 +74,7 @@ class AdminController extends Controller
             'student' => Student::count(),
             'contactInfo' => ContactInfo::count(),
             'APPinsititute' => Corporate::where('is_approved', 1)->where('signup_approved', 1)->whereNotNull('signup_at')->count(),
-            'insititute' => Corporate::where('is_approved', 0)->whereNull('signup_at')->count(),
+            'insititute' => Corporate::where('is_approved', 1)->where('signup_approved', 0)->count(),
             'subjects' => Subject::count(),
             'testimonials' => TestimonialsModel::count(),
 
@@ -115,6 +115,35 @@ class AdminController extends Controller
         }
 
         return view('administrator.dashboard.studentlist', compact('students', 'cities', 'scholarshipTypes', 'classes'));
+    }
+
+    public function studentListRegistered(Request $request)
+    {
+        $query = Student::query();
+
+        $query->where('is_final_submitted', 0);
+
+        if ($request->isMethod('POST')) {
+
+            if (!empty($request->district_id)) {
+                $query->whereIn('district_id', $request->district_id);
+            }
+
+            if (!empty($request->gender)) {
+                $query->whereIn('gender', $request->gender);
+            }
+
+            if (!empty($request->class)) {
+                $query->whereIn('qualification', $request->class);
+                $classes = BoardAgencyStateModel::whereIn('id', $request->class)->select('id', 'name')->get();
+            }
+
+            $students = $query->with('latestStudentCode')->get();
+        } else {
+            $students = $query->with('latestStudentCode')->get();
+        }
+
+        return view('administrator.dashboard.students-registered', compact('students'));
     }
 
     public function studentRollList(Request $request)
@@ -532,7 +561,7 @@ class AdminController extends Controller
     {
         $examCenter = $request->exam_center;
         $studentNumber = intval($request->student_number ?? 0);
-    
+
         // Check if all required parameters are present
         if (is_null($examCenter) || is_null($request->exam_mins) || is_null($request->exam_date_time) || $studentNumber <= 0) {
             $message = is_null($examCenter) ? 'Please select Exam center' : (
@@ -542,16 +571,16 @@ class AdminController extends Controller
             );
             return response()->json(['status' => false, 'message' => $message]);
         }
-    
+
         // Start the query
         $query = Student::where('is_final_submitted', 1)->with('studentCode');
-    
+
         // Apply district filter if provided
         if (!empty($request->district_id) && $request->district_id[0] != null) {
             $districtIds = array_map('intval', $request->district_id);
             $query = $query->whereIn('district_id', $districtIds);
         }
-    
+
         // Apply scholarship filter if provided
         if (!empty($request->scholarship) && $request->scholarship[0] != null) {
             $scholarshipIds = array_map('intval', $request->scholarship);
@@ -559,62 +588,62 @@ class AdminController extends Controller
                 $subQuery->whereIn('id', $scholarshipIds);
             });
         }
-    
+
         // Apply class filter if provided
         if (!empty($request->class) && $request->class[0] != null) {
             $classIds = array_map('intval', $request->class);
             $query = $query->whereIn('qualification', $classIds);
         }
-    
+
         // Apply gender filter if provided
         if (!empty($request->gender) && $request->gender[0] != null) {
             $genderIds = array_map('intval', $request->gender);
             $query = $query->whereIn('gender', $genderIds);
         }
-    
+
         // Only students with roll numbers should be selected
         $query = $query->whereHas('studentCode', function ($subQuery) {
             $subQuery->where('roll_no', '!=', null);
         });
-    
+
         // Limit the number of students if provided
         if ($studentNumber > 0) {
             $query = $query->limit($studentNumber);
         }
-    
+
         // Get the students who match the query
         $students = $query->get();
-    
+
         // Check if any students match the criteria
         if ($students->isEmpty()) {
             return response()->json(['status' => false, 'message' => 'No Data Available for applied Filter.']);
         }
-    
+
         // Loop through the students and assign the exam center
         foreach ($students as $student) {
             // Get the latest student code
             $studentCode = $student->studentCode->sortByDesc('created_at')->first();
-    
+
             // Assign exam center and details if not already assigned
             if ($studentCode && !$studentCode->exam_center) {
                 $studentCode->exam_center = $examCenter;
                 $studentCode->exam_at = $request->exam_date_time;
                 $studentCode->exam_mins = $request->exam_mins;
                 $studentCode->admitcard_before = $request->admitcard_before;
-    
+
                 // Issue admit card if the corporate stop is not applied
                 if (!$studentCode->corporate_stop_admitcard) {
                     $studentCode->issued_admitcard = 1;
                 }
-    
+
                 // Save the updated student code
                 $studentCode->save();
             }
         }
-    
+
         return response()->json(['status' => true, 'message' => "Exam center allotted successfully."]);
     }
-    
+
     // public function examCenterAllot(Request $request)
     // {
     //     $examCenter = $request->exam_center;
@@ -771,6 +800,16 @@ class AdminController extends Controller
         $testimonials = TestimonialsModel::all();
 
         return view('administrator.dashboard.testimonials', compact('testimonials'));
+    }
+    public function testimonialDelete($id)
+    {
+        try {
+            $testimonial = TestimonialsModel::find($id);
+            $testimonial->delete();
+            return back()->with('success', 'Succesfully deleted testimonial');
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     public function testimonialToggleStatus(Request $request)

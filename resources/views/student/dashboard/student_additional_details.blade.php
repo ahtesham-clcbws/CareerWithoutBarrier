@@ -17,7 +17,7 @@
 <div class="container-fluid pagecontentbody mt-4">
     <div class="tab-content">
         <div class="pagebody px-4">
-            <form method="post" action="{{ route('students.additionalDetailStore') }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route(name: 'students.additionalDetailStore') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <div class="col-md-7 col">
@@ -36,12 +36,7 @@
                             <label for="govt_exams_1">Exam 1. <span class="text-danger">*</span> </label>
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <select name="govt_exams_1" class="form-control text_on_side_input" id="govt_exams_1" placeholder="Enter name exam." value="{{$student->govt_exams_1}}">
-                                    <option value="">Select Scholarship category</option>
-                                        @foreach(App\Models\Educationtype::all() as $education)
-                                        <option {{$student->govt_exams_1 == $education->name ? 'selected' : ''}} value="{{$education->name}}">{{$education->name}}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" id="govt_exams_1" name="govt_exams_1" placeholder="Enter exam name" value="{{$student->govt_exams_1}}">
                                 </div>
                                 <div class="input-group-append">
                                     <select id="exam_one_year" name="exam_one_year" class="form-control form-select">
@@ -65,42 +60,6 @@
                             @error('exam_one_result')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
-                        </div>
-                        <div class="col">
-                            <label for="govt_exams_2">Exam 2. </label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <select  name="govt_exams_2" class="form-control text_on_side_input" id="govt_exams_2" placeholder="Enter name exam." value="{{$student->govt_exams_2}}">
-                                    <option value="">Select Scholarship category</option>
-                                        @foreach(App\Models\Educationtype::all() as $education)
-                                        <option {{$student->govt_exams_2 == $education->name ? 'selected' : ''}} value="{{$education->name}}">{{$education->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('govt_exams_2')
-                                    <div class="text-danger">{{$message}}</div>
-                                    @enderror
-                                </div>
-                                <div class="input-group-append">
-                                    <select id="test_center_a" name="exam_two_year" class="form-control form-select">
-                                        <option value="">Year &nbsp; &nbsp;</option>
-                                        @for ($year = date('Y'); $year >= date('Y')-15; $year--)
-                                        <option value="{{ $year }}" {{$student->exam_two_year == $year ? 'selected' : ''}}>{{ $year }}</option>
-                                        @endfor
-                                    </select>
-                                    @error('exam_two_year')
-                                    <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="input-group-append">
-                                    <input style=" width: 7rem;" type="text" name="exam_two_result" class="form-control text_on_side_input" id="exam_two_result" placeholder="Result." value="{{$student->exam_two_result}}">
-                                    @error('exam_two_result')
-                                    <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="input-group-append">
-                                </div>
-                            </div>
-                            <i toggle="#password-field" class="fa fa-fw  field-icon text_on_input">2.</i>
                         </div>
                     </div>
                 </div>

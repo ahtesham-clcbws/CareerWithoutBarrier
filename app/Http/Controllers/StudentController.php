@@ -109,10 +109,12 @@ class StudentController extends Controller
     {
         $student = Auth::guard('student')->user();
 
-        return  view('student.dashboard.home', compact('student'));
+        return view('student.dashboard.home', compact('student'));
     }
 
-    public function notification() {}
+    public function notification()
+    {
+    }
 
     public function logout()
     {
@@ -123,7 +125,7 @@ class StudentController extends Controller
     public function studentDashboard()
     {
         $student = Auth::guard('student')->user();
-        return  view('student.dashboard.home', compact('student'));
+        return view('student.dashboard.home', compact('student'));
     }
 
 
@@ -131,14 +133,14 @@ class StudentController extends Controller
     {
         $student = Auth::guard('student')->user();
 
-        return  view('student.dashboard.dashboard', compact('student'));
+        return view('student.dashboard.dashboard', compact('student'));
     }
 
     public function studentDashboardsss()
     {
         $student = Auth::guard('student')->user();
 
-        return  view('student.dashboard.dashboard', compact('student'));
+        return view('student.dashboard.dashboard', compact('student'));
     }
 
 
@@ -148,7 +150,7 @@ class StudentController extends Controller
         $categories = Category::all();
         $states = State::all();
 
-        return  view('student.dashboard.studentform', compact('student', 'categories', 'states'));
+        return view('student.dashboard.studentform', compact('student', 'categories', 'states'));
     }
 
     public function additionalDetailsCreate(Request $request)
@@ -157,7 +159,7 @@ class StudentController extends Controller
 
         $termsCondition = TermsCondition::where('status', 1)->where('type', 'student')->orderBy('created_at')->first();
 
-        return  view('student.dashboard.student_additional_details', compact('student', 'termsCondition'));
+        return view('student.dashboard.student_additional_details', compact('student', 'termsCondition'));
     }
 
     public function form_review()
@@ -167,7 +169,7 @@ class StudentController extends Controller
 
         $termsCondition = TermsCondition::where('status', 1)->where('type', 'student')->orderBy('created_at')->first();
 
-        return  view('student.dashboard.student_review', compact('student', 'states', 'termsCondition'));
+        return view('student.dashboard.student_review', compact('student', 'states', 'termsCondition'));
     }
 
     public function student_payment()
@@ -227,7 +229,8 @@ class StudentController extends Controller
 
     public function login(Request $request)
     {
-        if (Auth::guard('student')->check()) return redirect()->route('studentDashboard');
+        if (Auth::guard('student')->check())
+            return redirect()->route('studentDashboard');
 
         if ($request->method() == 'POST') {
             $request->validate([
@@ -340,8 +343,8 @@ class StudentController extends Controller
                 'family_income' => 'nullable|string',
                 'father_occupation' => 'nullable|string',
                 'mother_occupation' => 'nullable|string',
-                'photograph' => "$photoReq|file|mimes:jpeg,png|max:2048",
-                'signature' => "$signReq|file|mimes:jpeg,png|max:2048",
+                'photograph' => "$photoReq|file|mimes:jpeg,png,jpg",
+                'signature' => "$signReq|file|mimes:jpeg,png,jpg",
                 'exam_one_year' => "nullable|string",
                 'exam_one_result' => "nullable|string",
                 'exam_two_year' => 'nullable|string',
@@ -447,11 +450,11 @@ class StudentController extends Controller
 
                 if ($existCityAppCodeList) {
                     $defaultStartNumber = $appCodeRecord->last_app_code;
-                    $defaultStartNumber =  $defaultStartNumber + 1;
+                    $defaultStartNumber = $defaultStartNumber + 1;
                 } else {
                     $defaultStartNumber = $appCodeRecord->last_app_code;
                     $additionalIncrement = 20;
-                    $defaultStartNumber =  $defaultStartNumber + $additionalIncrement;
+                    $defaultStartNumber = $defaultStartNumber + $additionalIncrement;
                 }
                 $appCodeRecord = new ApplicationCodeList();
                 $appCodeRecord->city = $city;
@@ -522,7 +525,7 @@ class StudentController extends Controller
             $studentCode->stud_id = $student->id;
             $studentCode->coupan_code = $couponCode->couponcode;
             $studentCode->is_coupan_code_applied = 1;
-            $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ?  750 - $afterAppliedRemainValue : 0;
+            $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ? 750 - $afterAppliedRemainValue : 0;
             $studentCode->fee_amount = $afterAppliedRemainValue;
 
             if ($studentCode->fee_amount <= 0) {
@@ -645,7 +648,7 @@ class StudentController extends Controller
         if ($type == 'Yes') {
             $education = Educationtype::where('id', $id)->get();
 
-            return response()->json(['status' => true, 'message' => 'Select another Qualification.', 'data' =>   $education]);
+            return response()->json(['status' => true, 'message' => 'Select another Qualification.', 'data' => $education]);
         }
         $boardConnection = Gn_DisplayExamAgencyBoardUniversity::where('board_id', 'LIKE', '%' . $id . '%')
             ->with('educations')
@@ -729,8 +732,8 @@ class StudentController extends Controller
 
         try {
             $validatedData = $request->validate([
-                'photograph' => 'required|image|mimes:jpeg,png|max:2048',
-                'signature' => 'nullable|image|mimes:jpeg,png|max:2048',
+                'photograph' => 'required|image|mimes:mimes:jpeg,png,jpg',
+                'signature' => 'nullable|image|mimes:mimes:jpeg,png,jpg',
             ]);
 
             if ($request->hasFile('photograph')) {
@@ -765,7 +768,7 @@ class StudentController extends Controller
 
         if ($request->isMethod('POST') && is_null($testimonial)) {
             $request->validate([
-                'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif',
                 'testimonials_msg' => 'required',
             ]);
 
@@ -776,7 +779,7 @@ class StudentController extends Controller
             $testimonials->type_id = $student->id;
             $testimonials->type = 'student';
 
-            $formattedMessage = $message . '<br><div class="student-testimonial text-right"><br> <b>Student Name: ' . ucfirst($student->name) .  '</b><br><b> City: ' . $student->district?->name . '</b></div>';
+            $formattedMessage = $message . '<br><div class="student-testimonial text-right"><br> <b>Student Name: ' . ucfirst($student->name) . '</b><br><b> City: ' . $student->district?->name . '</b></div>';
             $testimonials->message = $formattedMessage;
 
             if ($request->hasFile('profile_image')) {

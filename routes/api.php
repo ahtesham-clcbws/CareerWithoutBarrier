@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ApplicationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,8 +21,17 @@ Route::post('check-credentials', [AuthController::class, 'verifyMobileEmail']);
 Route::post('verify-otp', [AuthController::class, 'verifyOTP']);
 Route::post('register', [AuthController::class, 'rgisterUser']);
 Route::post('login', [AuthController::class, 'loginUser']);
+Route::get('apply-form-data', [ApplicationController::class, 'index']);
+Route::get('scholarships-by-qualification/{id}', [ApplicationController::class, 'onSelectQualification_ScholarshipCategory']);
+Route::get('scholarships-by-scholarship/{id}/{qualificationId}', [ApplicationController::class, 'getScholarshipCategoryOptedFor']);
 
+
+
+// authenticated api only
+
+Route::post('application-submit', [ApplicationController::class, 'applicationSubmition'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+

@@ -5,7 +5,13 @@
 <!-- Form step start -->
 @include('student.layouts.form_arrow_step')
 <!-- Form step end -->
-@if($student->is_final_submitted) <style>input, select{pointer-events: none;}</style>@endif
+@if($student->is_final_submitted)
+<style>
+    input,
+    select {
+        pointer-events: none;
+    }
+</style>@endif
 <?php
 
 use App\Models\BoardAgencyStateModel;
@@ -15,31 +21,35 @@ $qualifications = BoardAgencyStateModel::all();
 ?>
 <!-- InstanceBeginEditable name="Content Area" -->
 <div class="container pagecontentbody">
-    <div class="tab-content" >
-        <div class="pagebody row" >
+    <div class="tab-content">
+        <div class="pagebody row">
             <form method="post" action="{{ route('students.addQualifications') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="container col-md-9 " style="border: 1px solid #c6cbd0;padding: 8px 25px;">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="qualification">Qualification:<span class="text-danger">*</span></label><br>
-                            <select id="qualification" name="qualification" class="form-control form-select" required onchange="getScholarshipCategory(this.value)" value="{{$student->qualification}}">
+                            <select id="qualification" name="qualification" class="form-control form-select" required
+                                onchange="getScholarshipCategory(this.value)" value="{{$student->qualification}}">
                                 <option value="">--Select qualification--</option>
                                 @foreach($qualifications as $qualification)
                                 <option value="{{$qualification->id}}" {{$student->qualification == $qualification->id ? 'selected' : ''}}>
                                     {{$qualification->name}}
                                 </option>
-                            @endforeach     
+                                @endforeach
                             </select>
                             @error('qualification')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="scholarship_category">Scholarship Category:<span class="text-danger">*</span></label><br>
-                            <select onchange="getScholarshipoptedfor(this.value)" id="scholarship_category" name="scholarship_category" class="form-control form-select" required value="{{$student->scholarship_category}}">
+                            <label for="scholarship_category">Scholarship Category:<span
+                                    class="text-danger">*</span></label><br>
+                            <select onchange="getScholarshipoptedfor(this.value)" id="scholarship_category"
+                                name="scholarship_category" class="form-control form-select" required
+                                value="<?= $student->scholarship_category ?>">
                                 <option value="">--Select Category--</option>
-                                </select>
+                            </select>
                             @error('scholarship_category')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -47,17 +57,22 @@ $qualifications = BoardAgencyStateModel::all();
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="scholarship_opted_for">Scholarship Opted For:<span class="text-danger">*</span></label><br>
-                            <select id="scholarship_opted_for" name="scholarship_opted_for" class="form-control form-select" required value="{{$student->scholarship_opted_for}}">
+                            <label for="scholarship_opted_for">Scholarship Opted For:<span
+                                    class="text-danger">*</span></label><br>
+                            <select id="scholarship_opted_for" name="scholarship_opted_for"
+                                class="form-control form-select" required value="{{$student->scholarship_opted_for}}">
                                 <option value="">--Select Option--</option>
-                                    </select>
+                            </select>
                             @error('scholarship_opted_for')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="test_center_a">Choice of Test Centre (A):<span class="text-danger">*</span></label><br>
-                            <select id="test_center_a" name="test_center_a" class="form-control form-select" value="{{$student->test_center_a}}" required>
+                            <label for="test_center_a">Choice of Test Centre (A):<span
+                                    class="text-danger">*</span></label><br>
+                            <select id="test_center_a" name="test_center_a" class="form-control form-select"
+                            readonly
+                                value="{{$student->test_center_a}}" required>
                                 <option value="">--Select Center--</option>
                                 @foreach($choiceCenterA as $center1)
                                 <option value="{{$center1->id}}" {{$student->test_center_a ?? $student->district_id == $center1->id ? 'selected' : ''}}>{{$center1->name}}</option>
@@ -68,15 +83,18 @@ $qualifications = BoardAgencyStateModel::all();
                             @enderror
                         </div>
                     </div>
-    
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="test_center_b">Choice of Test Centre (B):<span class="text-danger">*</span></label><br>
-                            <select id="test_center_b" name="test_center_b" class="form-control form-select" required value="{{$student->test_center_a}}">
+                            <label for="test_center_b">Choice of Test Centre (B):<span
+                                    class="text-danger">*</span></label><br>
+                            <select id="test_center_b" name="test_center_b" class="form-control form-select" required
+                                value="{{$student->test_center_a}}">
                                 <option value="">--Select Center--</option>
                                 @foreach($choiceCenterB as $center1)
                                 <option value="{{$center1->id}}" {{$student->test_center_b == $center1->id ? 'selected' : ''}}>{{$center1->name}}</option>
-                                @endforeach</select>
+                                @endforeach
+                            </select>
                             @error('test_center_b')
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -94,56 +112,59 @@ $qualifications = BoardAgencyStateModel::all();
             </form>
         </div>
     </div>
-    <script>
-        if("{{$student->scholarship_category}}"){
-            console.log({{$student->scholarship_category}})
-            getScholarshipCategory("{{$student->scholarship_category}}",'Yes') 
-        }
-function getScholarshipCategory(id, type=null){
-    $.get('/students/get_scholarship_category/' + id+'/'+type, function(response) {
-        if(response.status){
-console.log(response.data !=null)
-        var data = response.data;
-        if(response.data !=null){
+</div>
+<!-- InstanceEndEditable -->
 
-            $('#scholarship_category').empty().append('<option value="">--Select Option--</option>');
-            $.each(response.data, function(index, st) {
-        var selected = ({{$student->scholarship_category ?? 'null'}} == st.id) ? 'selected' : '';
+<script>
+    if ("<?= $student->scholarship_category ?>") {
+        console.log(<?= $student->scholarship_category ?>)
+        getScholarshipCategory("<?= $student->scholarship_category ?>", 'Yes');
+    }
 
-         $('#scholarship_category').append('<option value="' + st.id + '" ' + selected + '>' + st.name + '</option>');
+    function getScholarshipCategory(id, type = null) {
+        $.get('/students/get_scholarship_category/' + id + '/' + type, function(response) {
+            if (response.status) {
+                console.log(response.data != null)
+                var data = response.data;
+                if (response.data != null) {
+
+                    $('#scholarship_category').empty().append('<option value="">--Select Option--</option>');
+                    $.each(response.data, function(index, st) {
+                        var selected = (<?= $student->scholarship_category ?? 'null' ?> == st.id) ? 'selected' : '';
+
+                        $('#scholarship_category').append('<option value="' + st.id + '" ' + selected + '>' + st.name + '</option>');
+                    });
+                }
+            } else {
+                error(response.message)
+            }
+
         });
-        }
-        }else{
-            error(response.message)
-        }
 
-      });
- 
-}
+    }
 
-if("{{$student->scholarship_opted_for}}" !=""){
-    getScholarshipoptedfor("{{$student->scholarship_category}}")
-}
-function getScholarshipoptedfor(id){
-    $qulificationid = $('#qualification').val();
+    if ("{{$student->scholarship_opted_for}}" != "") {
+        getScholarshipoptedfor("<?= $student->scholarship_category ?>")
+    }
 
-    $.get('/students/get_scholarship_opted_for/' + id+'/'+ $qulificationid, function(response) { 
-        if(response.scholarOptedFor.length > 0){
+    function getScholarshipoptedfor(id) {
+        $qulificationid = $('#qualification').val();
 
-$('#scholarship_opted_for').empty().append('<option value="">--Select Scholarship Opted For--</option>');
- $.each(response.scholarOptedFor, function(index, optedfor) {
-    var selected = ({{$student->scholarship_opted_for ?? 'null'}} == optedfor.id) ? 'selected' : '';
-    $('#scholarship_opted_for').append('<option value="' + optedfor.id + '" ' + selected + '>' + optedfor.name + '</option>');
- });
- }else{
-$('#scholarship_opted_for').empty().append('<option value="">--Select Scholarship Opted For--</option>');
+        $.get('/students/get_scholarship_opted_for/' + id + '/' + $qulificationid, function(response) {
+            if (response.scholarOptedFor.length > 0) {
 
-            error(response.message)
-        }
+                $('#scholarship_opted_for').empty().append('<option value="">--Select Scholarship Opted For--</option>');
+                $.each(response.scholarOptedFor, function(index, optedfor) {
+                    var selected = (<?= $student->scholarship_opted_for ?? 'null' ?> == optedfor.id) ? 'selected' : '';
+                    $('#scholarship_opted_for').append('<option value="' + optedfor.id + '" ' + selected + '>' + optedfor.name + '</option>');
+                });
+            } else {
+                $('#scholarship_opted_for').empty().append('<option value="">--Select Scholarship Opted For--</option>');
 
-     });
-}
+                error(response.message)
+            }
 
-    </script>
-    <!-- InstanceEndEditable -->
-    @endsection('content')
+        });
+    }
+</script>
+@endsection('content')

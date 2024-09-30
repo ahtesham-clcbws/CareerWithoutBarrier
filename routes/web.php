@@ -152,9 +152,10 @@ Route::post('/studentlogin', [StudentController::class, 'login'])->name('student
 Route::prefix('students')->group(function () {
     Route::group(['middleware' => ['student']], function () {
         Route::get('/studentDashboard', [StudentController::class, 'studentDashboard'])->name('studentDashboard');
-        Route::get('/studentform', [StudentController::class, 'studentform'])->name('studentform');
 
-        // Student form filling
+
+        // apply form
+        Route::get('/studentform', [StudentController::class, 'studentform'])->name('studentform');
         Route::post('/addstudents', [StudentController::class, 'addstudent'])->name('students.addstudent');
         Route::get('/addqualificationscreate', [StudentController::class, 'addQualificationsCreate'])->name('students.addQualificationsCreate');
         Route::post('/addqualifications', [StudentController::class, 'addQualifications'])->name('students.addQualifications');

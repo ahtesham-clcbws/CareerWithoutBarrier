@@ -76,6 +76,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/contact_enquiry_reply_mail/{contactInfo}', [EnquiryController::class, 'contactEnquiryReplyMail'])->name('admin.conatctEnqueryEeplyMail');
 
     Route::any('/student_list', [AdminController::class, 'studentList'])->name('admin.studentList');
+    Route::any('/registered-students', [AdminController::class, 'studentListRegistered'])->name('admin.studentListRegistered');
     Route::any('/studentRollList', [AdminController::class, 'studentRollList'])->name('admin.studentRollList');
     Route::any('/student_generate_roll_no', [AdminController::class, 'studentGenerateRollNo'])->name('admin.studentGenerateRollNo');
     Route::get('/student_list/{student}', [AdminController::class, 'studentView'])->name('admin.student');
@@ -92,6 +93,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('/update-admitcard-status', [AdminController::class, 'updateAdmitCardStatus'])->name('update.admitcard.status');
     Route::get('/testimonial_list', [AdminController::class, 'testimonialList'])->name('admin.testimonialList');
+    Route::get('/delete-testimonial/{id}', [AdminController::class, 'testimonialDelete'])->name('admin.testimonialDelete');
     Route::get('/export_markfill_excel/{id}', [AdminController::class, 'exportMarkFillExcel'])->name('admin.exportMarkFillExcel');
     Route::any('/profile', [AdminController::class, 'profile'])->name('admin.profile');
 

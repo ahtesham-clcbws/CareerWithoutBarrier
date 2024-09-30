@@ -69,9 +69,7 @@
                                     </div>
                                     @if($student->photograph)
                                     <div class="input-group-append photograph-image" style="margin-left: 10px;margin-top: -4rem;">
-                                        <a target="_blank" class="btn btn-outline-secondary btn-success" href="{{ asset('upload/student/'.$student->photograph) }}" style="background: none;border: none;">
-                                            <img src="{{ asset('upload/student/'.$student->photograph) }}" alt="photograph" style="width: 7rem;height: 8rem;margin-top: -10re;">
-                                        </a>
+                                    <img src="{{ asset('upload/student/'.$student->photograph) }}" alt="photograph" style="width: 7rem;height: 8rem;margin-top: -10re;">
                                     </div>
                                     @endif
                                 </div>

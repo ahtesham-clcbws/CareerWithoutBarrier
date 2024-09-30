@@ -24,11 +24,13 @@
     }
 </style>
 <!-- Sidebar -->
-<nav class=" sidebar navbar-inverse fixed-top elevation-4" id="sidebar-wrapper" role="navigation" style="  font-family: 'Sansita', sans-serif;  font-style: italic !important;overflow-y: hidden;">
+<nav class=" sidebar navbar-inverse fixed-top elevation-4" id="sidebar-wrapper" role="navigation"
+    style="  font-family: 'Sansita', sans-serif;  font-style: italic !important;overflow-y: hidden;">
     <div class="sidebar-header shadow mb-2">
         <div class="sidebar-brand">
             <div class="info d-flex">
-                <img src="{{asset('website/assets/images/fav-icon.png')}}" style="width:40px; height: 40px; margin: 0 10px 0 5px !important">
+                <img src="{{asset('website/assets/images/fav-icon.png')}}"
+                    style="width:40px; height: 40px; margin: 0 10px 0 5px !important">
                 <span class="text-left" style="font-size: 14px;">
                     <span class="font-weight-bold">Admin panel</span><br />
                     <span class="text-primary">{{auth()->user()->name}}</span>
@@ -36,7 +38,8 @@
             </div>
         </div>
     </div>
-    <ul class="nav sidebar-nav mt-1" style="height: calc(100vh - 68px) !important; overflow-y: auto !important; margin-bottom: 0 !important; padding-bottom: 10px !important;">
+    <ul class="nav sidebar-nav mt-1"
+        style="height: calc(100vh - 68px) !important; overflow-y: auto !important; margin-bottom: 0 !important; padding-bottom: 10px !important;">
         <li>
             <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('home')}}">
@@ -48,7 +51,8 @@
         </li>
         <li>
             <div class="dropdown show">
-                <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('file.upload')}}" role="button">
+                <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('file.upload')}}"
+                    role="button">
                     <img src="{{asset('admin/icons/UploadImage.png')}}" alt="" class="nav_icon">
                     <p class="content">Upload Image</p>
                     <i class="bi bi-chevron-right"></i>
@@ -57,7 +61,8 @@
         </li>
         <li>
             <div class="dropdown  open show">
-                <a class="btn btn-secondary dropdown-toggle sideBarContent" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <a class="btn btn-secondary dropdown-toggle sideBarContent" role="button" id="dropdownMenuLink"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <img src="{{asset('admin/icons/HomePageMaster.png')}}" alt="" class="nav_icon">
                     <p class="content">Home Page Master</p>
                     <i class="bi bi-chevron-right"></i>
@@ -106,7 +111,8 @@
         </li>
         <li>
             <div class="dropdown show">
-                <a class="btn btn-secondary dropdown-toggle sideBarContent" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="btn btn-secondary dropdown-toggle sideBarContent" href="#" role="button" id="dropdownMenuLink"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img src="{{asset('admin/icons/DiscountVoucher.png')}}" alt="" class="nav_icon">
                     <p class="content">Discount Voucher</p>
                     <i class="bi bi-chevron-right"></i>
@@ -150,13 +156,16 @@
 
         <li>
             <div class="dropdown active open show">
-                <a class="btn btn-secondary dropdown-toggle sideBarContent " style="color:#000 !important;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <a class="btn btn-secondary dropdown-toggle sideBarContent " style="color:#000 !important;" href="#"
+                    role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="true">
                     <img src="{{asset('admin/icons/Students.png')}}" alt="" class="nav_icon">
                     <p class="content">Student</p>
                     <i class="bi bi-chevron-right"></i>
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" x-placement="top-start">
+                    <a class="dropdown-item" href="{{route('admin.studentListRegistered')}}">New Student</a>
                     <a class="dropdown-item" href="{{route('admin.studentList')}}">Student List</a>
                     <a class="dropdown-item" href="{{route('admin.studentRollList')}}">Student Roll No</a>
                     <a class="dropdown-item" href="{{route('admin.studentExamCenter')}}">Allot Exam Center</a>
@@ -166,7 +175,9 @@
         </li>
         <li>
             <div class="dropdown active open show">
-                <a class="btn btn-secondary dropdown-toggle sideBarContent " style="color:#000 !important;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <a class="btn btn-secondary dropdown-toggle sideBarContent " style="color:#000 !important;" href="#"
+                    role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="true">
                     <img src="{{asset('admin/icons/Setting.png')}}" alt="" class="nav_icon">
                     <p class="content">Settings</p>
                     <i class="bi bi-chevron-right"></i>
@@ -180,7 +191,8 @@
         </li>
         <li>
             <div class="dropdown show">
-                <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('dashboard_eductaion_type')}}" role="button">
+                <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('dashboard_eductaion_type')}}"
+                    role="button">
                     <img src="{{asset('admin/icons/ScholarshipExam.png')}}" alt="" class="nav_icon">
                     <p class="content">Scholarship exam</p>
                     <i class="bi bi-chevron-right"></i>
@@ -189,7 +201,9 @@
         </li>
         <li>
             <div class="dropdown active open show">
-                <a class="btn btn-secondary dropdown-toggle sideBarContent " style="color:#000 !important;" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <a class="btn btn-secondary dropdown-toggle sideBarContent " style="color:#000 !important;" href="#"
+                    role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="true">
                     <img src="{{asset('admin/icons/ExamCentre.png')}}" alt="" class="nav_icon">
                     <p class="content">Exam Center</p>
                     <i class="bi bi-chevron-right"></i>
