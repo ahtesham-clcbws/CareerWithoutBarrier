@@ -899,7 +899,6 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                     <div class="pop-up2">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h2 class="book-tit">SignUp</h2>
-                        <p>wherever you go make your self at home</p>
                         <div class="book-now">
                             <form id="studentSignup" method="post" action="{{ route('studentSignup') }}">
                                 @csrf
@@ -954,20 +953,16 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                                         <i toggle="#password-field" class="fa fa-fw fa-eye-slash field-icon toggle-password"></i>
                                     </li>
 
-                                    <div class="form-group" style="padding:10px;width: 50%; ">
+                                    <div class="form-group pt-4 pl-2" style="width: 50%; ">
                                         <span>Person Disability</span>
                                         <input type="radio" name="disability" value="Yes"> Yes
-                                        &nbsp; <input type="radio" checked="checked" name="disability" value="No"> No &nbsp;
-
+                                        &nbsp; <input type="radio" checked="checked" name="disability" value="No"> No
                                     </div>
 
-                                    <div class="form-group" style="padding:10px;width: 100%; ">
-
+                                    <div class="form-group pl-2" style="width: 100%; ">
                                         @php($institudeTermsCondition = DB::table('terms_conditions')->where([['status',1],['type','student'],['page_name','terms-and-condition']])->first())
                                         <input type="checkbox" style="width: 20px;height:20px" name="privacy_policy" id="privacy_policy" required> &nbsp; I accept the &nbsp;
                                         @if($institudeTermsCondition) <a style="text-decoration: underline;" href="{{ asset('home/'.$institudeTermsCondition->terms_condition_pdf) }}" target="_blank"> Terms & Conditions </a>@endif
-
-
                                     </div>
 
                                     <li class="full">

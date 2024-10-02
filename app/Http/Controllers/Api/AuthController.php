@@ -8,6 +8,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
@@ -106,26 +107,48 @@ class AuthController extends Controller
 
                 $student->password = Hash::make($request->password);
                 $student->login_password = $request->password;
-                $student->save();
+                // $student->save();
 
                 // Handle the profile image upload
-                if ($request->hasFile('image')) {
-                    $image = $request->file('image');
+                if (isset($request->image) && !empty(trim($request->image))) {
 
-                    // Get the original file name
-                    $originalName = $image->getClientOriginalName();
+                    $imageData = str_replace('data:image/jpg;base64,', '', $base64String);
+                    $imageData = str_replace(' ', '+', $imageData);
+                    $image = base64_decode($imageData);
 
-                    // Define the path where the file should be stored
-                    $filePath = 'student/profile/' . date('Y/M/') . $originalName;
-
-                    // Store the file
-                    // $path = $file->storeAs('uploads', $originalName);
-                    // Store the file on Google Cloud Storage
+                    // $image = getBase64Image($request->image);
+                    $filePath = 'student/profile/' . date('Y/M/') . md5($request->email . $request->mobile) . '.jpg';
                     $path = Storage::disk('public')->put('', $image, $filePath);
-
-                    $student->photograph = $path;
-                    $student->save();
+                    if ($image) {
+                        $student->photograph = $path;
+                    } else {
+                        Log::info('base64 profile image broken: ', [
+                            'request' => $request->image,
+                            'image' => $image,
+                            'filePath' => $filePath,
+                            'storagePath' => $path,
+                        ]);
+                    }
                 }
+
+                $student->save();
+                // if ($request->hasFile('image')) {
+                //     $image = $request->file('image');
+
+                //     // Get the original file name
+                //     $originalName = $image->getClientOriginalName();
+
+                //     // Define the path where the file should be stored
+                //     $filePath = 'student/profile/' . date('Y/M/') . $originalName;
+
+                //     // Store the file
+                //     // $path = $file->storeAs('uploads', $originalName);
+                //     // Store the file on Google Cloud Storage
+                //     $path = Storage::disk('public')->put('', $image, $filePath);
+
+                //     $student->photograph = $path;
+                //     $student->save();
+                // }
 
                 // Log the user in after registration
                 // Auth::guard('student')->login($student);

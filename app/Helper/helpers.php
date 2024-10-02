@@ -3,6 +3,7 @@
 use App\Models\Image;
 use App\Models\Student;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 function moveFile($path, $files)
 {
@@ -189,4 +190,15 @@ function getStudentById($id)
     ])->find($id);
     $student->career_one_year = $student->year;
     return $student;
+}
+function getBase64Image($base64String){
+    try {
+        // Decode the base64 image
+        $imageData = str_replace('data:image/jpg;base64,', '', $base64String);
+        $imageData = str_replace(' ', '+', $imageData);
+        return base64_decode($imageData);
+    } catch (\Throwable $th) {
+        Log::error('base64 decode failed', [$th->getMessage()]);
+        return null;
+    }
 }

@@ -172,17 +172,11 @@ class ApplicationController extends Controller
                 $student->mother_occupation = $request->mother_occupation;
                 $student->terms_conditions = 1;
 
-                // Handle the profile image upload
-                if ($request->hasFile('signature')) {
-                    $image = $request->file('signature');
-
-                    // Get the original file nameprofile_picture
-                    $originalName = $image->getClientOriginalName();
-
-                    // Define the path where the file should be stored
-                    $filePath = 'student/signature/' . date('Y/M/') . $originalName;
-
-                    $path = Storage::disk('public')->put('', $image, $filePath);
+                // Handle the signature upload
+                if (isset($request->signature) && !empty(trim($request->signature))) {
+                    $signature = getBase64Image($request->signature);
+                    $filePath = 'student/signature/' . date('Y/M/') . md5($request->email . $request->mobile) . '.jpg';
+                    $path = Storage::disk('public')->put('', $signature, $filePath);
 
                     $student->signature = $path;
                     $student->save();

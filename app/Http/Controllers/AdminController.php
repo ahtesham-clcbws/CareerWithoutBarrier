@@ -123,24 +123,11 @@ class AdminController extends Controller
 
         $query->where('is_final_submitted', 0);
 
-        if ($request->isMethod('POST')) {
+        $students = $query->with('latestStudentCode')->orderBy('id', 'desc')->get();
 
-            if (!empty($request->district_id)) {
-                $query->whereIn('district_id', $request->district_id);
-            }
-
-            if (!empty($request->gender)) {
-                $query->whereIn('gender', $request->gender);
-            }
-
-            if (!empty($request->class)) {
-                $query->whereIn('qualification', $request->class);
-                $classes = BoardAgencyStateModel::whereIn('id', $request->class)->select('id', 'name')->get();
-            }
-
-            $students = $query->with('latestStudentCode')->get();
-        } else {
-            $students = $query->with('latestStudentCode')->get();
+        foreach ($students as $key => $student) {
+            $student->index = $key + 1;
+            $students[$key] = $student;
         }
 
         return view('administrator.dashboard.students-registered', compact('students'));
