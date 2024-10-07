@@ -189,22 +189,21 @@ $studentPayment = $student->studentPayment->last();
                      <input type="text" placeholder="Enter coupon code" class="form-control coupon_code-input" name="coupan_code" {{$appCode?->is_coupan_code_applied ? "value=$appCode?->coupan_code".' '.'readonly="true"' : ''}}>
                      <div class="input-group-append">
                         <button type="button" id="applyCoupon" class="btn btn-primary bg-success" style='{{$appCode?->is_coupan_code_applied ? "display:none" : "display:block"}}'>Apply Coupon</button>
-                        <button type="button" id="removeCoupon" class="btn btn-primary text-danger" style="background: #fd0000;color: white !important;border: #f91818;{{$appCode?->is_coupan_code_applied ? 'display:block' : 'display:none'}}
-">Remove Coupon</button>
+                        <button type="button" id="removeCoupon" class="btn btn-primary text-danger" style="background: #fd0000;color: white !important;border: #f91818;{{$appCode?->is_coupan_code_applied ? 'display:block' : 'display:none'}}">Remove Coupon</button>
 
                      </div>
                   </div>
 
                </div>
                <div class="modal-footer justify-content-center pay-now-btn-modal" style="display:block;text-align:center;">
-                  @if($appCode?->is_coupan_code_applied && ($appCode?->fee_amount) <= 0)
-                  <div style="display:block;text-align:center;"><h6 style="font-weight:700;">Discount Coupon Provided By: {{$appCode?->corporate_name ?? '-'}}</h6><h6 style="font-weight:700;color:red;">100% Free</h6></div>
-                  @elseif($appCode?->is_coupan_code_applied && ($appCode?->fee_amount) > 0)
-                  <div style="display:block;text-align:center;"><h6 style="font-weight:700;">Discount Coupon Provided By: {{$appCode?->corporate_name ?? '-'}}</h6></div>
-                  @endif
-               @if($student->disability =='No' && !$appCode?->is_paid && ($appCode?->is_coupan_code_applied ? ($appCode?->fee_amount) > 0 : true))
-                  <button type="submit" class="btn btn-primary ">Pay Now</button>
-                  @endif
+                    @if($appCode?->is_coupan_code_applied && ($appCode?->fee_amount) <= 0)
+                    <div style="display:block;text-align:center;"><h6 style="font-weight:700;">Discount Coupon Provided By: {{$appCode?->corporate_name ?? '-'}}</h6><h6 style="font-weight:700;color:red;">100% Free</h6></div>
+                    @elseif($appCode?->is_coupan_code_applied && ($appCode?->fee_amount) > 0)
+                    <div style="display:block;text-align:center;"><h6 style="font-weight:700;">Discount Coupon Provided By: {{$appCode?->corporate_name ?? '-'}}</h6></div>
+                    @endif
+                    @if($student->disability =='No' && !$appCode?->is_paid && ($appCode?->is_coupan_code_applied ? ($appCode?->fee_amount) > 0 : true))
+                    <button type="submit" class="btn btn-primary ">Pay Now</button>
+                    @endif
                </div>
             </div>
          </div>

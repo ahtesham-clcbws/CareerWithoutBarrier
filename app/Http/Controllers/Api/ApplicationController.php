@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\ApplicationCodeList;
 use App\Models\BoardAgencyStateModel;
 use App\Models\Category;
+use App\Models\CouponCode;
 use App\Models\District;
 use App\Models\Educationtype;
 use App\Models\Gn_DisplayExamAgencyBoardUniversity;
 use App\Models\Gn_OtherExamClassDetailModel;
+use App\Models\Payment;
 use App\Models\State;
 use App\Models\Student;
 use App\Models\StudentCode;
+use App\Models\StudentPayment;
 use App\Models\TermsCondition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -172,14 +175,13 @@ class ApplicationController extends Controller
                 $student->mother_occupation = $request->mother_occupation;
                 $student->terms_conditions = 1;
 
-                // Handle the signature upload
-                if (isset($request->signature) && !empty(trim($request->signature))) {
-                    $signature = getBase64Image($request->signature);
-                    $filePath = 'student/signature/' . date('Y/M/') . md5($request->email . $request->mobile) . '.jpg';
-                    $path = Storage::disk('public')->put('', $signature, $filePath);
+                if (!$student->form_step || $student->form_step < 3) {
+                    $student->form_step = 3;
+                }
 
-                    $student->signature = $path;
-                    $student->save();
+                // Handle the signature upload
+                if (!empty(trim($request->input('signature')))) {
+                    $student->signature = static::saveImage($request->input('signature'), 'signature');
                 }
 
                 $student->save();
@@ -218,121 +220,150 @@ class ApplicationController extends Controller
         }
     }
 
-    // public function applyCoupon(Request $request)
-    // {
-    //     $student = Auth::guard('student')->user();
+    public function applyCoupon(Request $request)
+    {
+        $student = $request->user();
 
-    //     $studentCode = StudentCode::where('stud_id', $student->id)->get()->last();
-    //     if (!$studentCode) {
-    //         $studentCode = new StudentCode();
-    //     }
+        $studentCode = StudentCode::where('stud_id', $student->id)->first();
+        if (!$studentCode) {
+            $studentCode = new StudentCode();
+        }
 
-    //     $validated = $request->validate([
-    //         'coupan_code' => 'required|string',
-    //     ]);
+        $validated = $request->validate([
+            'coupan_code' => 'required|string',
+        ]);
 
-    //     try {
-    //         DB::beginTransaction();
-    //         $couponCode = CouponCode::where('is_applied', 0)
-    //             ->where('couponcode', $validated['coupan_code'])
-    //             ->first();
+        try {
+            DB::beginTransaction();
+            $couponCode = CouponCode::where('is_applied', 0)
+                ->where('couponcode', $validated['coupan_code'])
+                ->first();
 
-    //         if (is_null($couponCode)) {
-    //             return response()->json([
-    //                 'status' => false,
-    //                 'message' => "Coupon Code invalid"
-    //             ]);
-    //         }
+            if (is_null($couponCode)) {
+                return response()->json(['success' => false, 'message' => 'Invalid coupon code.']);
+            }
 
-    //         $couponCode->is_applied = 1;
-    //         $couponCode->save();
+            $couponCode->is_applied = 1;
+            $couponCode->save();
 
 
-    //         $afterAppliedRemainValue = $student->disability == 'Yes' ? 0 : couponValueApply($couponCode->valueType, $couponCode->value);
+            $afterAppliedRemainValue = $student->disability == 'Yes' ? 0 : couponValueApply($couponCode->valueType, $couponCode->value);
 
-    //         $corporate = $couponCode->corporate;
-    //         if ($corporate) {
-    //             $studentCode->corporate_id = $corporate->id;
-    //             $studentCode->corporate_name = $corporate->name;
-    //         }
-    //         $studentCode->forceFill($validated);
-    //         $studentCode->stud_id = $student->id;
-    //         $studentCode->coupan_code = $couponCode->couponcode;
-    //         $studentCode->is_coupan_code_applied = 1;
-    //         $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ?  750 - $afterAppliedRemainValue : 0;
-    //         $studentCode->fee_amount = $afterAppliedRemainValue;
+            $corporate = $couponCode?->corporate;
+            if ($corporate) {
+                $studentCode->corporate_id = $corporate->id;
+                $studentCode->corporate_name = $corporate?->name;
+            }
+            $studentCode->forceFill($validated);
+            $studentCode->stud_id = $student->id;
+            $studentCode->coupan_code = $couponCode->couponcode;
+            $studentCode->is_coupan_code_applied = 1;
+            $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ? 750 - $afterAppliedRemainValue : 0;
+            $studentCode->fee_amount = $afterAppliedRemainValue;
 
-    //         if ($studentCode->fee_amount <= 0) {
-    //             $studentCode->used_coupon = 1;
-    //         }
-    //         $studentCode->save();
+            if ($studentCode->fee_amount <= 0) {
+                $studentCode->used_coupon = 1;
+            }
+            $studentCode->save();
 
-    //         DB::commit();
-    //         return response()->json([
-    //             'status' => true,
-    //             'message' => 'Coupon code applied successfully.',
-    //             'amount' => $studentCode->fee_amount,
-    //             'discount_amount' => $studentCode->coupan_value,
-    //             'coupon_code' => $couponCode->couponcode,
-    //             'corporate_name' => $studentCode->corporate_name
-    //         ]);
-    //     } catch (\Throwable $th) {
-    //         DB::rollBack();
-    //         logger('Failed:', [$th]);
-    //         return back()->withErrors('Failed to apply code');
-    //     }
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'message' => 'Coupon code applied successfully.',
+                'student' => getStudentById($student->id)
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            logger('Failed:', [$th]);
+            return response()->json(['success' => false, 'error' => $th->getMessage(), 'message' => 'Failed to apply coupon.']);
+        }
+    }
 
-    //     // Redirect back or return a response
+    public function removeCoupon(Request $request)
+    {
+        $student = $request->user();
 
-    // }
+        try {
+            DB::beginTransaction();
+            $studentCode = StudentCode::where('stud_id', $student->id)->first();
 
-    // public function removeCoupon(Request $request)
-    // {
-    //     $student = Auth::guard('student')->user();
+            $studentCode->corporate_name = null;
+            $studentCode->corporate_id = null;
+            $studentCode->coupan_code = null;
+            $studentCode->is_coupan_code_applied = false;
+            $studentCode->fee_amount = 750;
+            if ($studentCode->fee_amount > 0) {
+                $studentCode->used_coupon = false;
+            }
+            $studentCode->coupan_value = 0;
+            $studentCode->save();
 
-    //     try {
-    //         DB::beginTransaction();
-    //         $studentCode = StudentCode::where('stud_id', $student->id)->where('coupan_code', $request->coupon_code)->first();
+            $couponCode = CouponCode::where('couponcode', $request->coupon_code)->first();
 
-    //         if (!$studentCode) {
-    //             return response()->json([
-    //                 'status' => false,
-    //                 'message' => 'No coupon applied to remove.',
-    //             ]);
-    //         }
+            if ($couponCode) {
+                $couponCode->is_applied = false;
+                $couponCode->save();
+            }
 
-    //         $studentCode->corporate_name = null;
-    //         $studentCode->corporate_id = null;
-    //         $studentCode->coupan_code = null;
-    //         $studentCode->is_coupan_code_applied = false;
-    //         $studentCode->fee_amount = 750;
-    //         if ($studentCode->fee_amount > 0) {
-    //             $studentCode->used_coupon = false;
-    //         }
-    //         $studentCode->coupan_value = 0;
-    //         $studentCode->save();
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'message' => 'Coupon removed successfully.',
+                'student' => getStudentById($student->id)
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            logger('Failed:', [$th]);
+            return response()->json(['success' => false, 'error' => $th->getMessage(), 'message' => 'Failed to remove coupon.']);
+        }
+    }
 
-    //         $couponCode = CouponCode::where('couponcode', $request->coupon_code)->first();
+    // request parameters: token, paymentId, paymentMethod, amount, paymentResponse(data array)
+    public function studentPaymentCallback(Request $request)
+    {
+        try {
+            $student = $request->user();
+            $studentCode = StudentCode::where('stud_id', $student->id)->first();
 
-    //         if ($couponCode) {
-    //             $couponCode->is_applied = false;
-    //             $couponCode->save();
-    //         }
+            $paymentId = $request->paymentId;
+            $paymentMethod = $request->paymentMethod;
+            $amount = $request->amount;
+            $paymentResponse = $request->paymentResponse;
 
-    //         DB::commit();
-    //         return response()->json([
-    //             'status' => true,
-    //             'message' => 'Coupon removed successfully.',
-    //         ]);
-    //     } catch (\Throwable $th) {
-    //         DB::rollBack();
-    //         logger('Failed:', [$th]);
-    //         return response()->json([
-    //             'status' => false,
-    //             'message' => 'Failed to remove coupon.',
-    //         ]);
-    //     }
-    // }
+            DB::beginTransaction();
+
+            Payment::create([
+                'r_payment_id' => $paymentId,
+                'method' => $paymentMethod,
+                'currency' => 'INR',
+                'user_email' => $student->email,
+                'amount' => $amount / 100,
+                'json_response' => json_encode((array) $paymentResponse)
+            ]);
+            $studentPayment = new StudentPayment();
+            $studentPayment->student_id = $student->id;
+            $studentPayment->course_type = $student->scholarShipOptedFor->name; // Set the course type as per your application
+            $studentPayment->course_id = $student->id; // Assuming you pass course_id in the request
+            $studentPayment->institute_id = $student->id; // Assuming you pass institute_id in the request
+            $studentPayment->payment_amount = $amount / 100; // Convert amount to currency unit (e.g., rupees)
+            $studentPayment->payment_order_id = $paymentId;
+            $studentPayment->payment_status = 'success';
+            $studentPayment->save();
+
+            $studentCode->is_paid = true;
+            $studentCode->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment successfull.',
+                'student' => getStudentById($student->id)
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            logger('Failed:', [$th]);
+            return response()->json(['success' => false, 'error' => $th->getMessage(), 'message' => 'Payment failed.']);
+        }
+    }
 
     public function generateAppCode($student)
     {
@@ -384,7 +415,6 @@ class ApplicationController extends Controller
         }
     }
 
-
     public function onSelectQualification_ScholarshipCategory($id)
     {
         $boardConnection = Gn_DisplayExamAgencyBoardUniversity::where('board_id', 'LIKE', '%' . $id . '%')
@@ -408,6 +438,32 @@ class ApplicationController extends Controller
             return response()->json(['success' => true, 'data' => $scholarOptedFor]);
         }
         return response()->json(['success' => false, 'message' => 'Select another scholarship category.', 'data' => $scholarOptedFor]);
+    }
+
+
+
+
+    protected function saveImage($supervisor_signature, $imageType = 'signature')
+    {
+        try {
+            // Decode the base64 image
+            $signatureData = $supervisor_signature;
+            $signatureData = str_replace('data:image/jpg;base64,', '', $signatureData);
+            $signatureData = str_replace(' ', '+', $signatureData);
+            $signatureContent = base64_decode($signatureData);
+
+            // Create a unique file name
+            $fileName = uniqid($imageType . '_', true) . '.jpg';
+            $filePath = 'student/' . $imageType . date('/Y/M/') . $fileName;
+
+            // Save the image to the storage
+            Storage::disk('public')->put($filePath, $signatureContent);
+
+            return $filePath;
+        } catch (\Exception $e) {
+            // throw new \Exception($e, 1);
+            return null;
+        }
     }
 
 }

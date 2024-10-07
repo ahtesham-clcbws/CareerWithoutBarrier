@@ -82,6 +82,8 @@ class AuthController extends Controller
 
     public function rgisterUser(Request $request)
     {
+        // return response()->json($request->all());
+
         try {
             $uniqueMobile = "unique:" . Student::class;
             $uniqueEmail = "unique:" . Student::class;
@@ -107,52 +109,14 @@ class AuthController extends Controller
 
                 $student->password = Hash::make($request->password);
                 $student->login_password = $request->password;
-                // $student->save();
 
                 // Handle the profile image upload
-                if (isset($request->image) && !empty(trim($request->image))) {
-
-                    $imageData = str_replace('data:image/jpg;base64,', '', $base64String);
-                    $imageData = str_replace(' ', '+', $imageData);
-                    $image = base64_decode($imageData);
-
-                    // $image = getBase64Image($request->image);
-                    $filePath = 'student/profile/' . date('Y/M/') . md5($request->email . $request->mobile) . '.jpg';
-                    $path = Storage::disk('public')->put('', $image, $filePath);
-                    if ($image) {
-                        $student->photograph = $path;
-                    } else {
-                        Log::info('base64 profile image broken: ', [
-                            'request' => $request->image,
-                            'image' => $image,
-                            'filePath' => $filePath,
-                            'storagePath' => $path,
-                        ]);
-                    }
+                if (!empty(trim($request->input('image')))) {
+                    $student->photograph = static::saveImage($request->input('image'), 'profile');
                 }
+                // return response()->json($student);
 
                 $student->save();
-                // if ($request->hasFile('image')) {
-                //     $image = $request->file('image');
-
-                //     // Get the original file name
-                //     $originalName = $image->getClientOriginalName();
-
-                //     // Define the path where the file should be stored
-                //     $filePath = 'student/profile/' . date('Y/M/') . $originalName;
-
-                //     // Store the file
-                //     // $path = $file->storeAs('uploads', $originalName);
-                //     // Store the file on Google Cloud Storage
-                //     $path = Storage::disk('public')->put('', $image, $filePath);
-
-                //     $student->photograph = $path;
-                //     $student->save();
-                // }
-
-                // Log the user in after registration
-                // Auth::guard('student')->login($student);
-                // $user = Auth::guard('student')->user();
 
                 $student = getStudentById($student->id);
                 $token = $student->createToken($student->mobile . '-' . $student->email);
@@ -188,6 +152,30 @@ class AuthController extends Controller
             return response()->json(['success' => true, 'message' => 'Student logged in successfully.', 'user' => $student]);
         } else {
             return response()->json(['success' => false, 'message' => 'Invalid password.']);
+        }
+    }
+
+
+    protected function saveImage($supervisor_signature, $imageType = 'profile')
+    {
+        try {
+            // Decode the base64 image
+            $signatureData = $supervisor_signature;
+            $signatureData = str_replace('data:image/jpg;base64,', '', $signatureData);
+            $signatureData = str_replace(' ', '+', $signatureData);
+            $signatureContent = base64_decode($signatureData);
+
+            // Create a unique file name
+            $fileName = uniqid($imageType.'_', true) . '.jpg';
+            $filePath = 'student/' . $imageType . date('/Y/M/') . $fileName;
+
+            // Save the image to the storage
+            Storage::disk('public')->put($filePath, $signatureContent);
+
+            return $filePath;
+        } catch (\Exception $e) {
+            // throw new \Exception($e, 1);
+            return null;
         }
     }
 

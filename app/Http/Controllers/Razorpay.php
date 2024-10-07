@@ -24,7 +24,7 @@ class Razorpay extends Controller
             return back()->withErrors('Payable Amount greater than zero.');
         }
         
-        return view('payment.razorpay', compact('studentFee'));
+        return view('payment.razorpay', compact('studentFee', 'student'));
     }
 
 
@@ -60,7 +60,7 @@ class Razorpay extends Controller
                 ]);
                 $studentPayment = new StudentPayment();
                 $studentPayment->student_id = auth()->guard('student')->id();
-                $studentPayment->course_type = 'your_course_type'; // Set the course type as per your application
+                $studentPayment->course_type = $student->scholarShipOptedFor->name; // Set the course type as per your application
                 $studentPayment->course_id = auth()->guard('student')->id(); // Assuming you pass course_id in the request
                 $studentPayment->institute_id = auth()->guard('student')->id(); // Assuming you pass institute_id in the request
                 $studentPayment->payment_amount = $response['amount'] / 100; // Convert amount to currency unit (e.g., rupees)

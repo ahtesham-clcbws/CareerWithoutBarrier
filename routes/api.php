@@ -26,10 +26,11 @@ Route::get('scholarships-by-qualification/{id}', [ApplicationController::class, 
 Route::get('scholarships-by-scholarship/{id}/{qualificationId}', [ApplicationController::class, 'getScholarshipCategoryOptedFor']);
 
 
-
 // authenticated api only
-
 Route::post('application-submit', [ApplicationController::class, 'applicationSubmition'])->middleware('auth:sanctum');
+Route::post('coupon/apply', [ApplicationController::class, 'applyCoupon'])->middleware('auth:sanctum');
+Route::post('coupon/remove', [ApplicationController::class, 'removeCoupon'])->middleware('auth:sanctum');
+Route::post('pay-now', [ApplicationController::class, 'studentPaymentCallback'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

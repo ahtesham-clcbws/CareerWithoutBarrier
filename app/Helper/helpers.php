@@ -189,9 +189,15 @@ function getStudentById($id)
         'testimonial',
     ])->find($id);
     $student->career_one_year = $student->year;
+    if ($student->scholar_ship_category) {
+        $student->scholar_ship_category->name = str_replace("\r\n", ' ', $student->scholar_ship_category->name);
+    }
+
+
     return $student;
 }
-function getBase64Image($base64String){
+function getBase64Image($base64String)
+{
     try {
         // Decode the base64 image
         $imageData = str_replace('data:image/jpg;base64,', '', $base64String);

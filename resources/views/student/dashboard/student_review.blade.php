@@ -100,8 +100,8 @@ $studentCode = $student->studentCode()->first();
                                  </td>
                                  <td rowspan="5" colspan="2" align="center">
                                     <div class="text-center" style="display: inline-grid;">
-                                       <img src="{{url('upload/student/')}}/{{$student->photograph}}" class="img-fluid" style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: 150px;">
-                                       <img src="{{url('upload/student/')}}/{{$student->signature}}" class="img-fluid" style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: 60px;">
+                                       <img src="/storage/{{$student->photograph}}" class="img-fluid" style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: 150px;">
+                                       <img src="/storage/{{$student->signature}}" class="img-fluid" style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: 60px;">
                                     </div>
                                  </td>
                               </tr>
