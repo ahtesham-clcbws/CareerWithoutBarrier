@@ -34,6 +34,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Route::get('administrator', function () {
+//     return redirect()->to('/administrator/dashboard');
+// });
 
 Route::get('storage-link', function () {
     Artisan::call('storage:link');
@@ -200,3 +203,4 @@ Route::get('districts/{state}', [CommonController::class, 'districts']);
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
+

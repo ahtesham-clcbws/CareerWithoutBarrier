@@ -106,6 +106,7 @@ Coupon Code List
           <th>Prefix</th>
           <th>Name</th>
           <th>Coupon Code</th>
+          <th>Issued</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
@@ -118,6 +119,7 @@ Coupon Code List
           <td style="font-size: 13px">{{ $coupon->prefix }}</td>
           <td style="font-size: 13px">{{ $coupon->name }}</td>
           <td style="font-size: 13px">{{ $coupon->couponcode }}</td>
+          <td style="font-size: 13px">{{ $coupon->corporate?->name }}</td>
           <td style="font-size: 13px">{{ $coupon->status ? ($coupon->is_applied ? 'Applied' : 'Active') : 'Inactive' }}</td>
           <td>
             @if($coupon->status && !$coupon->is_applied)

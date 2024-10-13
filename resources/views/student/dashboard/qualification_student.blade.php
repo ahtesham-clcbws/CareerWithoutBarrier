@@ -73,9 +73,10 @@ $qualifications = BoardAgencyStateModel::all();
                             <select id="test_center_a" name="test_center_a" class="form-control form-select"
                             readonly
                                 value="{{$student->test_center_a}}" required>
-                                <option value="">--Select Center--</option>
                                 @foreach($choiceCenterA as $center1)
+                                @if ($student->test_center_a ?? $student->district_id == $center1->id)
                                 <option value="{{$center1->id}}" {{$student->test_center_a ?? $student->district_id == $center1->id ? 'selected' : ''}}>{{$center1->name}}</option>
+                                @endif
                                 @endforeach
                             </select>
                             @error('test_center_a')

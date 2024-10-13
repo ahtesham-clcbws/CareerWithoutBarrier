@@ -93,76 +93,52 @@ Student List
                             <table class="table table-bordered datatablecl">
                                 <thead>
                                     <tr>
-                                        <th>Sl No</th>
-                                        <th>Student Name</th>
-                                        <th>Email/Mobile</th>
-                                        <th>City & center</th>
-                                        <th>Application Code</th>
-                                        <th>Payment & Voucher</th>
-                                        <th>Scholarship Category</th>
-                                        <th>Scholarship Opted For</th>
-                                        <!-- <th>Roll No.</th> -->
-                                        <th>Action</th>
+                                        <th scope="col">##</th>
+                                        <th scope="col">Student Name</th>
+                                        <th scope="col">Email/Mobile</th>
+                                        <th scope="col">District</th>
+                                        <th scope="col">Center</th>
+                                        <th scope="col">App Code</th>
+                                        <th scope="col">Roll No</th>
+                                        <th scope="col">Payment & Voucher</th>
+                                        <th scope="col">Qualification</th>
+                                        <th scope="col">Scholarship Category</th>
+                                        <th scope="col">Scholarship Opted For</th>
+                                        <th scope="col">Dated</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- <td><span class="badge badge-primary">Sale</span></td> --}}
                                     @foreach($students as $student)
                                     <tr>
-                                        <?php
-                                        $studCode = $student->latestStudentCode;
-
-                                        ?>
-                                        <th scope="row">{{$loop->index + 1}}</th>
-                                        <td>{{ $student->name }}<br>
-                                            <span>{{$student->gender}}</span><br>
-                                            <span>{{ $student->dob }}</span><br>
+                                        <th scope="text-left">{{$loop->index+1}}</th>
+                                        <td class="text-nowrap">
+                                            {{ $student->name }}<br />
+                                            <span>{{$student->gender}}</span><br />
+                                            <span>{{ $student->dob }}</span>
                                         </td>
-                                        <td>{{ $student->email }} <br>
-                                            {{ $student->mobile }}
-                                            <br>
+                                        <td>{{ $student->email }}<br />
+                                            {{ $student->mobile }}<br />
                                             {{ $student->login_password }}
                                         </td>
-                                        <td>{{$student->district?->name}}
-                                            <hr>
-                                            @php($center = DB::table('districts')->where('id',$student->test_center_a)->first())
-                                            {{ $center?->name }}
-                                        </td>
-                                        <td>{{$studCode?->application_code ? $studCode?->application_code : 'NA'}}<br>
-                                            @if(!empty($studCode?->roll_no))
-                                            <span style="color:red;">R.No:{{ $studCode?->roll_no }} </span>
-                                            @endif
-                                        </td>
+                                        <td>{{$student->district?->name}}</td>
+                                        <td>{{ $student->choice_center_a?->name }}</td>
+                                        <td>{{ $student->latest_student_code?->application_code ? $student->latest_student_code?->application_code : 'N/A'}} </td>
+                                        <td>{{ !empty($student->latest_student_code?->roll_no) ? $student->latest_student_code?->roll_no :'N/A' }}</td>
                                         <td>
+                                            {{ $student->student_payment && count($student->student_payment) && !empty($student->student_payment[0]) && $student->student_payment[0]->payment_amount ? '₹ '.$student->student_payment[0]->payment_amount : ''}}
 
-                                            @php($studentPayment = $student->studentPayment->last())
-                                            @if(!empty($studentPayment))
+                                            {!! $student->student_payment && count($student->student_payment) && !empty($student->student_payment[0]) && $student->student_payment[0]->payment_amount && $student->latest_student_code?->coupan_code ? '<br />' : '' !!}
 
-                                            {{$studentPayment->payment_amount}}
-
-                                            <hr>
-                                            @php($appCode = $student->latestStudentCode)
-                                            Voucher No : {{$appCode?->coupan_code ?? '-'}}
-                                            @endif
-
+                                            {{ $student->latest_student_code?->coupan_code ? $student->latest_student_code?->coupan_code : '' }}
+                                            {!! $student->latest_student_code?->coupan_code ? '<br />'.($student->latest_student_code?->corporate_name ? $student->latest_student_code?->corporate_name : 'SQS Foundation, Kanpur') : '' !!}
                                         </td>
-                                        <td>{{ $student->scholarShipCategory?->name ?? 'N/A' }}</td>
-                                        <td>{{ $student->qualifications?->name }}
-                                            <hr> {{ $student->scholarShipOptedFor?->name ?? 'N/A' }}
-                                        </td>
-                                        <!-- <td class="color-primary">{{ $studCode?->roll_no }}</td> -->
+                                        <td>{{ $student->qualifications?->name }}</td>
+                                        <td>{{ $student->scholar_ship_category?->name ?? 'N/A' }}</td>
+                                        <td>{{ $student->scholar_ship_opted_for?->name ?? 'N/A' }}</td>
+                                        <td>{{ date('d-M-Y', strtotime($student->created_at)) }}</td>
                                         <td style="text-align:center">
                                             <a href="{{ route('admin.student', $student->id) }}" class="btn btn-primary" style="text-decoration: none;"></i> View</a>
-                                            <!-- <ul style="list-style: none;">
-                        <li class="card-option drop-menu">
-                          <span class="ti-settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="link">::</span>
-                          <ul class="card-option-dropdown dropdown-menu">
-                            <li><a href="{{ $student->id }}"><i class="ti-loop"></i> Edit</a></li>
-                            <li><a href="#"><i class="ti-menu-alt"></i>Restrict</a></li>
-                            <li><a href="#"><i class="ti-menu-alt"></i>Delete</a></li>
-                          </ul> -->
-                                            </li>
-                                            </ul>
                                         </td>
                                     </tr>
                                     @endforeach

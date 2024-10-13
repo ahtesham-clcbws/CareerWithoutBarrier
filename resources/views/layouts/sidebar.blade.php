@@ -1,11 +1,11 @@
-<!-- Sidebar --> <?php
+ <?php
 
-                  use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 
-                  $user = Auth::guard('student')->user();
+$user = Auth::guard('student')->user();
 
-                  $studCode = $user->studentCode->first();
-                  ?>
+$studCode = $user->studentCode->first();
+?>
 
 <nav class=" sidebar navbar-inverse fixed-top elevation-4" id="sidebar-wrapper" role="navigation" style="overflow-y: hidden;  font-style: italic !important;">
    <div class="sidebar-header">
@@ -20,7 +20,7 @@
       <div class="logo_area mb-2">
          <a href="{{('studentDashboard')}}" class="brand-link"> 
          @if($student->photograph)
-         <img src="{{url('upload/student/')}}/{{$student->photograph}}" alt="Prifle Dp" class="brand-image img-circle elevation-3" style="opacity: .8">
+         <img src="{{ explode('/', $student->photograph)[0] == 'student' ? '/storage/'.$student->photograph : '/upload/student/'.$student->photograph  }}" alt="Prifle Dp" class="brand-image img-circle elevation-3" style="opacity: .8">
             @else
              <img src="{{asset('student/images/th_5.png')}}" class="brand-image img-circle elevation-3" style="opacity: .8">
             @endif 

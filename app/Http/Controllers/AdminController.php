@@ -59,7 +59,6 @@ class AdminController extends Controller
 
     public function index()
     {
-
         $newStudents = Student::whereHas('latestStudentCode', function ($query) {
             $query->whereNull('roll_no');
         })->count();
@@ -88,7 +87,15 @@ class AdminController extends Controller
 
         $cities = District::get();
 
-        $query = Student::query();
+        $query = Student::query()->with([
+            'choiceCenterA',
+            'latestStudentCode',
+            'studentPayment',
+            'district',
+            'qualifications',
+            'scholarShipCategory',
+            'scholarShipOptedFor'
+        ]);
 
         $classes = collect();
 
@@ -110,9 +117,11 @@ class AdminController extends Controller
             }
 
             $students = $query->with('latestStudentCode')->get();
-        } else {
-            $students = $query->with('latestStudentCode')->get();
         }
+
+        $students = $query->orderBy('id', 'desc')->get();
+
+        // return print_r($students->toArray());
 
         return view('administrator.dashboard.studentlist', compact('students', 'cities', 'scholarshipTypes', 'classes'));
     }
@@ -139,7 +148,15 @@ class AdminController extends Controller
 
         $cities = District::get();
 
-        $query = Student::query();
+        $query = Student::query()->with([
+            'choiceCenterA',
+            'latestStudentCode',
+            'studentPayment',
+            'district',
+            'qualifications',
+            'scholarShipCategory',
+            'scholarShipOptedFor'
+        ]);
 
         $classes = collect();
 
@@ -161,9 +178,8 @@ class AdminController extends Controller
             }
 
             $students = $query->with('latestStudentCode')->get();
-        } else {
-            $students = $query->with('latestStudentCode')->get();
         }
+        $students = $query->orderBy('id', 'desc')->get();
 
         return view('administrator.dashboard.studentRolelist', compact('students', 'cities', 'scholarshipTypes', 'classes'));
     }
@@ -1728,7 +1744,15 @@ class AdminController extends Controller
 
         $cities = District::get();
 
-        $query = Student::query();
+        $query = Student::query()->with([
+            'studentCode',
+            'latestStudentCode',
+            'studentPayment',
+            'district',
+            'qualifications',
+            'scholarShipCategory',
+            'scholarShipOptedFor'
+        ]);
 
         $classes = collect();
 

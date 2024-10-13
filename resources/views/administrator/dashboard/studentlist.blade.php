@@ -29,59 +29,50 @@ Student List
                         <table class="table table-bordered datatablecl">
                             <thead>
                                 <tr>
-                                    <th scope="col">Sr.No</th>
+                                    <th scope="col">##</th>
                                     <th scope="col">Student Name</th>
                                     <th scope="col">Email/Mobile</th>
-                                    <th scope="col">City & center</th>
-                                    <th scope="col">Application Code</th>
+                                    <th scope="col">District</th>
+                                    <th scope="col">Center</th>
+                                    <th scope="col">App Code</th>
+                                    <th scope="col">Roll No</th>
                                     <th scope="col">Payment & Voucher</th>
+                                    <th scope="col">Qualification</th>
                                     <th scope="col">Scholarship Category</th>
                                     <th scope="col">Scholarship Opted For</th>
+                                    <th scope="col">Dated</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($students as $student)
                                 <tr>
-                                    <th scope="row">{{$student->index}}</th>
-                                    <td>{{ $student->name }}<br>
-                                        <span>{{$student->gender}}</span><br>
-                                        <span>{{ $student->dob }}</span><br>
+                                    <th scope="text-left">{{$loop->index+1}}</th>
+                                    <td class="text-nowrap">
+                                        {{ $student->name }}<br />
+                                        <span>{{$student->gender}}</span><br />
+                                        <span>{{ $student->dob }}</span>
                                     </td>
-                                    <td>{{ $student->email }} <br>
-                                        {{ $student->mobile }}
-                                        <br>
+                                    <td>{{ $student->email }}<br />
+                                        {{ $student->mobile }}<br />
                                         {{ $student->login_password }}
                                     </td>
-                                    <td>{{$student->district?->name}}
-                                        <hr>
-                                        @php($center =
-                                        DB::table('districts')->where('id',$student->test_center_a)->first())
-                                        {{ $center?->name }}
-                                    </td>
-                                    <td>{{$student->latestStudentCode?->application_code ? $student->latestStudentCode?->application_code : 'NA'}}<br>
-                                        @if(!empty($student->latestStudentCode?->roll_no))
-                                            <span style="color:red;">R.No:{{ $student->latestStudentCode?->roll_no }}
-                                            </span>
-                                        @endif
-                                    </td>
+                                    <td>{{$student->district?->name}}</td>
+                                    <td>{{ $student->choice_center_a?->name }}</td>
+                                    <td>{{ $student->latest_student_code?->application_code ? $student->latest_student_code?->application_code : 'N/A'}} </td>
+                                    <td>{{ !empty($student->latest_student_code?->roll_no) ? $student->latest_student_code?->roll_no :'N/A' }}</td>
                                     <td>
+                                        {{ $student->student_payment && count($student->student_payment) && !empty($student->student_payment[0]) && $student->student_payment[0]->payment_amount ? '₹ '.$student->student_payment[0]->payment_amount : ''}}
 
-                                        @php($studentPayment = $student->studentPayment->last())
-                                        @if(!empty($studentPayment))
+                                        {!! $student->student_payment && count($student->student_payment) && !empty($student->student_payment[0]) && $student->student_payment[0]->payment_amount && $student->latest_student_code?->coupan_code ? '<br />' : '' !!}
 
-                                        {{$studentPayment->payment_amount}}
-
-                                        <hr>
-                                        @php($appCode = $student->latestStudentCode)
-                                        Voucher No : {{$appCode?->coupan_code ?? '-'}}
-                                        @endif
-
+                                        {{ $student->latest_student_code?->coupan_code ? $student->latest_student_code?->coupan_code : '' }}
+                                        {!! $student->latest_student_code?->coupan_code ? '<br />'.($student->latest_student_code?->corporate_name ? $student->latest_student_code?->corporate_name : 'SQS Foundation, Kanpur') : '' !!}
                                     </td>
-                                    <td>{{ $student->scholarShipCategory?->name ?? 'N/A' }}</td>
-                                    <td>{{ $student->qualifications?->name }}
-                                        <hr> {{ $student->scholarShipOptedFor?->name ?? 'N/A' }}
-                                    </td>
+                                    <td>{{ $student->qualifications?->name }}</td>
+                                    <td>{{ $student->scholar_ship_category?->name ?? 'N/A' }}</td>
+                                    <td>{{ $student->scholar_ship_opted_for?->name ?? 'N/A' }}</td>
+                                    <td>{{ date('d-M-Y', strtotime($student->created_at)) }}</td>
 
                                     <td style="text-align:center">
                                         <a href="{{ route('admin.student', $student->id) }}" class="btn btn-primary"

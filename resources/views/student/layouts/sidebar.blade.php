@@ -57,7 +57,7 @@ if ($studCode) {
         <div class="logo_area mb-2">
             <a href="{{('studentDashboard')}}" class="brand-link">
                 @if($student->photograph)
-                <img src="/storage/{{$student->photograph}}" alt="Prifle Dp" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="{{ explode('/', $student->photograph)[0] == 'student' ? '/storage/'.$student->photograph : '/upload/student/'.$student->photograph  }}" alt="Prifle Dp" class="brand-image img-circle elevation-3" style="opacity: .8">
                 @else
                 <img src="{{asset('student/images/th_5.png')}}" class="brand-image img-circle elevation-3" style="opacity: .8" alt="">
                 @endif

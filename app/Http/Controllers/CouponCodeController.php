@@ -46,7 +46,7 @@ class CouponCodeController extends Controller
 
     public function lists(Request $request)
     {
-        $coupons = CouponCode::orderByDesc('created_at')->where('status', 1)->get();
+        $coupons = CouponCode::orderByDesc('created_at')->where('status', 1)->with('corporate')->get();
 
         $counts = '';
         $appliedCount = '';
@@ -78,6 +78,8 @@ class CouponCodeController extends Controller
         $counts = $coupons->count();
 
         $appliedCount = $coupons->where('is_applied', 1)->count();
+
+        // return print_r($coupons->toArray());
 
         return view('administrator.dashboard.coupon_list', compact('issuedCount', 'coupons', 'counts', 'appliedCount', 'prefix', 'codeValue'));
     }

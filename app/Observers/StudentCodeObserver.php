@@ -24,7 +24,7 @@ class StudentCodeObserver
 
 
         if ($studentCode->wasChanged('is_paid') || $studentCode->wasChanged('used_coupon')) {
-            $adminUser = User::where('email', 'careerwithoutbarrier@gmail.com')->orWhere('email', 'vinod190596@gmail.com')->first();
+            $adminUser = User::where('email', 'sqscwb@gmail.com')->first();
            if($adminUser)
             $adminUser->notify(new StudentPaymentAdminMail($studentCode));
 

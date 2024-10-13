@@ -179,7 +179,7 @@ class EnquiryController extends Controller
 
     public function contactEnquiry(Request $request)
     {
-        $contactInfo = ContactInfo::all();
+        $contactInfo = ContactInfo::orderBy('id', 'desc')->get();
 
         return view('administrator.contact_enquiry.contact_enquiry', compact('contactInfo'));
     }
@@ -222,17 +222,18 @@ class EnquiryController extends Controller
         }
     }
 
-    public function printNewInstituteEnquiry(Request $request){
-       
+    public function printNewInstituteEnquiry(Request $request)
+    {
+
         $enq = Corporate::where('is_approved', 0)->whereNull('signup_at')->get();
 
         $pdf = Pdf::loadView('administrator/download/new-institute-enquiry', ['institute' => $enq]);
 
-        return $pdf->stream('New Institute Enquiry List on '.date('d-m-Y His A').'.pdf');
-
+        return $pdf->stream('New Institute Enquiry List on ' . date('d-m-Y His A') . '.pdf');
     }
 
-    public function printSignUpInstituteList(Request $request){
+    public function printSignUpInstituteList(Request $request)
+    {
 
         $enq = Corporate::where('is_approved', 1)
             ->where('signup_approved', 0)
@@ -241,20 +242,19 @@ class EnquiryController extends Controller
         $pdf = Pdf::loadView('administrator/download/print-signup-institute-list', ['institute' => $enq]);
         $pdf->setPaper('A4', 'landscape');
 
-        return $pdf->stream('Sign Up Institute List on '.date('d-m-Y His A').'.pdf');
-
+        return $pdf->stream('Sign Up Institute List on ' . date('d-m-Y His A') . '.pdf');
     }
 
-    public function printApproveInstituteList(Request $request){
+    public function printApproveInstituteList(Request $request)
+    {
 
         $enq = Corporate::where('is_approved', 1)
-        ->where('signup_approved', 1)
-        ->whereNotNull('signup_at')->get();
+            ->where('signup_approved', 1)
+            ->whereNotNull('signup_at')->get();
 
         $pdf = Pdf::loadView('administrator/download/print-approve-institute-list', ['institute' => $enq]);
         $pdf->setPaper('A4', 'landscape');
 
-        return $pdf->stream('Approve Institute List on '.date('d-m-Y His A').'.pdf');
-
+        return $pdf->stream('Approve Institute List on ' . date('d-m-Y His A') . '.pdf');
     }
 }
