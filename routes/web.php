@@ -15,7 +15,7 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
-
+use App\Livewire\Auth\RegistrationForm;
 use App\Livewire\Pages\FreeForm;
 use App\Services\TextlocalService;
 use Illuminate\Foundation\Application;
@@ -97,21 +97,9 @@ Route::prefix('')->group(function () {
 
     // ahtesham create those routes
     Route::get('/free-form', FreeForm::class)->name('freeform');
+
+    Route::get('registration', RegistrationForm::class)->name('registration');
 });
-
-// Route::prefix('students')->group(function () {
-//     Route::get('/students', [StudentController::class, 'studentslist'])->name('students.studentslist');
-//     Route::get('/dashboard', [StudentController::class, 'userDashboard'])->name('students.dashboard');
-//     Route::get('/logout', [StudentController::class, 'logout'])->name('students.logout');
-//     Route::get('/notification', [StudentController::class, 'notification'])->name('students.notification');
-//     Route::get('/allpayment', [StudentController::class, 'allpayment'])->name('students.allpayment');
-//     Route::get('/profile', [StudentController::class, 'profile'])->name('students.profile');
-//     Route::get('/scholorshipApply', [StudentController::class, 'scholorshipApply'])->name('students.scholorshipApply');
-//     Route::get('/exportCsv', [StudentController::class, 'exportCsv'])->name('students.exportCsv');
-//     Route::post('/uploadexcel', [StudentController::class, 'uploadexcel'])->name('students.uploadexcel');
-
-//     Route::get('/scholorshipApplyList', [StudentController::class, 'scholorshipApplyList'])->name('students.scholorshipApplyList');
-// });
 
 Route::prefix('result')->group(function () {
     Route::get('/newresult', [ResultController::class, 'newresult'])->name('result.newresult');

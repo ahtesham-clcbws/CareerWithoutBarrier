@@ -29,13 +29,3 @@
 </script>
 @endif
 @endisset
-<div class="modal fade" id="query_form_reply" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabels" aria-hidden="true">
-    <div class="modal-dialog modal-lg" id="prodiv" style="max-width: 1020px;">
-        <div class="modal-content" id="query_form_reply_append">
-            
-        </div>
-    </div>
-</div>
-
-
-

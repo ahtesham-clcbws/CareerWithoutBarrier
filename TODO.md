@@ -1,4 +1,4 @@
-cd public
+cd public;
 ln -s ../storage/app/public storage
 
 ## email issue resolution maybe
@@ -18,8 +18,11 @@ SET `roll_no` = NULL,
 `issued_admitcard` = 0,
 `exam_mins` = NULL;
 
+
+## TODO after push
 SSH 1988DEC7@htesham
 ssh -p 65002 u482032683@89.116.133.61
-cd domains/testandnotes.com/public_html
 cd domains/careerwithoutbarrier.com/public_html
 php artisan optimize:clear; php artisan clear-compiled; php artisan cache:clear; php artisan config:clear
+# for storage:link
+cd public;ln -s ../storage/app/public storage;cd ../;

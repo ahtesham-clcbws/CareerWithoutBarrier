@@ -10,6 +10,8 @@ use App\Http\Controllers\ExamsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NewsController;
+use App\Livewire\Admin\Setting\Districts;
+use App\Livewire\Admin\Setting\States;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
@@ -86,7 +88,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/save_center', [AdminController::class, 'saveCenter'])->name('admin.saveCenter');
     Route::any('/list_center', [AdminController::class, 'centerList'])->name('admin.listCenter');
     Route::any('/exam_center_allotment', [AdminController::class, 'examCenterAllotment'])->name('admin.studentExamCenter');
-    
+
     Route::any('/exam_center_allot', [AdminController::class, 'examCenterAllot'])->name('admin.studentExamCenterAllotment');
     Route::any('/exam_center_allot_to_all/{exam_center}', [AdminController::class, 'examCenterAllottoAll'])->name('admin.studentExamCenterAllotmenttoAll');
 
@@ -176,6 +178,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::match(['get', 'post'], 'payment-settings', [AdminController::class, 'paymentSettings'])->name('payment-settings.store');
         Route::any('/mobile_number', [AdminController::class, 'mobileNumber'])->name('admin.mobile_number');
+        Route::any('/districts', Districts::class)->name('admin.district-settings');
+        Route::any('/states', States::class)->name('admin.state-settings');
         Route::any('/mobile_toggle-status', [AdminController::class, 'toggleMobileStatus'])->name('mobile.number.statusToggle');
         Route::any('/mobile_toggle-delete/{mobileNumber}', [AdminController::class, 'mobileNumberDelete'])->name('status_mobile_number.delete');
     });

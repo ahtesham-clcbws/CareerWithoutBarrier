@@ -75,7 +75,7 @@
            
                   <div class="col-md-6 col mb-3">
                      <label class="form-label">State<span class="text-danger">*</span></label>
-                     <select name="state_id" class="form-control form-select" id="state" onchange="selectDisctrict(this.value)" required>
+                     <select name="state_id" disabled class="form-control form-select" id="state" onchange="selectDisctrict(this.value)" required>
                         <option value="">--Select state--</option>
                         @foreach($states as $state)
                      
@@ -89,7 +89,7 @@
                   </div>
                   <div class="col-md-6 col mb-3">
                      <label class="form-label">District/City<span class="text-danger">*</span></label>
-                     <select name="district_id" class="form-control form-select" id="district" required>
+                     <select name="district_id" disabled class="form-control form-select" id="district" required>
                         <option value="">--Select District/City--</option>
                      </select>
                      @error('district_id')
@@ -148,14 +148,14 @@
       }
    }
 
-   $('#state').val({{ $student->state_id ?? 'null'}}).trigger('change');
+   $('#state').val(<?= $student->state_id ?? 'null' ?>).trigger('change');
 
    // Function to fetch subjects based on subcategory
    function fetchDistricts(state) {
       $.get('/districts/' + state, function(data) {
          $('#district').empty().append('<option value="">--Select District/City--</option>');
          $.each(data, function(index, district) {
-            var selected = ({{$student->district_id ?? 'null'}} == district.id) ? 'selected' : '';
+            var selected = (<?= $student->district_id ?? 'null' ?> == district.id) ? 'selected' : '';
             $('#district').append('<option value="' + district.id + '" ' + selected + '>' + district.name + '</option>');
          });
       });

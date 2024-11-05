@@ -5715,7 +5715,8 @@ p.ani-tit {
     padding-top: 7px;
 }
 
-.book-now li input[type="submit"] {
+.book-now li input[type="submit"],
+button.btn-custom {
     background: #f73f05;
     font-size: 16px;
     text-transform: uppercase;
@@ -5728,7 +5729,8 @@ p.ani-tit {
     border: 1px solid #f73f05;
 }
 
-.book-now li input[type="submit"]:hover {
+.book-now li input[type="submit"]:hover,
+button.btn-custom:hover {
     background: #0936de;
     transition: all 0.5s ease;
     border: 1px solid #0936de;
@@ -5767,7 +5769,8 @@ p.ani-tit {
     font-size: 13px;
 }
 
-.books-now li input[type="submit"] {
+.books-now li input[type="submit"],
+button.btn-custom {
     background: #f73f05;
     font-size: 16px;
     text-transform: uppercase;
@@ -5780,7 +5783,8 @@ p.ani-tit {
     border: 1px solid #f73f05;
 }
 
-.books-now li input[type="submit"]:hover {
+.books-now li input[type="submit"]:hover,
+button.btn-custom:hover {
     background: #0936de;
     transition: all 0.5s ease;
     border: 1px solid #0936de;
@@ -5796,6 +5800,14 @@ p.ani-tit {
     font-size: 16px;
     font-weight: 500;
     padding: 8px;
+}
+
+input:disabled,
+input[readonly],
+button.btn-custom:disabled {
+    background-color: #e9ecef !important;
+    color: #03152b !important;
+    opacity: 0.4
 }
 
 /*-------------------------------------------------*/
@@ -10240,6 +10252,7 @@ body.conact-page {
     background-size: cover;
 
 }
+
 .perpration-page-banner h2 {
     color: var(--white);
 }
@@ -11218,6 +11231,7 @@ form.search-courses .btn:focus {
     line-height: 25px;
     margin-bottom: 20px;
 }
+
 .career-overview-content {
     float: left;
     width: 100%;
@@ -11358,6 +11372,7 @@ form.search-courses .btn:focus {
 .carrier-glance .tab-icon img {
     width: 20px;
 }
+
 .field-icon {
     float: right;
     margin-right: 14px;
@@ -11367,15 +11382,24 @@ form.search-courses .btn:focus {
     opacity: 0.6;
     cursor: pointer;
 }
-.fa, .fas {
+
+.fa,
+.fas {
     font-family: 'Font Awesome 5 Free';
     font-weight: 900;
 }
+
 .fa-fw {
     text-align: center;
     width: 1.25em;
 }
-.fa, .fas, .far, .fal, .fad, .fab {
+
+.fa,
+.fas,
+.far,
+.fal,
+.fad,
+.fab {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     display: inline-block;
@@ -11384,6 +11408,7 @@ form.search-courses .btn:focus {
     text-rendering: auto;
     line-height: 1;
 }
-label{
+
+label {
     display: flex;
 }

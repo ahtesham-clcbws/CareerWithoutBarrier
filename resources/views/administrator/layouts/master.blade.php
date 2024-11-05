@@ -91,6 +91,9 @@
             <!-- include('administrator.layouts.content_header') -->
 
             @yield('content')
+            @if (isset($slot))
+            {{ $slot }}
+            @endif
 
         </div>
     </div>

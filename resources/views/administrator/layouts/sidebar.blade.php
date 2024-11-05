@@ -186,6 +186,8 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" x-placement="top-start">
                     <a class="dropdown-item" href="{{route('payment-settings.store')}}">Payment Settings</a>
                     <a class="dropdown-item" href="{{route('admin.mobile_number')}}">Mobile Number</a>
+                    <a class="dropdown-item" href="{{route('admin.state-settings')}}">States</a>
+                    <a class="dropdown-item" href="{{route('admin.district-settings')}}">Districts</a>
                 </div>
             </div>
         </li>
