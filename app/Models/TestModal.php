@@ -76,9 +76,9 @@ class TestModal extends Model
         return $this->belongsTo(User::class, 'id', 'publisher_id');
     }
     
-    public function Educationtype()
+    public function EducationType()
     {
-        return $this->hasOne(Educationtype::class, 'id', 'education_type_id');
+        return $this->hasOne(EducationType::class, 'id', 'education_type_id');
     }
     
     public function EducationClass()

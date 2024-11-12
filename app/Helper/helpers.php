@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\DistrictScholarshipLimit;
 use App\Models\Image;
 use App\Models\Student;
 use Carbon\Carbon;
@@ -207,4 +208,20 @@ function getBase64Image($base64String)
         Log::error('base64 decode failed', [$th->getMessage()]);
         return null;
     }
+}
+
+
+/**
+ * Get the registration limit for a given district and education type.
+ * Returns 0 if no limit is set.
+ */
+function getLimit($districtId, $educationTypeId)
+{
+    // return [$districtId, $educationTypeId];
+    $limit = DistrictScholarshipLimit::where('district_id', $districtId)
+        ->where('educationtype_id', $educationTypeId)
+        ->first();
+
+    // return $limit;
+    return $limit ? $limit->max_registration_limit : 0;
 }

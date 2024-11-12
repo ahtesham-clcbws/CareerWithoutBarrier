@@ -17,7 +17,7 @@ use App\Models\Center;
 use App\Models\Corporate;
 use App\Models\CouponCode;
 use App\Models\District;
-use App\Models\Educationtype;
+use App\Models\EducationType;
 use App\Models\EProspectusModel;
 use App\Models\FaqModel;
 use App\Models\Gn_EducationClassExamAgencyBoardUniversity;
@@ -83,7 +83,7 @@ class AdminController extends Controller
 
     public function studentList(Request $request)
     {
-        $scholarshipTypes = Educationtype::get();
+        $scholarshipTypes = EducationType::get();
 
         $cities = District::get();
 
@@ -144,7 +144,7 @@ class AdminController extends Controller
 
     public function studentRollList(Request $request)
     {
-        $scholarshipTypes = Educationtype::get();
+        $scholarshipTypes = EducationType::get();
 
         $cities = District::get();
 
@@ -187,7 +187,7 @@ class AdminController extends Controller
     public function studentView(Student $student)
     {
         $states = State::all();
-        $scholarshipTypes = Educationtype::get();
+        $scholarshipTypes = EducationType::get();
         $cities = District::get();
         $classexam = ClassGoupExamModel::all();
         $qualifications = BoardAgencyStateModel::all();
@@ -488,7 +488,7 @@ class AdminController extends Controller
     {
         $filters = [];
 
-        $scholarshipTypes = Educationtype::get();
+        $scholarshipTypes = EducationType::get();
 
         $cities = District::orderBy('name', 'asc')->get();
 
@@ -522,7 +522,7 @@ class AdminController extends Controller
             $classGroupId = Gn_EducationClassExamAgencyBoardUniversity::whereIn('education_type_id', $scholarshipIds)->get()->pluck('board_agency_exam_id');
             $preloadedClasses = BoardAgencyStateModel::whereIn('id', $classGroupId)->select('id', 'name')->get();
 
-            $filters['scholarship'] = Educationtype::whereIn('id', $scholarshipIds)->pluck('name');
+            $filters['scholarship'] = EducationType::whereIn('id', $scholarshipIds)->pluck('name');
         }
         if (!empty($request->class) && $request->class[0] != null) {
             $classIds = array_map(function ($id) {
@@ -1269,7 +1269,7 @@ class AdminController extends Controller
         }
         $scholarshipTwo = null;
 
-        $data['educations'] = Educationtype::where('is_featured', 1)->get();
+        $data['educations'] = EducationType::where('is_featured', 1)->get();
         $data['scholarships'] = ScholarshipHome::with('educationType')->get();
         $data['scholarshipTwos'] = ScholarshipHomeTwo::with('scholarshipType')->get();
         $data['scholarshipCourses'] = ScholarshipHome::with('educationType')->get();
@@ -1566,7 +1566,7 @@ class AdminController extends Controller
     public function studentResult(Request $request)
     {
 
-        $scholarshipTypes = Educationtype::get();
+        $scholarshipTypes = EducationType::get();
 
         $query = Student::query();
 
@@ -1740,7 +1740,7 @@ class AdminController extends Controller
     public function printStudentList(Request $request)
     {
 
-        $scholarshipTypes = Educationtype::get();
+        $scholarshipTypes = EducationType::get();
 
         $cities = District::get();
 
@@ -1786,7 +1786,7 @@ class AdminController extends Controller
     public function printstudentView(Student $student)
     {
         $states = State::all();
-        $scholarshipTypes = Educationtype::get(); //'student', 'states','scholarshipTypes'
+        $scholarshipTypes = EducationType::get(); //'student', 'states','scholarshipTypes'
         $pdf = Pdf::loadView('administrator/download/print-student-details', ['student' => $student, 'states' => $states, 'scholarshipTypes' => $scholarshipTypes]);
         $pdf->setPaper('A4');
         return $pdf->stream('Registration Details of ' . $student->name . '.pdf');
@@ -1796,7 +1796,7 @@ class AdminController extends Controller
     {
 
         if ($type == 'Yes') {
-            $education = Educationtype::where('id', $id)->get();
+            $education = EducationType::where('id', $id)->get();
 
             return response()->json(['status' => true, 'message' => 'Select another Qualification.', 'data' => $education]);
         }

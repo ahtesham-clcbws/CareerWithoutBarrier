@@ -24,5 +24,15 @@ SSH 1988DEC7@htesham
 ssh -p 65002 u482032683@89.116.133.61
 cd domains/careerwithoutbarrier.com/public_html
 php artisan optimize:clear; php artisan clear-compiled; php artisan cache:clear; php artisan config:clear
+# check for migration
+php artisan migrate;
 # for storage:link
 cd public;ln -s ../storage/app/public storage;cd ../;
+
+### main path of domains
+u482032683 = ~
+/home/u482032683/domains/careerwithoutbarrier.com/public_html
+/home/u482032683/domains/develop.testandnotes.com/public_html
+/home/u482032683/domains/testandnotes.com/public_html
+
+cp -r -a . /path/to/destination/directory

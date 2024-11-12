@@ -29,7 +29,7 @@ $qualifications = BoardAgencyStateModel::all();
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="qualification">Qualification:<span class="text-danger">*</span></label><br>
-                            <select id="qualification" name="qualification" class="form-control form-select" required
+                            <select id="qualification" name="qualification" class="form-control form-select" required disabled
                                 onchange="getScholarshipCategory(this.value)" value="{{$student->qualification}}">
                                 <option value="">--Select qualification--</option>
                                 @foreach($qualifications as $qualification)
@@ -46,7 +46,7 @@ $qualifications = BoardAgencyStateModel::all();
                             <label for="scholarship_category">Scholarship Category:<span
                                     class="text-danger">*</span></label><br>
                             <select onchange="getScholarshipoptedfor(this.value)" id="scholarship_category"
-                                name="scholarship_category" class="form-control form-select" required
+                                name="scholarship_category" class="form-control form-select" required disabled
                                 value="<?= $student->scholarship_category ?>">
                                 <option value="">--Select Category--</option>
                             </select>
@@ -71,7 +71,7 @@ $qualifications = BoardAgencyStateModel::all();
                             <label for="test_center_a">Choice of Test Centre (A):<span
                                     class="text-danger">*</span></label><br>
                             <select id="test_center_a" name="test_center_a" class="form-control form-select"
-                            readonly
+                            disabled
                                 value="{{$student->test_center_a}}" required>
                                 @foreach($choiceCenterA as $center1)
                                 @if ($student->test_center_a ?? $student->district_id == $center1->id)
@@ -144,7 +144,7 @@ $qualifications = BoardAgencyStateModel::all();
 
     }
 
-    if ("{{$student->scholarship_opted_for}}" != "") {
+    if ("{{$student->scholarship_opted_for || $student->scholarship_category}}" != "") {
         getScholarshipoptedfor("<?= $student->scholarship_category ?>")
     }
 

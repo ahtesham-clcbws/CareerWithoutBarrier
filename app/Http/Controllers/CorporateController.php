@@ -18,7 +18,6 @@ use App\Mail\OTPCorporateMail;
 use Illuminate\Support\Facades\Mail;
 class CorporateController extends Controller
 {
-
     protected $textlocalService;
 
     public function __construct(TextlocalService $textlocalService)

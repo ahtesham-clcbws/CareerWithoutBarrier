@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ApplicationController;
+use App\Models\DistrictScholarshipLimit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::get('test', function(){
+    $data = DistrictScholarshipLimit::with('EducationType:id,name')->with('District:id,name')->orderBy('district_id', 'asc')->orderBy('educationtype_id', 'asc')->get();
+    return print_r($data->toArray());
+});
 
 // auth API
 Route::post('check-credentials', [AuthController::class, 'verifyMobileEmail']);

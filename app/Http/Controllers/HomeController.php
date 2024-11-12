@@ -29,7 +29,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\BenefitsModel;
 use App\Models\TermsCondition;
 use App\Models\BlognewsModel;
-use App\Models\Educationtype;
+use App\Models\District;
+use App\Models\EducationType;
 use App\Models\EProspectusModel;
 use App\Models\GovtwebsiteModel;
 use App\Models\MobileNumber;
@@ -39,6 +40,7 @@ use App\Models\OurContributor;
 use App\Models\OurJourney;
 use App\Models\ScholarshipHome;
 use App\Models\SliderModel;
+use App\Models\State;
 use App\Models\Student;
 use App\Models\TestimonialsModel;
 use App\Notifications\Admin\AdminOtpSent;
@@ -71,7 +73,7 @@ class HomeController extends Controller
 
         $courses =  CourseDetailsModel::where('status', 1)->select('id', 'title', 'course_logo')->get();
 
-        $educations = Educationtype::where('is_featured', 1)->get();
+        $educations = EducationType::where('is_featured', 1)->get();
 
         $ourJourneys = OurJourney::where('is_featured', 1)->get();
 
@@ -693,18 +695,18 @@ class HomeController extends Controller
             'phone' => 'required|string',
             'otp' => 'required|string', // Ensure OTP is provided
             'address' => 'required|string',
-            'city' => 'required|string',
+            // 'city' => 'required|string',
             'pincode' => 'required|string|digits:6',
             'attachment' => "nullable|file|mimes:jpeg,jpg,png|max:2048",
             'attachment_profile' => "nullable|file|mimes:jpeg,jpg,png,pdf|max:2048",
             'privacy_policy' => 'required|accepted',
+            'state_id' => 'required|exists:states,id',
+            'district_id' => 'required|exists:districts,id',
         ]);
         try {
-            //code...
-
-            if (OtpVerifications::where('credential', $request->phone)->where('otp', $request->otp)->where('status', 1)->count() == 0) {
-                return response()->json(['success' => false, 'message' => 'Otp is not verified.']);
-            }
+            // if (OtpVerifications::where('credential', $request->phone)->where('otp', $request->otp)->where('status', 1)->count() == 0) {
+            //     return response()->json(['success' => false, 'message' => 'Otp is not verified.']);
+            // }
 
             // Handle file upload
             if ($request->hasFile('attachment')) {

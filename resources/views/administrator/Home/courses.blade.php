@@ -8,9 +8,9 @@ Preparation Course Add
 
 <?php
 
-use App\Models\Educationtype;
+use App\Models\EducationType;
 
-$educationType = Educationtype::where('is_featured', 1)->get();
+$educationType = EducationType::where('is_featured', 1)->get();
 
 ?>
 

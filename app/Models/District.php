@@ -18,6 +18,11 @@ class District extends Model
         });
     }
 
+    public function DistrictScholarshipLimits()
+    {
+        return $this->hasMany(DistrictScholarshipLimit::class);
+    }
+
     public function state()
     {
         return $this->belongsTo(State::class, 'state_id', 'Id');
@@ -28,11 +33,46 @@ class District extends Model
         return $this->hasMany(Student::class)->select('district_id', 'id', 'name');
     }
 
+    public function getEducationRemainingForms($educationtype_id = null)
+    {
+        $totalForms = 0;
+        if ($educationtype_id && count($this->DistrictScholarshipLimits) > 0) {
+            $relation = DistrictScholarshipLimit::where('educationtype_id', $educationtype_id)->where('district_id', $this->id);
+            $totalForms = $relation && $relation->max_registration_limit ? $relation->max_registration_limit : 0;
+        }
+        $totalForms = $this->total_forms;
+        $filledForms = $this->students()->count(); // Count students who have filled the form
+
+        return [
+            'totalForms' => $totalForms,
+            'remaining' => $totalForms - 0
+        ];
+    }
     public function getRemainingForms()
     {
         $totalForms = $this->total_forms;
         $filledForms = $this->students()->count(); // Count students who have filled the form
 
         return $totalForms - $filledForms; // Remaining forms
+    }
+
+    public function hasFormLimit()
+    {
+        return $this->DistrictScholarshipLimits;
+    }
+
+    public function getLimit($educationTypeId)
+    {
+        $students = 0;
+        $limit = $this->districtScholarshipLimits()->forEducationType($educationTypeId)->first();
+
+        if($limit) {
+            $students = Student::where('district_id', $this->id)->where('scholarship_category', $educationTypeId)->count();
+        }
+
+        return (object)[
+            'limit' => $limit ? $limit->max_registration_limit : 0,
+            'remaining' => $limit ? $limit->max_registration_limit - $students : 0
+        ];
     }
 }

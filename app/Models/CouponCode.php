@@ -9,7 +9,8 @@ class CouponCode extends Model
 {
     use HasFactory;
 
-    public function corporate(){
-        return $this->belongsTo(Corporate::class,'corporate_id','id');
+    public function corporate()
+    {
+        return $this->belongsTo(Corporate::class, 'corporate_id', 'id');
     }
 }

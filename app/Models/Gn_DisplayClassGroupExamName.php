@@ -11,7 +11,7 @@ class Gn_DisplayClassGroupExamName extends Model
 
     public function education()
     {
-        return $this->hasOne(Educationtype::class, 'id', 'education_type_id');
+        return $this->hasOne(EducationType::class, 'id', 'education_type_id');
     }
 
     public function class_exam()

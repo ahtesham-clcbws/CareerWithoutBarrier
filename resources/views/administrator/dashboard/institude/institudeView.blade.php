@@ -91,8 +91,7 @@ use App\Models\CouponCode;
                                         <tr>
                                             <td colspan="2"><b>Address</b></td>
                                             <td class="information-txt" colspan="2">{{$corporate->address}}
-                                                &nbsp;&nbsp;, <strong>City: &nbsp;</strong>{{$corporate->city}}
-                                                <!-- <strong>State: &nbsp;</strong>Uttar Pradesh -->
+                                                &nbsp;&nbsp;, <strong>City: &nbsp;</strong>{{ $corporate->district?->name . ', '.$corporate->state?->name}}
                                             </td>
                                         </tr>
                                         <tr>

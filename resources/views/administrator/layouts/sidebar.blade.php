@@ -188,6 +188,7 @@
                     <a class="dropdown-item" href="{{route('admin.mobile_number')}}">Mobile Number</a>
                     <a class="dropdown-item" href="{{route('admin.state-settings')}}">States</a>
                     <a class="dropdown-item" href="{{route('admin.district-settings')}}">Districts</a>
+                    <a class="dropdown-item" href="{{route('admin.scholarship-forms')}}">Scholarship Forms</a>
                 </div>
             </div>
         </li>

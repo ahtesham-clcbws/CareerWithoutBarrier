@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BenefitsModel;
 use App\Models\Category;
 use App\Models\CourseDetailsModel;
-use App\Models\Educationtype;
+use App\Models\EducationType;
 use App\Models\EProspectusModel;
 use App\Models\OurContributor;
 use App\Models\OurJourney;
@@ -302,7 +302,7 @@ class CourseController extends Controller
     public function toggleFeatured(Request $request)
     {
         if (isset($request->type) && $request->type == 'educationType') {
-            $model = Educationtype::findOrFail($request->id);
+            $model = EducationType::findOrFail($request->id);
             $model->is_featured = $request->is_featured;
             $model->save();
             $message = 'Scholarship Category';

@@ -27,7 +27,7 @@ use App\Models\Gn_OtherExamClassDetailModel;
 use App\Models\Gn_SubjectPartLessionNew;
 use App\Models\SubjectPartLesson;
 use App\Models\Gn_EducationClassExamAgencyBoardUniversity;
-use App\Models\Educationtype;
+use App\Models\EducationType;
 use App\Models\Subject;
 use App\Models\SubjectPart;
 use App\Models\Gn_DisplayClassGroupExamName;
@@ -959,7 +959,7 @@ class InternalRequestsController extends Controller
             }
 
             if ($request->input('form_name') == 'deleteEducationType') {
-                $education              = Educationtype::where('id', $request->id);
+                $education              = EducationType::where('id', $request->id);
 
                 $class_education                = ClassGoupExamModel::where('education_type_id', $request->id);
                 $assign_class                   = Gn_AssignClassGroupExamName::where('education_type_id', $request->id);

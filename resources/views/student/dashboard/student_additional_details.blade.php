@@ -85,7 +85,7 @@
                                 <div class="custom-file">
                                     <select name="career_exams_1" class="form-control text_on_side_input" id="career_exams_1" placeholder="Enter name exam.">
                                         <option value="">Select Scholarship category</option>
-                                        @foreach(App\Models\Educationtype::all() as $education)
+                                        @foreach(App\Models\EducationType::all() as $education)
                                         <option {{$student->career_exams_1 == $education->name ? 'selected' : ''}} value="{{$education->name}}">{{$education->name}}</option>
                                         @endforeach
                                     </select>
@@ -119,7 +119,7 @@
                                 <div class="custom-file">
                                     <select name="career_exams_2" class="form-control text_on_side_input" id="career_exams_2" placeholder="Enter name exam." value="{{$student->career_exams_2}}">
                                     <option value="">Select Scholarship category</option>
-                                        @foreach(App\Models\Educationtype::all() as $education)
+                                        @foreach(App\Models\EducationType::all() as $education)
                                         <option {{$student->career_exams_2 == $education->name ? 'selected' : ''}} value="{{$education->name}}">{{$education->name}}</option>
                                         @endforeach
                                     </select>

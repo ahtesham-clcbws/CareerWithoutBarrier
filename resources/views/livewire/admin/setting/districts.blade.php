@@ -16,7 +16,6 @@
                                     <th class="text-start">S.No</th>
                                     <th>Name</th>
                                     <th>State</th>
-                                    <th>Forms</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>

@@ -3,7 +3,7 @@
         <div class="m-2 m-t-15">
             <div class="row justify-content-space-between py-2">
                 <div class="col-md-6 col">
-                    <h2>District Settings</h2>
+                    <h2>States Settings</h2>
                 </div>
             </div>
 

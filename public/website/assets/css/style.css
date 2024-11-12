@@ -5558,7 +5558,7 @@ p.ani-tit {
 /*-------------------------------------------------*/
 
 .pop-up {
-    width: 100%;
+    /* width: 100%; */
     overflow: hidden;
     /* float: left; */
     /* padding-bottom: 35px; */

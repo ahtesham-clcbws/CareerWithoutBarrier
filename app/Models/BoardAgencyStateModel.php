@@ -20,7 +20,7 @@ class BoardAgencyStateModel extends Model
 
     public function education(): HasOne
     {
-        return $this->hasOne(Educationtype::class, 'id', 'education_type_id');
+        return $this->hasOne(EducationType::class, 'id', 'education_type_id');
     }
 
     public function classesGroupExam(): HasOne

@@ -40,7 +40,7 @@ class QuestionBankModel extends Model
     ];
     public function educationType()
     {
-        return $this->hasOne(Educationtype::class, 'id', 'education_type_id');
+        return $this->hasOne(EducationType::class, 'id', 'education_type_id');
     }
     public function classGroup()
     {

@@ -87,7 +87,7 @@
                                         <tr>
                                             <td colspan="2"><b>Address</b></td>
                                             <td class="information-txt" colspan="2">{{$corporate->address}}
-                                                &nbsp;&nbsp;, <strong>City: &nbsp;</strong>{{$corporate->city}}
+                                                &nbsp;&nbsp;, <strong>City: &nbsp;</strong>{{ $corporate->district?->name . ', '.$corporate->state?->name}}
                                                 <!-- <strong>State: &nbsp;</strong>Uttar Pradesh -->
                                             </td>
                                         </tr>

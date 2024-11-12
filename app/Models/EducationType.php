@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Educationtype extends Model
+class EducationType extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -15,8 +15,13 @@ class Educationtype extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'name'
+        'name',
+        'is_featured'
     ];
+    
+    public function DistrictScholarshipLimits(){
+       return $this->hasMany(DistrictScholarshipLimit::class, 'educationtype_id');
+    }
 
     public function class_exam()
     {

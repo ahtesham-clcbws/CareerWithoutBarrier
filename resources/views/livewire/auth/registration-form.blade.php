@@ -12,9 +12,28 @@
                     <div class="col-12 form-row g-1 {{ $this->otpSendSuccess && $this->otpRequestId ? 'd-none' : '' }} ">
 
                         <div class="mb-3 col-md-6">
+                            <label class="form-label mb-0">Qualification</label>
+                            <select class="form-control" wire:model.live="selectedBoard">
+                                <option style="font-size: 12px;" value="">Select qualification...</option>
+                                @foreach (\App\Models\BoardAgencyStateModel::select('id','name')->get() as $board)
+                                <option value="{{ $board->id }}">{{ $board->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label mb-0">Scholarship Category</label>
+                            <select class="form-control" wire:model.live="selectedScholarship" wire:key="{{ $selectedBoard }}">
+                                <option value="">Select scholarship category...</option>
+                                @foreach ((\App\Models\Gn_DisplayExamAgencyBoardUniversity::where('board_id', 'LIKE', '%' . $selectedBoard . '%')->with('educations')->get())->pluck('educations')->flatten()->unique('id') as $education)
+                                <option value="{{ $education->id }}">{{ $education->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">State</label>
                             <select class="form-control" wire:model.live="selectedState">
-                                <option value="">Select your state...</option>
+                                <option style="font-size: 12px;" value="">Select your state...</option>
                                 @foreach (\App\Models\State::select('id','name', 'status')->get() as $state)
                                 <option value="{{ $state->id }}">{{ $state->name }}</option>
                                 @endforeach
@@ -24,15 +43,26 @@
                             <label class="form-label mb-0">City/District</label>
                             <select class="form-control" wire:model.live="selectedDistrict" wire:key="{{ $selectedState }}">
                                 <option value="">Select your city...</option>
-                                @foreach (\App\Models\District::where('state_id', $selectedState)->get() as $district)
-                                <option {{ intval($district->getRemainingForms()) == 0 ? 'disabled' : '' }} value="{{ $district->id }}">{{ $district->name }}</option>
+                                @foreach (\App\Models\District::where('state_id', $selectedState)
+                                ->whereHas('districtScholarshipLimits', function ($query) use ($selectedScholarship) {
+                                $query->forEducationType($selectedScholarship);
+                                })->get() as $district)
+
+                                <option {{ intval($district->getLimit($selectedScholarship)->limit) == 0 ? 'disabled' : '' }} value="{{ $district->id }}">
+                                    {{ $district->name }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-12 text-center">
                             @if($selectedState && $selectedDistrict && $selectedDistrictData)
+                            @php
+                            $data = $selectedDistrictData->getLimit($selectedScholarship);
+                            $limit = $data->limit;
+                            $remaining = $data->remaining;
+                            @endphp
                             <hr />
-                            <span class="text-danger">Only <b>{{ $selectedDistrictData->getRemainingForms() }}</b> Forms are remain for <b>{{ $selectedDistrictData->name }}</b></span>
+                            <span class="text-danger">Only <b>{{ $remaining }}</b> Forms are remain for <b>{{ $selectedDistrictData->name }}</b></span>
                             @endif
                             <hr />
                         </div>
@@ -86,6 +116,12 @@
                                 </div>
                             </div>
                             @if($confirmPasswordError)<div class="invalid-feedback">{{$confirmPasswordError}}</div>@endif
+                        </div>
+
+                        <div class="mb-3 col-12">
+                            <label class="form-label mb-0">Referrence Code</label>
+                            <input type="text" wire:model.live="referrenceCode" placeholder="Reference code by Institute" class="form-control <?= !$referrenceCodeError ?? 'is-invalid' ?>" required>
+                            @if($referrenceCodeError)<div class="invalid-feedback">{{$referrenceCodeError}}</div>@endif
                         </div>
 
                         <div class="mb-3 col-12">
@@ -149,6 +185,11 @@
     .registrationFormCard select,
     .registrationFormCard .input-group button {
         border-color: #ffc7b4 !important;
+    }
+
+    .registrationFormCard input::placeholder,
+    .registrationFormCard select {
+        font-size: 12px;
     }
 </style>
 @endpush

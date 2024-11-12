@@ -12,7 +12,7 @@ class ScholarshipHome extends Model
     protected $guarded = [];
 
     public function educationType(){
-        return $this->belongsTo(Educationtype::class,'education_type_id','id');
+        return $this->belongsTo(EducationType::class,'education_type_id','id');
     }
 
     public function overview(){

@@ -39,7 +39,7 @@
                                         <td>
                                         
                                         {{ $institutes->name }}</td>
-                                        <td><span class="text-Info">{{ $institutes->institute_name }}</span></span><br><span style="color:blue;">{{ $institutes->city }}</span></td>
+                                        <td><span class="text-Info">{{ $institutes->institute_name }}</span></span><br><span style="color:blue;">{{ $institutes->district?->name . ', '.$institutes->state?->name}}</span></td>
                                         <td>{{ $institutes->email }}<br>{{ $institutes->phone }}</td>
                                         <td>{{ $institutes->interested_for }}</td>
                                         <td style="text-align:left;">{{ $institutes->established_year }}</td>

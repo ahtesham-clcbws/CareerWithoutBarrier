@@ -11,9 +11,10 @@ class Corporate extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $table='corporates';
+    protected $table = 'corporates';
 
     protected $guarded = [];
+
     // protected $fillable = [
     //     'name',
     //     'institute_name',
@@ -29,6 +30,14 @@ class Corporate extends Authenticatable
     //     'attachment',
     // ];
 
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
     public function studentCodes()
     {
         return $this->hasMany(StudentCode::class, 'corporate_id');
@@ -37,6 +46,6 @@ class Corporate extends Authenticatable
     public function testimonial()
     {
         return $this->hasOne(TestimonialsModel::class, 'type_id')
-                    ->where('type', 'corporate');
+            ->where('type', 'corporate');
     }
 }

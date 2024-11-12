@@ -8,7 +8,7 @@ use App\Models\BoardAgencyStateModel;
 use App\Models\Category;
 use App\Models\CouponCode;
 use App\Models\District;
-use App\Models\Educationtype;
+use App\Models\EducationType;
 use App\Models\Gn_DisplayExamAgencyBoardUniversity;
 use App\Models\Gn_OtherExamClassDetailModel;
 use App\Models\Payment;
@@ -47,7 +47,7 @@ class ApplicationController extends Controller
 
             $scholarship_category = Cache::get('scholarship_category');
             if (!$scholarship_category) {
-                $scholarship_category = Educationtype::select('id', 'name')->get();
+                $scholarship_category = EducationType::select('id', 'name')->get();
                 Cache::put('scholarship_category', $scholarship_category, 3600);
             }
             // $scholarship_opted_for = Cache::get('scholarship_opted_for');

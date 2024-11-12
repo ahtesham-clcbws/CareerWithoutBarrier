@@ -36,7 +36,7 @@
                     <td><img src="{{ asset('upload/corporate/'.$institutes->attachment)}}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;"></td>
                     <td>
                     {{ $institutes->name }}</td>
-                    <td>{{ $institutes->institute_name }} <br><span style="color:blue">{{ $institutes->city }}</span></td>
+                    <td>{{ $institutes->institute_name }} <br><span style="color:blue">{{ $institutes->district?->name . ', '.$institutes->state?->name}}</span></td>
                     <td>{{ $institutes->email }}<br>{{ $institutes->phone }}</td>
                     <td>{{ $institutes->interested_for }}</td>
                     <td class="color-primary">{{ $institutes->established_year }}</td>

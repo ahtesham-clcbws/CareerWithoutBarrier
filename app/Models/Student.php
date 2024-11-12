@@ -91,7 +91,7 @@ class Student extends Authenticatable
 
     public function scholarShipCategory()
     {
-        return $this->belongsTo(Educationtype::class, 'scholarship_category', 'id');
+        return $this->belongsTo(EducationType::class, 'scholarship_category', 'id');
     }
 
     public function scholarShipOptedFor()

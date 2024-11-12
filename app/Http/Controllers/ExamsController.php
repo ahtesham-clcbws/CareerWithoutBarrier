@@ -6,7 +6,7 @@ use App\Models\BoardAgencyStateModel;
 use App\Models\Category;
 use App\Models\ClassGoupExamModel;
 use App\Models\CourseDetailsModel;
-use App\Models\Educationtype;
+use App\Models\EducationType;
 use App\Models\Gn_AssignClassGroupExamName;
 use App\Models\Gn_ClassSubject;
 use App\Models\Gn_DisplayClassGroupExamName;
@@ -46,7 +46,7 @@ class ExamsController extends Controller
     {
         $this->data = array();
 
-        $this->data['educations']       = Educationtype::get();
+        $this->data['educations']       = EducationType::get();
 
         $this->data['pagename'] = 'Add Questions';
         $this->data['test_sections'] = ['1', '2', '3', '4', '5'];
@@ -499,7 +499,7 @@ class ExamsController extends Controller
         // $test = TestModal::find($this->data['test_id']);
 
 
-        $this->data['education_types']  = Educationtype::get();
+        $this->data['education_types']  = EducationType::get();
         $this->data['subject']          = Subject::get();
         // $this->data['subjects']         = Subject::get();
         $this->data['subjects']         = Gn_ClassSubject::get();
@@ -816,7 +816,7 @@ class ExamsController extends Controller
 
                 if ($inputs['id'] > 0) {
                     foreach ($inputs['name'] as $key => $value) {
-                        $education_type = Educationtype::find($inputs['id']);
+                        $education_type = EducationType::find($inputs['id']);
                         if (!empty($education_type)) {
                             $education_type->name   = $value;
                             $queryMd                = $education_type;
@@ -825,7 +825,7 @@ class ExamsController extends Controller
                     }
                 } else {
                     foreach ($inputs['name'] as $data) {
-                        $educationMd        = new Educationtype();
+                        $educationMd        = new EducationType();
                         $educationMd->name  = $data;
                         $queryMd            = $educationMd;
                         $query              = $queryMd->save();
@@ -1431,7 +1431,7 @@ class ExamsController extends Controller
 
         $this->data['exams']    =   Gn_AssignClassGroupExamName::all()->groupBy('education_type_id');
 
-        $educations = Educationtype::get();
+        $educations = EducationType::get();
         foreach ($educations as $key => $education) {
             $educations[$key]['classes'] = ClassGoupExamModel::where('education_type_id', $education['id'])->count();
         }

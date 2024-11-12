@@ -94,7 +94,7 @@ return array(
     'App\\Models\\CourseDetailsModel' => $baseDir . '/app/Models/CourseDetailsModel.php',
     'App\\Models\\District' => $baseDir . '/app/Models/District.php',
     'App\\Models\\EProspectusModel' => $baseDir . '/app/Models/EProspectusModel.php',
-    'App\\Models\\Educationtype' => $baseDir . '/app/Models/Educationtype.php',
+    'App\\Models\\EducationType' => $baseDir . '/app/Models/EducationType.php',
     'App\\Models\\ExamSubject' => $baseDir . '/app/Models/ExamSubject.php',
     'App\\Models\\FaqModel' => $baseDir . '/app/Models/FaqModel.php',
     'App\\Models\\GnResultSubjectMapping' => $baseDir . '/app/Models/GnResultSubjectMapping.php',

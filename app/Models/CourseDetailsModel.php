@@ -12,6 +12,6 @@ class CourseDetailsModel extends Model
     protected $table='courses_list';
 
     public function scholarshipCategory(){
-        return $this->belongsTo(Educationtype::class,'scholarship_category');
+        return $this->belongsTo(EducationType::class,'scholarship_category');
     }
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NewsController;
 use App\Livewire\Admin\Setting\Districts;
+use App\Livewire\Admin\Setting\ScholarshipForms;
 use App\Livewire\Admin\Setting\States;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -178,10 +179,12 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::match(['get', 'post'], 'payment-settings', [AdminController::class, 'paymentSettings'])->name('payment-settings.store');
         Route::any('/mobile_number', [AdminController::class, 'mobileNumber'])->name('admin.mobile_number');
-        Route::any('/districts', Districts::class)->name('admin.district-settings');
-        Route::any('/states', States::class)->name('admin.state-settings');
         Route::any('/mobile_toggle-status', [AdminController::class, 'toggleMobileStatus'])->name('mobile.number.statusToggle');
         Route::any('/mobile_toggle-delete/{mobileNumber}', [AdminController::class, 'mobileNumberDelete'])->name('status_mobile_number.delete');
+
+        Route::any('/districts', Districts::class)->name('admin.district-settings');
+        Route::any('/states', States::class)->name('admin.state-settings');
+        Route::any('/scholarship-forms', ScholarshipForms::class)->name('admin.scholarship-forms');
     });
 
 

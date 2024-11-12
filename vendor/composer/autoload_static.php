@@ -771,7 +771,7 @@ class ComposerStaticInit528c19e84304ba4c0c1af8c1958cf496
         'App\\Models\\CourseDetailsModel' => __DIR__ . '/../..' . '/app/Models/CourseDetailsModel.php',
         'App\\Models\\District' => __DIR__ . '/../..' . '/app/Models/District.php',
         'App\\Models\\EProspectusModel' => __DIR__ . '/../..' . '/app/Models/EProspectusModel.php',
-        'App\\Models\\Educationtype' => __DIR__ . '/../..' . '/app/Models/Educationtype.php',
+        'App\\Models\\EducationType' => __DIR__ . '/../..' . '/app/Models/EducationType.php',
         'App\\Models\\ExamSubject' => __DIR__ . '/../..' . '/app/Models/ExamSubject.php',
         'App\\Models\\FaqModel' => __DIR__ . '/../..' . '/app/Models/FaqModel.php',
         'App\\Models\\GnResultSubjectMapping' => __DIR__ . '/../..' . '/app/Models/GnResultSubjectMapping.php',

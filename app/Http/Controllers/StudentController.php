@@ -20,7 +20,7 @@ use App\Models\Category;
 use App\Models\City;
 use App\Models\CouponCode;
 use App\Models\District;
-use App\Models\Educationtype;
+use App\Models\EducationType;
 use App\Models\Gn_DisplayExamAgencyBoardUniversity;
 use App\Models\Gn_OtherExamClassDetailModel;
 use App\Models\MobileNumber;
@@ -303,10 +303,10 @@ class StudentController extends Controller
     {
         $student = Student::find(Auth::guard('student')->id());
         $validated = $request->validate([
-            'qualification' => 'required|string',
-            'scholarship_category' => 'required|string',
+            // 'qualification' => 'required|string',
+            // 'scholarship_category' => 'required|string',
             'scholarship_opted_for' => 'required|string',
-            'test_center_a' => 'nullable|string',
+            // 'test_center_a' => 'nullable|string',
             'test_center_b' => 'nullable|string',
         ]);
 
@@ -323,64 +323,64 @@ class StudentController extends Controller
 
     public function additionalDetailStore(Request $request)
     {
-        $student = Student::find(Auth::guard('student')->id());
-
-        $examRequired = $request->is_gov_exam_participated == 'yes' ? 'required' : 'nullable';
-        $careerRequired = $request->is_apply_career_without_barrier == 'yes' ? 'required' : 'nullable';
-
-        $photoReq = $student->photograph ? 'nullable' : 'required';
-        $signReq = $student->signature ? 'nullable' : 'required';
-
-        $validatedData = $request->validate(
-            [
-                'is_gov_exam_participated' => 'required',
-                'is_apply_career_without_barrier' => 'required',
-                'terms_conditions' => 'required',
-                'govt_exams_1' => "$examRequired|string",
-                'govt_exams_2' => 'nullable|string',
-                'year' => "$careerRequired|string",
-                'roll_no' => "nullable|string",
-                'family_income' => 'nullable|string',
-                'father_occupation' => 'nullable|string',
-                'mother_occupation' => 'nullable|string',
-                'photograph' => "$photoReq|file|mimes:jpeg,png,jpg",
-                'signature' => "$signReq|file|mimes:jpeg,png,jpg",
-                'exam_one_year' => "nullable|string",
-                'exam_one_result' => "nullable|string",
-                'exam_two_year' => 'nullable|string',
-                'exam_two_result' => 'nullable|string',
-                'career_exams_1' => 'nullable',
-                'career_one_result' => 'nullable',
-                'career_exams_2' => 'nullable',
-                'career_two_year' => 'nullable',
-                'career_two_result' => 'nullable',
-
-            ],
-            [
-                'is_gov_exam_participated.required' => 'The government exam participation field is required.',
-                'is_apply_career_without_barrier.required' => 'The career application without barrier field is required.',
-                'govt_exams_1.required' => 'The first government exam field is required.',
-                'year.required' => 'The year field is required.',
-                'terms_conditions.required' => 'The terms_conditions field is required.',
-                'roll_no.required' => 'The roll number field is required.',
-                'photograph.required' => 'The photograph field is required.',
-                'photograph.file' => 'The photograph must be a file.',
-                'photograph.mimes' => 'The photograph must be a file of type: jpeg, png.',
-                'signature.required' => 'The signature field is required.',
-                'signature.file' => 'The signature must be a file.',
-                'signature.mimes' => 'The signature must be a file of type: jpeg, png.',
-                'signature.max' => 'The signature may not be greater than 2048 kilobytes.'
-            ]
-        );
-        if ($request->hasFile('photograph')) {
-            $validatedData['photograph'] = moveFile('upload/student', $request->photograph);
-        }
-
-        if ($request->hasFile('signature')) {
-            $validatedData['signature'] = moveFile('upload/student', $request->signature);
-        }
 
         try {
+            $student = Student::find(Auth::guard('student')->id());
+    
+            $examRequired = $request->is_gov_exam_participated == 'yes' ? 'required' : 'nullable';
+            $careerRequired = $request->is_apply_career_without_barrier == 'yes' ? 'required' : 'nullable';
+    
+            $photoReq = $student->photograph ? 'nullable' : 'required';
+            $signReq = $student->signature ? 'nullable' : 'required';
+    
+            $validatedData = $request->validate(
+                [
+                    'is_gov_exam_participated' => 'required',
+                    'is_apply_career_without_barrier' => 'required',
+                    'terms_conditions' => 'required',
+                    'govt_exams_1' => "$examRequired|string",
+                    'govt_exams_2' => 'nullable|string',
+                    'year' => "$careerRequired|string",
+                    'roll_no' => "nullable|string",
+                    'family_income' => 'nullable|string',
+                    'father_occupation' => 'nullable|string',
+                    'mother_occupation' => 'nullable|string',
+                    'photograph' => "$photoReq|file|mimes:jpeg,png,jpg",
+                    'signature' => "$signReq|file|mimes:jpeg,png,jpg",
+                    'exam_one_year' => "nullable|string",
+                    'exam_one_result' => "nullable|string",
+                    'exam_two_year' => 'nullable|string',
+                    'exam_two_result' => 'nullable|string',
+                    'career_exams_1' => 'nullable',
+                    'career_one_result' => 'nullable',
+                    'career_exams_2' => 'nullable',
+                    'career_two_year' => 'nullable',
+                    'career_two_result' => 'nullable',
+    
+                ],
+                [
+                    'is_gov_exam_participated.required' => 'The government exam participation field is required.',
+                    'is_apply_career_without_barrier.required' => 'The career application without barrier field is required.',
+                    'govt_exams_1.required' => 'The first government exam field is required.',
+                    'year.required' => 'The year field is required.',
+                    'terms_conditions.required' => 'The terms_conditions field is required.',
+                    'roll_no.required' => 'The roll number field is required.',
+                    'photograph.required' => 'The photograph field is required.',
+                    'photograph.file' => 'The photograph must be a file.',
+                    'photograph.mimes' => 'The photograph must be a file of type: jpeg, png.',
+                    'signature.required' => 'The signature field is required.',
+                    'signature.file' => 'The signature must be a file.',
+                    'signature.mimes' => 'The signature must be a file of type: jpeg, png.',
+                    'signature.max' => 'The signature may not be greater than 2048 kilobytes.'
+                ]
+            );
+            if ($request->hasFile('photograph')) {
+                $validatedData['photograph'] = moveFile('upload/student', $request->photograph);
+            }
+    
+            if ($request->hasFile('signature')) {
+                $validatedData['signature'] = moveFile('upload/student', $request->signature);
+            }
             $student->forceFill($validatedData);
 
             if ($student->form_step == 2)
@@ -645,7 +645,7 @@ class StudentController extends Controller
     {
 
         if ($type == 'Yes') {
-            $education = Educationtype::where('id', $id)->get();
+            $education = EducationType::where('id', $id)->get();
 
             return response()->json(['status' => true, 'message' => 'Select another Qualification.', 'data' => $education]);
         }
