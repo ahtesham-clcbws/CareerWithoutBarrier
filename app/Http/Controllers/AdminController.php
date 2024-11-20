@@ -566,6 +566,7 @@ class AdminController extends Controller
 
         return view('administrator.dashboard.student_exam_center_allot', compact('preloadedClasses', 'examCenters', 'students', 'cities', 'scholarshipTypes', 'filters'));
     }
+
     public function examCenterAllot(Request $request)
     {
         $examCenter = $request->exam_center;
@@ -653,89 +654,6 @@ class AdminController extends Controller
         return response()->json(['status' => true, 'message' => "Exam center allotted successfully."]);
     }
 
-    // public function examCenterAllot(Request $request)
-    // {
-    //     $examCenter = $request->exam_center;
-    //     $studentNumber = intval(isset($request->student_number) ?? 0);
-
-    //     if (is_null($examCenter) || is_null($request->exam_mins) || is_null($request->exam_date_time) || is_null($studentNumber)) {
-    //         $message = is_null($examCenter) ? 'Please select Exam center' : (
-    //             is_null($request->exam_mins) ? 'Please select Exam Duration Mins' : (
-    //                 is_null($request->exam_date_time) ? 'Please select Exam Date and time.' : (
-    //                     is_null($studentNumber) ? 'Please select Student Number' : 'Some error occurs.'
-    //                 )
-    //             )
-    //         );
-    //         return response()->json(['status' => false, 'message' => $message]);
-    //     }
-
-    //     $query = Student::query();
-    //     $query = $query->where('is_final_submitted', 1)->with('studentCode');
-
-    //     if (!empty($request->district_id) && $request->district_id[0] != null) {
-    //         $districtIds = array_map(function ($id) {
-    //             return intval($id);
-    //         }, $request->district_id);
-    //         $query = $query->whereIn('district_id', $districtIds);
-    //     }
-    //     if (!empty($request->scholarship) && $request->scholarship[0] != null) {
-    //         // $student->scholarShipCategory->name
-    //         $scholarshipIds = array_map(function ($id) {
-    //             return intval($id);
-    //         }, $request->scholarship);
-
-    //         // Join the scholarShipCategory relationship and filter by scholarship IDs
-    //         $query = $query->whereHas('scholarShipCategory', function ($subQuery) use ($scholarshipIds) {
-    //             $subQuery->whereIn('id', $scholarshipIds);
-    //         });
-    //     }
-    //     if (!empty($request->class) && $request->class[0] != null) {
-    //         $classIds = array_map(function ($id) {
-    //             return intval($id);
-    //         }, $request->class);
-    //         $query = $query->whereIn('qualification', $classIds);
-    //     }
-    //     if (!empty($request->gender) && $request->gender[0] != null) {
-    //         $genderIds = array_map(function ($id) {
-    //             return intval($id);
-    //         }, $request->gender);
-    //         $query = $query->whereIn('gender', $genderIds);
-    //     }
-
-    //     // // Join the studentCode relationship for checking if student has roll_no alloted or not
-    //     $query = $query->whereHas('studentCode', function ($subQuery) {
-    //         $subQuery->where('roll_no', '!=', null);
-    //     });
-
-    //     if ($studentNumber > 0) {
-    //         $query = $query->limit($studentNumber);
-    //     }
-
-    //     $students = $query->get();
-
-    //     if ($students && count($students) > 0) {
-    //         foreach ($students as $student) {
-    //             $studentCode = $student->studentCode->sortByDesc('created_at')->first();
-    //             if ($studentCode && !$studentCode->exam_center) {
-    //                 $studentCode->exam_center = $request->exam_center;
-    //                 $studentCode->exam_at = $request->exam_date_time;
-    //                 $studentCode->exam_mins = $request->exam_mins;
-    //                 $studentCode->admitcard_before = $request->admitcard_before;
-
-    //                 if (!$studentCode->corporate_stop_admitcard) {
-    //                     $studentCode->issued_admitcard = 1;
-    //                 }
-
-    //                 $studentCode->save();
-    //             }
-    //         }
-
-    //         return response()->json(['status' => true, 'message' => "Exam center alloted Successfully."]);
-    //     } else {
-    //         return response()->json(['status' => false, 'message' => 'No Data Available for applied Filter.' . json_encode($students)]);
-    //     }
-    // }
-
     public function examCenterAllottoAll($exam_center, Request $request)
     {
 
@@ -810,6 +728,7 @@ class AdminController extends Controller
 
         return view('administrator.dashboard.testimonials', compact('testimonials'));
     }
+
     public function testimonialDelete($id)
     {
         try {

@@ -1,7 +1,7 @@
 @extends('administrator.layouts.master')
 
 @section('title')
-Student List
+Student Roll No
 @endsection
 @section('content')
 
