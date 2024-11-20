@@ -70,8 +70,9 @@ $qualifications = BoardAgencyStateModel::all();
                         <div class="col-md-6 mb-3">
                             <label for="test_center_a">Choice of Test Centre (A):<span
                                     class="text-danger">*</span></label><br>
-                            <select id="test_center_a" name="test_center_a" class="form-control form-select"
-                            disabled
+                            <input value="{{ $student->district_id }}" style="display:none;"hidden name="test_center_a" readonly />
+                            <select class="form-control form-select"
+                                disabled
                                 value="{{$student->test_center_a}}" required>
                                 @foreach($choiceCenterA as $center1)
                                 @if ($student->test_center_a ?? $student->district_id == $center1->id)

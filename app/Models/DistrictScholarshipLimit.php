@@ -12,7 +12,7 @@ class DistrictScholarshipLimit extends Model
 
     protected $fillable = [
         'district_id',
-        'educationtype_id',
+        'education_type_id',
         'max_registration_limit'
     ];
 
@@ -22,12 +22,12 @@ class DistrictScholarshipLimit extends Model
     }
     public function EducationType()
     {
-        return $this->belongsTo(EducationType::class, 'educationtype_id');
+        return $this->belongsTo(EducationType::class, 'education_type_id');
     }
     
     public function scopeForEducationType($query, $educationTypeId)
     {
-        return $query->where('educationtype_id', $educationTypeId);
+        return $query->where('education_type_id', $educationTypeId);
     }
 
     /**
@@ -37,7 +37,7 @@ class DistrictScholarshipLimit extends Model
     public static function getLimit($districtId, $educationTypeId)
     {
         $limit = self::where('district_id', $districtId)
-                    ->where('educationtype_id', $educationTypeId)
+                    ->where('education_type_id', $educationTypeId)
                     ->first();
 
         return $limit ? $limit->max_registration_limit : 0;

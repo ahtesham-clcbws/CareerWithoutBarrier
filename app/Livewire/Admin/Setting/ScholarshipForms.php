@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Setting;
 
 use App\Livewire\Forms\Admin\Setting\ScholarshipDistrictForm;
+use App\Models\District;
 use App\Models\DistrictScholarshipLimit;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -14,6 +15,7 @@ class ScholarshipForms extends Component
 {
     use WithPagination, WithoutUrlPagination;
 
+    public $selectedState = null;
     public $selectedDistrict = null;
     public $selectedCategory = null;
     public $searchString = null;
@@ -26,7 +28,11 @@ class ScholarshipForms extends Component
         $query = DistrictScholarshipLimit::with('EducationType:id,name')->with('District:id,name');
         // Apply filter conditions
         if (!empty(trim($this->selectedCategory . '')) && intval($this->selectedCategory) > 0) {
-            $query->where('educationtype_id', intval($this->selectedCategory));
+            $query->where('education_type_id', intval($this->selectedCategory));
+        }
+        if (!empty(trim($this->selectedState . '')) && intval($this->selectedState) > 0 && !$this->selectedDistrict) {
+            $districtIds = District::where('state_id', $this->selectedState)->pluck('id')->toArray();
+            $query->whereIn('district_id', $districtIds);
         }
         if (!empty(trim($this->selectedDistrict . '')) && intval($this->selectedDistrict) > 0) {
             $query->where('district_id', intval($this->selectedDistrict));
@@ -43,7 +49,7 @@ class ScholarshipForms extends Component
                 });
         }
         // get final data
-        $formsData = $query->orderBy('district_id', 'asc')->orderBy('educationtype_id', 'asc')->paginate(10);
+        $formsData = $query->orderBy('district_id', 'asc')->orderBy('education_type_id', 'asc')->paginate(10);
 
         return view('livewire.admin.setting.scholarship-forms', [
             'formsData' => $formsData

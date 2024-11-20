@@ -20,7 +20,7 @@ class EducationType extends Model
     ];
     
     public function DistrictScholarshipLimits(){
-       return $this->hasMany(DistrictScholarshipLimit::class, 'educationtype_id');
+       return $this->hasMany(DistrictScholarshipLimit::class, 'education_type_id');
     }
 
     public function class_exam()

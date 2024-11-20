@@ -130,7 +130,9 @@ if ($studCode) {
                 </a>
             </div> -->
             @endif
-            @if(($studCode?->is_paid || $studCode?->used_coupon))
+            @if($student->name_checked && $student->father_name_checked && $student->dob_checked && $student->mobile_checked && $student->email_checked && $student->qualification_checked
+            && $student->scholarship_category_checked && $student->scholarship_opted_for_checked && $student->choiceCenterA_checked
+            && $student->choiceCenterB_checked && ($studCode?->is_paid || $studCode?->used_coupon))
             <div class="dropdown show">
                 <a class="btn btn-secondary" href="{{route('student.payment')}}">
                     <img src="{{asset('student/images/12.png')}}" alt="" class="nav_icon">

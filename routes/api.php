@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('test', function(){
-    $data = DistrictScholarshipLimit::with('EducationType:id,name')->with('District:id,name')->orderBy('district_id', 'asc')->orderBy('educationtype_id', 'asc')->get();
+    $data = DistrictScholarshipLimit::with('EducationType:id,name')->with('District:id,name')->orderBy('district_id', 'asc')->orderBy('education_type_id', 'asc')->get();
     return print_r($data->toArray());
 });
 

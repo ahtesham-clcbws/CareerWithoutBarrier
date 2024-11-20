@@ -229,7 +229,7 @@ class RegistrationForm extends Component
             if ($couponCode) {
                 if ($couponCode->corporate && $couponCode->corporate->district_id != $this->selectedDistrict) {
                     $this->referrenceCodeError = 'Reference code is not valid';
-                    $this->js("toastr.error('Reference code is not valid')");
+                    $this->js("toastr.error('Referral code is not valid for this city/district')");
                     return false;
                 } else {
                     $this->referrenceCodeError = null;
@@ -249,34 +249,44 @@ class RegistrationForm extends Component
 
     public function applyCoupon($studentId, $coupon)
     {
-        $studentCode = StudentCode::where('stud_id', $studentId)->get()->last();
-        if (!$studentCode) {
-            $studentCode = new StudentCode();
+        try {
+            $studentCode = StudentCode::where('stud_id', $studentId)->get()->last();
+            if (!$studentCode) {
+                $studentCode = new StudentCode();
+                $studentCode->stud_id = $studentId;
+            }
+
+            $couponCode = CouponCode::where('couponcode', $coupon)->first();
+
+            $couponCode->is_applied = 1;
+
+            $afterAppliedRemainValue = $this->couponValueApply($couponCode->valueType, $couponCode->value);
+
+            $corporate = $couponCode->corporate;
+            if ($corporate) {
+                $studentCode->corporate_id = $corporate->id;
+                $studentCode->corporate_name = $corporate->name;
+            }
+
+            $studentCode->coupan_code = $couponCode->couponcode;
+            $studentCode->is_coupan_code_applied = 1;
+            $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ? 750 - $afterAppliedRemainValue : 0;
+            $studentCode->fee_amount = $afterAppliedRemainValue;
+
+            if ($studentCode->fee_amount <= 0) {
+                $studentCode->used_coupon = 1;
+            }
+            if ($studentCode->save()) {
+                $couponCode->save();
+            }
+        } catch (\Throwable $th) {
+            $this->js("toastr.error('" . $th->getMessage() . "')");
         }
+    }
 
-        $couponCode = CouponCode::where('couponcode', $coupon)->first();
-
-        $couponCode->is_applied = 1;
-        $couponCode->save();
-
-
-        $afterAppliedRemainValue = couponValueApply($couponCode->valueType, $couponCode->value);
-
-        $corporate = $couponCode->corporate;
-        if ($corporate) {
-            $studentCode->corporate_id = $corporate->id;
-            $studentCode->corporate_name = $corporate->name;
-        }
-
-        $studentCode->stud_id = $studentId;
-        $studentCode->coupan_code = $couponCode->couponcode;
-        $studentCode->is_coupan_code_applied = 1;
-        $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ? 750 - $afterAppliedRemainValue : 0;
-        $studentCode->fee_amount = $afterAppliedRemainValue;
-
-        if ($studentCode->fee_amount <= 0) {
-            $studentCode->used_coupon = 1;
-        }
-        $studentCode->save();
+    public function couponValueApply($valueType, $value)
+    {
+        $valueAmount = $valueType == 'amount' ? $value : (750 * ($value / 100));
+        return 750 - $valueAmount;
     }
 }

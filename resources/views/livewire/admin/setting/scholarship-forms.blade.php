@@ -18,17 +18,17 @@
                         <div class="card-body" style="min-height: 251px;">
                             <div class="mb-3">
                                 <label for="education_type_id" class="form-label">Scholarship Category</label>
-                                <select class="form-select form-select-sm" wire:model.live="form.educationtype_id" required>
+                                <select class="form-select form-select-sm" wire:model.live="form.education_type_id" required>
                                     <option value=""></option>
                                     @foreach (\App\Models\EducationType::select('id','name')->get() as $category)
-                                    <option value="{{ $category->id }}">{{ ucfirst(strtolower($category->name)) }}</option>
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
                             <div class="mb-3">
                                 <label for="education_type_id" class="form-label">State</label>
-                                <select class="form-select form-select-sm" wire:model.live="form.selectedState" <?= $form->educationtype_id ? '' : 'disabled' ?> required>
+                                <select class="form-select form-select-sm" wire:model.live="form.selectedState" <?= $form->education_type_id ? '' : 'disabled' ?> required>
                                     <option value=""></option>
                                     @foreach (\App\Models\State::select('id','name', 'status')->get() as $state)
                                     <option value="{{ $state->id }}">{{ $state->name }}</option>
@@ -42,7 +42,7 @@
                                     <option value=""></option>
                                     @foreach (\App\Models\District::where('state_id', $form->selectedState)->get() as $district)
                                     <option
-                                        {{ $district->districtScholarshipLimits()->where('educationtype_id', $form->educationtype_id)->exists() ? 'disabled' : '' }}
+                                        {{ $district->districtScholarshipLimits()->where('education_type_id', $form->education_type_id)->exists() ? 'disabled' : '' }}
                                         value="{{ $district->id }}">
                                         {{ $district->name }}
                                     </option>
@@ -66,21 +66,26 @@
                     <div class="card card-body" style="border-radius: 5px !important; box-shadow: none !important;">
                         <div class="mb-3 d-flex gap-3">
                             <select class="form-select form-select-sm" wire:model.live="selectedCategory">
-                                <option value="">Filter category ...</option>
+                                <option value="">Scholarship Category ...</option>
                                 @foreach (\App\Models\EducationType::select('id','name')->whereHas('DistrictScholarshipLimits')->get() as $category)
-                                <option value="{{ $category->id }}">{{ ucfirst(strtolower($category->name)) }}</option>
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
-                            <select class="form-select form-select-sm" wire:model.live="selectedDistrict">
-                                <option value="">Filter district ...</option>
-                                @foreach (\App\Models\District::select('id','name')->whereHas('DistrictScholarshipLimits')->get() as $district)
+                            <select class="form-select form-select-sm" wire:model.live="selectedState">
+                                <option value="">All States ...</option>
+                                @foreach (\App\Models\State::get(['id', 'name']) as $state)
+                                <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                @endforeach
+                            </select>
+                            <select class="form-select form-select-sm" wire:model.live="selectedDistrict" wire:key="{{ $selectedState }}" <?= !$selectedState ? 'disabled' : '' ?>>
+                                <option value="">All Districts ...</option>
+                                @foreach (\App\Models\District::select('id','name')->where('state_id', $selectedState)->whereHas('DistrictScholarshipLimits')->get() as $district)
                                 <option value="{{ $district->id }}">{{ $district->name }}</option>
                                 @endforeach
                             </select>
-                            <!-- <input type="search" wire:model.live="searchString" class="form-control form-control-sm" placeholder="search here .." /> -->
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered table-sm">
                                 <thead>
                                     <tr>
                                         <th class="text-start">S.No</th>
@@ -94,7 +99,7 @@
                                     @foreach ($formsData as $entity)
                                     <tr>
                                         <td class="text-start"><b>{{ $loop->iteration.'' }}</b></td>
-                                        <td>{{ ucfirst(strtolower($entity->EducationType->name)) }}</td>
+                                        <td>{{ $entity->EducationType->name }}</td>
                                         <td>{{ $entity->district->name }}</td>
                                         <td>{{ $entity->max_registration_limit }}</td>
                                         <td>

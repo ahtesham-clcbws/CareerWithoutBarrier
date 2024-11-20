@@ -219,7 +219,7 @@ function getLimit($districtId, $educationTypeId)
 {
     // return [$districtId, $educationTypeId];
     $limit = DistrictScholarshipLimit::where('district_id', $districtId)
-        ->where('educationtype_id', $educationTypeId)
+        ->where('education_type_id', $educationTypeId)
         ->first();
 
     // return $limit;

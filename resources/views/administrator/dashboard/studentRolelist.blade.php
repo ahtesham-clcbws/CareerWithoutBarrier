@@ -122,20 +122,20 @@ Student List
                                             {{ $student->login_password }}
                                         </td>
                                         <td>{{$student->district?->name}}</td>
-                                        <td>{{ $student->choice_center_a?->name }}</td>
-                                        <td>{{ $student->latest_student_code?->application_code ? $student->latest_student_code?->application_code : 'N/A'}} </td>
-                                        <td>{{ !empty($student->latest_student_code?->roll_no) ? $student->latest_student_code?->roll_no :'N/A' }}</td>
+                                        <td>{{ $student->choiceCenterA?->name }}</td>
+                                        <td>{{ $student->latestStudentCode?->application_code ? $student->latestStudentCode?->application_code : 'N/A'}} </td>
+                                        <td>{{ !empty($student->latestStudentCode?->roll_no) ? $student->latestStudentCode?->roll_no :'N/A' }}</td>
                                         <td>
-                                            {{ $student->student_payment && count($student->student_payment) && !empty($student->student_payment[0]) && $student->student_payment[0]->payment_amount ? '₹ '.$student->student_payment[0]->payment_amount : ''}}
+                                            {{ $student->studentPayment && count($student->studentPayment) && !empty($student->studentPayment[0]) && $student->studentPayment[0]->payment_amount ? '₹ '.$student->studentPayment[0]->payment_amount : ''}}
 
-                                            {!! $student->student_payment && count($student->student_payment) && !empty($student->student_payment[0]) && $student->student_payment[0]->payment_amount && $student->latest_student_code?->coupan_code ? '<br />' : '' !!}
+                                            {!! $student->studentPayment && count($student->studentPayment) && !empty($student->studentPayment[0]) && $student->studentPayment[0]->payment_amount && $student->latestStudentCode?->coupan_code ? '<br />' : '' !!}
 
-                                            {{ $student->latest_student_code?->coupan_code ? $student->latest_student_code?->coupan_code : '' }}
-                                            {!! $student->latest_student_code?->coupan_code ? '<br />'.($student->latest_student_code?->corporate_name ? $student->latest_student_code?->corporate_name : 'SQS Foundation, Kanpur') : '' !!}
+                                            {{ $student->latestStudentCode?->coupan_code ? $student->latestStudentCode?->coupan_code : '' }}
+                                            {!! $student->latestStudentCode?->coupan_code ? '<br />'.($student->latestStudentCode?->corporate_name ? $student->latestStudentCode?->corporate_name : 'SQS Foundation, Kanpur') : '' !!}
                                         </td>
                                         <td>{{ $student->qualifications?->name }}</td>
-                                        <td>{{ $student->scholar_ship_category?->name ?? 'N/A' }}</td>
-                                        <td>{{ $student->scholar_ship_opted_for?->name ?? 'N/A' }}</td>
+                                        <td>{{ $student->scholarShipCategory?->name ?? 'N/A' }}</td>
+                                        <td>{{ $student->scholarShipOptedFor?->name ?? 'N/A' }}</td>
                                         <td>{{ date('d-M-Y', strtotime($student->created_at)) }}</td>
                                         <td style="text-align:center">
                                             <a href="{{ route('admin.student', $student->id) }}" class="btn btn-primary" style="text-decoration: none;"></i> View</a>

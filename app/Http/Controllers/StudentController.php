@@ -306,7 +306,7 @@ class StudentController extends Controller
             // 'qualification' => 'required|string',
             // 'scholarship_category' => 'required|string',
             'scholarship_opted_for' => 'required|string',
-            // 'test_center_a' => 'nullable|string',
+            'test_center_a' => 'nullable|string',
             'test_center_b' => 'nullable|string',
         ]);
 
@@ -420,9 +420,12 @@ class StudentController extends Controller
             $student->is_final_submitted = 1;
             $student->save();
 
-            $studentCode = new StudentCode;
+            $studentCode = StudentCode::where('stud_id', $student->id)->get()->last();
+            if (!$studentCode) {
+                $studentCode = new StudentCode();
+                $studentCode->stud_id = $student->id;
+            }
             $studentCode->application_code = $this->generateAppCode($student);
-            $studentCode->stud_id = $student->id;
             $studentCode->save();
 
             DB::commit();
@@ -490,6 +493,7 @@ class StudentController extends Controller
         $studentCode = StudentCode::where('stud_id', $student->id)->get()->last();
         if (!$studentCode) {
             $studentCode = new StudentCode();
+            $studentCode->stud_id = $student->id;
         }
 
         $validated = $request->validate([
@@ -521,7 +525,6 @@ class StudentController extends Controller
                 $studentCode->corporate_name = $corporate->name;
             }
             $studentCode->forceFill($validated);
-            $studentCode->stud_id = $student->id;
             $studentCode->coupan_code = $couponCode->couponcode;
             $studentCode->is_coupan_code_applied = 1;
             $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ? 750 - $afterAppliedRemainValue : 0;

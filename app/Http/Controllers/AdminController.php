@@ -87,6 +87,8 @@ class AdminController extends Controller
 
         $cities = District::get();
 
+        // $query = Student::query()->with('choiceCenterA');
+
         $query = Student::query()->with([
             'choiceCenterA',
             'latestStudentCode',
@@ -96,7 +98,6 @@ class AdminController extends Controller
             'scholarShipCategory',
             'scholarShipOptedFor'
         ]);
-
         $classes = collect();
 
         $query->where('is_final_submitted', 1);
@@ -123,7 +124,12 @@ class AdminController extends Controller
 
         // return print_r($students->toArray());
 
-        return view('administrator.dashboard.studentlist', compact('students', 'cities', 'scholarshipTypes', 'classes'));
+        return view('administrator.dashboard.studentlist', [
+            'students' => $students,
+            'cities' => $cities,
+            'scholarshipTypes' => $scholarshipTypes,
+            'classes' => $classes
+        ]);
     }
 
     public function studentListRegistered(Request $request)

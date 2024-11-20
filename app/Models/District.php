@@ -33,11 +33,11 @@ class District extends Model
         return $this->hasMany(Student::class)->select('district_id', 'id', 'name');
     }
 
-    public function getEducationRemainingForms($educationtype_id = null)
+    public function getEducationRemainingForms($education_type_id = null)
     {
         $totalForms = 0;
-        if ($educationtype_id && count($this->DistrictScholarshipLimits) > 0) {
-            $relation = DistrictScholarshipLimit::where('educationtype_id', $educationtype_id)->where('district_id', $this->id);
+        if ($education_type_id && count($this->DistrictScholarshipLimits) > 0) {
+            $relation = DistrictScholarshipLimit::where('education_type_id', $education_type_id)->where('district_id', $this->id);
             $totalForms = $relation && $relation->max_registration_limit ? $relation->max_registration_limit : 0;
         }
         $totalForms = $this->total_forms;

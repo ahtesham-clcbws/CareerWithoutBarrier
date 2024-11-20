@@ -61,14 +61,16 @@
                             $limit = $data->limit;
                             $remaining = $data->remaining;
                             @endphp
+                            @if ($remaining <= 300)
                             <hr />
                             <span class="text-danger">Only <b>{{ $remaining }}</b> Forms are remain for <b>{{ $selectedDistrictData->name }}</b></span>
+                            @endif
                             @endif
                             <hr />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Name</label>
-                            <input type="text" wire:model="name" placeholder="Full Name" class="form-control <?= !$nameError ?? 'is-invalid' ?>" required>
+                            <input type="text" wire:model="name" placeholder="Full Name" class="form-control form-control-sm <?= !$nameError ?? 'is-invalid' ?>" required>
                             @if($nameError)<div class="invalid-feedback">{{$nameError}}</div>@endif
                         </div>
                         <div class="mb-3 col-md-6">
@@ -84,21 +86,21 @@
 
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Mobile</label>
-                            <input type="number" pattern="[6-9]{1}[0-9]{9}" wire:model="mobile" placeholder="Valid mobile number" class="form-control <?= !$mobileError ?? 'is-invalid' ?>" required min="6000000000" max="9999999990" minlength="10" maxlength="10">
+                            <input type="number" pattern="[6-9]{1}[0-9]{9}" wire:model="mobile" placeholder="Valid mobile number" class="form-control form-control-sm <?= !$mobileError ?? 'is-invalid' ?>" required min="6000000000" max="9999999990" minlength="10" maxlength="10">
                             @if($mobileError)<div class="invalid-feedback">{{$mobileError}}</div>@endif
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Email</label>
-                            <input type="email" wire:model="email" placeholder="Valid email address" class="form-control <?= !$emailError ?? 'is-invalid' ?>" required>
+                            <input type="email" wire:model="email" placeholder="Valid email address" class="form-control form-control-sm <?= !$emailError ?? 'is-invalid' ?>" required>
                             @if($emailError)<div class="invalid-feedback">{{$emailError}}</div>@endif
                         </div>
 
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Password</label>
                             <div class="input-group">
-                                <input type="{{ $showPassword ? 'text' : 'password' }}" wire:model="password" placeholder="Password *" class="form-control <?= !$passwordError ?? 'is-invalid' ?>" required minlength="8" maxlength="8">
+                                <input type="{{ $showPassword ? 'text' : 'password' }}" wire:model="password" placeholder="Password *" class="form-control form-control-sm <?= !$passwordError ?? 'is-invalid' ?>" required minlength="8" maxlength="8">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" wire:click="$toggle('showPassword')">
+                                    <button class="btn btn-outline-secondary btn-sm" type="button" wire:click="$toggle('showPassword')">
                                         <i class="fa fa-fw {{ $showPassword ? 'fa-eye' : 'fa-eye-slash' }}"></i>
                                     </button>
                                 </div>
@@ -108,9 +110,9 @@
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Confirm Password</label>
                             <div class="input-group">
-                                <input type="{{ $showPassword ? 'text' : 'password' }}" wire:model="confirmPassword" placeholder="Confirm Password *" class="form-control <?= !$confirmPasswordError ?? 'is-invalid' ?>" required minlength="8" maxlength="8">
+                                <input type="{{ $showPassword ? 'text' : 'password' }}" wire:model="confirmPassword" placeholder="Confirm Password *" class="form-control form-control-sm <?= !$confirmPasswordError ?? 'is-invalid' ?>" required minlength="8" maxlength="8">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" wire:click="$toggle('showPassword')">
+                                    <button class="btn btn-outline-secondary btn-sm" type="button" wire:click="$toggle('showPassword')">
                                         <i class="fa fa-fw {{ $showPassword ? 'fa-eye' : 'fa-eye-slash' }}"></i>
                                     </button>
                                 </div>
@@ -120,7 +122,7 @@
 
                         <div class="mb-3 col-12">
                             <label class="form-label mb-0">Referrence Code</label>
-                            <input type="text" wire:model.live="referrenceCode" placeholder="Reference code by Institute" class="form-control <?= !$referrenceCodeError ?? 'is-invalid' ?>" required>
+                            <input type="text" wire:model.live="referrenceCode" placeholder="Reference code by Institute" class="form-control form-control-sm <?= !$referrenceCodeError ?? 'is-invalid' ?>" required>
                             @if($referrenceCodeError)<div class="invalid-feedback">{{$referrenceCodeError}}</div>@endif
                         </div>
 

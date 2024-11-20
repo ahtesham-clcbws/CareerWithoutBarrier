@@ -144,7 +144,6 @@ Route::prefix('students')->group(function () {
     Route::group(['middleware' => ['student']], function () {
         Route::get('/studentDashboard', [StudentController::class, 'studentDashboard'])->name('studentDashboard');
 
-
         // apply form
         Route::get('/studentform', [StudentController::class, 'studentform'])->name('studentform');
         Route::post('/addstudents', [StudentController::class, 'addstudent'])->name('students.addstudent');

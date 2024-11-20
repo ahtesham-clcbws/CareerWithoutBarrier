@@ -48,7 +48,9 @@ class Student extends Authenticatable
 
     public function latestStudentCode()
     {
-        return $this->hasOne(StudentCode::class, 'stud_id')->latestOfMany('created_at');
+        return $this->hasOne(StudentCode::class, 'stud_id')
+            // ->select('id', 'stud_id', 'application_code', 'roll_no')
+            ->latestOfMany('created_at');
     }
 
     public function getPercentageAttribute()
@@ -77,11 +79,11 @@ class Student extends Authenticatable
     }
     public function choiceCenterA()
     {
-        return $this->belongsTo(District::class, 'test_center_a', 'id')->select('id', 'state_id', 'name');
+        return $this->belongsTo(District::class, 'test_center_a', 'id')->select('id', 'name');
     }
     public function choiceCenterB()
     {
-        return $this->belongsTo(District::class, 'test_center_b', 'id')->select('id', 'state_id', 'name');
+        return $this->belongsTo(District::class, 'test_center_b', 'id')->select('id', 'name');
     }
 
     public function qualifications()
@@ -120,5 +122,4 @@ class Student extends Authenticatable
     {
         return $this->hasMany(StudentPaperExported::class, 'student_id');
     }
-
 }

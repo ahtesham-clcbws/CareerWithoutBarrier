@@ -14,7 +14,7 @@ class ScholarshipDistrictForm extends Form
     public $selectedState = null;
 
     #[Validate('required')]
-    public $educationtype_id = null;
+    public $education_type_id = null;
     #[Validate('required')]
     public $district_id = null;
     #[Validate('required|integer')]
@@ -25,9 +25,9 @@ class ScholarshipDistrictForm extends Form
     {
         $this->validate();
         if (isset($this->formsData, $this->formsData->id) && $this->formsData) {
-            $this->formsData->update($this->only(['district_id', 'educationtype_id', 'max_registration_limit']));
+            $this->formsData->update($this->only(['district_id', 'education_type_id', 'max_registration_limit']));
         } else {
-            DistrictScholarshipLimit::create($this->only(['district_id', 'educationtype_id', 'max_registration_limit']));
+            DistrictScholarshipLimit::create($this->only(['district_id', 'education_type_id', 'max_registration_limit']));
         }
         $this->reset();
     }
@@ -36,7 +36,7 @@ class ScholarshipDistrictForm extends Form
     {
         $this->formsData = $data;
 
-        $this->educationtype_id = $data->educationtype_id;
+        $this->education_type_id = $data->education_type_id;
 
         $this->selectedState = $data->District->state_id;
 

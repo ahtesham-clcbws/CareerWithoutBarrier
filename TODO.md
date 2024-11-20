@@ -36,3 +36,19 @@ u482032683 = ~
 /home/u482032683/domains/testandnotes.com/public_html
 
 cp -r -a . /path/to/destination/directory
+
+## NOV-20
+https://careerwithoutbarrier.com/administrator/student_list
+Centr Column remove - DONE
+App Code= Appl No - DONE
+District+Centre - DONE
+Payment Rs 0 - DONE
+Print PDF - DONE
+
+https://careerwithoutbarrier.com/administrator/studentRollList
+Roll no generation
+
+https://careerwithoutbarrier.com/administrator/student_result
+Student Dashboard Result and Claim Form
+
+If discount is above 60% then discount line is removed, Final online Paid Amount, Text Letter Capitalize
