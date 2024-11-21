@@ -779,5 +779,5 @@
 #DataTables_Table_0_wrapper .dt-layout-row:first-child {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    /* padding: 20px; */
 }

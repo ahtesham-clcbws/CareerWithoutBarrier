@@ -148,6 +148,7 @@ class AdminController extends Controller
         return view('administrator.dashboard.students-registered', compact('students'));
     }
 
+    // start roll number generation & list
     public function studentRollList(Request $request)
     {
         $scholarshipTypes = EducationType::get();
@@ -189,6 +190,141 @@ class AdminController extends Controller
 
         return view('administrator.dashboard.studentRolelist', compact('students', 'cities', 'scholarshipTypes', 'classes'));
     }
+    public function studentGenerateRollNo(Request $request)
+    {
+        // return response()->json($request->all());
+        // Fetch students based on final submission and include district relation
+        $students = Student::where('is_final_submitted', 1)
+            ->whereIn('district_id', $request->district_id) // Fetch students from selected districts
+            ->with('district');
+
+        // Apply filters based on scholarship, class, and gender
+        if (!empty($request->scholarship_type) && $request->scholarship_type[0] != null) {
+            $scholarshipIds = array_map('intval', $request->scholarship_type);
+            $students = $students->whereHas('scholarShipCategory', function ($subQuery) use ($scholarshipIds) {
+                $subQuery->whereIn('id', $scholarshipIds);
+            });
+        }
+
+        if (!empty($request->class) && $request->class[0] != null) {
+            $classIds = array_map('intval', $request->class);
+            $students = $students->whereIn('qualification', $classIds);
+        }
+
+        if (!empty($request->gender) && $request->gender[0] != null) {
+            $genderIds = array_map('intval', $request->gender);
+            $students = $students->whereIn('gender', $genderIds);
+        }
+
+        // Get the students after applying filters
+        $students = $students->get();
+
+        if ($students->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No Data Available for applied Filter.'
+            ]);
+            return back()->with('error', "No Data Available for applied Filter.");
+        }
+
+        // Group students by district and gender
+        $groupedStudents = $this->groupStudentsByDistrictAndGender($students);
+
+        // Get the current highest roll number (defaults to 10000000)
+        $lastRollNumber = StudentCode::max('roll_no') ?? 10000000;
+
+        // Generate roll numbers for all district and gender groups
+        $generatedRollNumbers = $this->generateRollNumbersForDistricts($groupedStudents, $lastRollNumber);
+
+        if ($generatedRollNumbers > 0) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Roll Numbers generated successfully (' . $generatedRollNumbers . ')'
+            ]);
+            return redirect()->back()->with('success', 'Roll Numbers generated successfully (' . $generatedRollNumbers . ')');
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => '"No roll numbers generated.'
+        ]);
+        return back()->with('error', "No roll numbers generated.");
+    }
+    private function groupStudentsByDistrictAndGender($students)
+    {
+        $grouped = [];
+
+        foreach ($students as $student) {
+            $districtId = $student->district->id;
+            $gender = strtolower($student->gender);
+
+            // Initialize the district and gender groups
+            if (!isset($grouped[$districtId])) {
+                $grouped[$districtId] = [
+                    'male' => [],
+                    'female' => [],
+                    'transgender' => []
+                ];
+            }
+
+            // Add student to the correct gender group within the district
+            if (isset($grouped[$districtId][$gender])) {
+                $grouped[$districtId][$gender][] = $student;
+            }
+        }
+
+        return $grouped;
+    }
+    private function generateRollNumbersForDistricts($groupedStudents, &$lastRollNumber)
+    {
+        $totalGenerated = 0;
+
+        // Loop through each district group
+        foreach ($groupedStudents as $districtId => $genderGroup) {
+            // Generate roll numbers for each gender group within the district
+            foreach (['male', 'female', 'transgender'] as $gender) {
+                if (!empty($genderGroup[$gender])) {
+                    $totalGenerated += $this->generateRollNumbersForGroup($genderGroup[$gender], $lastRollNumber);
+                    // Increment the roll number by the number of generated students
+                    $lastRollNumber += count($genderGroup[$gender]);
+                }
+            }
+        }
+
+        return $totalGenerated;
+    }
+    private function generateRollNumbersForGroup($students, &$lastRollNumber)
+    {
+        $generatedCount = 0;
+
+        foreach ($students as $student) {
+            // Generate roll number for each student in the group
+            $result = $this->rollNumberGenerate($student, $lastRollNumber);
+            if ($result['generated']) {
+                $generatedCount++;
+            }
+        }
+
+        return $generatedCount;
+    }
+    public function rollNumberGenerate($student, &$lastRollNumber)
+    {
+        $studentCode = $student->latestStudentCode;
+
+        // Assign roll number only if the student does not already have one
+        if (!$studentCode->roll_no) {
+            $lastRollNumber++; // Increment the last roll number
+            $studentCode->roll_no = sprintf("%08d", $lastRollNumber); // Format roll number as 8 digits
+            $studentCode->save();
+
+            return ['generated' => true];
+        }
+
+        return ['generated' => false];
+    }
+    // end roll number generation & list
+
+
 
     public function studentView(Student $student)
     {
@@ -269,133 +405,6 @@ class AdminController extends Controller
 
         return view('administrator.dashboard.corporate_coupon_list', compact('issuedCount', 'coupons', 'counts', 'appliedCount', 'prefix', 'codeValue', 'corporate'));
     }
-
-    // start roll number generation
-    public function studentGenerateRollNo(Request $request)
-    {
-        // Fetch students based on final submission and include district relation
-        $students = Student::where('is_final_submitted', 1)
-            ->whereIn('district_id', $request->district_id) // Fetch students from selected districts
-            ->with('district');
-
-        // Apply filters based on scholarship, class, and gender
-        if (!empty($request->scholarship_type) && $request->scholarship_type[0] != null) {
-            $scholarshipIds = array_map('intval', $request->scholarship_type);
-            $students = $students->whereHas('scholarShipCategory', function ($subQuery) use ($scholarshipIds) {
-                $subQuery->whereIn('id', $scholarshipIds);
-            });
-        }
-
-        if (!empty($request->class) && $request->class[0] != null) {
-            $classIds = array_map('intval', $request->class);
-            $students = $students->whereIn('qualification', $classIds);
-        }
-
-        if (!empty($request->gender) && $request->gender[0] != null) {
-            $genderIds = array_map('intval', $request->gender);
-            $students = $students->whereIn('gender', $genderIds);
-        }
-
-        // Get the students after applying filters
-        $students = $students->get();
-
-        if ($students->isEmpty()) {
-            return back()->with('error', "No Data Available for applied Filter.");
-        }
-
-        // Group students by district and gender
-        $groupedStudents = $this->groupStudentsByDistrictAndGender($students);
-
-        // Get the current highest roll number (defaults to 10000000)
-        $lastRollNumber = StudentCode::max('roll_no') ?? 10000000;
-
-        // Generate roll numbers for all district and gender groups
-        $generatedRollNumbers = $this->generateRollNumbersForDistricts($groupedStudents, $lastRollNumber);
-
-        if ($generatedRollNumbers > 0) {
-            return redirect()->back()->with('success', 'Roll Numbers generated successfully (' . $generatedRollNumbers . ')');
-        }
-
-        return back()->with('error', "No roll numbers generated.");
-    }
-
-    private function groupStudentsByDistrictAndGender($students)
-    {
-        $grouped = [];
-
-        foreach ($students as $student) {
-            $districtId = $student->district->id;
-            $gender = strtolower($student->gender);
-
-            // Initialize the district and gender groups
-            if (!isset($grouped[$districtId])) {
-                $grouped[$districtId] = [
-                    'male' => [],
-                    'female' => [],
-                    'transgender' => []
-                ];
-            }
-
-            // Add student to the correct gender group within the district
-            if (isset($grouped[$districtId][$gender])) {
-                $grouped[$districtId][$gender][] = $student;
-            }
-        }
-
-        return $grouped;
-    }
-
-    private function generateRollNumbersForDistricts($groupedStudents, &$lastRollNumber)
-    {
-        $totalGenerated = 0;
-
-        // Loop through each district group
-        foreach ($groupedStudents as $districtId => $genderGroup) {
-            // Generate roll numbers for each gender group within the district
-            foreach (['male', 'female', 'transgender'] as $gender) {
-                if (!empty($genderGroup[$gender])) {
-                    $totalGenerated += $this->generateRollNumbersForGroup($genderGroup[$gender], $lastRollNumber);
-                    // Increment the roll number by the number of generated students
-                    $lastRollNumber += count($genderGroup[$gender]);
-                }
-            }
-        }
-
-        return $totalGenerated;
-    }
-
-    private function generateRollNumbersForGroup($students, &$lastRollNumber)
-    {
-        $generatedCount = 0;
-
-        foreach ($students as $student) {
-            // Generate roll number for each student in the group
-            $result = $this->rollNumberGenerate($student, $lastRollNumber);
-            if ($result['generated']) {
-                $generatedCount++;
-            }
-        }
-
-        return $generatedCount;
-    }
-
-    public function rollNumberGenerate($student, &$lastRollNumber)
-    {
-        $studentCode = $student->latestStudentCode;
-
-        // Assign roll number only if the student does not already have one
-        if (!$studentCode->roll_no) {
-            $lastRollNumber++; // Increment the last roll number
-            $studentCode->roll_no = sprintf("%08d", $lastRollNumber); // Format roll number as 8 digits
-            $studentCode->save();
-
-            return ['generated' => true];
-        }
-
-        return ['generated' => false];
-    }
-
-    // end roll number generation
 
     public function getClassByScholarshipType(Request $request)
     {

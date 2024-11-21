@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Administrator\Dashboard;
 
+use App\Models\State;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -14,9 +15,10 @@ class StudentRollList extends Component
     public $selectedGenders = [];
     public $selectedClasses = [];
 
-    
+
     public function render()
     {
+        $states = State::get();
         // $achievedUsers = [];
         // $users = User::with(['referrals', 'investments'])->get();
 
@@ -89,6 +91,8 @@ class StudentRollList extends Component
         //     ->rawColumns(['user', 'email', 'achieved_level', 'total_referral_count', 'last_login'])
         //     ->make(true);
 
-        return view('livewire.administrator.dashboard.student-roll-list');
+        return view('livewire.administrator.dashboard.student-roll-list', [
+            'states' => $states
+        ]);
     }
 }

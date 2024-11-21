@@ -21,7 +21,7 @@
                         <div class="row" style="margin-bottom: 15px">
                             <div class="col-md-2 mb-3">
                                 <label class="form-label">State</label>
-                                <select class="form-control form-select-sm" id="selectedState" wire:model.live="selectedState" style="width: 100%">
+                                <select class="form-control customSelect" id="selectedState" wire:model.live="selectedState" style="width: 100%">
                                     <option value="">All states</option>
                                     @foreach (\App\Models\State::get() as $entity)
                                     <option value="{{$entity->id}}">
@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-md-2 mb-3">
                                 <label class="form-label">City</label>
-                                <select class="form-control form-select-sm" id="districts" wire:model.live="selectedDistricts" wire:key="{{ $selectedState }}">
+                                <select class="form-control customSelect" id="selectedDistricts" wire:model.live="selectedDistricts" wire:key="{{ $selectedState }}">
                                     <option value="">All cities</option>
                                     @foreach (\App\Models\District::whereStateId($selectedState)->get() as $entity)
                                     <option value="{{$entity->id}}">
@@ -44,7 +44,7 @@
 
                             <div class="col-md-2 mb-2">
                                 <label for="class">Scholarship Types</label>
-                                <select class="form-control form-select-sm" id="scholarshipTypes" wire:model.live="selectedScholarhips" multiple>
+                                <select class="form-control customSelect" id="selectedScholarhips" wire:model.live="selectedScholarhips" multiple>
                                     <option value="">All scholarship types</option>
                                     @foreach (\App\Models\EducationType::get() as $entity)
                                     <option value="{{$entity->id}}">
@@ -56,7 +56,7 @@
 
                             <div class="col-md-2 mb-2">
                                 <label for="class">Class</label>
-                                <select class="form-control form-select-sm" id="classes" wire:model.live="selectedClasses" multiple>
+                                <select class="form-control customSelect" id="selectedClasses" wire:model.live="selectedClasses" multiple>
                                     <option value="">All classes</option>
                                     @foreach (\App\Models\BoardAgencyStateModel::get() as $entity)
                                     <option value="{{$entity->id}}">
@@ -67,7 +67,7 @@
                             </div>
                             <div class="col-md-2 mb-1">
                                 <label class="form-label">Gender</label>
-                                <select class="form-control form-select" id="genders" wire:model.live="selectedGenders" multiple>
+                                <select class="form-control customSelect" id="selectedGenders" wire:model.live="selectedGenders" multiple>
                                     <option value="">All genders</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
@@ -94,21 +94,46 @@
             </div>
         </div>
     </div>
-    <script>
-        function startSelect2() {
-            $("#scholarshipTypes").select2({
-                placeholder: "Select scholarships",
-                allowClear: true
-            });
-            $("#classes").select2({
-                placeholder: "Select classes",
-                allowClear: true
-            });
-            $("#genders").select2({
-                placeholder: "Select genders",
-                allowClear: true
-            });
-        }
-        // startSelect2()
-    </script>
 </div>
+
+
+@assets
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="/website/plugin/tomSelect/tom-select.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap4.min.css" rel="stylesheet">
+<script src="/website/plugin/tomSelect/tom-select.complete.min.js"></script>
+@endassets
+
+@script
+<script>
+    let customSelect;
+
+    document.addEventListener('livewire:initialized', () => {
+        document.querySelectorAll('.customSelect').forEach((el) => {
+            let tomSelectCommonOptions = {
+                closeAfterSelect: true,
+                hidePlaceholder: true,
+                maxOptions: null
+            }
+            let tomSelectPlugins = {
+                remove_button: {
+                    title: 'Remove this item',
+                }
+            }
+            let tomSelectOptions = {
+                plugins: tomSelectPlugins,
+                persist: false,
+                ...tomSelectCommonOptions
+            };
+            customSelect = new TomSelect(el, tomSelectCommonOptions);
+        });
+    })
+
+    Livewire.hook('morph.updated', ({
+        el,
+        component
+    }) => {
+        customSelect.sync()
+    })
+</script>
+@endscript

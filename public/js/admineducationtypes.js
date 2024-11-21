@@ -7,60 +7,60 @@ function inititateSelect2() {
     $("#class_boards").select2({
         placeholder: "Board / State / Agency",
         allowClear: true,
-        tags: true
+        
     });
     $("#class_other_exam_detail").select2({
         placeholder: "  jects",
         allowClear: true,
-        tags: true
+        
     });
     $("#class_group_exam").select2({
         placeholder: "Subjects",
         allowClear: true,
-        tags: true
+        
     });
     $("#education_name").select2({
         placeholder: "Scholarship Category",
         allowClear: true,
-        tags: true
+        
     });
     $("#class_group_exam_name_id").select2({
         placeholder: "Education Type",
         allowClear: true,
-        tags: true
+        
     });
     $("#board_name_id").select2({
         placeholder: "Exam/Class",
         allowClear: true,
-        tags: true
+        
     });
     $("#district-ids").select2({
         placeholder: "City Select",
         allowClear: true,
-        tags: true
+        
     });
     $("#genders-filters").select2({
         placeholder: "Gender Select",
         allowClear: true,
-        tags: true
+        
     });
     $("#other_exam_name_id_j").select2({
         placeholder: "Scholarship Opted For",
         allowClear: true,
-        tags: true
+        
     });
 
     $("#other_exam_name_sub_id").select2({
         placeholder: "Scholarship Opted For",
         allowClear: true,
-        tags: true
+        
     });
 
 
     $("#result_subject_mapping_id").select2({
         placeholder: "Subject",
         allowClear: true,
-        tags: true
+        
     });
 }
 inititateSelect2();
