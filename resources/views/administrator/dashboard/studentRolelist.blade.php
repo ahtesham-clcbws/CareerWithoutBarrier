@@ -4,7 +4,6 @@
 Students Roll number generation
 @endsection
 @section('content')
-
 <style>
     .select2-selection__choice {
         color: black !important;
@@ -208,8 +207,4 @@ Students Roll number generation
         });
     }
 </script>
-
-
-
-
 @endsection('content')
