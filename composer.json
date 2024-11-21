@@ -21,7 +21,8 @@
         "phpoffice/phpspreadsheet": "^1.15",
         "razorpay/razorpay": "^2.9",
         "tightenco/ziggy": "^2.0",
-        "unisharp/laravel-filemanager": "^2.9"
+        "unisharp/laravel-filemanager": "^2.9",
+        "yajra/laravel-datatables": "^10.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",

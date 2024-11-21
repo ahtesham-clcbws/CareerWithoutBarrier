@@ -76,6 +76,7 @@
 
         }
     </style>
+    @livewireScripts
 </head>
 
 <body>
