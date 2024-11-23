@@ -20,7 +20,8 @@ SET `roll_no` = NULL,
 
 
 ## TODO after push
-SSH 1988DEC7@htesham
+SSH 
+1988DEC7@htesham
 ssh -p 65002 u482032683@89.116.133.61
 cd domains/careerwithoutbarrier.com/public_html
 php artisan optimize:clear; php artisan clear-compiled; php artisan cache:clear; php artisan config:clear
@@ -46,9 +47,9 @@ Payment Rs 0 - DONE
 Print PDF - DONE
 
 https://careerwithoutbarrier.com/administrator/studentRollList
-Roll no generation
+Roll no generation - DONE
 
 https://careerwithoutbarrier.com/administrator/student_result
-Student Dashboard Result and Claim Form
+Student Dashboard Result - DONE
 
 If discount is above 60% then discount line is removed, Final online Paid Amount, Text Letter Capitalize

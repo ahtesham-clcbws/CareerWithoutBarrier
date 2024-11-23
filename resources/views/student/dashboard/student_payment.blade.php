@@ -11,6 +11,15 @@ $appCode = $student->latestStudentCode;
 
 $studentPayment = $student->studentPayment->last();
 
+function calculateDiscountPercentage($discountAmount, $originalAmount = 750)
+{
+    if ($originalAmount == 0) {
+        return 0;
+    }
+    $discountPercentage = ($discountAmount / $originalAmount) * 100;
+    return $discountPercentage;
+}
+
 ?>
 
 <section class="content admin-1 mt-3">
@@ -31,7 +40,7 @@ $studentPayment = $student->studentPayment->last();
                             <table class="table table-bordered table-hover" id="studentTable">
                                 <tbody>
                                     <tr>
-                                        <td colspan="2"><b>name</b></td>
+                                        <td colspan="2"><b>Name</b></td>
                                         <td class="information-txt" colspan="2">{{$student->name}}</td>
                                     </tr>
                                     <tr>
@@ -43,11 +52,11 @@ $studentPayment = $student->studentPayment->last();
                                         <td class="information-txt" colspan="2">{{$student->email}}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>Refferell Code provided By</b></td>
+                                        <td colspan="2"><b>Refferell Code Provided By</b></td>
                                         <td class="information-txt" colspan="2">{{$appCode?->corporate_name ? $appCode?->corporate_name : 'SQS Foundation, Kanpur'}}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>refferel. Subscription Code</b></td>
+                                        <td colspan="2"><b>Refferell Subscription Code</b></td>
                                         <td class="information-txt" colspan="2">{{$appCode?->coupan_code ?? '-'}}</td>
                                     </tr>
 
@@ -56,7 +65,10 @@ $studentPayment = $student->studentPayment->last();
                                         <td colspan="2"><b>Fee Amount</b></td>
                                         <td class="information-txt" colspan="2">750 &#8377;</td>
                                     </tr>
+
+
                                     @if($appCode?->is_coupan_code_applied)
+                                    @if (calculateDiscountPercentage($appCode?->coupan_value) < 60)
                                     <tr>
                                         <td colspan="2"><b>Discount Amount</b></td>
                                         <td class="information-txt" colspan="2">
@@ -65,17 +77,22 @@ $studentPayment = $student->studentPayment->last();
                                         </td>
                                     </tr>
                                     @endif
+                                    @endif
 
                                     @if(($appCode?->is_coupan_code_applied && !$appCode?->is_paid && ($appCode?->fee_amount > 0)))
                                     <tr>
-                                        <td colspan="2"><b>Final Payable Amount</b></td>
+                                        <td colspan="2"><b>
+                                            {{ calculateDiscountPercentage($appCode?->coupan_value) < 60 ? 'Final Payable Amount':'Final online Paid Amount' }}
+                                        </b></td>
                                         <td class="information-txt" colspan="2">
-                                            {{ $appCode?->fee_amount }}
+                                            {{ $appCode?->fee_amount }} &#8377;
                                         </td>
                                     </tr>
                                     @elseif($appCode?->is_coupan_code_applied && $appCode?->fee_amount <= 0)
                                         <tr>
-                                        <td colspan="2"><b>Final Paid Amount</b></td>
+                                        <td colspan="2"><b>
+                                            {{ calculateDiscountPercentage($appCode?->coupan_value) < 60 ? 'Final Payable Amount':'Final online Paid Amount' }}
+                                        </b></td>
                                         <td class="information-txt" colspan="2">
                                             0 &#8377;
                                         </td>
@@ -83,24 +100,26 @@ $studentPayment = $student->studentPayment->last();
                                         @endif
                                         @if( $appCode?->is_paid && $studentPayment?->payment_amount)
                                         <tr>
-                                            <td colspan="2"><b>Final Paid Amount</b></td>
+                                            <td colspan="2"><b>
+                                            {{ calculateDiscountPercentage($appCode?->coupan_value) < 60 ? 'Final Payable Amount':'Final online Paid Amount' }}
+                                        </b></td>
                                             <td class="information-txt" colspan="2">
                                                 {!!$studentPayment?->payment_amount .' &#8377;' ?? 0 !!}
                                             </td>
                                         </tr>
                                         @endif
                                         @if(!$studentPayment && !$appCode?->is_paid && ($appCode?->is_coupan_code_applied ? ($appCode?->fee_amount > 0) : true) )
-                                            <tr>
-                                                <td class="text-center" colspan="4">
-                                                    <button type="button" class="bg-success btn-lg  btn text-white action-button" data-toggle="modal" data-target="#exampleModalCenter"><b>Pay Now</b></button>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td class="text-center" colspan="4">
+                                                <button type="button" class="bg-success btn-lg  btn text-white action-button" data-toggle="modal" data-target="#exampleModalCenter"><b>Pay Now</b></button>
+                                            </td>
+                                        </tr>
                                         @else
-                                            <tr class="dn">
-                                                <td colspan="4">
-                                                    <button type="button" style="width: 5rem;height: 2rem;" class="btn btn-md btn-info" data-print="modal" onclick="PrintDoc()"> Print <i class="fa fa-print"></i></button>
-                                                </td>
-                                            </tr>
+                                        <tr class="dn">
+                                            <td colspan="4">
+                                                <button type="button" style="width: 5rem;height: 2rem;" class="btn btn-md btn-info" data-print="modal" onclick="PrintDoc()"> Print <i class="fa fa-print"></i></button>
+                                            </td>
+                                        </tr>
                                         @endif
 
 
@@ -177,7 +196,7 @@ $studentPayment = $student->studentPayment->last();
                             <input type="text" placeholder="Enter coupon code" class="form-control coupon_code-input" name="coupan_code" {{$appCode?->is_coupan_code_applied ? "value=$appCode?->coupan_code".' '.'readonly="true"' : ''}}>
                             <div class="input-group-append">
                                 <button type="button" id="applyCoupon" class="btn btn-primary bg-success" style="display:{{$appCode?->is_coupan_code_applied ? 'none' : 'block'}};"">Apply Coupon</button>
-                                <button type="button" id="removeCoupon" class="btn btn-primary text-danger" style="background: #fd0000;color: white !important;border: #f91818;{{$appCode?->is_coupan_code_applied ? 'display:block' : 'display:none'}}">Remove Coupon</button>
+                                <button type=" button" id="removeCoupon" class="btn btn-primary text-danger" style="background: #fd0000;color: white !important;border: #f91818;{{$appCode?->is_coupan_code_applied ? 'display:block' : 'display:none'}}">Remove Coupon</button>
 
                             </div>
                         </div>

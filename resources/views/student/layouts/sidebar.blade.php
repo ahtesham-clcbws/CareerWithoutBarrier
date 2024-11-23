@@ -12,16 +12,20 @@ $showAdmitCard = null;
 $student = Student::find(Auth::guard('student')->id());
 $student->student_paper_details;
 $isResultAvailable = false;
+$studCode = $student->latestStudentCode;
 
-if ($student->studentPaperDetails && is_array($student->studentPaperDetails) && count($student->studentPaperDetails) >0 && $student->studentPaperDetails[0]->is_imported) {
-    // foreach ($student->studentPaperDetails[0] as $key => $paper) {
-    //     if($paper->is_imported) {
+// $studentPaperDetails = StudentPaperExported::with('subjectPaperDetail')->where('app_code', $appCode?->application_code)->where('student_id', $student->id)->get();
+
+$query = Student::query()->select('students.*', 's.percentage')
+            ->leftJoin('student_codes as s', 'students.id', '=', 's.stud_id')
+            ->leftJoin('student_paper_exporteds as sp', 'students.id', '=', 'sp.student_id')
+            ->where('is_final_submitted', 1)
+            ->whereNotNull('s.percentage')->get();
+
+if ($studCode && $query) {
     $isResultAvailable = true;
-    //     }
-    // }
 }
 
-$studCode = $student->latestStudentCode;
 
 if ($studCode) {
     $examAt = Carbon::parse($studCode->exam_at)->startOfDay(); // Parse exam date and set time to start of day
