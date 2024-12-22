@@ -20,7 +20,7 @@ SET `roll_no` = NULL,
 
 
 ## TODO after push
-SSH 
+SSH
 1988DEC7@htesham
 ssh -p 65002 u482032683@89.116.133.61
 cd domains/careerwithoutbarrier.com/public_html
