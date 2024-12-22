@@ -13,15 +13,17 @@
         <div class="d-flex flex-column flex-lg-row justify-content-between">
             <div class="d-flex gap-2">
                 <div class="input-group mb-3 w-auto">
+                    @if (count($districts))
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="selectCity">Select city</label>
                     </div>
-                    <select class="custom-select" id="selectCity" wire:model.change="selectedCity">
+                    <select class="custom-select" id="selectCity" wire:model.change="selectedDistrict">
                         <option selected value=''>All</option>
-                        @foreach ($cities as $city)
-                        <option value="{{$city}}">{{$city}}</option>
+                        @foreach ($districts as $district)
+                        <option value="{{ $district['id'] }}">{{ $district['name'] }}</option>
                         @endforeach
                     </select>
+                    @endif
                 </div>
                 <div class="input-group ml-3 mb-3 w-auto">
                     <div class="input-group-prepend">
@@ -34,7 +36,7 @@
                     </select>
                 </div>
             </div>
-
+            
             <div class="input-group mb-3 w-auto">
                 <input type="text" class="form-control" placeholder="Search ..." aria-label="Search" wire:model.live="query">
                 <div class="input-group-append">
@@ -44,7 +46,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-bordered" id="institutes-table">
+            <table class="table table-bordered" id="institutes-table" style="line-height: 1.4;">
                 <thead>
                     <tr>
                         <th scope="col"><small class="font-weight-bold">#</small>
@@ -61,17 +63,17 @@
 
                     <tr>
                         <td class="small">{{ $loop->index +1}}</td>
-                        <td class="small text-primary">{{ $institute->city }}</td>
+                        <td class="small text-primary">{{ $institute->district->name }}</td>
                         <td class="small">
                             <div class="media text-muted d-flex flex-column">
                                 <img
-                                    data-src="{{ asset('upload/corporate/'.$institute->attachment) }}"
+                                    data-src="{{ asset(preg_match('/upload2/',$institute->attachment) ? $institute->attachment : 'upload/corporate/'.$institute->attachment)}}"
                                     alt="{{ $institute->name }}"
                                     class="mr-2 rounded d-block"
                                     style="width: 32px; height: 32px;"
-                                    src="{{ asset('upload/corporate/'.$institute->attachment) }}"
+                                    src="{{ asset(preg_match('/upload2/',$institute->attachment) ? $institute->attachment : 'upload/corporate/'.$institute->attachment)}}"
                                     data-holder-rendered="true">
-                                <p class="media-body pb-3 mb-0 lh-125 text-primary">
+                                <p class="media-body mb-0 lh-125 text-primary">
                                     {{ $institute->name }}
                                 </p>
                             </div>

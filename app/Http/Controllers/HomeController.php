@@ -685,11 +685,13 @@ class HomeController extends Controller
 
     public function corporateSubmit(Request $request)
     {
+        // return \json_encode($request->all());
+        // return response()->json(['success' => false, 'message' => 'Error occurred while processing the request.', 'request' => $request->all()], 500);
         $validatedData = $request->validate([
             'name' => 'required|string',
             'institute_name' => 'required|string',
             'type_institution' => 'required|string',
-            'interested_for' => 'required|string',
+            'interested_for' => 'required',
             'established_year' => 'required|string',
             'email' => 'required|email',
             'phone' => 'required|string',
@@ -697,8 +699,8 @@ class HomeController extends Controller
             'address' => 'required|string',
             // 'city' => 'required|string',
             'pincode' => 'required|string|digits:6',
-            'attachment' => "nullable|file|mimes:jpeg,jpg,png|max:2048",
-            'attachment_profile' => "nullable|file|mimes:jpeg,jpg,png,pdf|max:2048",
+            'attachment' => "nullable|image|max:2048",
+            'attachment_profile' => "nullable|image|max:2048",
             'privacy_policy' => 'required|accepted',
             'state_id' => 'required|exists:states,id',
             'district_id' => 'required|exists:districts,id',
@@ -710,18 +712,19 @@ class HomeController extends Controller
 
             // Handle file upload
             if ($request->hasFile('attachment')) {
-                $attachmentPath = moveFile('upload/corporate', $request->attachment);
+                $attachmentPath = $request->file('attachment')->store('upload2/corporate2', 'public');
                 $validatedData['attachment'] = $attachmentPath;
             }
 
             if ($request->hasFile('attachment_profile')) {
-                $attachmentProfilePath = moveFile('upload/corporate', $request->attachment_profile);;
+                $attachmentProfilePath = moveFile('upload2/corporate2', $request->attachment_profile);
                 $validatedData['attachment_profile'] = $attachmentProfilePath;
             }
 
             // Create a new Corporate instance and save the data
             $institute = new Corporate();
             $institute->forceFill($validatedData);
+            $institute->interested_for = implode(',', $request->interested_for);
             $institute->is_otp_verified = true;
             $institute->save();
 

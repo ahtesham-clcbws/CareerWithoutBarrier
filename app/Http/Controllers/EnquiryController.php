@@ -32,7 +32,7 @@ class EnquiryController extends Controller
 
             return view('administrator.dashboard.institude.institude_list_new_view', ['corporate' => $corporate]);
         }
-        $enq = Corporate::where('is_approved', 0)->whereNull('signup_at')->get();
+        $enq = Corporate::where('is_approved', 0)->whereNull('signup_at')->orderBy('id', 'desc')->get();
 
         return view('administrator.dashboard.institude.institude_list_new', ['institute' => $enq]);
     }
@@ -42,6 +42,7 @@ class EnquiryController extends Controller
 
         $enq = Corporate::where('is_approved', 1)
             ->where('signup_approved', 1)
+            ->orderBy('id', 'desc')
             ->whereNotNull('signup_at')->get();
 
         return view('administrator.dashboard.institude.institude_list', ['institute' => $enq]);
@@ -54,14 +55,11 @@ class EnquiryController extends Controller
                 ->where('signup_approved', 0)
                 ->where('id', $id)
                 ->first();
-
-
-
-
             return view('administrator.dashboard.institude.institude_list_signup_view', ['corporate' => $enq]);
         }
         $enq = Corporate::where('is_approved', 1)
             ->where('signup_approved', 0)
+            ->orderBy('id', 'desc')
             ->get();
 
 

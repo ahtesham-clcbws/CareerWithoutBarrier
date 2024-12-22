@@ -6,7 +6,7 @@ use Illuminate\Support\Carbon;
 ?>
 <div class="container pagecontentbody pt-5 pb-3">
     <div class="main" id="prodiv">
-    <link rel="stylesheet" href="{{ asset('student/admin_card.css') }}">
+        <link rel="stylesheet" href="{{ asset('student/admin_card.css') }}">
 
         <center>
             <table style="border-collapse:collapse;margin-left:6.3494pt" cellspacing="0">
@@ -59,9 +59,7 @@ use Illuminate\Support\Carbon;
                         </p>
                     </td>
                     <td style="width:133pt;" class="tb1">
-                        <p class="s11" style="padding-top: 9pt;padding-left: 11pt;text-indent: 0pt;text-align: left;">
-                            {{$student->student_roll_number ?? 'NA'}}
-                        </p>
+                    <p class="s10 sansita" style="padding-top: 7pt;padding-left: 11pt;text-indent: 0pt;text-align: left;">{{$appCode->roll_no ?? 'NA'}}</p>
                     </td>
                     <td style="width:105pt;" class="tb1" rowspan="5">
                         <p style="text-indent: 0pt;text-align: left;"><br /></p>
@@ -153,7 +151,8 @@ use Illuminate\Support\Carbon;
                     </td>
                     <td style="width:129pt;" class="tb1">
                         <p class="s10" style="padding-top: 6pt;padding-left: 13pt;text-indent: 0pt;text-align: left;">
-                            {{ $appCode?->exam_at ? $appCode?->exam_at->format('jS-m-Y') : '' }}</p>
+                            {{ $appCode?->exam_at ? $appCode?->exam_at->format('jS-m-Y') : '' }}
+                        </p>
                     </td>
                     <td style="width:75pt;" class="tb1">
                         <p class="s10" style="padding-top: 6pt;padding-left: 10pt;text-indent: 0pt;text-align: left;">Test
@@ -161,7 +160,8 @@ use Illuminate\Support\Carbon;
                     </td>
                     <td style="width:133pt;" class="tb1">
                         <p class="s10" style="padding-top: 6pt;padding-left: 12pt;text-indent: 0pt;text-align: left;">
-                        {{ ($appCode?->exam_at && $appCode?->exam_mins) ? getExamTime($appCode?->exam_at, $appCode?->exam_mins) : '' }}</p>
+                            {{ ($appCode?->exam_at && $appCode?->exam_mins) ? getExamTime($appCode?->exam_at, $appCode?->exam_mins) : '' }}
+                        </p>
                     </td>
                     <td style="width:105pt;" class="tb1" rowspan="3">
                         <center><img src="{{url('upload/student/')}}/{{$student->signature}}" style="width:140px;margin-top:5px">
@@ -175,27 +175,31 @@ use Illuminate\Support\Carbon;
                     </td>
                     <td style="width:337pt;" class="tb1" colspan="3">
                         <p class="s10" style="padding-top: 9pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
-                         {{$appCode?->exam_center ? $appCode?->examCenter?->center_name : '' }}</p>
+                            {{$appCode?->exam_center ? $appCode?->examCenter?->center_name : '' }}
+                        </p>
                     </td>
                 </tr>
                 <tr style="height:25pt">
                     <td style="width:93pt;" class="tb1">
                         <p class="s10" style="padding-top: 10pt;padding-left: 12pt;text-indent: 0pt;text-align: left;">
-                           City/ State</p>
+                            City/ State</p>
                     </td>
                     <td style="width:129pt;" class="tb1">
                         <p class="s10" style="padding-top: 10pt;padding-left: 12pt;text-indent: 0pt;text-align: left;">
-                        @if($appCode?->examCenter)
-                        {{ $appCode?->examCenter?->city?->name }} /    {{ $appCode?->examCenter?->state?->name }}
-                    @endif</p>
+                            @if($appCode?->examCenter)
+                            {{ $appCode?->examCenter?->city?->name }} / {{ $appCode?->examCenter?->state?->name }}
+                            @endif
+                        </p>
                     </td>
                     <td style="width:75pt;" class="tb1">
                         <p class="s10" style="padding-top: 10pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
-                            {{$appCode?->examCenter?->landmark}}</p>
+                            {{$appCode?->examCenter?->landmark}}
+                        </p>
                     </td>
                     <td style="width:133pt;" class="tb1">
                         <p class="s10" style="padding-top: 10pt;padding-left: 11pt;text-indent: 0pt;text-align: left;">
-                        {{$appCode?->examCenter?->address}} {{$appCode?->examCenter?->pincode}}</p>
+                            {{$appCode?->examCenter?->address}} {{$appCode?->examCenter?->pincode}}
+                        </p>
                     </td>
                 </tr>
             </table>

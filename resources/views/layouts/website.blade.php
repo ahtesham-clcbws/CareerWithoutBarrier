@@ -43,6 +43,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @livewireStyles
@@ -1234,6 +1235,38 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
     </script>
 
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+
+    <style>
+        .select2-search__field,
+        .select2-search.select2-search--inline,
+        .select2-selection.select2-selection--multiple,
+        .select2-selection__rendered {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        function interestedForInit() {
+            console.log('interestedForInit')
+            if ($("#interested_for").hasClass("select2-hidden-accessible")) {
+                $('#interested_for').select2("destroy").select2({
+                    placeholder: 'Interested for',
+                    theme: "bootstrap4",
+                    dropdownParent: $('#instituteModel')
+                });
+            } else {
+                $('#interested_for').select2({
+                    placeholder: 'Interested for',
+                    theme: "bootstrap4",
+                    dropdownParent: $('#instituteModel')
+                });
+            }
+        }
+        interestedForInit()
+    </script>
     @stack('custom-scripts')
     <x-message />
 

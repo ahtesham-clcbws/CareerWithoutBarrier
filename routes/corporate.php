@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::match(['get','post'],'/', [CorporateController::class, 'login'])->name('corporatelogin');
-Route::match(['get','post'],'/signup/{branch_code?}', [CorporateController::class, 'signup'])->name('corporateSignup');
 
-Route::match(['get','post'],'/forgotpassword', [CorporateController::class,'forgotpassword'])->name('corporate.forgotpassword');
+Route::match(['get', 'post'], '/', [CorporateController::class, 'login'])->name('corporatelogin');
+Route::match(['get', 'post'], '/signup/{branch_code?}', [CorporateController::class, 'signup'])->name('corporateSignup');
+
+Route::match(['get', 'post'], '/forgotpassword', [CorporateController::class, 'forgotpassword'])->name('corporate.forgotpassword');
 
 //Route::post('/reset_forget_password', [CorporateController::class, 'resetForgotPassword'])->name('corporate.resetforgetPassword');
 
@@ -32,11 +33,9 @@ Route::group(['middleware' => ['corporate']], function () {
     Route::post('/update-admitcard-status', [CorporateController::class, 'updateAdmitCardStatus'])->name('corporate.update.admitcard.status');
     Route::any('/corporate_coupon_list/{corporate?}', [CorporateController::class, 'corporateCouponlist'])->name('corporate.couponlist');
 
-    Route::any('/say_about_us', [CorporateController::class,'sayAboutUs'])->name('corporate.sayAboutUs');
-    
-     Route::any('/change_password', [CorporateController::class,'changePassword'])->name('corporate.changePassword');
-    Route::any('/profile', [CorporateController::class,'profilePage'])->name('corporate.profilePage');
-    Route::post('/upload-photo',  [CorporateController::class,'uploadPhoto'])->name('corporate.upload.photo');
-    
+    Route::any('/say_about_us', [CorporateController::class, 'sayAboutUs'])->name('corporate.sayAboutUs');
 
+    Route::any('/change_password', [CorporateController::class, 'changePassword'])->name('corporate.changePassword');
+    Route::any('/profile', [CorporateController::class, 'profilePage'])->name('corporate.profilePage');
+    Route::post('/upload-photo',  [CorporateController::class, 'uploadPhoto'])->name('corporate.upload.photo');
 });

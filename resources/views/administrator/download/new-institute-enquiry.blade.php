@@ -54,10 +54,8 @@ body{
     <tr>
         <td>{{ $loop->iteration }}</td>
         <td>
-        @if(file_exists(public_path('upload/corporate/'.$institutes->attachment)))
-
-            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(asset('/upload/corporate/'.$institutes->attachment))) }}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
-
+        @if(file_exists(public_path(preg_match('/upload2/',$institutes->attachment) ? $institutes->attachment : 'upload/corporate/'.$institutes->attachment)))
+            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(asset(preg_match('/upload2/',$institutes->attachment) ? $institutes->attachment : 'upload/corporate/'.$institutes->attachment))) }}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
         @else
             <img src="data:image/jpg;base64,{{ base64_encode(file_get_contents(asset('upload/no_image_available.jpg'))) }}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
         @endif

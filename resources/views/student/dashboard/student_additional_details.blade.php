@@ -172,7 +172,7 @@
                     </div>
                     <div class="col-md-6 col">
                         <div class="form-group">
-                            <label for="mother_occupation">Mother/Father’s Occupation:<span class="text-danger">*</span></label>
+                            <label for="mother_occupation">Father/Mother’s Occupation:<span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <div class="input-group-append" style="width: 50%;">
                                     <input type="text" class="form-control" id="father_occupation" name="father_occupation" placeholder="Father Occupation" value="{{$student->father_occupation}}">

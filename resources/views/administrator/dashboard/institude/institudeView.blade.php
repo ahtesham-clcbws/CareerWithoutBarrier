@@ -77,7 +77,7 @@ use App\Models\CouponCode;
                                             <td colspan="2"><b>Name</b></td>
                                             <td class="information-txt">{{$corporate->name}}</td>
                                             <td rowspan="2" class="userImageCell">
-                                                <img id="profile_img" src="{{asset('/upload/corporate/'.$corporate->attachment)}}" style="width:80px;height:80px;border:1px solid #c2c2c2;  ">
+                                                <img id="profile_img" src="{{ asset(preg_match('/upload2/',$corporate->attachment) ? $corporate->attachment : 'upload/corporate/'.$corporate->attachment)}}" style="width:80px;height:80px;border:1px solid #c2c2c2;  ">
                                             </td>
                                         </tr>
                                         <tr>

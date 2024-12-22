@@ -40,16 +40,32 @@ cp -r -a . /path/to/destination/directory
 
 ## NOV-20
 https://careerwithoutbarrier.com/administrator/student_list
-Centr Column remove - DONE
-App Code= Appl No - DONE
-District+Centre - DONE
-Payment Rs 0 - DONE
-Print PDF - DONE
+Centr Column remove -> [DONE]
+App Code= Appl No -> [DONE]
+District+Centre -> [DONE]
+Payment Rs 0 -> [DONE]
+Print PDF -> [DONE]
 
 https://careerwithoutbarrier.com/administrator/studentRollList
-Roll no generation - DONE
+Roll no generation -> [DONE]
 
 https://careerwithoutbarrier.com/administrator/student_result
-Student Dashboard Result - DONE
+Student Dashboard Result -> [DONE]
 
 If discount is above 60% then discount line is removed, Final online Paid Amount, Text Letter Capitalize
+
+## DEC-18
+in website -> register student -> Institute code live verify-> [SKIP]
+New corporate enquiry (interested for more than one)-> [DONE]
+In Admin -> New corporate inquiry -> photo issuep -> [DONE]
+In admin -> institute list last top -> [DONE]
+In admin -> dashboard card -> fully clickable -> [DONE]
+In admin -> new institute sign-up card link not proper -> [DONE]
+in admin -> all institute lists -> photo issue -> [DONE]
+in website -> free-form -> table city issue -> [DONE]
+New institute city not showimg in free form provider list  link in footer get 100 -> [DONE]
+http://careerwithoutbarrier.test/free-form -> [DONE]
+Father/Mother labels in apply form in students -> [DONE]
+In admin -> issue = Automatically issued coupons -> [DONE] [Database-Issue-Resolved]
+In student dashboard -> roll number not showing -> [DONE]
+kindly check photo display issue in student form / institute form and also  upload issue in everywhere

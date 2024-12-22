@@ -20,7 +20,7 @@
             <li class="full">
                 <input type="text" name="institute_name" placeholder="Institute/School/Brand Name" class="form-control" required>
             </li>
-            <li class="full">
+            <li class="half">
                 <select class="form-control" name="type_institution" id="type_institution">
                     <option value="">Type of Institution</option>
                     <option value="Coaching Institute">Coaching Institute</option>
@@ -31,20 +31,19 @@
                 </select>
             </li>
             <li class="half">
-                <select class="form-control" name="interested_for" id="interested_for">
-                    <option value="">Interested for</option>
-                    <option value="Institute, School welfare program">Institute/ School welfare program</option>
-                    <option value="Student’s Scholarship Program">Student’s Scholarship Program</option>
-                    <option value="Society, Trust Welfare Program">Society/ Trust Welfare Program</option>
-                    <option value="Individual (Private Tuition) Welfare Program">Individual (Private Tuition) Welfare Program</option>
-                </select>
-            </li>
-            <li class="half">
                 <select class="form-control" name="established_year" id="established_year">
                     <option value="">Established Year</option>
                     @for($i = 2001; $i <= now()->year; $i++)
                         <option value="{{ $i }}">{{ $i }}</option>
                         @endfor
+                </select>
+            </li>
+            <li class="full" wire:ignore>
+                <select class="js-example-basic-single w-100" name="interested_for[]" id="interested_for" multiple="multiple" placeholder="Interested For">
+                    <option value="Institute/School welfare program">Institute/School welfare program</option>
+                    <option value="Students Scholarship Program">Student’s Scholarship Program</option>
+                    <option value="Society/Trust Welfare Program">Society/Trust Welfare Program</option>
+                    <option value="Individual (Private Tuition) Welfare Program">Individual (Private Tuition) Welfare Program</option>
                 </select>
             </li>
 

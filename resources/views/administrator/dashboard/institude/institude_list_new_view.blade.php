@@ -81,7 +81,7 @@ use App\Models\CouponCode;
                                             <td class="information-txt">{{$corporate->name}}</td>
                                             <td rowspan="2" class="userImageCell">
                                             @if ($corporate->attachment)
-                                            <img id="profile_img" src="{{ asset('upload/corporate/'.$corporate->attachment)}}" style="width:80px;height:80px;border:1px solid #c2c2c2;">
+                                            <img id="profile_img" src="{{ asset(preg_match('/upload2/',$corporate->attachment) ? $corporate->attachment : 'upload/corporate/'.$corporate->attachment)}}" style="width:80px;height:80px;border:1px solid #c2c2c2;">
                                             @else
                                             <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 100 100">
                                                 <rect width="100%" height="100%" fill="#000000" />
