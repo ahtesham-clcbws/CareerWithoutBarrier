@@ -35,7 +35,7 @@ $newStudents = Student::where('is_final_submitted', 0)->count();
             </span>
             <span class="required_num">{{$newInstituteInquiry}}</span>
         </a>
-        <a class="required_area" href="{{route('coupon.lists')}}">
+        <a class="required_area" href="{{route('institute.list.signup')}}">
             <img src="{{asset('admin/images/watch.png')}}" alt="clock" class="watch_ic">
             <span class="required_text">
                 New Institute Signup

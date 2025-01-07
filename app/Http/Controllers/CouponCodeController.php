@@ -46,7 +46,8 @@ class CouponCodeController extends Controller
 
     public function lists(Request $request)
     {
-        $coupons = CouponCode::orderByDesc('created_at')->where('status', 1)->with('corporate')->get();
+        // $coupons = CouponCode::orderByDesc('created_at')->where('status', 1)->with('corporate')->get();
+        $coupons = CouponCode::orderByDesc('created_at')->where('status', 1)->with('corporate')->paginate(10);
 
         $counts = '';
         $appliedCount = '';
@@ -75,13 +76,13 @@ class CouponCodeController extends Controller
 
             return response()->json(['issuedCount' => $issuedCount, 'coupons' => $filteredCoupons, 'counts' => $counts, 'appliedCount' => $appliedCount, 'codeValue' => $codeValue, 'prefix' => $prefix]);
         }
-        $counts = $coupons->count();
+        // $counts = $coupons->count();
 
-        $appliedCount = $coupons->where('is_applied', 1)->count();
+        // $appliedCount = $coupons->where('is_applied', 1)->count();
 
         // return print_r($coupons->toArray());
 
-        return view('administrator.dashboard.coupon_list', compact('issuedCount', 'coupons', 'counts', 'appliedCount', 'prefix', 'codeValue'));
+        return view('administrator.dashboard.coupon_list', compact('issuedCount', 'coupons', 'prefix', 'codeValue'));
     }
 
     public function saveCoupon(Request $request)
@@ -89,10 +90,17 @@ class CouponCodeController extends Controller
    
         $request->validate([
             'prefix' => 'required | unique:coupon_codes',
-            'name' => 'required|unique:coupon_codes'
+            'name' => 'required|unique:coupon_codes',
+            'number_of_coupons' => 'required|integer|min:1',
+            'discount_type' => 'required',
+            'discount_value' => 'required|numeric|min:0',
+            'coupon_type' => 'nullable',
+            'description' => 'nullable',
         ]);
         // Generate coupon codes
         $prefix = $request->input('prefix');
+        $coupon_type = $request->input('coupon_type') ?? null;
+        $description = $request->input('description') ?? null;
         $digit = 8; // The length of the random string
         $value = $request->input('discount_value');
         $valueType = $request->input('discount_type');
@@ -117,6 +125,8 @@ class CouponCodeController extends Controller
             $coupons[] = [
                 'name' => $name,
                 'couponcode' => $couponCode,
+                'coupon_type' => $coupon_type,
+                'description' => $description,
                 'prefix' => $prefix,
                 'digit' => $digit,
                 'value' => $value,

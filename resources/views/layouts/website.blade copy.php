@@ -17,9 +17,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com/">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&amp;family=Pacifico&amp;family=Poppins:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
-    <!-- Bootstrap v4 css -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
+    <!-- Bootstrap v5.0.2 css -->
+    <link rel="stylesheet" href="{{ asset('website/assets/css/bootstrap.min.css') }}">
+    
     <!-- FONT-AWESOME ICON CSS -->
     <link rel="stylesheet" href="{{ asset('website/assets/css/font-awesome.min.css') }}">
     <!-- MAIN TEMPLATE CSS -->
@@ -31,9 +31,8 @@
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="{{ asset('website/assets/js/jquery-3.6.0.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-
+    <script src="{{ asset('website/assets/js/popper.min.js') }}"></script>
+    <script src="{{ asset('website/assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('website/assets/js/mail.js') }}"></script>
     <script src="{{ asset('website/assets/js/custom.js') }}"></script>
     <script src="{{ asset('js/common.js') }}"></script>
@@ -48,6 +47,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    @livewireStyles
     @stack('custom-styles')
 
     <style>
@@ -107,8 +107,6 @@
             object-fit: cover !important;
         } */
     </style>
-
-    @livewireStyles
 </head>
 <?php
 
@@ -181,7 +179,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                         <div class="menu-book"> <i class="fa fa-bars" aria-hidden="true"></i> </div>
                         <!--TOP MENU LOGO-->
                         <div class="col-lg-2 col-md-12 menu-top1">
-                            <div class="logo"> <a href="/"><img src="{{ asset('website/assets/images/brand/logo.png') }}" alt="logo"></a>
+                            <div class="logo"> <a href="#"><img src="{{ asset('website/assets/images/brand/logo.png') }}" alt="logo"></a>
                             </div>
                         </div>
                         <!--TOP MENU LIST-->
@@ -431,6 +429,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
         </div>
     </section>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#getOtpBtn').click(function() {
@@ -1232,27 +1231,29 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
     </script>
     <script src="{{ asset('website/assets/js/verifyregister.js') }}"></script>
 
-    <style>
-        .closeButton {
-            border-radius: 50px;
-            border: 1px solid red !important;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            color: red;
-            font-size: small !important;
-            font-weight: 300 !important;
-            text-shadow: none !important;
-        }
+    <div class="modal fade" id="popupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" style="display:none;" data-toggle="modal" id="popupModalTrigger" data-target="#popupModal">
+        Launch demo modal
+    </button>
 
-        .closeButton:hover {
-            color: red !important;
-        }
-    </style>
-
-    <script>
-        // success('check error messages')
-    </script>
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
@@ -1290,6 +1291,10 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
     <x-message />
 
     @livewireScripts
+    <script>
+        $('#popupModal').modal('show')
+        // success('check error messages')
+    </script>
 </body>
 
 </html>

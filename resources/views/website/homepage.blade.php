@@ -59,9 +59,7 @@
     /* Styles for larger screens (e.g., desktops) */
     @media screen and (min-width: 769px) {
         .responsive-item {
-            width: calc(100% /
-                    <?= count($educations) ?>
-                ) !important;
+            width: calc(100% / <?= count($educations) ?>) !important;
         }
     }
 
@@ -108,40 +106,39 @@
 <section>
     <div class="slider u-slick">
         @foreach($sliders as $key => $slider)
-            <?php    $thisImage = asset('home/slider/' . $slider->image); ?>
-            <div class="slide-wrapper sliderBackgroundImage" style="background-image:url('<?= $thisImage ?>')">
-            </div>
+        <?php $thisImage = asset('home/slider/' . $slider->image); ?>
+        <div class="slide-wrapper sliderBackgroundImage" style="background-image:url('<?= $thisImage ?>')">
+        </div>
         @endforeach
     </div>
 </section>
 
 
 @if (isset($educations) && count($educations) > 0)
-    <section>
-        <div class="travl-features">
-            <div class="container">
-                <div class="row">
-                    <div class="ban-box">
-                        <ul>
-                            @foreach($educations as $key => $education)
-                                <li class="responsive-item">
-                                    <div class="ban-box-com {{($key == 1) ? 'act' : ""}}">
-                                        <img src="{{ asset('website/assets/images/icons/diploma.png') }}" alt="">
-                                        <h4>{{$education->name}}</h4>
-                                        <a href="#" data-toggle="modal" data-target="#myModalSignUp">Apply Now <i
-                                                class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                                        <span class="bg-1"></span>
-                                    </div>
-                                </li>
-                            @endforeach
+<section>
+    <div class="travl-features">
+        <div class="container">
+            <div class="row">
+                <div class="ban-box">
+                    <ul>
+                        @foreach($educations as $key => $education)
+                        <li class="responsive-item">
+                            <div class="ban-box-com {{($key == 1) ? 'act' : ""}}">
+                                <img src="{{ asset('website/assets/images/icons/diploma.png') }}" alt="">
+                                <h4>{{$education->name}}</h4>
+                                <a href="{{ route('registration') }}">Apply Now <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                <span class="bg-1"></span>
+                            </div>
+                        </li>
+                        @endforeach
 
-                        </ul>
+                    </ul>
 
-                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 @endif
 <!-- SECTION: TRAVEL PACKAGES -->
 <section>
@@ -155,19 +152,19 @@
         <div class="container">
             <div class="row">
                 @foreach($courses as $course)
-                    <div class="ani-eql col-lg-4 col-md-6 packages-ani mb-5">
-                        <div class="shadow p-3 bg-white overflow-hidden customAnchor" style="border-radius: 15px;">
-                            <a href="{{route('home.career', encodeId($course->id))}}" target="_blank"
-                                class="d-flex align-items-center">
-                                <div style="width: 50px; height: 50px;">
-                                    <img src="{{ asset('home/course/' . $course->course_logo) }}" class="h-100 mx-auto"
-                                        alt="{{$course->title}}">
-                                </div>
-                                <p style="line-height: 50px; font-size:18px; font-weight:700; margin-left:12px;"
-                                    class="mb-0">{{$course->title}}</p>
-                            </a>
-                        </div>
+                <div class="ani-eql col-lg-4 col-md-6 packages-ani mb-5">
+                    <div class="shadow p-3 bg-white overflow-hidden customAnchor" style="border-radius: 15px;">
+                        <a href="{{route('home.career', encodeId($course->id))}}" target="_blank"
+                            class="d-flex align-items-center">
+                            <div style="width: 50px; height: 50px;">
+                                <img src="{{ asset('home/course/' . $course->course_logo) }}" class="h-100 mx-auto"
+                                    alt="{{$course->title}}">
+                            </div>
+                            <p style="line-height: 50px; font-size:18px; font-weight:700; margin-left:12px;"
+                                class="mb-0">{{$course->title}}</p>
+                        </a>
                     </div>
+                </div>
                 @endforeach
             </div>
         </div>
@@ -190,12 +187,12 @@
                 <div class="traveller-advice">
                     <ul class="row row-cols-2 row-cols-md-3 row-cols-lg-{{count($benefits) >= 3 && count($benefits) <= 5 ? count($benefits) : 4}}">
                         @foreach($benefits as $benefit)
-                            <li class="ani-eql">
-                                <div class="traveller-point">
-                                    <i class="{{$benefit->icon}}" aria-hidden="true"></i>
-                                    <h4>{{$benefit->benefits}} </h4>
-                                </div>
-                            </li>
+                        <li class="ani-eql">
+                            <div class="traveller-point">
+                                <i class="{{$benefit->icon}}" aria-hidden="true"></i>
+                                <h4>{{$benefit->benefits}} </h4>
+                            </div>
+                        </li>
                         @endforeach
                     </ul>
                 </div>
@@ -227,8 +224,8 @@
                                 <div class='marquee-vert'
                                     style="height: 470px !important;min-height: 470px !important;">
                                     @foreach($notifications as $notice)
-                                        <a href="#" class="news-link"><i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                            {!! $notice->title !!} {!! $notice->details !!}</a>
+                                    <a href="#" class="news-link"><i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        {!! $notice->title !!} {!! $notice->details !!}</a>
                                     @endforeach
                                 </div>
                             </div>
@@ -242,15 +239,15 @@
                     <h2><span>Events</span><br></h2><span class="line"></span>
                 </div>
                 @foreach($blogNews as $news)
-                    <div class="news-row d-flex mb-3">
-                        <div class="news-img mr-3">
-                            <img class="img-fluid" src="{{ asset('news/' . $news->image) }}" alt="img">
-                        </div>
-                        <div class="news-content">
-                            <h6>{!! $news->title !!}</h6>
-                            <p>{!! $news->details !!}</p>
-                        </div>
+                <div class="news-row d-flex mb-3">
+                    <div class="news-img mr-3">
+                        <img class="img-fluid" src="{{ asset('news/' . $news->image) }}" alt="img">
                     </div>
+                    <div class="news-content">
+                        <h6>{!! $news->title !!}</h6>
+                        <p>{!! $news->details !!}</p>
+                    </div>
+                </div>
                 @endforeach
             </div>
         </div>
@@ -267,17 +264,17 @@
             <div class='marquee'>
                 <div class="row flex-nowrap">
                     @foreach($govtwebsites as $govtwebsite)
-                        <div class="col-lg-2 col-md-2 col-sm-2 col-2 govt-web-col " style="align-content: space-around;">
-                            <div class="govt-web-logo">
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <a href="{{$govtwebsite->website_link}}">
-                                        <img class="" style="width: 100px; height: 100px;"
-                                            src="{{ asset('home/courses/' . $govtwebsite->image) }}" alt="img">
-                                    </a>
-                                    <span class="remark">{{$govtwebsite->remark}}</span>
-                                </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-2 govt-web-col " style="align-content: space-around;">
+                        <div class="govt-web-logo">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <a href="{{$govtwebsite->website_link}}">
+                                    <img class="" style="width: 100px; height: 100px;"
+                                        src="{{ asset('home/courses/' . $govtwebsite->image) }}" alt="img">
+                                </a>
+                                <span class="remark">{{$govtwebsite->remark}}</span>
                             </div>
                         </div>
+                    </div>
                     @endforeach
                 </div>
             </div>
@@ -382,21 +379,21 @@
                                 <div id="demo" class="carousel slide" data-ride="carousel">
                                     <div class="carousel-inner">
                                         @foreach($studentTestimonials->chunk(2) as $chunks)
-                                            <div class="carousel-item active">
-                                                @foreach($chunks as $studentTestimonial)
-                                                    <div class="col-lg-6 col-md-6 testi-slider">
-                                                        <div class="testi-lhs">
-                                                            <div class="str-rating">
-                                                                <div class="testimonials-user">
-                                                                    <img src="{{ asset('home/' . $studentTestimonial->image) }}"
-                                                                        alt="img">
-                                                                </div>
-                                                                <p>{!! $studentTestimonial->message !!}</p>
-                                                            </div>
+                                        <div class="carousel-item active">
+                                            @foreach($chunks as $studentTestimonial)
+                                            <div class="col-lg-6 col-md-6 testi-slider">
+                                                <div class="testi-lhs">
+                                                    <div class="str-rating">
+                                                        <div class="testimonials-user">
+                                                            <img src="{{ asset('home/' . $studentTestimonial->image) }}"
+                                                                alt="img">
                                                         </div>
+                                                        <p>{!! $studentTestimonial->message !!}</p>
                                                     </div>
-                                                @endforeach
+                                                </div>
                                             </div>
+                                            @endforeach
+                                        </div>
                                         @endforeach
                                     </div>
 
@@ -427,21 +424,21 @@
                                 <div id="demo" class="carousel slide" data-ride="carousel">
                                     <div class="carousel-inner">
                                         @foreach($corporateTestimonials->chunk(2) as $chunks)
-                                            <div class="carousel-item active">
-                                                @foreach($chunks as $corporateTestimonial)
-                                                    <div class="col-lg-6 col-md-6 testi-slider">
-                                                        <div class="testi-lhs">
-                                                            <div class="str-rating">
-                                                                <div class="testimonials-user">
-                                                                    <img src="{{ asset('home/' . $corporateTestimonial->image) }}"
-                                                                        alt="img">
-                                                                </div>
-                                                                <p>{!! $corporateTestimonial->message !!}</p>
-                                                            </div>
+                                        <div class="carousel-item active">
+                                            @foreach($chunks as $corporateTestimonial)
+                                            <div class="col-lg-6 col-md-6 testi-slider">
+                                                <div class="testi-lhs">
+                                                    <div class="str-rating">
+                                                        <div class="testimonials-user">
+                                                            <img src="{{ asset('home/' . $corporateTestimonial->image) }}"
+                                                                alt="img">
                                                         </div>
+                                                        <p>{!! $corporateTestimonial->message !!}</p>
                                                     </div>
-                                                @endforeach
+                                                </div>
                                             </div>
+                                            @endforeach
+                                        </div>
                                         @endforeach
                                         <!--TESTIMONIALS SLIDER 1 END-->
                                     </div>
@@ -493,15 +490,15 @@
             <div class="country-travel">
                 <ul>
                     @foreach($ourJourneys as $ourJourney)
-                        <li>
-                            <div class="country-travel-1">
-                                <img class="loc-img" src="{{asset('home/' . $ourJourney->logo)}}" alt="">
-                                <img src="{{asset('home/' . $ourJourney->image)}}" alt="">
-                                <div class="travel-content">
-                                    <h3>{{$ourJourney->title}}</h3>
-                                </div>
+                    <li>
+                        <div class="country-travel-1">
+                            <img class="loc-img" src="{{asset('home/' . $ourJourney->logo)}}" alt="">
+                            <img src="{{asset('home/' . $ourJourney->image)}}" alt="">
+                            <div class="travel-content">
+                                <h3>{{$ourJourney->title}}</h3>
                             </div>
-                        </li>
+                        </div>
+                    </li>
                     @endforeach
                 </ul>
             </div>
@@ -520,15 +517,15 @@
         <div id="great-contributor" class="carousel slide px-4" data-ride="carousel">
             <div class="carousel-inner">
                 @foreach($ourContributors->chunk(4) as $keyChunk => $chunks)
-                    <div class="carousel-item {{$keyChunk == 0 ? 'active' : ''}}">
-                        <div class="row">
-                            @foreach($chunks as $chunk)
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-3">
-                                    <img class="img-fluid" src="{{ asset('home/' . $chunk->logo) }}" alt="img">
-                                </div>
-                            @endforeach
+                <div class="carousel-item {{$keyChunk == 0 ? 'active' : ''}}">
+                    <div class="row">
+                        @foreach($chunks as $chunk)
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                            <img class="img-fluid" src="{{ asset('home/' . $chunk->logo) }}" alt="img">
                         </div>
+                        @endforeach
                     </div>
+                </div>
                 @endforeach
             </div>
             <ul class="carousel-indicators">
@@ -548,6 +545,29 @@
 
     </div>
 </div>
+
+
+@php
+$popup = \App\Models\PopupSettings::firstOrCreate();
+@endphp
+@if ($popup && $popup->status == 1 && $popup->image)
+<div class="modal fade" id="popupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <button type="button" class="close closeButton" data-dismiss="modal" aria-label="Close">
+                <i class="fa fa-times"></i>
+            </button>
+            <img src="" id="popupModalImage" class="w-100" />
+        </div>
+    </div>
+</div>
+<script>
+    $(window).on('load', function() {
+        $('#popupModalImage').attr('src', '{{ "/storage/".$popup->image }}');
+        $('#popupModal').modal('show')
+    });
+</script>
+@endif
 
 <script>
     $('.slider-element').slick({

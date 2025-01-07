@@ -60,19 +60,19 @@
                             $data = $selectedDistrictData->getLimit($selectedScholarship);
                             $limit = $data->limit;
                             $remaining = $data->remaining;
-                            $needReferrenceCode = $remaining < 300 ? true : false;
                             @endphp
-                                @if ($remaining < 300)
+                            @if ($remaining
+                            <= 300)
                                 <hr />
-                                <span class="text-danger">Only <b>{{ $remaining }}</b> Forms are remain for <b>{{ $selectedDistrictData->name }}</b></span>
-                                @endif
+                            <span class="text-danger">Only <b>{{ $remaining }}</b> Forms are remain for <b>{{ $selectedDistrictData->name }}</b></span>
+                            @endif
                             @endif
                             <hr />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Name</label>
                             <input type="text" wire:model="name" placeholder="Full Name" class="form-control form-control-sm <?= !$nameError ?? 'is-invalid' ?>" required>
-                            @if($nameError)<div class="invalid-feedback">{{$nameError}}</div>@endif
+                            @error('name')<div class="invalid-feedback">{{$nameError}}</div>@enderror
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Gender</label>
@@ -82,18 +82,18 @@
                                 <option value="Female">FeMale</option>
                                 <option value="Transgender">Transgender</option>
                             </select>
-                            @if($genderError)<div class="invalid-feedback">{{$genderError}}</div>@endif
+                            @error('gender')<div class="invalid-feedback">{{$genderError}}</div>@enderror
                         </div>
 
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Mobile</label>
                             <input type="number" pattern="[6-9]{1}[0-9]{9}" wire:model="mobile" placeholder="Valid mobile number" class="form-control form-control-sm <?= !$mobileError ?? 'is-invalid' ?>" required min="6000000000" max="9999999990" minlength="10" maxlength="10">
-                            @if($mobileError)<div class="invalid-feedback">{{$mobileError}}</div>@endif
+                            @error('mobile')<div class="invalid-feedback">{{$mobileError}}</div>@enderror
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Email</label>
                             <input type="email" wire:model="email" placeholder="Valid email address" class="form-control form-control-sm <?= !$emailError ?? 'is-invalid' ?>" required>
-                            @if($emailError)<div class="invalid-feedback">{{$emailError}}</div>@endif
+                            @error('email')<div class="invalid-feedback">{{$emailError}}</div>@enderror
                         </div>
 
                         <div class="mb-3 col-md-6">
@@ -106,7 +106,7 @@
                                     </button>
                                 </div>
                             </div>
-                            @if($passwordError)<div class="invalid-feedback">{{$passwordError}}</div>@endif
+                            @error('password')<div class="invalid-feedback">{{$passwordError}}</div>@enderror
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Confirm Password</label>
@@ -118,16 +118,14 @@
                                     </button>
                                 </div>
                             </div>
-                            @if($confirmPasswordError)<div class="invalid-feedback">{{$confirmPasswordError}}</div>@endif
+                            @error('confirmPassword')<div class="invalid-feedback">{{$confirmPasswordError}}</div>@enderror
                         </div>
 
-                        @if ($needReferrenceCode)
                         <div class="mb-3 col-12">
                             <label class="form-label mb-0">Referrence Code</label>
-                            <input type="text" wire:model.live="referrenceCode" placeholder="Reference code by Institute" class="form-control form-control-sm <?= $referrenceCodeError && !$referrenceCodeValidated ? 'is-invalid' : '' ?> <?= !$referrenceCodeError && $referrenceCodeValidated ? 'is-valid' : '' ?>" required>
-                            @if($referrenceCodeError)<div class="invalid-feedback">{{$referrenceCodeError}}</div>@endif
+                            <input type="text" wire:model.blur="referrenceCode" placeholder="Reference code by Institute" class="form-control form-control-sm <?= !$referrenceCodeError ?? 'is-invalid' ?>" required>
+                            @error('referrenceCode')<div class="invalid-feedback">{{$referrenceCodeError}}</div>@enderror
                         </div>
-                        @endif
 
                         <div class="mb-3 col-12">
                             <div class="d-flex">
@@ -151,7 +149,7 @@
                                     I accept the &nbsp;<a style="text-decoration: underline;" href="{{ asset('home/'.$institudeTermsCondition) }}" target="_blank"> Terms & Conditions </a>&nbsp; of Career without barrier.
                                 </label>
                             </div>
-                            @if($termsError)<div class="invalid-feedback">{{$termsError}}</div>@endif
+                            @error('terms')<div class="invalid-feedback">{{$termsError}}</div>@enderror
                         </div>
                         @endif
                     </div>

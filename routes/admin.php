@@ -13,7 +13,12 @@ use App\Http\Controllers\NewsController;
 use App\Livewire\Admin\Setting\Districts;
 use App\Livewire\Admin\Setting\ScholarshipForms;
 use App\Livewire\Admin\Setting\States;
+use App\Livewire\Administrator\Dashboard\CouponList;
 use App\Livewire\Administrator\Dashboard\StudentRollList;
+use App\Livewire\Administrator\Settings\ContactList;
+use App\Livewire\Administrator\Settings\ContactListReply;
+use App\Livewire\Administrator\Settings\PopupSetting;
+use App\Livewire\Administrator\Settings\ResetPortal;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
@@ -75,7 +80,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/print-signup-institute-list', [EnquiryController::class, 'printSignUpInstituteList'])->name('print.signup.institute.list');
     Route::get('/print-approve-institute-list', [EnquiryController::class, 'printApproveInstituteList'])->name('print.approve.institute.list');
 
-    Route::get('/contact_enquiry', [EnquiryController::class, 'contactEnquiry'])->name('admin.contactEnquiry');
+    // Route::get('/contact_enquiry', [EnquiryController::class, 'contactEnquiry'])->name('admin.contactEnquiry');
+    Route::get('/contact_enquiry', ContactList::class)->name('admin.contactEnquiry');
+    Route::get('/contact_enquiry/{id}', ContactListReply::class)->name('admin.contactEnquiryReply');
     Route::get('/contact_enquiry_delete/{contactInfo}', [EnquiryController::class, 'contactEnquiryDelete'])->name('admin.contactEnquiryDelete');
     Route::post('/contact_enquiry_reply_mail/{contactInfo}', [EnquiryController::class, 'contactEnquiryReplyMail'])->name('admin.conatctEnqueryEeplyMail');
 
@@ -200,13 +207,19 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/blogDelete/{id}', [NewsController::class, 'blogDelete'])->name('news.blogDelete');
     });
 
+    Route::prefix('settings')->group(function () {
+        Route::get('/popup', PopupSetting::class)->name('settings.popup');
+        Route::get('/reset-portal', ResetPortal::class)->name('settings.resetPortal');
+    });
+
     Route::any('/file/upload', [ImageController::class, 'upload'])->name('file.upload');
     Route::any('/file_upload/{id}', [ImageController::class, 'uploadDelete'])->name('image_upload.delete');
 });
 
 Route::prefix('coupon')->group(function () {
     Route::group(['middleware' => ['auth']], function () {
-        Route::any('/lists', [CouponCodeController::class, 'lists'])->name('coupon.lists');
+        // Route::any('/lists', [CouponCodeController::class, 'lists'])->name('coupon.lists');
+        Route::any('/lists', CouponList::class)->name('coupon.lists');
         Route::any('/filter', [CouponCodeController::class, 'filter'])->name('coupon.filter');
         Route::get('/manage', [CouponCodeController::class, 'manage'])->name('coupon.manage');
         Route::get('/createCoupon', [CouponCodeController::class, 'createCoupon'])->name('coupon.createCoupon');

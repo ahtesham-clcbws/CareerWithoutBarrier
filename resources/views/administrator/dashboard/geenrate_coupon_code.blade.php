@@ -20,7 +20,6 @@ Generate Coupon
               @csrf
               <div class="row">
 
-
                 <div class="col-md-6">
                   <div class="form-group">
                     <p class="text-dark m-b-15 f-s-12">Prefix<span class="text-danger">*</span></p>
@@ -41,7 +40,7 @@ Generate Coupon
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <p class="text-dark m-b-15 f-s-12">Coupon Type<span class="text-danger">*</span></p>
+                    <p class="text-dark m-b-15 f-s-12">Coupon Type</p>
                     <select class="form-control" id="coupon-type" name="coupon_type">
                         <option value="">Select Coupon Type</option>
                         <option value="special">Special</option>
@@ -53,7 +52,7 @@ Generate Coupon
                 <div class="col-md-6">
                   <div class="form-group">
                     <p class="text-dark m-b-15 f-s-12">Discount Value Type<span class="text-danger">*</span></p>
-                    <select name="discount_type" class="form-control">
+                    <select name="discount_type" class="form-control" required>
                       @error('discount_type')
                       {{$message}}
                       @enderror <option value="">Select Value Type</option>
@@ -71,20 +70,22 @@ Generate Coupon
                     @enderror
                   </div>
                 </div>
-                <!-- <div class="col-md-6">
-                  <div class="form-group">
-                    <p class="text-dark m-b-15 f-s-12">Discount Value<span class="text-danger">*</span></p>
-                    <input type="number" name="discount_value" class="form-control input-focus" required placeholder="Only Number i.e 5">
-                    @error('discount_value')
-{{$message}}
-@enderror                  </div>
-                </div> -->
 
                 <div class="col-md-6">
                   <div class="form-group">
                     <p class="text-dark m-b-15 f-s-12">Number of Coupons<span class="text-danger">*</span></p>
                     <input type="number" name="number_of_coupons" class="form-control input-focus" required placeholder="Only Number i.e 5">
                     @error('number_of_coupons')
+                    {{$message}}
+                    @enderror
+                  </div>
+                </div>
+                
+                <div class="col-12">
+                  <div class="form-group">
+                    <p class="text-dark m-b-15 f-s-12">Description</p>
+                    <input type="text" name="description" class="form-control input-focus">
+                    @error('description')
                     {{$message}}
                     @enderror
                   </div>

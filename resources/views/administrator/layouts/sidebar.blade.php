@@ -189,6 +189,8 @@
                     <a class="dropdown-item" href="{{route('admin.state-settings')}}">States</a>
                     <a class="dropdown-item" href="{{route('admin.district-settings')}}">Districts</a>
                     <a class="dropdown-item" href="{{route('admin.scholarship-forms')}}">Scholarship Forms</a>
+                    <a class="dropdown-item" href="{{route('settings.popup')}}">Popup Settings</a>
+                    <a class="dropdown-item" href="{{route('settings.resetPortal')}}">Reset Portal</a>
                 </div>
             </div>
         </li>

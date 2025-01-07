@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Validate;
+
 // board_agency_exam
 
 // #[Layout('layouts.website')]
@@ -35,21 +37,33 @@ class RegistrationForm extends Component
     public $institudeTermsCondition;
 
     // form inputs data
+    #[Validate('required')]
     public string $name;
     public $nameError = null;
+
+    #[Validate('required')]
     public string $gender;
     public $genderError = null;
+
+    #[Validate('required|email')]
     public string $email;
     public $emailError = null;
+
+    #[Validate('required')]
     public string $mobile;
     public $mobileError = null;
+
+    #[Validate('required')]
     public string $password;
     public $passwordError = null;
+    #[Validate('required')]
     public string $confirmPassword;
     public $confirmPasswordError = null;
 
-    public $referrenceCode = null;
+    #[Validate('required')]
+    public $referrenceCode = 'clc_eVU2rW288530';
     public $referrenceCodeError = null;
+    public $referrenceCodeValidated = false;
 
     public string $disability = 'No';
     public $disabilityError = null;
@@ -62,6 +76,8 @@ class RegistrationForm extends Component
     public $userOtpError = null;
 
     public $isMobileVerified = false;
+
+    public $needReferrenceCode = true;
 
     public function mount()
     {
@@ -103,8 +119,10 @@ class RegistrationForm extends Component
             $this->selectedDistrictData = District::find($this->selectedDistrict);
         }
 
-        if ($property == 'referrenceCode') {
+        if ($this->needReferrenceCode) {
+            // if ($property == 'referrenceCode') {
             $this->verifyReferrenceCode();
+            // }
         }
     }
     public function register()
@@ -124,7 +142,11 @@ class RegistrationForm extends Component
             $this->emailError = null;
         }
 
-        $validCode = $this->verifyReferrenceCode();
+        if ($this->needReferrenceCode) {
+            $validCode = $this->verifyReferrenceCode();
+        } else {
+            $validCode = true;
+        }
 
         if (!$checkPhone && !$checkEmail && $validCode) {
             try {
@@ -195,7 +217,9 @@ class RegistrationForm extends Component
                         $student->login_password = $this->password;
                         $student->save();
 
-                        $this->applyCoupon($student->id, $this->referrenceCode);
+                        if ($this->$this->needReferrenceCode) {
+                            $this->applyCoupon($student->id, $this->referrenceCode);
+                        }
 
                         // DB::commit();
                         // Log the user in after registration
@@ -222,28 +246,34 @@ class RegistrationForm extends Component
 
     public function verifyReferrenceCode()
     {
-        try {
-            $couponCode = CouponCode::where('is_applied', 0)
-                ->where('couponcode', $this->referrenceCode)
-                ->first();
-            if ($couponCode) {
-                if ($couponCode->corporate && $couponCode->corporate->district_id != $this->selectedDistrict) {
-                    $this->referrenceCodeError = 'Reference code is not valid';
-                    $this->js("toastr.error('Referral code is not valid for this city/district')");
-                    return false;
+        if (!empty(trim($this->referrenceCode)) && $this->needReferrenceCode) {
+            try {
+                $couponCode = CouponCode::where('is_applied', 0)
+                    ->where('status', 1)
+                    ->where('couponcode', $this->referrenceCode)
+                    ->first();
+                if ($couponCode) {
+                    if ($couponCode->corporate && $couponCode->corporate->district_id != $this->selectedDistrict) {
+                        $this->referrenceCodeError = 'Reference code is not valid';
+                        $this->js("toastr.error('Referral code is not valid for this city/district')");
+                        $this->referrenceCodeValidated = false;
+                        return false;
+                    } else {
+                        $this->referrenceCodeError = null;
+                        $this->referrenceCodeValidated = true;
+                        return true;
+                    }
                 } else {
-                    $this->referrenceCodeError = null;
-                    return true;
+                    $this->referrenceCodeError = 'Reference code not found.';
+                    $this->js("toastr.error('Reference code not found.')");
+                    $this->referrenceCodeValidated = false;
+                    return false;
                 }
-            } else {
-                $this->referrenceCodeError = 'Reference code not found.';
-                $this->js("toastr.error('Reference code not found.')");
+            } catch (\Throwable $th) {
+                //throw $th;
+                $this->js("toastr.error('Email already exist, please change.')");
                 return false;
             }
-        } catch (\Throwable $th) {
-            //throw $th;
-            $this->js("toastr.error('Email already exist, please change.')");
-            return false;
         }
     }
 

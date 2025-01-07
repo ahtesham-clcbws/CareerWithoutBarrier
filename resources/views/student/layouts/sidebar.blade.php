@@ -17,10 +17,10 @@ $studCode = $student->latestStudentCode;
 // $studentPaperDetails = StudentPaperExported::with('subjectPaperDetail')->where('app_code', $appCode?->application_code)->where('student_id', $student->id)->get();
 
 $query = Student::query()->select('students.*', 's.percentage')
-            ->leftJoin('student_codes as s', 'students.id', '=', 's.stud_id')
-            ->leftJoin('student_paper_exporteds as sp', 'students.id', '=', 'sp.student_id')
-            ->where('is_final_submitted', 1)
-            ->whereNotNull('s.percentage')->get();
+    ->leftJoin('student_codes as s', 'students.id', '=', 's.stud_id')
+    ->leftJoin('student_paper_exporteds as sp', 'students.id', '=', 'sp.student_id')
+    ->where('is_final_submitted', 1)
+    ->whereNotNull('s.percentage')->get();
 
 if ($studCode && $query) {
     $isResultAvailable = true;
@@ -85,6 +85,13 @@ if ($studCode) {
     </div>
     <ul class="nav sidebar-nav">
         <li>
+            <div class="dropdown show">
+                <a class="btn btn-secondary text-dark bg-white" href="/">
+                    <span class="nav_icon" style="color: #18c968;">
+                    <i class="fa fa-home" style="font-size: 18px;"></i></span>
+                    <p style="color:#18c968">Homepage</p>
+                </a>
+            </div>
             <div class="dropdown show">
                 <a class="btn btn-secondary text-dark bg-white" href="{{route('studentDashboard')}}">
                     <img src="{{asset('student/images/watch.png')}}" alt="" class="nav_icon">

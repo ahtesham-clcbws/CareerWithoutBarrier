@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
+
     <title>@yield('title', env('APP_NAME'))</title>
 
     <link rel="stylesheet" href="{{asset('admin/style.css')}}">
@@ -28,13 +30,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans:wght@400;700&amp;display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.2.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous">
     </script>
@@ -44,6 +47,8 @@
     <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/buttons/3.1.1/css/buttons.dataTables.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css" />
+
 
     <!-- <link rel="stylesheet" href="{{asset('css/datatable.css')}}"> -->
     <!-- <script src="{{asset('js/dataTables.js')}}"></script> -->
@@ -76,6 +81,7 @@
 
         }
     </style>
+    @livewireStyles
 
 </head>
 
@@ -96,15 +102,17 @@
             {{ $slot }}
             @endif
 
+
         </div>
     </div>
 
+    @yield('modals')
+
     <!-- /#wrapper -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js"></script>
@@ -117,15 +125,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap4.min.css" integrity="sha256-oOM22bng6pPsw0OYa31W1aleyj80USQfxjO8R86X+VQ=" crossorigin="anonymous">
     <script src="/website/plugin/tomSelect/tom-select.complete.min.js"></script>
 
-    <script src="{{asset('admin/index.js')}}"></script>
-
     <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
 
-    <!-- Initialize CKEditor -->
+    <script src="{{asset('admin/index.js')}}"></script>
+
     <script>
         if (document.getElementById('IdOfCKEditorTextArea')) {
-            CKEDITOR.instances['IdOfCKEditorTextArea'].setData(data['body']);
+            CKEDITOR.instances['IdOfCKEditorTextArea']?.setData(data['body'])
         }
+        // if (document.getElementById('ckeditor') && document.getElementById('replyMessage')) {
+        //     var replyMessage = $('#replyMessage');
+        //     var editor = CKEDITOR.replace('ckeditor');
+        //     editor.on('change', function(evt) {
+        //         var data = evt.editor.getData();
+        //         replyMessage.val(data)
+        //         // console.log('data: ', data, replyMessage.val(), replyMessage)
+        //     });
+        // }
     </script>
     <script>
         function success(msg) {
@@ -194,7 +210,7 @@
 
     <script>
         $(".toggle-password").on('click', function() {
-            console.log('sasas')
+            // console.log('sasas')
             var input = $(this).prev('input')
             $(this).toggleClass("fa-eye fa-eye-slash");
             if (input.attr("type") == "password") {
@@ -234,9 +250,12 @@
         };
     </script>
 
-    @stack('custom-scripts')
-    <x-message />
 
+    <x-message />
+    @livewireScripts
+
+    @stack('custom-scripts')
+    
 </body>
 
 </html>
