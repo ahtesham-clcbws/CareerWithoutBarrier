@@ -53,6 +53,9 @@ class RegistrationForm extends Component
     public string $mobile;
     public $mobileError = null;
 
+    public $isEmailValid = false;
+    public $isMobileValid = false;
+
     #[Validate('required')]
     public string $password;
     public $passwordError = null;
@@ -61,7 +64,7 @@ class RegistrationForm extends Component
     public $confirmPasswordError = null;
 
     #[Validate('required')]
-    public $referrenceCode = 'clc_eVU2rW288530';
+    public $referrenceCode = '';
     public $referrenceCodeError = null;
     public $referrenceCodeValidated = false;
 
@@ -115,9 +118,18 @@ class RegistrationForm extends Component
         }
         if ($property == 'selectedState') {
             $this->selectedDistrictData = null;
-        } else if ($property = 'selectedDistrict') {
+        } else if ($property == 'selectedDistrict') {
             $this->selectedDistrictData = District::find($this->selectedDistrict);
         }
+
+        $this->mobileEmailValidation();
+
+        // if ($this->email && !empty(trim($this->email))) {
+        //     $this->mobileEmailValidation('email');
+        // }
+        // if ($this->mobile && !empty(trim($this->mobile))) {
+        //     $this->mobileEmailValidation('mobile');
+        // }
 
         if ($this->needReferrenceCode) {
             // if ($property == 'referrenceCode') {
@@ -125,22 +137,59 @@ class RegistrationForm extends Component
             // }
         }
     }
+    public function mobileEmailValidation()
+    {
+        $emailMobileError = false;
+        if ($this->email && !empty(trim($this->email))) {
+            $checkEmail = Student::where('email', $this->email)->first();
+            if ($checkEmail) {
+                $this->emailError = 'Email already exist, please change.';
+                $this->js("toastr.error('Email already exist, please change.')");
+                $this->isEmailValid = false;
+                $emailMobileError = false;
+                // return false;
+            } else {
+                $this->emailError = null;
+                $this->isEmailValid = true;
+                // return true;
+            }
+        }
+        if ($this->mobile && !empty(trim($this->mobile))) {
+            $checkPhone = Student::where('mobile', $this->mobile)->first();
+            if ($checkPhone) {
+                $this->mobileError = 'Phone number already exist, please change.';
+                $this->js("toastr.error('Phone number already exist, please change.')");
+                $this->isMobileValid = false;
+                $emailMobileError = false;
+                // return false;
+            } else {
+                $this->mobileError = null;
+                $this->isMobileValid = true;
+                // return true;
+            }
+        }
+
+        if ($emailMobileError) {
+            return false;
+        }
+        return true;
+    }
     public function register()
     {
-        $checkPhone = Student::where('mobile', $this->mobile)->first();
-        if ($checkPhone) {
-            $this->mobileError = 'Phone number already exist, please change.';
-            $this->js("toastr.error('Phone number already exist, please change.')");
-        } else {
-            $this->mobileError = null;
-        }
-        $checkEmail = Student::where('email', $this->email)->first();
-        if ($checkEmail) {
-            $this->emailError = 'Email already exist, please change.';
-            $this->js("toastr.error('Email already exist, please change.')");
-        } else {
-            $this->emailError = null;
-        }
+        // $checkPhone = Student::where('mobile', $this->mobile)->first();
+        // if ($checkPhone) {
+        //     $this->mobileError = 'Phone number already exist, please change.';
+        //     $this->js("toastr.error('Phone number already exist, please change.')");
+        // } else {
+        //     $this->mobileError = null;
+        // }
+        // $checkEmail = Student::where('email', $this->email)->first();
+        // if ($checkEmail) {
+        //     $this->emailError = 'Email already exist, please change.';
+        //     $this->js("toastr.error('Email already exist, please change.')");
+        // } else {
+        //     $this->emailError = null;
+        // }
 
         if ($this->needReferrenceCode) {
             $validCode = $this->verifyReferrenceCode();
@@ -148,7 +197,7 @@ class RegistrationForm extends Component
             $validCode = true;
         }
 
-        if (!$checkPhone && !$checkEmail && $validCode) {
+        if ($this->isMobileValid && $this->isEmailValid && $validCode) {
             try {
                 // validate other fields
                 if (!in_array(strtolower($this->gender), ['male', 'female', 'transgender']) || strlen($this->mobile) != 10 || !filter_var($this->email, FILTER_VALIDATE_EMAIL) || $this->password != $this->confirmPassword) {

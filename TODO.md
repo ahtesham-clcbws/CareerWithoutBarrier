@@ -27,7 +27,7 @@ php artisan optimize:clear; php artisan clear-compiled; php artisan cache:clear;
 # check for migration
 php artisan migrate;
 # for storage:link
-cd public;ln -s ../storage/app/public storage;cd ../;
+cd public; rm -rf storage;ln -s ../storage/app/public storage;cd ../;
 
 ## main path of domains
 u482032683 = ~
@@ -113,3 +113,10 @@ This Discount Voucher was Provided By
 SQS Foundation, Kanpur
 Issued/Distributed BY 
 Educraft Educations
+
+## Jan9-full reset
+DiscountVoucher
+SholarhipExam -> Sholarship Opted
+StudentCodes
+Student table also reset
+student test truncate

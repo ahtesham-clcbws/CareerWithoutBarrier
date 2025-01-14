@@ -54,6 +54,7 @@
                                 @endforeach
                             </select>
                         </div>
+
                         <div class="col-12 text-center">
                             @if($selectedState && $selectedDistrict && $selectedDistrictData)
                             @php
@@ -69,6 +70,7 @@
                             @endif
                             <hr />
                         </div>
+                        
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Name</label>
                             <input type="text" wire:model="name" placeholder="Full Name" class="form-control form-control-sm <?= !$nameError ?? 'is-invalid' ?>" required>
@@ -87,12 +89,12 @@
 
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Mobile</label>
-                            <input type="number" pattern="[6-9]{1}[0-9]{9}" wire:model="mobile" placeholder="Valid mobile number" class="form-control form-control-sm <?= !$mobileError ?? 'is-invalid' ?>" required min="6000000000" max="9999999990" minlength="10" maxlength="10">
+                            <input type="number" pattern="[6-9]{1}[0-9]{9}" wire:model.live="mobile" placeholder="Valid mobile number" class="form-control form-control-sm <?= !$mobileError ?? 'is-invalid' ?>" required min="6000000000" max="9999999990" minlength="10" maxlength="10">
                             @if($mobileError)<div class="invalid-feedback">{{$mobileError}}</div>@endif
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Email</label>
-                            <input type="email" wire:model="email" placeholder="Valid email address" class="form-control form-control-sm <?= !$emailError ?? 'is-invalid' ?>" required>
+                            <input type="email" wire:model.live="email" placeholder="Valid email address" class="form-control form-control-sm <?= !$emailError && $isEmailValid ?? 'is-invalid' ?> <?= $isEmailValid ? 'is-valid' : 'is-invalid' ?>" required>
                             @if($emailError)<div class="invalid-feedback">{{$emailError}}</div>@endif
                         </div>
 

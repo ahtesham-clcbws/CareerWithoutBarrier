@@ -10,7 +10,10 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
-        "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
+        "./vendor/robsontenorio/mary/src/View/Components/**/*.php",
+        "./resources/**/*.blade.php",
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
     ],
     plugins: [
         forms

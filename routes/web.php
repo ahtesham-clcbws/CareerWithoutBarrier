@@ -15,6 +15,7 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
+use App\Livewire\Auth\Registration;
 use App\Livewire\Auth\RegistrationForm;
 use App\Livewire\Pages\FreeForm;
 use App\Services\TextlocalService;
@@ -98,7 +99,7 @@ Route::prefix('')->group(function () {
     // ahtesham create those routes
     Route::get('/free-form', FreeForm::class)->name('freeform');
 
-    Route::get('registration', RegistrationForm::class)->name('registration');
+    Route::get('registration', Registration::class)->name('registration');
 });
 
 Route::prefix('result')->group(function () {

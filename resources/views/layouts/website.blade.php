@@ -1286,10 +1286,13 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
         }
         interestedForInit()
     </script>
-    @stack('custom-scripts')
+    
+    @livewireScripts
+
+    <!-- <script src="{{ asset('js/app.js') }}"></script> -->
     <x-message />
 
-    @livewireScripts
+    @stack('custom-scripts')
 </body>
 
 </html>
