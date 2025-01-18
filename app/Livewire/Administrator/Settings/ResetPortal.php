@@ -2,7 +2,13 @@
 
 namespace App\Livewire\Administrator\Settings;
 
+use App\Models\BoardAgencyStateModel;
+use App\Models\ClassGoupExamModel;
 use App\Models\CouponCode;
+use App\Models\Gn_DisplayExamAgencyBoardUniversity;
+use App\Models\Gn_DisplayOtherExamClassDetail;
+use App\Models\Gn_EducationClassExamAgencyBoardUniversity;
+use App\Models\Gn_OtherExamClassDetailModel;
 use App\Models\MobileNumber;
 use App\Models\OtpVerifications;
 use App\Models\Payment;
@@ -24,7 +30,7 @@ class ResetPortal extends Component
 
     public function resetPortal(){
         try {
-            DB::beginTransaction();
+            // DB::beginTransaction();
             StudentCode::truncate();
             CouponCode::truncate();
             StudentClaimForm::truncate();
@@ -33,8 +39,19 @@ class ResetPortal extends Component
             MobileNumber::truncate();
             OtpVerifications::truncate();
             Payment::truncate();
+            // ClassGoupExamModel::truncate();
+            // BoardAgencyStateModel::truncate();
+            
+            // Gn_EducationClassExamAgencyBoardUniversity::truncate();
+            // Gn_OtherExamClassDetailModel::truncate();
+            // Gn_DisplayExamAgencyBoardUniversity::truncate();
+            // Gn_DisplayOtherExamClassDetail::truncate();
+            
+            // Gn_DisplayOtherExamClassDetail::truncate();
+            // DB::commit();
+            $this->js('window.location.href = "/administrator"');
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
     }
 }

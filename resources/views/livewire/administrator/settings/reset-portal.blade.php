@@ -19,8 +19,18 @@
                 <div class="row">
                     <div class="col-md-6 mx-auto text-center">
                         <h2>Are you sure to reset the portal! this is not revertable.</h2>
-                        <button class="btn btn-danger btn-lg">
-                            Reset
+                        <button
+                            class="btn btn-danger btn-lg"
+                            type="button"
+                            wire:click="resetPortal"
+                            wire:confirm.prompt="Are you sure?\n\nType DELETE to confirm|DELETE">
+                            <span wire:loading>
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Resetting...</span>
+                                </div>
+                                Resetting...
+                            </span>
+                            <span wire:loading.remove>Full Reset</span>
                         </button>
                     </div>
                 </div>

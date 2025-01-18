@@ -120,3 +120,9 @@ SholarhipExam -> Sholarship Opted
 StudentCodes
 Student table also reset
 student test truncate
+
+## Jan17
+Registration -> referral code issue by institute & District, Registration error on OTP (error: Code is not valid)
+Institute dashboard -> coupon list same as admin
+Institute dashboard -> student list columns merge & add qualification
+Institute dashboard -> coupon list same as admin

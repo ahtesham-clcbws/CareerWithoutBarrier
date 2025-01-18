@@ -1,4 +1,15 @@
 <div>
+    <style>
+        .input-group input {
+            border-end-end-radius: 0 !important;
+            border-start-end-radius: 0 !important;
+        }
+
+        .input-group button {
+            border-end-start-radius: 0 !important;
+            border-start-start-radius: 0 !important;
+        }
+    </style>
     <div class="w-100" style="margin-top:72px;background-color:#f26b3c;">
         <div class="container text-center py-5 pb-4">
             <h2 style="font-size:32px" class="text-white">Student Registration</h2>
@@ -76,13 +87,18 @@
                         </div>
 
                         @if ($remainingForms <= 300)
-                            <div class="col-12">
-                                <label class="form-label mb-0">Referrence Code</label>
-                                <input type="text" wire:model.live="couponcode" placeholder="Reference code by Institute" class="form-control form-control-sm @error('couponcode') is-invalid @enderror" wire:key="{{ $selectedDistrict }}">
-                                @error('couponcode')
-                                <small class="text-danger small">{{ $message }}</small>
-                                @enderror
+                        <div class="col-12">
+                            <label class="form-label mb-0">Referrence Code</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm @error('couponcode') is-invalid @enderror" @if($isCouponVerify) readonly @endif wire:model="couponcode" placeholder="Reference code by Institute" wire:key="{{ $selectedDistrict }}">
+                                <div class="input-group-append">
+                                    <button class="btn @if($isCouponVerify) btn-success @else btn-outline-secondary @endif btn-sm" wire:click="couponVerify" type="button" id="button-addon2">@if($isCouponVerify) Validated @else Verify @endif</button>
+                                </div>
                             </div>
+                            @error('couponcode')
+                            <small class="text-danger small">{{ $message }}</small>
+                            @enderror
+                        </div>
                         @endif
 
                         @error('customErrors')
@@ -90,9 +106,10 @@
                         @enderror
 
                         <div class="col-12 text-center">
-                            @if ($selectedState && $selectedDistrict && $remainingForms <= 300)
+                            @if ($selectedState && $selectedDistrict && $remainingForms
+                            <= 300)
                                 <hr />
-                                <span class="text-danger">Only <b>{{ $remainingForms }}</b> Forms are remain for <b>{{ $selectedDistrictData?->name ?? 'N/A' }}</b></span>
+                            <span class="text-danger">Only <b>{{ $remainingForms }}</b> Forms are remain for <b>{{ $selectedDistrictData?->name ?? 'N/A' }}</b></span>
                             @endif
                             <hr />
                         </div>
@@ -200,7 +217,7 @@
                             <small class="text-danger small">{{ $message }}</small>
                             @enderror
                         </div>
-                        
+
 
                     </div>
 
