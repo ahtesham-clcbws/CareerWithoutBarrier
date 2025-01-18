@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Log;
 
 class ContactInfoReplyMail extends Notification
 {
@@ -42,10 +42,11 @@ class ContactInfoReplyMail extends Notification
     {
         $contactInfo = $this->contactInfo;
         $message = $this->message;
-        
-        return (new MailMessage)
-        ->subject('Reply: ')
-        ->markdown('mail.contact.replyNotification',compact('contactInfo','message'));
+
+        return (new MailMessage)->markdown('mail.contact.replyNotification', [
+            'contactInfo' => $contactInfo,
+            'message' => $message
+        ])->subject('Reply: ' . $contactInfo->reason_contact);
     }
 
     /**

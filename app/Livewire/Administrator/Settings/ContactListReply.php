@@ -41,7 +41,7 @@ class ContactListReply extends Component
             } catch (\Throwable $th) {
                 // throw $th;
                 // $this->js('console.log(' . $th->getMessage() . ')');
-                $this->js('error("Failed to send reply message.")');
+                $this->js('error("Failed to send reply message. ' . $th->getMessage() . '")');
             }
         }
     }
