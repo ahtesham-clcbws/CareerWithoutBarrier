@@ -1,10 +1,6 @@
 @extends('student.layouts.master')
 @section('content')
 
-
-
-
-
 <?php
 
 $appCode = $student->latestStudentCode;
@@ -69,87 +65,87 @@ function calculateDiscountPercentage($discountAmount, $originalAmount = 750)
 
                                     @if($appCode?->is_coupan_code_applied)
                                     @if (calculateDiscountPercentage($appCode?->coupan_value) < 60)
-                                    <tr>
+                                        <tr>
                                         <td colspan="2"><b>Discount Amount</b></td>
                                         <td class="information-txt" colspan="2">
                                             {{ $appCode?->is_coupan_code_applied ? $appCode?->coupan_value : 'No'}}
                                             @if($appCode?->is_coupan_code_applied) &#8377; @endif
                                         </td>
-                                    </tr>
-                                    @endif
-                                    @endif
-
-                                    @if(($appCode?->is_coupan_code_applied && !$appCode?->is_paid && ($appCode?->fee_amount > 0)))
-                                    <tr>
-                                        <td colspan="2"><b>
-                                            {{ calculateDiscountPercentage($appCode?->coupan_value) < 60 ? 'Final Payable Amount':'Final online Paid Amount' }}
-                                        </b></td>
-                                        <td class="information-txt" colspan="2">
-                                            {{ $appCode?->fee_amount }} &#8377;
-                                        </td>
-                                    </tr>
-                                    @elseif($appCode?->is_coupan_code_applied && $appCode?->fee_amount <= 0)
-                                        <tr>
-                                        <td colspan="2"><b>
-                                            {{ calculateDiscountPercentage($appCode?->coupan_value) < 60 ? 'Final Payable Amount':'Final online Paid Amount' }}
-                                        </b></td>
-                                        <td class="information-txt" colspan="2">
-                                            0 &#8377;
-                                        </td>
                                         </tr>
                                         @endif
-                                        @if( $appCode?->is_paid && $studentPayment?->payment_amount)
+                                        @endif
+
+                                        @if(($appCode?->is_coupan_code_applied && !$appCode?->is_paid && ($appCode?->fee_amount > 0)))
                                         <tr>
                                             <td colspan="2"><b>
-                                            {{ calculateDiscountPercentage($appCode?->coupan_value) < 60 ? 'Final Payable Amount':'Final online Paid Amount' }}
-                                        </b></td>
+                                                    {{ calculateDiscountPercentage($appCode?->coupan_value) < 60 ? 'Final Payable Amount':'Final online Paid Amount' }}
+                                                </b></td>
                                             <td class="information-txt" colspan="2">
-                                                {!!$studentPayment?->payment_amount .' &#8377;' ?? 0 !!}
+                                                {{ $appCode?->fee_amount }} &#8377;
                                             </td>
                                         </tr>
-                                        @endif
-                                        @if(!$studentPayment && !$appCode?->is_paid && ($appCode?->is_coupan_code_applied ? ($appCode?->fee_amount > 0) : true) )
-                                        <tr>
-                                            <td class="text-center" colspan="4">
-                                                <button type="button" class="bg-success btn-lg  btn text-white action-button" data-toggle="modal" data-target="#exampleModalCenter"><b>Pay Now</b></button>
+                                        @elseif($appCode?->is_coupan_code_applied && $appCode?->fee_amount <= 0)
+                                            <tr>
+                                            <td colspan="2"><b>
+                                                    {{ calculateDiscountPercentage($appCode?->coupan_value) < 60 ? 'Final Payable Amount':'Final online Paid Amount' }}
+                                                </b></td>
+                                            <td class="information-txt" colspan="2">
+                                                0 &#8377;
                                             </td>
-                                        </tr>
-                                        @else
-                                        <tr class="dn">
-                                            <td colspan="4">
-                                                <button type="button" style="width: 5rem;height: 2rem;" class="btn btn-md btn-info" data-print="modal" onclick="PrintDoc()"> Print <i class="fa fa-print"></i></button>
-                                            </td>
-                                        </tr>
-                                        @endif
+                                            </tr>
+                                            @endif
+                                            @if( $appCode?->is_paid && $studentPayment?->payment_amount)
+                                            <tr>
+                                                <td colspan="2"><b>
+                                                        {{ calculateDiscountPercentage($appCode?->coupan_value) < 60 ? 'Final Payable Amount':'Final online Paid Amount' }}
+                                                    </b></td>
+                                                <td class="information-txt" colspan="2">
+                                                    {!!$studentPayment?->payment_amount .' &#8377;' ?? 0 !!}
+                                                </td>
+                                            </tr>
+                                            @endif
+                                            @if(!$studentPayment && !$appCode?->is_paid && ($appCode?->is_coupan_code_applied ? ($appCode?->fee_amount > 0) : true) )
+                                            <tr>
+                                                <td class="text-center" colspan="4">
+                                                    <button type="button" id="exampleModalCenterButton" class="bg-success btn-lg  btn text-white action-button" data-toggle="modal" data-target="#exampleModalCenter"><b>Pay Now</b></button>
+                                                </td>
+                                            </tr>
+                                            @else
+                                            <tr class="dn">
+                                                <td colspan="4">
+                                                    <button type="button" style="width: 5rem;height: 2rem;" class="btn btn-md btn-info" data-print="modal" onclick="PrintDoc()"> Print <i class="fa fa-print"></i></button>
+                                                </td>
+                                            </tr>
+                                            @endif
 
 
 
-                                        @if($studentPayment && $studentPayment->payment_status == 'success' )
-                                        <tr>
-                                            <table class="table table-response">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Course Type</th>
-                                                        <th>Course</th>
-                                                        <th>Institute</th>
-                                                        <th>Amount</th>
-                                                        <th>Payment Order ID </th>
-                                                        <th>Payment Status</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>{{$studentPayment->course_type}}</td>
-                                                        <td>{{$studentPayment->course_id}}</td>
-                                                        <td>{{$studentPayment->institute_id}}</td>
-                                                        <td>{{$studentPayment->payment_amount}}</td>
-                                                        <td>{{$studentPayment->payment_order_id }}</td>
-                                                        <td>{{ucfirst($studentPayment->payment_status)}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </tr>
-                                        @endif
+                                            @if($studentPayment && $studentPayment->payment_status == 'success' )
+                                            <tr>
+                                                <table class="table table-response">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Course Type</th>
+                                                            <th>Course</th>
+                                                            <th>Institute</th>
+                                                            <th>Amount</th>
+                                                            <th>Payment Order ID </th>
+                                                            <th>Payment Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>{{$studentPayment->course_type}}</td>
+                                                            <td>{{$studentPayment->course_id}}</td>
+                                                            <td>{{$studentPayment->institute_id}}</td>
+                                                            <td>{{$studentPayment->payment_amount}}</td>
+                                                            <td>{{$studentPayment->payment_order_id }}</td>
+                                                            <td>{{ucfirst($studentPayment->payment_status)}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </tr>
+                                            @endif
                                 </tbody>
                             </table>
                         </div>
@@ -202,24 +198,25 @@ function calculateDiscountPercentage($discountAmount, $originalAmount = 750)
                         </div>
 
                     </div>
-                    <div class="modal-footer justify-content-center pay-now-btn-modal" style="display:block;text-align:center;">
-                        @if($appCode?->is_coupan_code_applied && ($appCode?->fee_amount) <= 0)
+                    <div class="modal-footer justify-content-center" id="pay-now-btn-modal" style="display:block;text-align:center;">
+                        <?php if ($appCode?->is_coupan_code_applied && ($appCode?->fee_amount) <= 0) : ?>
                             <div style="display:block;text-align:center;">
-                            <h6 style="font-weight:700;">Discount Coupon Provided By: {{$appCode?->corporate_name ? $appCode?->corporate_name : 'SQS Foundation, Kanpur'}}</h6>
-                            <h6 style="font-weight:700;color:red;">100% Free</h6>
+                                <h6 style="font-weight:700;">Discount Coupon Provided By: {{$appCode?->corporate_name ? $appCode?->corporate_name : 'SQS Foundation, Kanpur'}}</h6>
+                                <h6 style="font-weight:700;color:red;">100% Free</h6>
+                            </div>
+                        <?php elseif ($appCode?->is_coupan_code_applied && ($appCode?->fee_amount) > 0) : ?>
+                            <div style="display:block;text-align:center;">
+                                <h6 style="font-weight:700;">Discount Coupon Provided By: {{$appCode?->corporate_name ? $appCode?->corporate_name : 'SQS Foundation, Kanpur'}}</h6>
+                            </div>
+                        <?php endif; ?>
+                        @if(!$appCode?->is_paid && ($appCode?->is_coupan_code_applied ? ($appCode?->fee_amount) > 0 : true))
+                        {{-- @if(intval($appCode?->fee_amount) > 0) --}}
+                        <button type="submit" class="btn btn-primary" wire:ignore>Pay Now</button>
+                        @endif
                     </div>
-                    @elseif($appCode?->is_coupan_code_applied && ($appCode?->fee_amount) > 0)
-                    <div style="display:block;text-align:center;">
-                        <h6 style="font-weight:700;">Discount Coupon Provided By: {{$appCode?->corporate_name ? $appCode?->corporate_name : 'SQS Foundation, Kanpur'}}</h6>
-                    </div>
-                    @endif
-                    @if(!$appCode?->is_paid && ($appCode?->is_coupan_code_applied ? ($appCode?->fee_amount) > 0 : true))
-                    <button type="submit" class="btn btn-primary ">Pay Now</button>
-                    @endif
                 </div>
             </div>
-    </div>
-    </form>
+        </form>
     </div>
 </section>
 
@@ -248,6 +245,8 @@ function calculateDiscountPercentage($discountAmount, $originalAmount = 750)
                     $('.modalLoader').hide()
                     if (response.status) {
 
+                        console.log('applied response: ', response)
+
                         $('#applyCoupon').attr('disabled', true);
 
                         $('.fee_amount-dv').append().html('<p id="fee_amount" class="text-sucsess font-weight:20px;" style="margin-bottom:0rem; margin-right: 38px;" readonly>Fee Amount (Rs.) : 750</p><p class="text-danger fee_discount_amount" style="margin-left: -13px; margin-bottom:0rem;">Discount Amount (Rs.): -' + response.discount_amount + '</p><p style="margin-left:20px; font-weight:700;margin-bottom:0rem;">Final Payable Amount (Rs.): ' + response.amount + '</p>');
@@ -256,16 +255,20 @@ function calculateDiscountPercentage($discountAmount, $originalAmount = 750)
                         $('#exampleModalLongTitle').html('Refferel Coupon is Applied Successfully');
                         $('#exampleModalLongTitle').parent().css('margin-left', '16%');
 
-                        if (parseInt(response.amount) <= 0) {
-                            $('.pay-now-btn-modal').append().html('<div style="display:block;text-align:center;"><h6 style="font-weight:700;">Discount Coupon Provided By: ' + response.corporate_name ? response.corporate_name : 'SQS Foundation, Kanpur' + '</h6><h6 style="font-weight:700;color:red;">100% Free</h6></div>');
-
+                        const payNowButtonDiv = document.getElementById('pay-now-btn-modal');
+                        if (response.amount > 0) {
+                            payNowButtonDiv.innerHTML('<div style="display:block;text-align:center;"><h6 style="font-weight:700;">Discount Coupon Provided By: ' + response.corporate_name ? response.corporate_name : 'SQS Foundation, Kanpur' + '</h6> <button type="submit" class="btn btn-primary ">Pay Now</button></div>');
                         } else {
-                            $('.pay-now-btn-modal').append().html('<div style="display:block;text-align:center;"><h6 style="font-weight:700;">Discount Coupon Provided By: ' + response.corporate_name ? response.corporate_name : 'SQS Foundation, Kanpur' + '</h6> <button type="submit" class="btn btn-primary ">Pay Now</button></div>')
+                            payNowButtonDiv.innerHTML('<div style="display:block;text-align:center;"><h6 style="font-weight:700;">Discount Coupon Provided By: ' + response.corporate_name ? response.corporate_name : 'SQS Foundation, Kanpur' + '</h6><h6 style="font-weight:700;color:red;">100% Free</h6></div>');
                         }
                         $btn.parent().prev().attr('readonly', true);
                         $btn.hide();
                         $('#removeCoupon').show();
                         success('Coupon Code Applied.');
+                        // $('#exampleModalCenter').modal('hide');
+                        // $('#exampleModalCenter').modal('show');
+                        // window.location.href = window.location.pathname + '?modal=open'
+                        // console.log(window.location.pathname)
                     }
 
 
@@ -316,9 +319,11 @@ function calculateDiscountPercentage($discountAmount, $originalAmount = 750)
                     $('#exampleModalLongTitle').text('Apply Coupon Code:');
                     $('#exampleModalLongTitle').parent().css('margin-left', '0%');
 
-                    $('.pay-now-btn-modal').append().html('<div style="display:block"> <button type="submit" class="btn btn-primary ">Pay Now</button></div>');
+                    const payNowButtonDiv = document.getElementById('pay-now-btn-modal');
+                    payNowButtonDiv.innerHTML('<div style="display:block"> <button type="submit" class="btn btn-primary ">Pay Now</button></div>');
 
                     success(response.message);
+                    // window.location.href = window.location.pathname + '?modal=open'
                 } else {
                     error(response.message);
                 }

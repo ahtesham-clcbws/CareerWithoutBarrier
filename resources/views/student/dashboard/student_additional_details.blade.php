@@ -25,7 +25,7 @@
                         <input type="radio" name="is_gov_exam_participated" id="is_gov_exam_participated_yes" value="yes" required style="width: 15px; height: 15px" {{ $student->is_gov_exam_participated === 'yes' ? 'checked' : '' }}>
                         <label for="is_gov_exam_participated_yes">Yes</label>
 
-                        <input type="radio" name="is_gov_exam_participated" id="is_gov_exam_participated_no" value="no" required style="width: 15px; height: 15px" {{ $student->is_gov_exam_participated === 'no' ? 'checked' : '' }}>
+                        <input type="radio" name="is_gov_exam_participated" id="is_gov_exam_participated_no" value="no" checked required style="width: 15px; height: 15px" {{ $student->is_gov_exam_participated === 'no' ? 'checked' : '' }}>
                         <label for="is_gov_exam_participated_no">No</label>
                         @error('is_gov_exam_participated')
                         <div class="text-danger">{{$message}}</div>
@@ -71,7 +71,7 @@
 
                         <input type="radio" name="is_apply_career_without_barrier" value="yes" required style="width: 15px;height:15px" {{ $student->is_apply_career_without_barrier === 'yes' ? 'checked' : '' }}>
                         Yes &nbsp;
-                        <input type="radio" name="is_apply_career_without_barrier" value="no" required style="width: 15px;height:15px" {{ $student->is_apply_career_without_barrier === 'no' ? 'checked' : '' }}>
+                        <input type="radio" name="is_apply_career_without_barrier" value="no" checked required style="width: 15px;height:15px" {{ $student->is_apply_career_without_barrier === 'no' ? 'checked' : '' }}>
                         No
                         @error('is_apply_career_without_barrier')
                         <div class="text-danger">{{$message}}</div>
@@ -155,7 +155,7 @@
                 <div class="row">
                     <div class="col-md-6 col">
                         <div class="form-group">
-                            <label for="family_income">Family Income:<span class="text-danger">*</span></label>
+                            <label for="family_income">Family Income:</label>
                             <br>
                             <select id="family_income" name="family_income" class="form-control form-select" value="{{$student->family_income}}">
                                 <option value="">--Select Family Income--</option>
@@ -172,7 +172,7 @@
                     </div>
                     <div class="col-md-6 col">
                         <div class="form-group">
-                            <label for="mother_occupation">Father/Mother’s Occupation:<span class="text-danger">*</span></label>
+                            <label for="mother_occupation">Father/Mother’s Occupation:</label>
                             <div class="input-group">
                                 <div class="input-group-append" style="width: 50%;">
                                     <input type="text" class="form-control" id="father_occupation" name="father_occupation" placeholder="Father Occupation" value="{{$student->father_occupation}}">

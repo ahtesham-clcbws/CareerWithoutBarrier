@@ -50,17 +50,21 @@
 </style>
 
 <body>
-  <div id="wrapper" class="toggled">
+  <div id="wrapper" class="toggled" style="height: -webkit-fill-available;">
     <div class="overlay"></div>
 
     @include('student.layouts.sidebar')
     @include('student.layouts.student_menubar')
 
     <!-- Page Content -->
-    <div class="content-wrapper" style=" background-color: #f4f6f9;">
+    <div class="content-wrapper" style=" background-color: #f4f6f9; height: -webkit-fill-available;">
       <!-- Put "@" before include -->
       <!-- include('student.layouts.content_header') -->
       @yield('content')
+    @if (isset( $slot))
+    {{ $slot }}
+    @endif
+
     </div>
 
     <!-- /#wrapper -->

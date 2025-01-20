@@ -18,6 +18,7 @@ use App\Http\Controllers\TestController;
 use App\Livewire\Auth\Registration;
 use App\Livewire\Auth\RegistrationForm;
 use App\Livewire\Pages\FreeForm;
+use App\Livewire\Student\PaymentPage;
 use App\Services\TextlocalService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Artisan;
@@ -177,7 +178,8 @@ Route::prefix('students')->group(function () {
         Route::get('/studentDashboard', [StudentController::class, 'studentDashboardsss'])->name('studentDashboard');
     });
     Route::group(['middleware' => ['IsStudentFinallySubmitted']], function () {
-        Route::get('/payment', [StudentController::class, 'student_payment'])->name('student.payment');
+        // Route::get('/payment', [StudentController::class, 'student_payment'])->name('student.payment');
+        Route::get('/payment', PaymentPage::class)->name('student.payment');
         Route::get('/studentDashboardpaid', [StudentController::class, 'studentDashboardAfterPaid'])->name('studentDashboardAfterPaid');
         Route::get('/razor_payment', [Razorpay::class, 'index'])->name('student.paymentCreate');
     });
@@ -191,4 +193,3 @@ Route::get('districts/{state}', [CommonController::class, 'districts']);
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
-
