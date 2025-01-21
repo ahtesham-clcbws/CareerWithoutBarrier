@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CorporateController;
+use App\Livewire\Corporate\CouponList;
 use Illuminate\Support\Facades\Route;
 
 
@@ -31,7 +32,8 @@ Route::group(['middleware' => ['corporate']], function () {
     Route::get('/student_list/{student?}', [CorporateController::class, 'studentList'])->name('corporateStudent');
 
     Route::post('/update-admitcard-status', [CorporateController::class, 'updateAdmitCardStatus'])->name('corporate.update.admitcard.status');
-    Route::any('/corporate_coupon_list/{corporate?}', [CorporateController::class, 'corporateCouponlist'])->name('corporate.couponlist');
+    // Route::any('/corporate_coupon_list/{corporate?}', [CorporateController::class, 'corporateCouponlist'])->name('corporate.couponlist');
+    Route::any('/corporate_coupon_list/{corporate?}', CouponList::class)->name('corporate.couponlist');
 
     Route::any('/say_about_us', [CorporateController::class, 'sayAboutUs'])->name('corporate.sayAboutUs');
 

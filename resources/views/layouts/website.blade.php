@@ -402,6 +402,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                         <div class="features-foter">
                             <h2>Important Link</h2>
                             <p><a data-toggle="modal" data-target="#instituteModel" href="javascipt:void(0)">Institutional Enquiry</a></p>
+                            <!-- <li><a href="{{ route('enquiry.institute') }}">Institutional Enquiry</a></li> -->
                             <p><a href="{{ $imp_link ? asset('home/'.$imp_link->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $imp_link ? '_blank' : '_self'}}">Important Links</a></p>
                             <!--<p><a href="javascipt:void(0)">Downloads</a></p>-->
                             <p><a href="{{ $privacy_policy ? asset('home/'.$privacy_policy->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Privacy Policy</a></p>

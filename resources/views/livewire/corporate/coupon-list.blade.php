@@ -35,7 +35,7 @@
     </style>
 
     <h3 style="padding-top: 10px;padding-left: 10px;">
-        Discount Voucher Details:
+        Coupon List:
     </h3>
     <div class="row">
         <div class="col-lg-12 col-md-12 col" style="margin-left: auto;margin-right:auto">
@@ -52,28 +52,9 @@
                         </select>
                     </div>
                     <div class="flex-fill">
-                        <label for="couponInstitutes">Institutes:</label>
-                        <select class="form-select" id="couponInstitutes" wire:model.live="selectedInstitute">
-                            <option value="">All</option>
-                            @foreach ($institutes as $institute)
-                            <option value="{{ $institute->id }}">{{ $institute->institute_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="flex-fill">
-                        <label for="couponIssued">Issue Status:</label>
-                        <select class="form-select" id="couponIssued" wire:model.live="selectedIssued">
-                            <option value="">All</option>
-                            <option value="issued">Issued only</option>
-                            <option value="not-issued">Not-Issued</option>
-                        </select>
-                    </div>
-                    <div class="flex-fill">
                         <label for="couponStatuses">Status:</label>
                         <select class="form-select" id="couponStatuses" wire:model.live="selectedStatus">
                             <option value="">All</option>
-                            <option value="active">Active only</option>
-                            <option value="inactive">Inactive only</option>
                             <option value="applied">Applied only</option>
                         </select>
                     </div>
@@ -94,7 +75,7 @@
                             <option value="percentage">Percentage</option>
                         </select>
                     </div>
-                    @if (!empty(trim($selectedPrefix)) || !empty(trim($selectedIssued)) || !empty(trim($selectedStatus)) || !empty(trim($selectedValue)) || !empty(trim($selectedValueType)))
+                    @if (!empty(trim($selectedPrefix)) || !empty(trim($selectedStatus)) || !empty(trim($selectedValue)) || !empty(trim($selectedValueType)))
                     <div class="flex-fill">
                         <!-- <label>&nbsp;</label><br /> -->
                         <button class="btn btn-danger w-100" wire:click="resetFilters"><i class="bi bi-arrow-clockwise"></i> Reset</button>
@@ -109,9 +90,6 @@
 
                 <div class="d-flex justify-content-between mb-2">
                     <div class="d-flex flex-wrap gap-2 align-items-end">
-                        @if (count($selectedCupons))
-                        <div class="flex-fill"><button class="btn btn-danger" wire:click="deleteSelected">Delete Selected</button></div>
-                        @endif
                         <div class="flex-fill">
                             <select class="form-select" id="showResutsPerPage" wire:model.live="perPage">
                                 <option value="10">10 Results</option>
@@ -132,10 +110,6 @@
                 <table class="table coupons_table" style="width:100%">
                     <thead class="thead-light">
                         <tr class="">
-                            <th>
-                                <input type="checkbox" id="selectAll" wire:model.live="selectAll">
-                                <label for="selectAll" class="sr-only">Select All</label>
-                            </th>
                             <th>#</th>
                             <th class="sortHead" data-type="prefix">
                                 <span>Prefix</span>
@@ -197,14 +171,12 @@
                                     @endif
                                 </span>
                             </th>
-                            <th class="text-end">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-striped table-striped-coupon">
                         @if (count($coupons))
                         @foreach ($coupons as $coupon)
                         <tr style="<?= $coupon->is_applied ? 'background-color: #2180614d;' : ($coupon->status ? '' : 'color: red;') ?>">
-                            <td> <input type="checkbox" class="selectSingle" value="{{ $coupon->id }}" wire:model.live="selectedCupons" <?= $coupon->is_applied ? 'disabled' : '' ?>></td>
                             <td style="font-size: 13px">{{ $loop->index+1 }}</td>
                             <td style="font-size: 13px">{{ $coupon->prefix }}</td>
                             <td style="font-size: 13px">
@@ -216,29 +188,19 @@
                             <td style="font-size: 13px">{{ $coupon->couponcode }}</td>
                             <td style="font-size: 13px">{{ $coupon->corporate?->institute_name }}</td>
                             <td style="font-size: 13px">{{ $coupon->valueType == 'amount' ? '₹ ' : '' }}{{ $coupon->value }}{{ $coupon->valueType == 'amount' ? '' : '%' }}</td>
-                            <td style="font-size: 13px">{{ $coupon->status ? ($coupon->is_applied ? 'Applied' : 'Active') : 'Inactive' }}</td>
-                            <td class="text-end">
-                                @if($coupon->status && !$coupon->is_applied)
-                                <button type='button' class='btn btn-warning btn-sm' wire:click="statusChange({{ $coupon->id }}, false)">De-Activate</button>
-                                @endif
-                                @if(!$coupon->status)
-                                <button type='button' class='btn btn-success btn-sm' wire:click="statusChange({{ $coupon->id }}, true)">Activate this</button>
-                                @endif
-                                @if(!$coupon->is_applied)
-                                <button type="button" class="btn btn-danger btn-sm" wire:click="delete({{ $coupon->id }})">Delete</button>
-                                @endif
-                            </td>
+                            <td style="font-size: 13px">{{ $coupon->is_applied ? 'Applied' : 'Active' }}</td>
                         </tr>
                         @endforeach
                         @else
                         <tr>
-                            <td rowspan="7" colspan="9" class="text-center py-5">
+                            <td rowspan="7" colspan="7" class="text-center py-5">
                                 <h2>No results found</h2>
                             </td>
                         </tr>
                         @endif
                     </tbody>
                 </table>
+
                 <div class="">
                     {{ $coupons->onEachSide(3)->links('vendor.livewire.bootstrap') }}
                 </div>
