@@ -31,20 +31,18 @@
                                         <td class="information-txt" colspan="2">{{$student->email}}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>Refferell Code Provided By</b></td>
-                                        <td class="information-txt" colspan="2">{{$student->latestStudentCode?->corporate_name ? $student->latestStudentCode?->corporate_name : 'SQS Foundation, Kanpur'}}</td>
+                                        <td colspan="2"><b>Referral Code Issued By</b></td>
+                                        <td class="information-txt" colspan="2">{{ $student->latestStudentCode?->corporate?->institute_name ? $student->latestStudentCode?->corporate?->institute_name : 'SQS Foundation, Kanpur'}}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>Refferell Subscription Code</b></td>
+                                        <td colspan="2"><b>Referral Subscription Code</b></td>
                                         <td class="information-txt" colspan="2">{{$student->latestStudentCode?->coupan_code ?? '-'}}</td>
                                     </tr>
-
 
                                     <tr>
                                         <td colspan="2"><b>Fee Amount</b></td>
                                         <td class="information-txt" colspan="2">750 &#8377;</td>
                                     </tr>
-
 
                                     @if($student->latestStudentCode?->is_coupan_code_applied)
                                     @if ($calculateDiscountPercentage < 60)
@@ -94,8 +92,16 @@
                                                 </td>
                                             </tr>
                                             @else
+
                                             <tr class="dn">
                                                 <td colspan="4">
+
+                        @if ($student->latestStudentCode?->is_coupan_code_applied)
+                            <div style="display:block;text-align:center;">
+                                <h6 style="font-weight:700;">Discount Voucher Provided By: SQS Foundation</h6>
+                            </div>
+                        @endif
+
                                                     <button type="button" style="width: 5rem;height: 2rem;" class="btn btn-md btn-info" data-print="modal" onclick="PrintDoc()"> Print <i class="fa fa-print"></i></button>
                                                 </td>
                                             </tr>
@@ -185,7 +191,13 @@
 
                     </div>
                     <div class="modal-footer justify-content-center" id="pay-now-btn-modal" style="display:block;text-align:center;">
-                        @if ($student->latestStudentCode?->is_coupan_code_applied && intval($student->latestStudentCode?->fee_amount) <= 0)
+                        @if ($student->latestStudentCode?->is_coupan_code_applied)
+                            <div style="display:block;text-align:center;">
+                                <h6 style="font-weight:700;">Discount Voucher Provided By: SQS Foundation</h6>
+                                {!! $student->latestStudentCode?->corporate?->institute_name ? '<p>Voucher issued By: '.$student->latestStudentCode?->corporate?->institute_name.'</p>' : '' !!}
+                            </div>
+                        @endif
+                        {{--@if ($student->latestStudentCode?->is_coupan_code_applied && intval($student->latestStudentCode?->fee_amount) <= 0)
                             <div style="display:block;text-align:center;">
                             <h6 style="font-weight:700;">Discount Coupon Provided By: {{$student->latestStudentCode?->corporate_name ? $student->latestStudentCode?->corporate_name : 'SQS Foundation, Kanpur'}}</h6>
                             <h6 style="font-weight:700;color:red;">100% Free</h6>
@@ -194,7 +206,7 @@
                         <div style="display:block;text-align:center;">
                             <h6 style="font-weight:700;">Discount Coupon Provided By: {{$student->latestStudentCode?->corporate_name ? $student->latestStudentCode?->corporate_name : 'SQS Foundation, Kanpur'}}</h6>
                         </div>
-                        @endif
+                        @endif--}}
                         @if(!$student->latestStudentCode?->is_paid && ($student->latestStudentCode?->is_coupan_code_applied ? ($student->latestStudentCode?->fee_amount) > 0 : true))
                         <button type="submit" class="btn btn-primary">Pay Now</button>
                         @endif

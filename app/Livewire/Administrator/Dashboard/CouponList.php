@@ -59,7 +59,7 @@ class CouponList extends Component
         $this->prefixes = CouponCode::whereNotNull('prefix')->groupBy('prefix')->pluck('prefix', 'prefix');
         $this->values = CouponCode::whereNotNull('value')->groupBy('value')->orderBy('value', 'asc')->pluck('value', 'value');
         $instituteIDs = (CouponCode::whereNotNull('corporate_id')->groupBy('corporate_id')->pluck('corporate_id', 'corporate_id'))->toArray();
-        $this->institutes = Corporate::whereIn('id', $instituteIDs)->select('institute_name', 'id')->get();
+        $this->institutes = Corporate::whereIn('id', $instituteIDs)->select('institute_name', 'id', 'district_id')->with('district')->get();
     }
 
     public function updated($property)

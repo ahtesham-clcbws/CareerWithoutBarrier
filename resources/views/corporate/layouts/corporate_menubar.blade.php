@@ -18,7 +18,7 @@
         ?>
         <li class="nav-item">
             <button class="panel-heading last_p">@if($corporate->attachment)
-                <img src="{{ asset(preg_match('/upload2/',$corporate->attachment) ? $corporate->attachment : 'upload/corporate/'.$corporate->attachment)}}">
+                <img src="{{ asset('/storage/'.$corporate->attachment) }}">
                 @else
                 <img src="{{asset('student/images/th_5.png')}}">
                 @endif
@@ -26,7 +26,7 @@
             <div class="dropdown-content panel-collapse profile-noti">
                 <div class="profile-box">
                     @if($corporate->attachment)
-                    <img src="{{ asset(preg_match('/upload2/',$corporate->attachment) ? $corporate->attachment : 'upload/corporate/'.$corporate->attachment)}}">
+                    <img src="{{ asset('/storage/'.$corporate->attachment) }}">
                     @else
                     <img src="{{asset('student/images/th_5.png')}}">
                     @endif

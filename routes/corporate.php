@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CorporateController;
 use App\Livewire\Corporate\CouponList;
+use App\Livewire\Corporate\CouponRequest;
+use App\Livewire\Corporate\Profile;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,6 +40,9 @@ Route::group(['middleware' => ['corporate']], function () {
     Route::any('/say_about_us', [CorporateController::class, 'sayAboutUs'])->name('corporate.sayAboutUs');
 
     Route::any('/change_password', [CorporateController::class, 'changePassword'])->name('corporate.changePassword');
-    Route::any('/profile', [CorporateController::class, 'profilePage'])->name('corporate.profilePage');
+    // Route::any('/profile', [CorporateController::class, 'profilePage'])->name('corporate.profilePage');
+    Route::any('/profile', Profile::class)->name('corporate.profilePage');
     Route::post('/upload-photo',  [CorporateController::class, 'uploadPhoto'])->name('corporate.upload.photo');
+
+    Route::any('/coupon-request', CouponRequest::class)->name('corporate.couponRequest');
 });

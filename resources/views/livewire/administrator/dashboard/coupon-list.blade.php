@@ -56,7 +56,7 @@
                         <select class="form-select" id="couponInstitutes" wire:model.live="selectedInstitute">
                             <option value="">All</option>
                             @foreach ($institutes as $institute)
-                            <option value="{{ $institute->id }}">{{ $institute->institute_name }}</option>
+                            <option value="{{ $institute->id }}">{{ $institute->institute_name }} | {{ $institute->district?->name }}</option>
                             @endforeach
                         </select>
                     </div>

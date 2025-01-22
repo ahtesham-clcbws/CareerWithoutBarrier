@@ -14,16 +14,22 @@ class StudentCode extends Model
         'exam_at' => 'datetime',
     ];
 
-    public function student(){
-        return $this->belongsTo(Student::class,'stud_id');
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'stud_id');
     }
 
-    public function voucher(){
-        return $this->belongsTo(CouponCode::class,'coupan_code','couponcode');
+    public function voucher()
+    {
+        return $this->belongsTo(CouponCode::class, 'coupan_code', 'couponcode');
     }
 
-    public function examCenter(){
-        return $this->belongsTo(Center::class,'exam_center','id');
-      }
-
+    public function examCenter()
+    {
+        return $this->belongsTo(Center::class, 'exam_center', 'id');
+    }
+    public function corporate()
+    {
+        return $this->belongsTo(Corporate::class);
+    }
 }

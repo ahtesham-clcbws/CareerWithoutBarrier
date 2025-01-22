@@ -48,4 +48,8 @@ class Corporate extends Authenticatable
         return $this->hasOne(TestimonialsModel::class, 'type_id')
             ->where('type', 'corporate');
     }
+
+    public function couponRequests(){
+        return $this->hasMany(CorporateCouponRequest::class);
+    }
 }

@@ -23,7 +23,7 @@
         <div class="logo_area mb-2">
             <a href="{{('corporateDashboard')}}" class="brand-link">
                 @if($corporate->attachment)
-                <img src="{{ asset(preg_match('/upload2/',$corporate->attachment) ? $corporate->attachment : 'upload/corporate/'.$corporate->attachment)}}" alt="Prifle Dp" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="{{  asset('/storage/'.$corporate->attachment) }}" alt="Prifle Dp" class="brand-image img-circle elevation-3" style="opacity: .8">
                 @else
                 <img src="{{asset('corporate/images/th_5.png')}}" class="brand-image img-circle elevation-3" style="opacity: .8">
                 @endif
@@ -38,7 +38,7 @@
         <li>
             <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" href="{{route('corporateDashboard')}}">
-                    <img src="{{asset('student/images/watch.png')}}" alt="" class="nav_icon">
+                    
                     <p>Dashboard</p>
                     <i class="fa fa-chevron-right"></i>
                 </a>
@@ -47,7 +47,7 @@
         <li>
             <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" href="{{route('corporateStudent')}}">
-                    <img src="{{asset('student/images/watch.png')}}" alt="" class="nav_icon">
+                    
                     <p>Student List</p>
                     <i class="fa fa-chevron-right"></i>
                 </a>
@@ -56,7 +56,7 @@
         <li>
             <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" href="{{route('corporate.couponlist')}}">
-                    <img src="{{asset('student/images/watch.png')}}" alt="" class="nav_icon">
+                    
                     <p>Coupon List</p>
                     <i class="fa fa-chevron-right"></i>
                 </a>
@@ -64,8 +64,17 @@
         </li>
         <li>
             <div class="dropdown show">
+                <a class="btn btn-secondary dropdown-toggle" href="{{route('corporate.couponRequest')}}">
+                    
+                    <p>Request Coupons</p>
+                    <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+        </li>
+        <li>
+            <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" href="{{route('corporate.sayAboutUs')}}">
-                    <img src="{{asset('student/images/watch.png')}}" alt="" class="nav_icon">
+                    
                     <p>Say About Us</p>
                     <i class="fa fa-chevron-right"></i>
                 </a>
