@@ -183,6 +183,7 @@ class Registration extends Component
                 // continue to send otp to the user mobile
                 $this->otpRequestId = 'someRequestIdAfterOTP';
                 $this->otpSendSuccess = true;
+                $this->js("window.scrollTo({ top: 0, behavior: 'smooth'})");
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -230,7 +231,7 @@ class Registration extends Component
         } catch (\Throwable $th) {
             $this->otpRequestId = '';
             $this->otpSendSuccess = false;
-            DB::rollBack();
+            // DB::rollBack();
             logger('Registration Failed:', [$th]);
             $this->js("toastr.error(" . $th->getMessage() . ")");
             $this->js("toastr.error('Unable to register, try after some time.')");

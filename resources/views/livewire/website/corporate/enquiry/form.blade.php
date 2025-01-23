@@ -2,15 +2,17 @@
     @csrf
 
     <button type="button" class="close" data-dismiss="modal">&times;</button>
+
     <h2 class="book-tit">New Corporate Enquiry</h2>
+
     @if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
     @endif
 
-    <div id="errorMessages" class="text-danger">
-    </div>
+    <div id="errorMessages" class="text-danger"></div>
+
     <div class="books-now">
         <div class="contact__msg">Thank you.</div>
         <ul>

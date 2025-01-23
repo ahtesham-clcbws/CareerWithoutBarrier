@@ -37,7 +37,7 @@
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td>
                                             @if ($institutes->attachment)
-                                            <img src="{{ asset(preg_match('/upload2/',$institutes->attachment) ? $institutes->attachment : 'upload/corporate/'.$institutes->attachment)}}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
+                                            <img src="{{ asset('/storage/'.$institutes->attachment)}}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
                                             @else
                                             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 100 100">
                                                 <rect width="100%" height="100%" fill="#000000" />

@@ -45,6 +45,10 @@
         background-color: #0056b3;
         /* Example color, adjust as needed */
     }
+    .table td,
+    .table th {
+        padding: .5rem .5rem;
+    }
 </style>
 <?php
 
@@ -77,7 +81,7 @@ use App\Models\CouponCode;
                                             <td colspan="2"><b>Name</b></td>
                                             <td class="information-txt">{{$corporate->name}}</td>
                                             <td rowspan="2" class="userImageCell">
-                                                <img id="profile_img" src="{{ asset(preg_match('/upload2/',$corporate->attachment) ? $corporate->attachment : 'upload/corporate/'.$corporate->attachment)}}" style="width:80px;height:80px;border:1px solid #c2c2c2;  ">
+                                                <img id="profile_img" src="{{ asset('/storage/'.$corporate->attachment)}}" style="width:80px;height:80px;border:1px solid #c2c2c2;  ">
                                             </td>
                                         </tr>
                                         <tr>
@@ -152,14 +156,18 @@ use App\Models\CouponCode;
                                                 {{$corporate->institude_code}}
                                             </td>
                                         </tr>
-                                        <!-- <tr>
-                                            <td colspan="2"><b>Subscription</b></td>
-                                            <td colspan="2">
-                                            </td>
-                                        </tr> -->
                                         <tr>
                                             <td colspan="2"><b>Created on</b></td>
                                             <td colspan="2">{{$corporate->created_at}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="text-nowrap"><b>Institute Images PDF</b></td>
+                                            <td class="information-txt" colspan="2">
+
+                                                <a href="{{ url('/storage/'.$corporate->attachment_profile) }}" target="_blank">
+                                                    Open to View
+                                                </a>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -243,8 +251,6 @@ use App\Models\CouponCode;
                 @if( $corporate->is_approved )
                 <div class="card" id="coupon-allotment-show" style="display:none;">
                     <div class="card-header" style="background-color:#F48134; color: #fff;">
-                        <h5>Coupon allotment: </h5>
-
                         <h5>Total Issued Coupon to <a target="_blank" style="color:#fff;text-decoration:none !important" href="{{route('institute.CoprporateCouponlists',[$corporate->id])}}"><b style="text-decoration: underline;">{{ucfirst($corporate->name)}} </b> Count: <b class="totalIssuedCoupon">{{ $totalIssuedCount}}</b></a></h5>
                     </div>
                     <div class="card-body" style="padding: .25rem; background-color: #ededed;">

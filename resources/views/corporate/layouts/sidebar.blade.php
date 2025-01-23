@@ -12,14 +12,18 @@
 </style>
 <nav class=" sidebar navbar-inverse fixed-top elevation-4" id="sidebar-wrapper" role="navigation" style="overflow-y: hidden;  font-style: italic !important;">
     <div class="sidebar-header">
+
         <div class="sidebar-brand">
-            <div class="info">
-                <a href="{{('corporateDashboard')}}">
-                    <h5 style="margin-top: 20px;"> Institute Panel</h5>
-                </a>
-                <!-- <img src="{{asset('corporate/images/logo big')}} size.png" alt=""> -->
+            <div class="info d-flex">
+                <img src="{{asset('website/assets/images/fav-icon.png')}}"
+                    style="width:40px; height: 40px; margin: 0 10px 0 5px !important">
+                <span class="text-left" style="font-size: 14px;">
+                    <span class="font-weight-bold">Institute panel</span><br />
+                    <span class="text-white font-weight-bold">{{$corporate->institute_name}}</span>
+                </span>
             </div>
         </div>
+
         <div class="logo_area mb-2">
             <a href="{{('corporateDashboard')}}" class="brand-link">
                 @if($corporate->attachment)
@@ -38,7 +42,7 @@
         <li>
             <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" href="{{route('corporateDashboard')}}">
-                    
+
                     <p>Dashboard</p>
                     <i class="fa fa-chevron-right"></i>
                 </a>
@@ -47,7 +51,7 @@
         <li>
             <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" href="{{route('corporateStudent')}}">
-                    
+
                     <p>Student List</p>
                     <i class="fa fa-chevron-right"></i>
                 </a>
@@ -56,7 +60,7 @@
         <li>
             <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" href="{{route('corporate.couponlist')}}">
-                    
+
                     <p>Coupon List</p>
                     <i class="fa fa-chevron-right"></i>
                 </a>
@@ -65,7 +69,7 @@
         <li>
             <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" href="{{route('corporate.couponRequest')}}">
-                    
+
                     <p>Request Coupons</p>
                     <i class="fa fa-chevron-right"></i>
                 </a>
@@ -74,7 +78,7 @@
         <li>
             <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" href="{{route('corporate.sayAboutUs')}}">
-                    
+
                     <p>Say About Us</p>
                     <i class="fa fa-chevron-right"></i>
                 </a>

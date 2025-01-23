@@ -67,11 +67,11 @@
                         <td class="small">
                             <div class="media text-muted d-flex flex-column">
                                 <img
-                                    data-src="{{ asset(preg_match('/upload2/',$institute->attachment) ? $institute->attachment : 'upload/corporate/'.$institute->attachment)}}"
+                                    data-src="{{ asset('/storage/'.$institute->attachment)}}"
                                     alt="{{ $institute->name }}"
                                     class="mr-2 rounded d-block"
                                     style="width: 32px; height: 32px;"
-                                    src="{{ asset(preg_match('/upload2/',$institute->attachment) ? $institute->attachment : 'upload/corporate/'.$institute->attachment)}}"
+                                    src="{{ asset('/storage/'.$institute->attachment)}}"
                                     data-holder-rendered="true">
                                 <p class="media-body mb-0 lh-125 text-primary">
                                     {{ $institute->name }}

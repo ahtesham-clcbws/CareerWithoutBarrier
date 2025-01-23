@@ -45,11 +45,13 @@
         background-color: #0056b3;
         /* Example color, adjust as needed */
     }
-</style>
-<?php
 
-use App\Models\CouponCode;
-?>
+    .table td,
+    .table th {
+        padding: .5rem .5rem;
+    }
+</style>
+
 <div class="pt-3 pb-2 custom-dashboard">
     <div class="w-100 dashboard-header mb-4">
         <h2 class="d-inline-block">
@@ -80,14 +82,14 @@ use App\Models\CouponCode;
                                             <td colspan="2"><b>Name</b></td>
                                             <td class="information-txt">{{$corporate->name}}</td>
                                             <td rowspan="2" class="userImageCell">
-                                            @if ($corporate->attachment)
-                                            <img id="profile_img" src="{{ asset(preg_match('/upload2/',$corporate->attachment) ? $corporate->attachment : 'upload/corporate/'.$corporate->attachment)}}" style="width:80px;height:80px;border:1px solid #c2c2c2;">
-                                            @else
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 100 100">
-                                                <rect width="100%" height="100%" fill="#000000" />
-                                                <path fill="#FFA500" d="M36.015 37.99h3.79v23.14h-2.2q-.52 0-.86-.17-.34-.17-.66-.57l-12.08-15.42q.09 1.06.09 1.95v14.21h-3.79V37.99h2.26q.27 0 .47.03.2.02.35.09.15.08.3.21.14.14.32.36l12.12 15.49-.08-1.1q-.03-.55-.03-1.01V37.99Zm20.35-.64-9.28 23.83q-.27.73-.87 1.1-.6.37-1.22.37h-1.68l9.34-23.9q.26-.68.79-1.04.52-.36 1.23-.36h1.69Zm8.37 15.04h7.36l-2.81-7.69q-.21-.51-.44-1.22-.22-.7-.44-1.52-.21.82-.44 1.53-.22.71-.43 1.24l-2.8 7.66Zm5.87-14.4 9.09 23.14h-3.33q-.56 0-.91-.28t-.53-.7l-1.72-4.72h-9.59l-1.73 4.72q-.12.37-.49.68-.37.3-.91.3h-3.36l9.1-23.14h4.38Z" />
-                                            </svg>
-                                            @endif
+                                                @if ($corporate->attachment)
+                                                <img id="profile_img" src="{{ asset('/storage/'.$corporate->attachment)}}" style="width:80px;height:80px;border:1px solid #c2c2c2;">
+                                                @else
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 100 100">
+                                                    <rect width="100%" height="100%" fill="#000000" />
+                                                    <path fill="#FFA500" d="M36.015 37.99h3.79v23.14h-2.2q-.52 0-.86-.17-.34-.17-.66-.57l-12.08-15.42q.09 1.06.09 1.95v14.21h-3.79V37.99h2.26q.27 0 .47.03.2.02.35.09.15.08.3.21.14.14.32.36l12.12 15.49-.08-1.1q-.03-.55-.03-1.01V37.99Zm20.35-.64-9.28 23.83q-.27.73-.87 1.1-.6.37-1.22.37h-1.68l9.34-23.9q.26-.68.79-1.04.52-.36 1.23-.36h1.69Zm8.37 15.04h7.36l-2.81-7.69q-.21-.51-.44-1.22-.22-.7-.44-1.52-.21.82-.44 1.53-.22.71-.43 1.24l-2.8 7.66Zm5.87-14.4 9.09 23.14h-3.33q-.56 0-.91-.28t-.53-.7l-1.72-4.72h-9.59l-1.73 4.72q-.12.37-.49.68-.37.3-.91.3h-3.36l9.1-23.14h4.38Z" />
+                                                </svg>
+                                                @endif
                                             </td>
                                         </tr>
                                         <tr>
@@ -166,6 +168,15 @@ use App\Models\CouponCode;
                                         <tr>
                                             <td colspan="2"><b>Subscription</b></td>
                                             <td colspan="2">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="text-nowrap"><b>Institute Images PDF</b></td>
+                                            <td class="information-txt" colspan="2">
+
+                                                <a href="{{ url('/storage/'.$corporate->attachment_profile) }}" target="_blank">
+                                                    Open to View
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -247,7 +258,7 @@ use App\Models\CouponCode;
                         </div>
                     </div>
                 </div>
-        
+
             </div>
             @endif
             <div class="col-md-6 col-12">
@@ -567,7 +578,7 @@ use App\Models\CouponCode;
             return;
         }
         // Make AJAX call
-       
+
     });
 </script>
 

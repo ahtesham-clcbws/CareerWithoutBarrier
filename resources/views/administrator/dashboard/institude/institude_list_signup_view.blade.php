@@ -41,6 +41,10 @@
         background-color: #0056b3;
         /* Example color, adjust as needed */
     }
+    .table td,
+    .table th {
+        padding: .5rem .5rem;
+    }
 </style>
 
 <div class="pt-3 pb-2 custom-dashboard">
@@ -73,7 +77,7 @@
                                             <td colspan="2"><b>Name</b></td>
                                             <td class="information-txt">{{$corporate->name}}</td>
                                             <td rowspan="2" class="userImageCell">
-                                                <img id="profile_img" src="{{ asset(preg_match('/upload2/',$corporate->attachment) ? $corporate->attachment : 'upload/corporate/'.$corporate->attachment)}}" style="width:80px;height:80px;border:1px solid #c2c2c2;  ">
+                                                <img id="profile_img" src="{{ asset('/storage/'.$corporate->attachment)}}" style="width:80px;height:80px;border:1px solid #c2c2c2;  ">
                                             </td>
                                         </tr>
                                         <tr>
@@ -144,6 +148,15 @@
                                         <tr>
                                             <td colspan="2"><b>Subscription</b></td>
                                             <td colspan="2">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="text-nowrap"><b>Institute Images PDF</b></td>
+                                            <td class="information-txt" colspan="2">
+
+                                                <a href="{{ url('/storage/'.$corporate->attachment_profile) }}" target="_blank">
+                                                    Open to View
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>

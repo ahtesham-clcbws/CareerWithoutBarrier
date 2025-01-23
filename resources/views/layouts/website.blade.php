@@ -106,6 +106,184 @@
             height: 100% !important;
             object-fit: cover !important;
         } */
+
+        /* textarea:focus, */
+        /* *:focus,
+        select:focus,
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="datetime"]:focus,
+        input[type="datetime-local"]:focus,
+        input[type="date"]:focus,
+        input[type="month"]:focus,
+        input[type="time"]:focus,
+        input[type="week"]:focus,
+        input[type="number"]:focus,
+        input[type="email"]:focus,
+        input[type="url"]:focus,
+        input[type="search"]:focus,
+        input[type="tel"]:focus,
+        input[type="color"]:focus,
+        .uneditable-input:focus {
+            border-color: #ffc7b4 !important;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(255, 199, 180, .25);
+            outline: 0 none;
+        } */
+
+        .custom-file label,
+        .form-control {
+            background-color: #fff;
+            border-color: #ffc7b4 !important;
+        }
+
+        .form-control:focus {
+            background-color: #fff;
+            border-color: #ffc7b4 !important;
+            box-shadow: 0 0 0 .2rem rgba(255, 199, 180, .25) !important;
+        }
+
+        .select2-container--bootstrap4.select2-container--focus .select2-selection {
+            border-color: #ffc7b4 !important;
+            -webkit-box-shadow: 0 0 0 .2rem rgba(255, 199, 180, .25) !important;
+            box-shadow: 0 0 0 .2rem rgba(255, 199, 180, .25) !important;
+        }
+
+        .select2-container--bootstrap4 .select2-results__option--highlighted,
+        .select2-container--bootstrap4 .select2-results__option--highlighted.select2-results__option[aria-selected="true"] {
+            background-color: #f26b3c !important;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--multiple .select2-search__field {
+            color: #86929d !important;
+            margin: 0 !important;
+            padding-left: 0.65rem !important;
+            font-size: 14px !important;
+        }
+
+        .select2-selection.select2-selection--multiple {
+            display: block !important;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__rendered {
+            display: flex !important;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__rendered,
+        .select2-container--bootstrap4 .select2-selection--multiple .select2-search__field {
+            padding: 0 !important;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--multiple .select2-search__field {
+            margin-top: 2px !important;
+            color: #495057 !important;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--multiple .select2-search__field::placeholder {
+            color: #495057 !important;
+        }
+
+        .select2-container--bootstrap4 .select2-selection--multiple {
+            /* min-height: calc(1.5em + .75rem + 2px) !important; */
+            /* min-height: auto !important; */
+            min-height: calc(1.5em + .75rem + 2px) !important;
+            padding: .375rem .75rem !important;
+            font-size: 1rem !important;
+            font-weight: 400 !important;
+            line-height: 1.5 !important;
+            color: #495057 !important;
+            background-color: #fff !important;
+            background-clip: padding-box !important;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out !important;
+        }
+
+        /* // file bootstrap 5 */
+
+        ::-webkit-file-upload-button {
+            font: inherit;
+            -webkit-appearance: button;
+        }
+
+        ::file-selector-button {
+            font: inherit;
+            -webkit-appearance: button;
+        }
+
+        .form-control[type=file]:not(:disabled):not([readonly]) {
+            cursor: pointer;
+        }
+
+        .form-control::-webkit-file-upload-button {
+            padding: 0.375rem 0.75rem;
+            margin: -0.375rem -0.75rem;
+            -webkit-margin-end: 0.75rem;
+            margin-inline-end: 0.75rem;
+            color: var(--bs-body-color);
+            background-color: var(--bs-tertiary-bg);
+            pointer-events: none;
+            border-color: inherit;
+            border-style: solid;
+            border-width: 0;
+            border-inline-end-width: var(--bs-border-width);
+            border-radius: 0;
+            -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .form-control::file-selector-button {
+            padding: 0.375rem 0.75rem;
+            margin: -0.375rem -0.75rem;
+            -webkit-margin-end: 0.75rem;
+            margin-inline-end: 0.75rem;
+            color: var(--bs-body-color);
+            background-color: var(--bs-tertiary-bg);
+            pointer-events: none;
+            border-color: inherit;
+            border-style: solid;
+            border-width: 0;
+            border-inline-end-width: var(--bs-border-width);
+            border-radius: 0;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .form-control::-webkit-file-upload-button {
+                -webkit-transition: none;
+                transition: none;
+            }
+
+            .form-control::file-selector-button {
+                transition: none;
+            }
+        }
+
+        .form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
+            background-color: var(--bs-secondary-bg);
+        }
+
+        .form-control:hover:not(:disabled):not([readonly])::file-selector-button {
+            background-color: var(--bs-secondary-bg);
+        }
+
+        .form-control-sm::file-selector-button {
+            padding: 0.25rem 0.5rem;
+            margin: -0.25rem -0.5rem;
+            -webkit-margin-end: 0.5rem;
+            margin-inline-end: 0.5rem;
+        }
+
+        .form-control-lg::-webkit-file-upload-button {
+            padding: 0.5rem 1rem;
+            margin: -0.5rem -1rem;
+            -webkit-margin-end: 1rem;
+            margin-inline-end: 1rem;
+        }
+
+        .form-control-lg::file-selector-button {
+            padding: 0.5rem 1rem;
+            margin: -0.5rem -1rem;
+            -webkit-margin-end: 1rem;
+            margin-inline-end: 1rem;
+        }
     </style>
 
     @livewireStyles
@@ -342,7 +520,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
     {{ $slot }}
     @endif
 
-
+    <!-- footer -->
     <section class="">
         <div class="footer comm-p-t-b">
             <div class="container">
@@ -401,8 +579,8 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                         ?>
                         <div class="features-foter">
                             <h2>Important Link</h2>
-                            <p><a data-toggle="modal" data-target="#instituteModel" href="javascipt:void(0)">Institutional Enquiry</a></p>
-                            <!-- <li><a href="{{ route('enquiry.institute') }}">Institutional Enquiry</a></li> -->
+                            <!-- <p><a data-toggle="modal" data-target="#instituteModel" href="javascipt:void(0)">Institutional Enquiry</a></p> -->
+                            <li><a href="{{ route('corporateEnquiry') }}">Institutional Enquiry</a></li>
                             <p><a href="{{ $imp_link ? asset('home/'.$imp_link->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $imp_link ? '_blank' : '_self'}}">Important Links</a></p>
                             <!--<p><a href="javascipt:void(0)">Downloads</a></p>-->
                             <p><a href="{{ $privacy_policy ? asset('home/'.$privacy_policy->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Privacy Policy</a></p>
@@ -1270,24 +1448,24 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         function interestedForInit() {
-            console.log('interestedForInit')
+            // console.log('interestedForInit')
             if ($("#interested_for").hasClass("select2-hidden-accessible")) {
                 $('#interested_for').select2("destroy").select2({
                     placeholder: 'Interested for',
                     theme: "bootstrap4",
-                    dropdownParent: $('#instituteModel')
+                    // dropdownParent: $('#instituteModel')
                 });
             } else {
                 $('#interested_for').select2({
                     placeholder: 'Interested for',
                     theme: "bootstrap4",
-                    dropdownParent: $('#instituteModel')
+                    // dropdownParent: $('#instituteModel')
                 });
             }
         }
         interestedForInit()
     </script>
-    
+
     @livewireScripts
 
     <!-- <script src="{{ asset('js/app.js') }}"></script> -->

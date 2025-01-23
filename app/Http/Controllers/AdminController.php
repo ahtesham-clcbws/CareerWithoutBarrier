@@ -44,6 +44,7 @@ use App\Models\TestimonialsModel;
 use App\Models\ContactInfo;
 use App\Models\User;
 use App\Models\ClassGoupExamModel;
+use App\Models\CorporateCouponRequest;
 use App\Services\StudentRankService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -357,6 +358,9 @@ class AdminController extends Controller
                 ->where('is_applied', false)
                 ->take($enteredValue) // Take the given number of rows
                 ->update(['is_issued' => true, 'corporate_id' => $corporate->id]);
+
+            $couponRequests = CorporateCouponRequest::where('corporate_id', $corporate->id)->where('status', 'pending')
+                ->update(['status' => 'completed']);
 
             if ($affectedRows === 0) {
                 return response()->json(['message' => 'Coupon code not found Code, all Coupon code are issued.'], 404);

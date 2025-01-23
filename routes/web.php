@@ -19,6 +19,7 @@ use App\Livewire\Auth\Registration;
 use App\Livewire\Pages\FreeForm;
 use App\Livewire\Student\PaymentPage;
 use App\Livewire\Website\Corporate\Enquiry\Form;
+use App\Livewire\Website\Corporate\EnquiryForm;
 use App\Services\TextlocalService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Artisan;
@@ -101,7 +102,7 @@ Route::prefix('')->group(function () {
     Route::get('/free-form', FreeForm::class)->name('freeform');
 
     Route::get('registration', Registration::class)->name('registration');
-    // Route::get('corporate-enquiry', Form::class)->name('corporateEnquiry');
+    Route::get('corporate-enquiry', EnquiryForm::class)->name('corporateEnquiry');
 });
 
 Route::prefix('result')->group(function () {

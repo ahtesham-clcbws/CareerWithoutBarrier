@@ -13,6 +13,7 @@ use App\Http\Controllers\NewsController;
 use App\Livewire\Admin\Setting\Districts;
 use App\Livewire\Admin\Setting\ScholarshipForms;
 use App\Livewire\Admin\Setting\States;
+use App\Livewire\Administrator\Corporate\AdminCouponRequestsList;
 use App\Livewire\Administrator\Dashboard\CouponList;
 use App\Livewire\Administrator\Dashboard\StudentRollList;
 use App\Livewire\Administrator\Settings\ContactList;
@@ -74,6 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/institute/{corporate?}', [EnquiryController::class, 'instituteView'])->name('institute.view');
     Route::post('/institute_status', [EnquiryController::class, 'instituteStatus'])->name('institute.institute_status');
     Route::any('/institute/couponlist/{corporate?}', [AdminController::class, 'CoprporateCouponlists'])->name('institute.CoprporateCouponlists');
+    Route::get('/corporate/coupon-requests', AdminCouponRequestsList::class)->name('institute.couponRequests');
 
     //print section 
     Route::get('/print-new-institute-enquiry', [EnquiryController::class, 'printNewInstituteEnquiry'])->name('print.new.institute.enquiry');
@@ -83,6 +85,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('/contact_enquiry', [EnquiryController::class, 'contactEnquiry'])->name('admin.contactEnquiry');
     Route::get('/contact_enquiry', ContactList::class)->name('admin.contactEnquiry');
     Route::get('/contact_enquiry/{id}', ContactListReply::class)->name('admin.contactEnquiryReply');
+
     Route::get('/contact_enquiry_delete/{contactInfo}', [EnquiryController::class, 'contactEnquiryDelete'])->name('admin.contactEnquiryDelete');
     Route::post('/contact_enquiry_reply_mail/{contactInfo}', [EnquiryController::class, 'contactEnquiryReplyMail'])->name('admin.conatctEnqueryEeplyMail');
 

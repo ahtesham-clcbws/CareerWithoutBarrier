@@ -153,6 +153,15 @@
                 </a>
             </div>
         </li>
+        <li>
+            <div class="dropdown show">
+                <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('institute.couponRequests')}}">
+                    <img src="{{asset('admin/icons/DiscountVoucher.png')}}" style="filter: invert(1);" alt="" class="nav_icon">
+                    <p class="content">New Coupon Requests</p>
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </div>
+        </li>
 
         <li>
             <div class="dropdown active open show">

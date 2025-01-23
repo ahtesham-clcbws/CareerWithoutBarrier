@@ -3,8 +3,10 @@
 namespace App\Livewire\Website\Corporate\Enquiry;
 
 use App\Models\TermsCondition;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts.website')]
 class Form extends Component
 {
     public $institudeTermsCondition = null;

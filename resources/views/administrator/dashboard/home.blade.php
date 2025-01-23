@@ -15,7 +15,9 @@ Home
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>New Students</h6>
-                                <h3> <p class="text-black">{{$newStudents}}</p></h3>
+                                <h3>
+                                    <p class="text-black">{{$newStudents}}</p>
+                                </h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{asset('admin/icons/Students.png')}}" alt="Dashboard Icon" height="100px" width="100px">
@@ -30,7 +32,9 @@ Home
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>Applied Voucher</h6>
-                                <h3> <p class="text-black">{{$appliedCount}}</p></h3>
+                                <h3>
+                                    <p class="text-black">{{$appliedCount}}</p>
+                                </h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{asset('admin/icons/DiscountVoucher.png')}}" alt="Dashboard Icon" height="100px" width="100px">
@@ -45,7 +49,9 @@ Home
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>New Institude Enquiry</h6>
-                                <h3> <p class="text-black">{{$newInstituteInquiry}}</p></h3>
+                                <h3>
+                                    <p class="text-black">{{$newInstituteInquiry}}</p>
+                                </h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{asset('admin/icons/SignUp.png')}}" alt="Dashboard Icon" height="100px" width="100px">
@@ -61,7 +67,9 @@ Home
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>New Institude Signup</h6>
-                                <h3> <p class="text-black">{{$insititute}}</p></h3>
+                                <h3>
+                                    <p class="text-black">{{$insititute}}</p>
+                                </h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{asset('admin/icons/ApprovedInstitute.png')}}" alt="Dashboard Icon" height="100px" width="100px">
@@ -77,7 +85,9 @@ Home
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>Approved Institude</h6>
-                                <h3> <p class="text-black">{{$APPinsititute}}</p></h3>
+                                <h3>
+                                    <p class="text-black">{{$APPinsititute}}</p>
+                                </h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{asset('admin/icons/ApprovedInstitute.png')}}" alt="Dashboard Icon" height="100px" width="100px">
@@ -92,7 +102,9 @@ Home
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>New Contact Enquiry</h6>
-                                <h3> <p class="text-black">{{$contactInfo}}</p></h3>
+                                <h3>
+                                    <p class="text-black">{{$contactInfo}}</p>
+                                </h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{asset('admin/icons/ContactEnquiry.png')}}" alt="Dashboard Icon" height="100px" width="100px">
@@ -107,7 +119,9 @@ Home
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>Feedback/ review (Testimony)</h6>
-                                <h3> <p class="text-black">{{$testimonials}}</p></h3>
+                                <h3>
+                                    <p class="text-black">{{$testimonials}}</p>
+                                </h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{asset('admin/icons/Testimony1.png')}}" alt="Dashboard Icon" height="100px" width="100px">
@@ -125,7 +139,9 @@ Home
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>Subjects</h6>
-                                <h3> <p class="text-black">{{$subjects}}</p></h3>
+                                <h3>
+                                    <p class="text-black">{{$subjects}}</p>
+                                </h3>
                             </div>
                             <div class="db-icon">
                                 <img src="{{asset('admin/icons/Subject.png')}}" alt="Dashboard Icon" height="100px" width="100px">
@@ -138,5 +154,7 @@ Home
         </div>
     </div>
 
-    <!-- /#page-content-wrapper -->
-    @endsection('content')
+</div>
+
+<!-- /#page-content-wrapper -->
+@endsection('content')
