@@ -17,10 +17,11 @@ $studCode = $student->latestStudentCode;
 // $studentPaperDetails = StudentPaperExported::with('subjectPaperDetail')->where('app_code', $appCode?->application_code)->where('student_id', $student->id)->get();
 
 $query = Student::query()->select('students.*', 's.percentage')
+    ->where('students.is_final_submitted', 1)
+    ->where('students.id', Auth::guard('student')->id())
     ->leftJoin('student_codes as s', 'students.id', '=', 's.stud_id')
     ->leftJoin('student_paper_exporteds as sp', 'students.id', '=', 'sp.student_id')
-    ->where('is_final_submitted', 1)
-    ->whereNotNull('s.percentage')->get();
+    ->whereNotNull('s.percentage')->first();
 
 if ($studCode && $query) {
     $isResultAvailable = true;
@@ -29,8 +30,11 @@ if ($studCode && $query) {
 
 if ($studCode) {
     $examAt = Carbon::parse($studCode->exam_at)->startOfDay(); // Parse exam date and set time to start of day
-    $sevenDaysBeforeExam = (clone $examAt)->subDays($studCode->admitcard_before)->startOfDay(); // Calculate the admit card availability date
-    $showAdmitCard = Carbon::now()->startOfDay()->gte($sevenDaysBeforeExam); // Compare current date (start of day) with admit card availability date
+
+
+    $examAtDate = $examAt;
+    $daysBeforeExam = $examAtDate->subDays($studCode->admitcard_before)->startOfDay(); // Calculate the admit card availability date
+    $showAdmitCard = Carbon::now()->startOfDay()->gte($daysBeforeExam) ? true : false; // Compare current date (start of day) with admit card availability date
 
     if ($studCode->is_paid || $studCode->used_coupon) {
         $updatedAt = Carbon::parse($studCode->updated_at);
@@ -46,6 +50,20 @@ if ($studCode) {
     }
 }
 
+// return print_r([
+//     // 'examAt' => $examAt,
+//     // 'admitcard_before' => $studCode->admitcard_before,
+//     // 'examAtDate' => $examAtDate,
+//     // 'daysBeforeExam' => $daysBeforeExam,
+//     'showAdmitCard' => json_encode($showAdmitCard),
+//     // 'is_paid' => $studCode->is_paid,
+//     // 'used_coupon' => $studCode->used_coupon,
+//     // 'payment_done_notification_sent' => $studCode->payment_done_notification_sent,
+//     // 'updatedAt' => $updatedAt,
+//     // 'isRecentlyUpdated' => $isRecentlyUpdated,
+//     'query' => $query,
+//     'isResultAvailable' => json_encode($isResultAvailable)
+// ]);
 // return print_r($student->toArray());
 ?>
 
@@ -88,7 +106,7 @@ if ($studCode) {
             <div class="dropdown show">
                 <a class="btn btn-secondary text-dark bg-white" href="/">
                     <span class="nav_icon" style="color: #18c968;">
-                    <i class="fa fa-home" style="font-size: 18px;"></i></span>
+                        <i class="fa fa-home" style="font-size: 18px;"></i></span>
                     <p style="color:#18c968">Homepage</p>
                 </a>
             </div>
@@ -119,7 +137,7 @@ if ($studCode) {
             <div class="dropdown show">
                 <a class="btn btn-secondary" href="{{route('students.admitCardSearch')}}">
                     <img src="{{asset('student/images/12.png')}}" alt="" class="nav_icon">
-                    <p style="color:#18c968">Admid Card</p>
+                    <p style="color:#18c968">Admit Card</p>
                 </a>
             </div>
             @endif

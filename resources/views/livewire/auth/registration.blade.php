@@ -92,7 +92,7 @@
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control form-control-sm @error('couponcode') is-invalid @enderror" @if($isCouponVerify) readonly @endif wire:model="couponcode" placeholder="Reference code by Institute" wire:key="{{ $selectedDistrict }}">
                                 <div class="input-group-append">
-                                    <button class="btn @if($isCouponVerify) btn-success @else btn-outline-secondary @endif btn-sm" wire:click="couponVerify" type="button" id="button-addon2">@if($isCouponVerify) Validated @else Verify @endif</button>
+                                    <button class="btn @if($isCouponVerify) btn-success @else btn-outline-secondary @endif btn-sm" wire:click="couponVerify" type="button" id="button-addon2">@if($isCouponVerify) Verified @else Verify @endif</button>
                                 </div>
                             </div>
                             @error('couponcode')
