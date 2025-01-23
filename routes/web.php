@@ -17,7 +17,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Livewire\Auth\Registration;
 use App\Livewire\Pages\FreeForm;
+use App\Livewire\Student\ApplyForm\AdditionalDetailsForm;
 use App\Livewire\Student\PaymentPage;
+use App\Livewire\Student\StudentProfile;
 use App\Livewire\Website\Corporate\Enquiry\Form;
 use App\Livewire\Website\Corporate\EnquiryForm;
 use App\Services\TextlocalService;
@@ -153,7 +155,10 @@ Route::prefix('students')->group(function () {
         Route::post('/addstudents', [StudentController::class, 'addstudent'])->name('students.addstudent');
         Route::get('/addqualificationscreate', [StudentController::class, 'addQualificationsCreate'])->name('students.addQualificationsCreate');
         Route::post('/addqualifications', [StudentController::class, 'addQualifications'])->name('students.addQualifications');
-        Route::get('/additional_details_create', [StudentController::class, 'additionalDetailsCreate'])->name('students.additionalDetailCreate');
+
+        // Route::get('/additional_details_create', [StudentController::class, 'additionalDetailsCreate'])->name('students.additionalDetailCreate');
+        Route::get('/additional_details_create', AdditionalDetailsForm::class)->name('students.additionalDetailCreate');
+
         Route::post('/additional_details_Store', [StudentController::class, 'additionalDetailStore'])->name('students.additionalDetailStore');
         Route::post('/final_submit', [StudentController::class, 'finalSubmit'])->name('students.finalSubmit');
         Route::get('/get_scholarship_category/{id?}/{type?}', [StudentController::class, 'getScholarshipCategory']);
@@ -168,7 +173,8 @@ Route::prefix('students')->group(function () {
         Route::post('/coupon_code_apply', [StudentController::class, 'applyCoupon'])->name('students.couponCodeApply');
         Route::post('/removeCoupon', [StudentController::class, 'removeCoupon'])->name('students.removeCoupon');
         Route::any('/change_password', [StudentController::class, 'changePassword'])->name('students.changePassword');
-        Route::any('/profile', [StudentController::class, 'profilePage'])->name('students.profilePage');
+        // Route::any('/profile', [StudentController::class, 'profilePage'])->name('students.profilePage');
+        Route::any('/profile', StudentProfile::class)->name('students.profilePage');
         Route::post('/upload-photo',  [StudentController::class, 'uploadPhoto'])->name('upload.photo');
 
         Route::any('/say_about_us', [StudentController::class, 'studentSayAboutUs'])->name('student.sayAboutUs');

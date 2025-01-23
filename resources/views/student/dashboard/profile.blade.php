@@ -16,7 +16,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                    <label for="name" class="control-label">Name</label>
+                                        <label for="name" class="control-label">Name</label>
                                         <input type="text" name="name" value="{{$student->name}}" placeholder="Name" title="Please enter valid Name" class="form-control" required="">
                                     </div>
                                 </div>
@@ -51,8 +51,8 @@
                         </div>
                         <div class="col-md-8 col">
                             <div class="form-group">
-                            <label for="disability" class="control-label">Person Disability</label>
-                                <input type="radio"  {{$student->disability == 'Yes' ? 'checked' : ''}} name="disability" value="Yes"> Yes
+                                <label for="disability" class="control-label">Person Disability</label>
+                                <input type="radio" {{$student->disability == 'Yes' ? 'checked' : ''}} name="disability" value="Yes"> Yes
                                 &nbsp; <input type="radio" {{$student->disability == 'No' ? 'checked' : ''}} name="disability" value="No"> No &nbsp;
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                                     </div>
                                     @if($student->photograph)
                                     <div class="input-group-append photograph-image" style="margin-left: 10px;margin-top: -4rem;">
-                                    <img src="{{ asset('upload/student/'.$student->photograph) }}" alt="photograph" style="width: 7rem;height: 8rem;margin-top: -10re;">
+                                        <img src="{{ asset('upload/student/'.$student->photograph) }}" alt="photograph" style="width: 7rem;height: 8rem;margin-top: -10re;">
                                     </div>
                                     @endif
                                 </div>
