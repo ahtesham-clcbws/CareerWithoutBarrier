@@ -63,7 +63,7 @@ Student
                                                         <td><b>Name</b></td>
                                                         <td colspan="2" class="information-txt">{{$student->name}}</td>
                                                         <td class="userImageCell" rowspan="3" colspan="2">
-                                                            <img src="{{ explode('/', $student->photograph)[0] == 'student' ? '/storage/'.$student->photograph : '/upload/student/'.$student->photograph  }}" class="img-fluid" style="width: 100%;height: auto;">
+                                                            <img src="{{ $student->photograph ? '/storage/'.$student->photograph : '/student/images/th_5.png'  }}" class="img-fluid" style="width: 100%;height: auto;">
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -110,7 +110,7 @@ Student
                                                             @php($center = DB::table('districts')->where('id',$student->test_center_a)->first())
 
 
-                                                            {{ $center->name }} / @if($student->choiceCenterB )@php($center2 = DB::table('districts')->where('id',$student->test_center_b)->first())<b>B:</b> {{ $center2->name }} @endif
+                                                            {{ $center?->name }} / @if($student->choiceCenterB )@php($center2 = DB::table('districts')->where('id',$student->test_center_b)->first())<b>B:</b> {{ $center2->name }} @endif
                                                         </td>
                                                     </tr>
                                                     <tr>
