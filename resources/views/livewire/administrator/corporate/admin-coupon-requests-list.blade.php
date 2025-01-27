@@ -72,14 +72,17 @@
                                 <label for="selectAll" class="sr-only">Select All</label>
                             </th>
                             <th>#</th>
-                            <th class="sortHead" data-type="prefix">
+                            <th>
                                 <span>Institute</span>
                             </th>
-                            <th class="sortHead" data-type="name">
+                            <th>
                                 <span>Requested At</span>
                             </th>
-                            <th class="sortHead" data-type="couponcode">
+                            <th>
                                 <span>Status</span>
+                            </th>
+                            <th>
+                                <span>Coupons List</span>
                             </th>
                             <th class="text-end">Actions</th>
                         </tr>
@@ -107,12 +110,15 @@
                                     @endif
                                     @endif
                             </td>
+                            <td style="font-size: 13px">
+                                <a href="{{ route('institute.CoprporateCouponlists', $coupon->corporate_id) }}" class="">View list</a>
+                            </td>
                             <td class="text-end">
                                 @if($coupon->status == 'pending')
                                 <a type='button' class='btn btn-success btn-sm' href="{{ route('institute.view',[$coupon->corporate]) }}">Allot</a>
                                 <button type='button' class='btn btn-warning btn-sm' wire:click="rejectRequest({{ $coupon->id }}, false)">Reject</button>
                                 @endif
-                                <button type="button" class="btn btn-danger btn-sm" wire:click="delete({{ $coupon->id }})">Delete</button>
+                                <button type="button" class="btn btn-danger btn-sm" wire:confirm="Are you sure you want to delete this?" wire:click="delete({{ $coupon->id }})">Delete</button>
                             </td>
                         </tr>
                         @endforeach

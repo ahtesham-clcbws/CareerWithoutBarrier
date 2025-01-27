@@ -42,7 +42,7 @@ Student Claim Form
                     </thead>
                     <tbody>
                         <tr>
-                            <th>Institude Name</th>
+                            <th>Institute Name</th>
                             <td style="width: 210px;" >{{$claimForm?->institude_name1}}</td>
                             <th>Institute’s Director’s Name</th>
                             <td style="width: 210px;" >{{$claimForm?->institude_director1}}</td>
@@ -88,7 +88,7 @@ Student Claim Form
                     </thead>
                     <tbody>
                         <tr>
-                            <th>Institude Name</th>
+                            <th>Institute Name</th>
                             <td style="width: 210px;" >{{$claimForm?->institude_name2}}</td>
                             <th>Institute’s Director’s Name</th>
                             <td style="width: 210px;" >{{$claimForm?->institude_director2}}</td>
@@ -137,7 +137,7 @@ Student Claim Form
                     </thead>
                     <tbody>
                         <tr>
-                            <th>Institude Name</th>
+                            <th>Institute Name</th>
                             <td style="width: 210px;" >{{$claimForm?->institude_name3}}</td>
                             <th>Institute’s Director’s Name</th>
                             <td style="width: 210px;" >{{$claimForm?->institude_director3}}</td>
@@ -182,7 +182,7 @@ Student Claim Form
                     </thead>
                     <tbody>
                         <tr>
-                            <th>Institude Name</th>
+                            <th>Institute Name</th>
                             <td style="width: 210px;" >{{$claimForm?->institude_name4}}</td>
                             <th>Institute’s Director’s Name</th>
                             <td style="width: 210px;" >{{$claimForm?->institude_director4}}</td>

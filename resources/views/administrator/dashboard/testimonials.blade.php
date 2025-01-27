@@ -7,7 +7,7 @@ Testimonials
 @section('content')
 <div class="row">
     <div class="col-lg-12 col">
-        <h4 style="margin-top: 10px;margin-left:10px">Student And Institude Testimonials List:</h4>
+        <h4 style="margin-top: 10px;margin-left:10px">Student And Institute Testimonials List:</h4>
         <hr>
         <div class="table-responsive">
             <table class="table table-striped">

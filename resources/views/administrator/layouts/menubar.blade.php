@@ -1,8 +1,7 @@
 <?php
 
 use App\Models\Corporate;
-use App\Models\CouponCode;
-use App\Models\Student;
+use App\Models\CorporateCouponRequest;
 use Illuminate\Support\Facades\Auth;
 
 $user = Auth::user();
@@ -10,9 +9,7 @@ $user = Auth::user();
 $newInstituteInquiry = Corporate::where('is_approved', 0)->whereNull('signup_at')->select('id')->count();
 $newInstituteSignup = Corporate::where('is_approved', 1)->where('signup_approved', 0)->count();
 
-$appliedCount = CouponCode::select('id')->where('is_applied', 1)->count();
-
-$newStudents = Student::where('is_final_submitted', 0)->count();
+$newCouponRequests = CorporateCouponRequest::where('status', 'pending')->count();
 
 ?>
 
@@ -21,22 +18,22 @@ $newStudents = Student::where('is_final_submitted', 0)->count();
         <i class="fa fa-bars"></i>
     </button>
     <div class="header-left-box">
-        <a class="required_area" href="{{route('admin.studentListRegistered')}}">
-            <img src="{{asset('admin/images/watch.png')}}" alt="clock" class="watch_ic">
+        <a class="required_area" href="{{route('institute.couponRequests')}}">
+            <img src="{{asset('admin/icons/DiscountVoucher.png')}}" alt="clock" class="watch_ic">
             <span class="required_text">
-                New Student Signup
+                New Coupon Requests
             </span>
-            <span class="required_num">{{$newStudents}}</span>
+            <span class="required_num">{{$newCouponRequests}}</span>
         </a>
         <a class="required_area" href="{{route('institute.list.new')}}">
-            <img src="{{asset('admin/images/watch.png')}}" alt="clock" class="watch_ic">
+            <img src="{{asset('admin/icons/SignUp.png')}}" alt="clock" class="watch_ic">
             <span class="required_text">
                 New Institute Inquiry
             </span>
             <span class="required_num">{{$newInstituteInquiry}}</span>
         </a>
         <a class="required_area" href="{{route('institute.list.signup')}}">
-            <img src="{{asset('admin/images/watch.png')}}" alt="clock" class="watch_ic">
+            <img src="{{asset('admin/icons/ApprovedInstitute.png')}}" alt="clock" class="watch_ic">
             <span class="required_text">
                 New Institute Signup
             </span>

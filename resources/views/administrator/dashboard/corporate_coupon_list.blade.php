@@ -116,7 +116,7 @@ Corporate List
       <tbody class="table-striped table-striped-coupon">
 
         @foreach ($coupons as $coupon)
-        <tr style="{{$coupon->is_applied ? 'background-color: #2180614d;' : '' }}">
+        <tr style="<?= $coupon->is_applied ? 'background-color: #2180614d;' : '' ?>">
           <td> <input type="checkbox" class="selectSingle"></td>
           <td style="font-size: 13px">{{ $loop->index+1 }}</td>
           <td style="font-size: 13px">{{ $coupon->prefix }}</td>

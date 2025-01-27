@@ -37,7 +37,7 @@ class InstitudeApprovedMail extends Notification
     {
         $corporate = $this->corporate;
         return (new MailMessage)
-        ->subject('Success: Institude approved')
+        ->subject('Success: Institute approved')
         ->markdown('mail.institude.ApprovedNotification',compact('corporate'));
     }
 

@@ -18,7 +18,7 @@
                         <label class="input-group-text" for="selectCity">Select city</label>
                     </div>
                     <select class="custom-select" id="selectCity" wire:model.change="selectedDistrict">
-                        <option selected value=''>All</option>
+                        <option selected value=''>All Cities</option>
                         @foreach ($districts as $district)
                         <option value="{{ $district['id'] }}">{{ $district['name'] }}</option>
                         @endforeach
@@ -38,7 +38,7 @@
             </div>
             
             <div class="input-group mb-3 w-auto">
-                <input type="text" class="form-control" placeholder="Search ..." aria-label="Search" wire:model.live="query">
+                <input type="text" class="form-control" placeholder="Search institute/school ..." aria-label="Search" wire:model.live="query">
                 <div class="input-group-append">
                     <i class="input-group-text fa fa-search"></i>
                 </div>

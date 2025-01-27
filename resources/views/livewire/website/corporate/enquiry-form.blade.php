@@ -68,7 +68,7 @@
                         <div class="mb-2 col-md-6">
                             <select class="form-control form-control-lg" wire:model.change="established_year" id="established_year">
                                 <option value="">Established Year</option>
-                                @for($i = 2001; $i <= now()->year; $i++)
+                                @for($i = now()->year; $i >= 2001; $i--)
                                     <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                             </select>
@@ -161,7 +161,7 @@
                         </div>
 
                         <div class="mb-2 col-md-6">
-                            <label for="attachment_profile" class="mb-0">Institude Image PDF</label>
+                            <label for="attachment_profile" class="mb-0">Institute Image PDF</label>
                             <input type="file" wire:model.change="attachment_profile" id="attachment_profile" class="form-control form-control-sm" accept=".pdf">
                             @error('attachment_profile')
                             <small class="text-danger small">{{ $message }}</small>

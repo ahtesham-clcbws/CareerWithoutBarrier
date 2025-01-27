@@ -11,18 +11,11 @@ $student = Auth::guard('student')->user();
 
 <nav class="main-header navbar navbar-expand-lg navbar-light">
     <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
-        <!-- <span class="hamb-top"></span> <span class="hamb-middle"></span> <span class="hamb-bottom"></span> --> <i class=" fa fa-bars"></i>
+        <i class=" fa fa-bars"></i>
     </button>
-    <!-- <div class="header-left-box">
-      <div class="required_area"> <img src="{{asset('student/images/watch.png')}}" alt="clock" class="watch_ic"> <span class="required_text"> Required Text </span> <span class="required_num">21</span> </div>
-      <div class="required_area"> <img src="{{asset('student/images/watch.png')}}" alt="clock" class="watch_ic"> <span class="required_text">Required Text</span> <span class="required_num">21</span> </div>
-      <div class="required_area"> <img src="{{asset('student/images/watch.png')}}" alt="clock" class="watch_ic"> <span class="required_text"> Required Text </span> <span class="required_num">21</span> </div>
-   </div> -->
+    <h5 class="text-white pt-1">Student Panel</h5>
+    
     <ul class="navbar-nav dashboard2" id="menu1-top">
-        <li class="nav-item search-box-css" style="margin-right: 38px;">
-            <button class="panel-heading"> <i class="fa fa-search" aria-hidden="true"></i> </button>
-            <div class="dropdown-content panel-collapse"> <input type="text" placeholder="Search....."> <button class="res_btn">Result</button> </div>
-        </li>
 
         <?php
         $user = Auth::guard('student')->user(); ?>

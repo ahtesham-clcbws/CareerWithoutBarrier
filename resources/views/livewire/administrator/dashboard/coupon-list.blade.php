@@ -225,7 +225,7 @@
                                 <button type='button' class='btn btn-success btn-sm' wire:click="statusChange({{ $coupon->id }}, true)">Activate this</button>
                                 @endif
                                 @if(!$coupon->is_applied)
-                                <button type="button" class="btn btn-danger btn-sm" wire:click="delete({{ $coupon->id }})">Delete</button>
+                                <button type="button" class="btn btn-danger btn-sm" wire:click="delete({{ $coupon->id }})" wire:confirm="Are you sure you want to delete this request?">Delete</button>
                                 @endif
                             </td>
                         </tr>

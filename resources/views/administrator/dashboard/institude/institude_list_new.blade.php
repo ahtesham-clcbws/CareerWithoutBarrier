@@ -7,7 +7,7 @@
         <div class="panel panel-default m-t-15">
             <div class="panel-heading p-2">
                 <h5>
-                    New Institude Enquiry:
+                    New Institute Enquiry:
                 </h5>
             </div>
             <div class="panel-body p-3">

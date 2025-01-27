@@ -7,7 +7,7 @@
         <div class="panel panel-default m-t-15">
             <div class="panel-heading p-2">
                 <h5>
-                    SignUp Institude:
+                    SignUp Institute:
                 </h5>
             </div>
             <div class="panel-body p-3">

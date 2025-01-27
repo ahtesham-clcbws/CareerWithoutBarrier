@@ -103,7 +103,7 @@
                 <input type="file" name="attachment" id="attachment" onchange="validateImage(this)" class="form-control">
             </li>
             <li class="half">
-                <label for="attachment">Institude Image<small>JPEG/JPG/PNG/PDF</small></label>
+                <label for="attachment">Institute Image<small>JPEG/JPG/PNG/PDF</small></label>
                 <input type="file" name="attachment_profile" id="attachment_profile" class="form-control" onchange="validateImage(this,'imagepdf')">
             </li>
             <li class="full" style="font-size: 13px;display:flex">

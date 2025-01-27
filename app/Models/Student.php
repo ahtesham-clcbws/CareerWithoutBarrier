@@ -18,6 +18,7 @@ class Student extends Authenticatable
         'email',
         'mobile',
         'password',
+        'isNew'
     ];
 
     /**

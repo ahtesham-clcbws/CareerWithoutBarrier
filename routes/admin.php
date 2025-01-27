@@ -14,10 +14,12 @@ use App\Livewire\Admin\Setting\Districts;
 use App\Livewire\Admin\Setting\ScholarshipForms;
 use App\Livewire\Admin\Setting\States;
 use App\Livewire\Administrator\Corporate\AdminCouponRequestsList;
+use App\Livewire\Administrator\Corporate\InstituteCouponlist;
 use App\Livewire\Administrator\Dashboard\CouponList;
 use App\Livewire\Administrator\Dashboard\StudentRollList;
 use App\Livewire\Administrator\Settings\ContactList;
 use App\Livewire\Administrator\Settings\ContactListReply;
+use App\Livewire\Administrator\Settings\ContactRepliesList;
 use App\Livewire\Administrator\Settings\PopupSetting;
 use App\Livewire\Administrator\Settings\ResetPortal;
 use Illuminate\Support\Facades\Route;
@@ -74,7 +76,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/instituteList', [EnquiryController::class, 'instituteList'])->name('institute.list');
     Route::get('/institute/{corporate?}', [EnquiryController::class, 'instituteView'])->name('institute.view');
     Route::post('/institute_status', [EnquiryController::class, 'instituteStatus'])->name('institute.institute_status');
-    Route::any('/institute/couponlist/{corporate?}', [AdminController::class, 'CoprporateCouponlists'])->name('institute.CoprporateCouponlists');
+    // Route::any('/institute/couponlist/{corporate?}', [AdminController::class, 'CoprporateCouponlists'])->name('institute.CoprporateCouponlists');
+    Route::any('/institute/couponlist/{corporateId}', InstituteCouponlist::class)->name('institute.CoprporateCouponlists');
     Route::get('/corporate/coupon-requests', AdminCouponRequestsList::class)->name('institute.couponRequests');
 
     //print section 
@@ -85,6 +88,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::get('/contact_enquiry', [EnquiryController::class, 'contactEnquiry'])->name('admin.contactEnquiry');
     Route::get('/contact_enquiry', ContactList::class)->name('admin.contactEnquiry');
     Route::get('/contact_enquiry/{id}', ContactListReply::class)->name('admin.contactEnquiryReply');
+    Route::get('/contact-replies/{id}', ContactRepliesList::class)->name('admin.contactRelpiesList');
 
     Route::get('/contact_enquiry_delete/{contactInfo}', [EnquiryController::class, 'contactEnquiryDelete'])->name('admin.contactEnquiryDelete');
     Route::post('/contact_enquiry_reply_mail/{contactInfo}', [EnquiryController::class, 'contactEnquiryReplyMail'])->name('admin.conatctEnqueryEeplyMail');

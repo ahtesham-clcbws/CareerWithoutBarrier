@@ -60,24 +60,19 @@ class AdminController extends Controller
 
     public function index()
     {
-        $newStudents = Student::whereHas('latestStudentCode', function ($query) {
-            $query->whereNull('roll_no');
-        })->count();
         $appliedCount = CouponCode::select('id')->where('is_applied', 1)->count();
-        $newInstituteInquiry = Corporate::where('is_approved', 0)->whereNull('signup_at')->select('id')->count();
 
         $data = [
-            'newStudents' => $newStudents,
-            'appliedCount' => $appliedCount,
-            'newInstituteInquiry' => $newInstituteInquiry,
+            'newStudents' => Student::where('isNew', true)->count(),
+            'totalStudents' => Student::count(),
 
-            'student' => Student::count(),
-            'contactInfo' => ContactInfo::count(),
-            'APPinsititute' => Corporate::where('is_approved', 1)->where('signup_approved', 1)->whereNotNull('signup_at')->count(),
-            'insititute' => Corporate::where('is_approved', 1)->where('signup_approved', 0)->count(),
-            'subjects' => Subject::count(),
-            'testimonials' => TestimonialsModel::count(),
+            'newInstituteInquiry' => Corporate::where('is_approved', 0)->whereNull('signup_at')->select('id')->count(),
+            'newInstituteSignup' => Corporate::where('is_approved', 1)->where('signup_approved', 0)->count(),
+            'approvedInsititutes' => Corporate::where('is_approved', 1)->where('signup_approved', 1)->whereNotNull('signup_at')->count(),
+            'newTestimonials' => TestimonialsModel::where('isNew', true)->count(),
 
+            'newContactEnquiries' => ContactInfo::where('isNew', true)->count(),
+            'newCouponRequests' => CorporateCouponRequest::where('status', 'pending')->count(),
         ];
         return view('administrator.dashboard.home')->with($data);
     }
@@ -135,6 +130,7 @@ class AdminController extends Controller
 
     public function studentListRegistered(Request $request)
     {
+        Student::where('isNew', true)->update(['isNew' => false]);
         $query = Student::query();
 
         $query->where('is_final_submitted', 0);

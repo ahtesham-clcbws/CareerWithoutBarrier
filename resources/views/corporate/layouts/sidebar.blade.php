@@ -12,8 +12,15 @@
 </style>
 <nav class=" sidebar navbar-inverse fixed-top elevation-4" id="sidebar-wrapper" role="navigation" style="overflow-y: hidden;  font-style: italic !important;">
     <div class="sidebar-header">
-
-        <div class="sidebar-brand">
+        <div class="sidebar-brand" style="height: auto !important;">
+            <div>
+                <a href="{{('studentDashboard')}}">
+                    <img src="/website/assets/images/brand/logo.png" style="width: 100%;" />
+                </a>
+                <h5 class="mb-0 py-1 fw-bold text-white">Institute Panel</h5>
+            </div>
+        </div>
+        <div class="sidebar-brand d-none">
             <div class="info d-flex">
                 <img src="{{asset('website/assets/images/fav-icon.png')}}"
                     style="width:40px; height: 40px; margin: 0 10px 0 5px !important">

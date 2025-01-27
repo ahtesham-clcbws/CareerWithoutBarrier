@@ -43,6 +43,7 @@ class CouponRequest extends Component
                     'status' => 'pending'
                 ]);
                 $this->js('success("Coupons requested successfully")');
+                $this->js('reload300()');
             }
         } catch (\Throwable $th) {
             // throw $th;

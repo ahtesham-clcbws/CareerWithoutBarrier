@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class TestimonialsModel extends Model
 {
     use HasFactory;
-    protected $table='testimonials';
+    protected $table = 'testimonials';
+    protected $guarded = [];
 
     public function student()
     {

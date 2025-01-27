@@ -185,7 +185,7 @@
             <div class="row">
 
                 <div class="traveller-advice">
-                    <ul class="row row-cols-2 row-cols-md-3 row-cols-lg-{{count($benefits) >= 3 && count($benefits) <= 5 ? count($benefits) : 4}}">
+                    <ul class="row row-cols-2 row-cols-md-4">
                         @foreach($benefits as $benefit)
                         <li class="ani-eql">
                             <div class="traveller-point">
@@ -211,14 +211,14 @@
                     <h2>Information <span>& Notice</span><br></h2><span class="line"></span>
                 </div>
                 <div class="row h-100">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-12 pr-0 h-100">
+                    <div class="col-lg-6 col-12 pr-0 h-100 d-none d-md-flex">
                         <div class="important-information-img h-100">
                             <img class="img-fluid"
                                 src="{{ asset('website/assets/images/information/important-information.png') }}"
                                 alt="img">
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-12 pl-0 h-100">
+                    <div class="col-lg-6 col-12 pl-0 h-100">
                         <div class="important-information-news h-100">
                             <div class="news-slider h-100 overflow-hidden">
                                 <div class='marquee-vert'
@@ -261,7 +261,7 @@
             <h2>Govt <span>Websites</span><br></h2><span class="line"></span>
         </div>
         <div class="container">
-            <div class='marquee'>
+            <div class='marquee' style="outline: none; background-color: transparent; box-shadow: none;">
                 <div class="row flex-nowrap">
                     @foreach($govtwebsites as $govtwebsite)
                     <div class="col-lg-2 col-md-2 col-sm-2 col-2 govt-web-col " style="align-content: space-around;">
@@ -285,7 +285,7 @@
 <div class="counter-section">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <div class="counter-section-widget text-center">
                     <div class="counter-section-icon mb-3 d-flex align-items-center justify-content-center mx-auto">
                         <img class="img-fluid" src="{{ asset('website/assets/images/icons/student-icon.png') }}"
@@ -297,7 +297,7 @@
                     <h6>Applicants</h6>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <div class="counter-section-widget text-center">
                     <div class="counter-section-icon mb-3 d-flex align-items-center justify-content-center mx-auto">
                         <img class="img-fluid" src="{{ asset('website/assets/images/icons/certificate-icon.png') }}"
@@ -309,7 +309,7 @@
                     <h6>Institutes (Approx)</h6>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
                 <div class="counter-section-widget text-center">
                     <div class="counter-section-icon mb-3 d-flex align-items-center justify-content-center mx-auto">
                         <img class="img-fluid" src="{{ asset('website/assets/images/icons/class-icon.png') }}"
@@ -343,140 +343,96 @@
 
 <!-- SECTION: TESTIMONIALS-->
 <section>
-    <div class="testimonails-head">
-        <div class="testimonails">
-            <div class="container">
-                <div class="row">
-                    <!--TESTIMONIALS START-->
-                    <div class="testimonails-inner">
-                        <!--TESTIMONIALS LEFT SIDE CONTENT-->
-                        <div class="testimo-header">
-                            <div class="comm-tit-ani tit ani-tit text-left pb-2">
-                                <p>Hear it directly</p>
-                                <h2>from <span>our students</span><br></h2><span class="line"></span>
-                            </div>
-                            <p>The passage experienced a surge in popularity during the 1960s when Letraset </p>
-                            <ul class="carousel-indicators">
-
-                                <li>
-                                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                                        <i class="fa fa-long-arrow-left carousel-control-prev-icon"
-                                            aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="carousel-control-next" href="#demo" data-slide="next">
-                                        <i class="fa fa-long-arrow-right carousel-control-next-icon"
-                                            aria-hidden="true"></i>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <!--TESTIMONIALS RIGHT SIDE BOX-->
-                        <div class="testi1">
-                            <div class="testi2">
-                                <div id="demo" class="carousel slide" data-ride="carousel">
-                                    <div class="carousel-inner">
-                                        @foreach($studentTestimonials->chunk(2) as $chunks)
-                                        <div class="carousel-item active">
-                                            @foreach($chunks as $studentTestimonial)
-                                            <div class="col-lg-6 col-md-6 testi-slider">
-                                                <div class="testi-lhs">
-                                                    <div class="str-rating">
-                                                        <div class="testimonials-user">
-                                                            <img src="{{ asset('home/' . $studentTestimonial->image) }}"
-                                                                alt="img">
-                                                        </div>
-                                                        <p>{!! $studentTestimonial->message !!}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                        @endforeach
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="container mt-5">
+        <div class="heading text-center">
+            <div class="comm-tit-ani tit">
+                <p>Hear it directly</p>
+                <h2>from <span>our students</span><br></h2><span class="line"></span><br />
+                <span>The passage experienced a surge in popularity during the 1960s when Letraset </span>
             </div>
         </div>
+
+        <div class="splide splide-testimonials" role="group">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    @foreach ($studentTestimonials as $studentTestimonial)
+                    <li class="splide__slide">
+                        <div class="card h-100 d-flex flex-column justify-content-between">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img class="rounded-circle img-fluid img-thumbnail" style="max-height: 100px;" src="{{ $studentTestimonial->student->photograph ?  asset('/storage/' . $studentTestimonial->student->photograph) : asset('student/images/th_5.png') }}" alt="{{ $studentTestimonial->name }}">
+                                </div>
+                                <p class="card-text">{!! $studentTestimonial->message !!}</p>
+                                @if ($studentTestimonial->image)
+                                <img class="img-fluid img-thumbnail" src="{{ asset('/storage/' . $studentTestimonial->image) }}" alt="{{ $studentTestimonial->name }}">
+                                @endif
+                            </div>
+                            <div class="card-footer bg-white border-0">
+                                <p class="card-text">
+                                    <b>Student:</b> {{ $studentTestimonial->name }}
+                                    @if ($studentTestimonial->student->district?->name)
+                                    <br /><b>City:</b> {{ $studentTestimonial->student->district?->name }}
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+
     </div>
 </section>
 <!-- SECTION: BRANDS -->
 
-<!-- SECTION: Institude TESTIMONIALS-->
+<!-- SECTION: Institute TESTIMONIALS-->
 <section>
-    <div class="testimonails-head">
-        <div class="testimonails">
-            <div class="container">
-                <div class="row">
-                    <!--TESTIMONIALS START-->
-                    <div class="testimonails-inner">
-
-                        <!--TESTIMONIALS RIGHT SIDE BOX-->
-                        <div class="testi1">
-                            <div class="testi2">
-                                <div id="demo" class="carousel slide" data-ride="carousel">
-                                    <div class="carousel-inner">
-                                        @foreach($corporateTestimonials->chunk(2) as $chunks)
-                                        <div class="carousel-item active">
-                                            @foreach($chunks as $corporateTestimonial)
-                                            <div class="col-lg-6 col-md-6 testi-slider">
-                                                <div class="testi-lhs">
-                                                    <div class="str-rating">
-                                                        <div class="testimonials-user">
-                                                            <img src="{{ asset('home/' . $corporateTestimonial->image) }}"
-                                                                alt="img">
-                                                        </div>
-                                                        <p>{!! $corporateTestimonial->message !!}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                        @endforeach
-                                        <!--TESTIMONIALS SLIDER 1 END-->
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                        <!--TESTIMONIALS LEFT SIDE CONTENT-->
-                        <div class="testimo-header">
-                            <div class="comm-tit-ani tit ani-tit text-end pb-2">
-                                <p>Hear it directly</p>
-                                <h2 style="font-size:35px">from <span>our Institude</span><br></h2><span
-                                    class="line"></span>
-                            </div>
-                            <p>The passage experienced a surge in popularity during the 1960s when Letraset </p>
-                            <ul class="carousel-indicators" style="right:0 !important ;">
-                                <li>
-                                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                                        <i class="fa fa-long-arrow-end carousel-control-prev-icon"
-                                            aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="carousel-control-next" href="#demo" data-slide="next">
-                                        <i class="fa fa-long-arrow-right carousel-control-next-icon"
-                                            aria-hidden="true"></i>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+    <div class="container mt-5">
+        <div class="heading text-center">
+            <div class="comm-tit-ani tit">
+                <p>Hear it directly</p>
+                <h2>from <span>our Institute</span><br></h2><span class="line"></span><br />
+                <span>The passage experienced a surge in popularity during the 1960s when Letraset </span>
             </div>
         </div>
+
+        <div class="splide splide-corporate-testimonials" role="group">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    @foreach ($corporateTestimonials as $corporateTestimonial)
+                    <li class="splide__slide">
+                        <div class="card h-100 d-flex flex-column justify-content-between">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img class="rounded-circle img-fluid img-thumbnail" style="max-height: 100px;" src="{{ $corporateTestimonial->corporate?->attachment ?  asset('/storage/' . $corporateTestimonial->corporate->attachment) : asset('student/images/th_5.png') }}" alt="{{ $corporateTestimonial->name }}">
+                                </div>
+                                <p class="card-text">{!! $corporateTestimonial->message !!}</p>
+                                @if ($corporateTestimonial->image)
+                                <img class="img-fluid img-thumbnail" src="{{ asset('/storage/' . $corporateTestimonial->image) }}" alt="{{ $corporateTestimonial->name }}">
+                                @endif
+                            </div>
+                            <div class="card-footer bg-white border-0">
+                                <p class="card-text">
+                                    <b>Director:</b> {{ $corporateTestimonial->name }}
+                                    @if ($corporateTestimonial->corporate?->institute_name)
+                                    <br /><b>Institute:</b> {{ $corporateTestimonial->corporate?->institute_name }}
+                                    @endif
+                                    @if ($corporateTestimonial->corporate?->district?->name)
+                                    <br /><b>City:</b> {{ $corporateTestimonial->corporate->district?->name }}
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+
     </div>
 </section>
+
 <!-- SECTION: BRANDS -->
 <section>
     <div class="ani-eql country-wise never-ending-journey">
@@ -514,33 +470,16 @@
             <h2>Thanks To Our <span>Great Contributor</span><br></h2><span class="line"></span>
         </div>
 
-        <div id="great-contributor" class="carousel slide px-4" data-ride="carousel">
-            <div class="carousel-inner">
-                @foreach($ourContributors->chunk(4) as $keyChunk => $chunks)
-                <div class="carousel-item {{$keyChunk == 0 ? 'active' : ''}}">
-                    <div class="row">
-                        @foreach($chunks as $chunk)
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-3">
-                            <img class="img-fluid" src="{{ asset('home/' . $chunk->logo) }}" alt="img">
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                @endforeach
+        <div class="splide splide-contributor-testimonials" role="group">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    @foreach($ourContributors as $ourContributor)
+                    <li class="splide__slide">
+                        <img class="img-fluid" src="{{ asset('home/' . $ourContributor->logo) }}" alt="img">
+                    </li>
+                    @endforeach
+                </ul>
             </div>
-            <ul class="carousel-indicators">
-                <li>
-                    <a class="carousel-control-prev" href="#great-contributor" data-slide="prev" title="previous">
-                        <i class="fa fa-long-arrow-left carousel-control-prev-icon" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="carousel-control-next" href="#great-contributor" data-slide="next" title="next">
-                        <i class="fa fa-long-arrow-right carousel-control-next-icon" aria-hidden="true"></i>
-                    </a>
-                </li>
-
-            </ul>
         </div>
 
     </div>
@@ -569,24 +508,4 @@ $popup = \App\Models\PopupSettings::firstOrCreate();
 </script>
 @endif
 
-<script>
-    $('.slider-element').slick({
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        centerMode: true,
-        arrows: false,
-    });
-
-
-    $('.slider').slick({
-        slidesToScroll: 1,
-        slidesToShow: 1,
-        autoplay: true,
-        autoplaySpeed: 1000,
-        // centerMode: true,
-        arrows: false,
-    });
-</script>
 @endsection

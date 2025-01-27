@@ -25,6 +25,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(TextlocalService::class, function ($app) {
             return new TextlocalService('MzQ0YzZhMzU2ZTY2NjI0YjU4Mzc0NDMxNmU3MjYzNmM=', 'GYNLGY');
         });
+        \Illuminate\Http\Request::macro('hasValidSignature', function ($absolute = true) {
+            if ('livewire/upload-file' || 'livewire/preview-file' == request()->path()) {
+                return true;
+            }
+            return \Illuminate\Support\Facades\URL::hasValidSignature($this, $absolute);
+        });
     }
 
     /**

@@ -11,12 +11,29 @@ Home
 
             <div class="col-xl-3 col-sm-6 col-12 d-flex">
                 <div class="card bg-comman w-100">
-                    <a href="{{route('admin.studentList')}}" class="card-body">
+                    <a href="{{route('admin.studentListRegistered')}}" class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
                                 <h6>New Students</h6>
                                 <h3>
                                     <p class="text-black">{{$newStudents}}</p>
+                                </h3>
+                            </div>
+                            <div class="db-icon">
+                                <img src="{{asset('admin/icons/Students.png')}}" style="filter: hue-rotate(45deg);" alt="Dashboard Icon" height="100px" width="100px">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                <div class="card bg-comman w-100">
+                    <a href="{{route('admin.studentList')}}" class="card-body">
+                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                            <div class="db-info">
+                                <h6>Total Students</h6>
+                                <h3>
+                                    <p class="text-black">{{$totalStudents}}</p>
                                 </h3>
                             </div>
                             <div class="db-icon">
@@ -28,27 +45,10 @@ Home
             </div>
             <div class="col-xl-3 col-sm-6 col-12 d-flex">
                 <div class="card bg-comman w-100">
-                    <a href="{{route('coupon.lists')}}" class="card-body">
-                        <div class="db-widgets d-flex justify-content-between align-items-center">
-                            <div class="db-info">
-                                <h6>Applied Voucher</h6>
-                                <h3>
-                                    <p class="text-black">{{$appliedCount}}</p>
-                                </h3>
-                            </div>
-                            <div class="db-icon">
-                                <img src="{{asset('admin/icons/DiscountVoucher.png')}}" alt="Dashboard Icon" height="100px" width="100px">
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                <div class="card bg-comman w-100">
                     <a href="{{route('institute.list.new')}}" class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>New Institude Enquiry</h6>
+                                <h6>New Institute Enquiry</h6>
                                 <h3>
                                     <p class="text-black">{{$newInstituteInquiry}}</p>
                                 </h3>
@@ -60,15 +60,34 @@ Home
                     </a>
                 </div>
             </div>
-
             <div class="col-xl-3 col-sm-6 col-12 d-flex">
                 <div class="card bg-comman w-100">
                     <a href="{{route('institute.list.signup')}}" class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>New Institude Signup</h6>
+                                <h6>New Institute Signup</h6>
                                 <h3>
-                                    <p class="text-black">{{$insititute}}</p>
+                                    <p class="text-black">{{$newInstituteSignup}}</p>
+                                </h3>
+                            </div>
+                            <div class="db-icon">
+                                <img src="{{asset('admin/icons/ApprovedInstitute.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+
+            <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                <div class="card bg-comman w-100">
+                    <a href="{{route('institute.list')}}" class="card-body">
+                        <div class="db-widgets d-flex justify-content-between align-items-center">
+                            <div class="db-info">
+                                <h6>Approved Institute</h6>
+                                <h3>
+                                    <p class="text-black">{{$approvedInsititutes}}</p>
                                 </h3>
                             </div>
                             <div class="db-icon">
@@ -81,16 +100,16 @@ Home
 
             <div class="col-xl-3 col-sm-6 col-12 d-flex">
                 <div class="card bg-comman w-100">
-                    <a href="{{route('institute.list')}}" class="card-body">
+                    <a href="{{route('admin.testimonialList')}}" class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>Approved Institude</h6>
+                                <h6>Feedback/ review (Testimony)</h6>
                                 <h3>
-                                    <p class="text-black">{{$APPinsititute}}</p>
+                                    <p class="text-black">{{$newTestimonials}}</p>
                                 </h3>
                             </div>
                             <div class="db-icon">
-                                <img src="{{asset('admin/icons/ApprovedInstitute.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                <img src="{{asset('admin/icons/Testimony1.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                             </div>
                         </div>
                     </a>
@@ -103,7 +122,7 @@ Home
                             <div class="db-info">
                                 <h6>New Contact Enquiry</h6>
                                 <h3>
-                                    <p class="text-black">{{$contactInfo}}</p>
+                                    <p class="text-black">{{$newContactEnquiries}}</p>
                                 </h3>
                             </div>
                             <div class="db-icon">
@@ -115,36 +134,16 @@ Home
             </div>
             <div class="col-xl-3 col-sm-6 col-12 d-flex">
                 <div class="card bg-comman w-100">
-                    <a href="{{route('admin.testimonialList')}}" class="card-body">
+                    <a href="{{route('institute.couponRequests')}}" class="card-body">
                         <div class="db-widgets d-flex justify-content-between align-items-center">
                             <div class="db-info">
-                                <h6>Feedback/ review (Testimony)</h6>
+                                <h6>New Coupon Requests</h6>
                                 <h3>
-                                    <p class="text-black">{{$testimonials}}</p>
+                                    <p class="text-black">{{$newCouponRequests}}</p>
                                 </h3>
                             </div>
                             <div class="db-icon">
-                                <img src="{{asset('admin/icons/Testimony1.png')}}" alt="Dashboard Icon" height="100px" width="100px">
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-
-
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12 d-flex">
-                <div class="card bg-comman w-100">
-                    <a href="{{route('dashboard_subjects')}}" class="card-body">
-                        <div class="db-widgets d-flex justify-content-between align-items-center">
-                            <div class="db-info">
-                                <h6>Subjects</h6>
-                                <h3>
-                                    <p class="text-black">{{$subjects}}</p>
-                                </h3>
-                            </div>
-                            <div class="db-icon">
-                                <img src="{{asset('admin/icons/Subject.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                <img src="{{asset('admin/icons/DiscountVoucher.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                             </div>
                         </div>
                     </a>

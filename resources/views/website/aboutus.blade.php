@@ -250,7 +250,7 @@
             <div class="container">
                 <div class="comm-tit-ani tit ani-tit text-center pb-2">
                     <p>What</p>
-                    <h2>Our Institude <span>say</span><br></h2><span class="line"></span>
+                    <h2>Our Institute <span>say</span><br></h2><span class="line"></span>
                 </div>
                 <div class="row">
                     <!--TESTIMONIALS START-->

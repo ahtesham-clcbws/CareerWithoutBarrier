@@ -27,6 +27,11 @@ class ContactList extends Component
     public ContactInfo $contactDetails;
 
 
+    public function mount()
+    {
+        ContactInfo::where('isNew', true)->update(['isNew' => false]);
+    }
+
     public function updated($property)
     {
         if ($property == 'selectAll') {

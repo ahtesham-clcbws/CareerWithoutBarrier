@@ -95,7 +95,7 @@
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle" href="{{route('institute.list.new')}}">
           <img src="{{asset('admin/images/watch.png')}}" alt="" class="nav_icon">
-          <p>New Institude Enquiry</p>
+          <p>New Institute Enquiry</p>
           <i class="fa fa-chevron-right"></i>
         </a>
       </div>
@@ -104,7 +104,7 @@
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle" href="{{route('institute.list.signup')}}">
           <img src="{{asset('admin/images/watch.png')}}" alt="" class="nav_icon">
-          <p>SignUp Institude</p>
+          <p>SignUp Institute</p>
           <i class="fa fa-chevron-right"></i>
         </a>
       </div>
@@ -113,7 +113,7 @@
       <div class="dropdown show">
         <a class="btn btn-secondary dropdown-toggle" href="{{route('institute.list')}}">
           <img src="{{asset('admin/images/watch.png')}}" alt="" class="nav_icon">
-          <p>Approved Institude</p>
+          <p>Approved Institute</p>
           <i class="fa fa-chevron-right"></i>
         </a>
       </div>

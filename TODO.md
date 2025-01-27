@@ -126,3 +126,54 @@ Registration -> referral code issue by institute & District, Registration error 
 Institute dashboard -> coupon list same as admin
 Institute dashboard -> student list columns merge & add qualification
 Institute dashboard -> coupon list same as admin
+
+
+## Jan25
+Enquiry form redirect to homepage - [DONE]
+Contact from rediract to homepage - [DONE]
+Free form -> change search + all cities + default 25 results - [DONE]
+
+New Student Signup -> topbar notification (Replied) -> new coupon requests - [DONE]
+
+Dashboard boxes:
+1- New Student(s) -> if there is new student it will be old - [DONE]
+2- Total Students -> from student list - [DONE]
+3- New Institute Enquiry - [DONE]
+4- New Institute Sign-up - [DONE]
+5- Approved Institute - [DONE]
+6- New/All Feedback - [DONE]
+7- New Contact Enquiry  - [DONE]
+8- Request New Coupon - [DONE]
+
+Contact replied lists & other enhancements - [DONE]
+
+Contact lists -> delete single confirmation - [DONE]
+
+coupon request -> on delete confirm first - [DONE]
+
+Institute coupon list - [DONE]
+
+Coupon request -> institute coupons list link - [DONE]
+
+New institute -> approve enquiry -> autoclose the approval box - [DONE]
+
+student dashboard -> mobile/email changeable - [DONE]
+student dashboard -> student name topbar, career logo, remove search - [DONE]
+student dashboard -> add testimonial -> livewire - [DONE]
+student dashboard -> add screenshot/image -> optional - [DONE]
+
+institute dashboard -> add new coupon request -> refresh the page - [DONE]
+institute dashboard -> institute name topbar, career logo, remove search - [DONE]
+institute dashboard -> add testimonial -> livewire - [DONE]
+institute dashboard -> add screenshot/image -> optional - [DONE]
+
+Testimonials cleanup at website - [DONE]
+Other cleanups at website - [DONE]
+
+Institute signup -> livewire form - [DONE]
+
+Registration or Enquiry form -> OTP in form verification
+
+Roll no generation testing
+
+Email templates

@@ -3,7 +3,10 @@
 namespace App\Livewire\Student;
 
 use App\Models\Student;
+use App\Notifications\AnyUserEmailVerify;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -33,6 +36,22 @@ class StudentProfile extends Component
     #[Validate('in:Yes,No', message: 'Please choose disability')]
     public $disability = 'No';
 
+    #[Validate('min_digits:10', message: 'Mobile number must minimum 10 digits')]
+    #[Validate('max_digits:10', message: 'Mobile number have maximum 10 digits')]
+    #[Validate('unique:students,mobile', message: 'Mobile number is already in use')]
+    public $new_mobile;
+    public $newMobileVerified = false;
+    public $changeMobileNumber = false;
+
+    #[Validate('email', message: 'Please enter valid email address')]
+    #[Validate('unique:students,email', message: 'Email address is already in use')]
+    public $new_email;
+    public $newEmailVerified = false;
+    public $changeEmailAddress = false;
+
+    public $user_otp;
+    public $email_code;
+
 
     public function mount()
     {
@@ -44,6 +63,12 @@ class StudentProfile extends Component
         $this->gender = $this->student->gender;
 
         $this->disability = $this->student->disability;
+
+        $this->new_mobile = $this->student->mobile;
+        $this->new_email = $this->student->email;
+
+        $this->newMobileVerified = $this->student->is_otp_verified;
+        $this->newEmailVerified = $this->student->email_verified_at;
     }
 
     public function render()
@@ -110,5 +135,107 @@ class StudentProfile extends Component
         $this->student->save();
 
         $this->js('success("Disability updated successfully")');
+    }
+
+
+
+    public function toggleMobileChange()
+    {
+        if ($this->changeMobileNumber) {
+            $this->changeMobileNumber = false;
+            $this->new_mobile = $this->student->mobile;
+        } else {
+            $this->changeMobileNumber = true;
+        }
+    }
+    public function updateMobile()
+    {
+        $this->validate([
+            'new_mobile' => 'required|numeric|digits:10'
+        ]);
+
+        $this->student->otp = 123456;
+        $this->student->is_otp_verified = false;
+        $this->student->new_mobile = $this->new_mobile;
+        $this->student->save();
+
+        $this->toggleMobileChange();
+
+        $this->js('success("Mobile number updated successfully")');
+    }
+    public function keepOldMobile()
+    {
+        $this->student->new_mobile = null;
+        $this->student->is_otp_verified = true;
+        $this->student->save();
+    }
+    public $otpVerifyModalInputOpen = false;
+    public function verifyMobile()
+    {
+        if ($this->user_otp == $this->student->otp) {
+            $this->student->mobile = $this->student->new_mobile;
+            $this->student->is_otp_verified = true;
+            $this->student->save();
+
+            $this->new_mobile = $this->student->mobile;
+
+            $this->otpVerifyModalInputOpen = false;
+
+            $this->js('success("Mobile number verified successfully")');
+        } else {
+            $this->addError('user_otp', 'Invalid OTP');
+            $this->js('error("Invalid OTP")');
+        }
+    }
+
+    public function toggleEmailChange()
+    {
+        if ($this->changeEmailAddress) {
+            $this->changeEmailAddress = false;
+            $this->new_email = $this->student->email;
+        } else {
+            $this->changeEmailAddress = true;
+        }
+    }
+    public function updateEmail()
+    {
+        $this->validate([
+            'new_email' => 'required|email'
+        ]);
+
+        $emailCode = rand(100000, 999999);
+
+        $this->student->new_email = $this->new_email;
+        $this->student->email_code = $emailCode;
+        $this->student->save();
+
+        $this->toggleEmailChange();
+
+        Notification::route('mail', $this->student->new_email)->notify(new AnyUserEmailVerify($this->student, $emailCode));
+
+        $this->js('success("Email updated successfully, please verify your email")');
+    }
+    public function keepOldEmail()
+    {
+        $this->student->new_email = null;
+        $this->student->save();
+    }
+    public $emailVerifyModalInputOpen = false;
+    public function verifyEmail()
+    {
+        if ($this->email_code == $this->student->email_code) {
+            $this->student->email = $this->student->new_email;
+            $this->student->email_verified_at = Carbon::now();
+            $this->student->save();
+
+            $this->new_email = $this->student->email;
+
+            $this->emailVerifyModalInputOpen = false;
+
+            $this->js('success("Email address verified successfully")');
+        } else {
+            $this->addError('email_code', 'Invalid OTP');
+            $this->js('error("Invalid OTP")');
+        }
     }
 }

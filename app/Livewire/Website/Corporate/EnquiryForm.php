@@ -137,8 +137,8 @@ class EnquiryForm extends Component
                     $institute->save();
 
                     $this->js("toastr.success('Corporate inquiry submitted successfully!')");
-                    $this->reset();
-                    // $this->js("window.location.reload()");
+                    // $this->reset();
+                    $this->js("window.location.href = '/'");
                 } else {
                     $this->js("toastr.error('Unable to submitted enquiry, try after some time.')");
                     $this->otpRequestId = '';

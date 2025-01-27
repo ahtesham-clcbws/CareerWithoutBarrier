@@ -1,7 +1,7 @@
 <x-mail::message>
 Hi {{$corporate->name}},
 
-Your Institude is successfully Approved. 
+Your Institute is successfully Approved. 
 Please use this <b>{{$corporate->institude_code}}</b> branch code, to signup so we can go further on your request.
                             
 <?php

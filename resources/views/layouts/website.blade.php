@@ -29,21 +29,8 @@
     <link rel="stylesheet" href="{{ asset('website/assets/css/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/slick.css') }}">
 
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{{ asset('website/assets/js/jquery-3.6.0.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
 
-    <script src="{{ asset('website/assets/js/mail.js') }}"></script>
-    <script src="{{ asset('website/assets/js/custom.js') }}"></script>
-    <script src="{{ asset('js/common.js') }}"></script>
-
-    <script src="{{ asset('js/slick.min.js') }}"></script>
-
-
-    <!-- <script src="assets/js/marquee.jquery.json"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -403,51 +390,8 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                         </div>
                         <!--TOP SEARCH BAR-->
 
-                        <div class="col-lg-2 col-md-4 menu-top3">
-                            <div class="click-sid-bar">
-                                <!--CLICK ICONS-->
-                                <div class="cl-func">
-                                    <span class="fa fa-search ml-auto" aria-hidden="true"></span>
-                                    <!-- <a href="#">
-                                        <button type="button" class="btn btn-outline-primary btn-apply-now">Apply
-                                            Now</button></a> -->
-                                </div>
-                                <!--TOP SEARCH BAR AND CATEGORIES-->
-                                <div class="top-cl-fun">
-                                    <!-- <div class="top-click-1">
-                                        <h3>Select country</h3>
-                                        <div class="all-cate">
-                                            <ul>
-                                                <li>
-                                                    <a href="#">Australia</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Europe</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">American </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">china</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Africa</a>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </div> -->
-
-
-                                    <!--TOP SEARCH BAR AND SUBMIT BUTTON-->
-                                    <input type="text" placeholder="Search...">
-                                    <button type="submit" class="sub-button">
-                                        <img src="{{ asset('website/assets/images/icons/6.png') }}" alt="">
-                                    </button>
-                                    <span class="fa fa-times" aria-hidden="true"></span>
-                                </div>
-                            </div>
-
+                        <div class="col-lg-2 col-md-4 menu-top3 text-right menu" style="padding-right: 0;">
+                            <a href="{{ route('freeform') }}" style="text-decoration: underline; font-size: 12px; font-weight: 900; color: #ba2af7;">Get Discount Voucher</a>
                         </div>
                     </div>
                 </div>
@@ -1016,6 +960,23 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
         </div>
     </div>
 
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{{ asset('website/assets/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+    <script src="{{ asset('website/assets/js/mail.js') }}"></script>
+    <script src="{{ asset('website/assets/js/custom.js') }}"></script>
+    <script src="{{ asset('js/common.js') }}"></script>
+
+    <script src="{{ asset('js/slick.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+
+    <!-- <script src="assets/js/marquee.jquery.json"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
     <!-- Optional JavaScript -->
     <script src="{{ asset('website/assets/js/jquery.marquee.min.js') }}"></script>
 
@@ -1444,9 +1405,72 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
             display: flex;
             flex-wrap: wrap;
         }
+
+        .splide__list {
+            height: auto !important;
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+        $('.slider-element').slick({
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            centerMode: true,
+            arrows: false,
+        });
+
+
+        $('.slider').slick({
+            slidesToScroll: 1,
+            slidesToShow: 1,
+            autoplay: true,
+            autoplaySpeed: 1000,
+            // centerMode: true,
+            arrows: false,
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- <script src="/js/jquery.autoscroll.js"></script> -->
+    <script>
+        // $("[data-autoscroll]").autoscroll({
+        //     interval: 100
+        // });
+        var miniSliderOptions = {
+            type: 'loop',
+            perPage: 4,
+            gap: '15px',
+            autoplay: true,
+            perMove: 1,
+            arrows: false,
+            pauseOnFocus: false,
+            breakpoints: {
+                1000: {
+                    perPage: 3,
+                },
+                640: {
+                    perPage: 2,
+                },
+                340: {
+                    perPage: 1,
+                },
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var splide = new Splide('.splide-testimonials', {
+                ...miniSliderOptions
+            });
+            splide.mount();
+            var corporateTestimonials = new Splide('.splide-corporate-testimonials', {
+                ...miniSliderOptions
+            });
+            corporateTestimonials.mount();
+            var contributorTestimonials = new Splide('.splide-contributor-testimonials', {
+                ...miniSliderOptions
+            });
+            contributorTestimonials.mount();
+        });
+
         function interestedForInit() {
             // console.log('interestedForInit')
             if ($("#interested_for").hasClass("select2-hidden-accessible")) {

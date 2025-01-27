@@ -1546,9 +1546,9 @@
         width: 50%;
     }
 
-    .traveller-advice li:last-child {
+    /* .traveller-advice li:last-child {
         display: none;
-    }
+    } */
 
     .ask-exp-img {
         display: none;

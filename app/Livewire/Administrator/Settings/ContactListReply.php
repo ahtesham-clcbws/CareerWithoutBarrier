@@ -37,7 +37,7 @@ class ContactListReply extends Component
                 $this->contact->notify(new ContactInfoReplyMail($this->contact, $this->message));
                 $this->contact->update(['status' => true]);
                 $this->js('success("Reply message sent successfully.")');
-                return $this->redirect('/administrator/contact_enquiry');
+                return $this->redirect('/administrator/contact-replies/'.$this->contact->id);
             } catch (\Throwable $th) {
                 // throw $th;
                 // $this->js('console.log(' . $th->getMessage() . ')');

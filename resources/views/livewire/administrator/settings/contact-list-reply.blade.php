@@ -18,9 +18,14 @@
         }
     </style>
 
-    <h3 style="padding-top: 10px;padding-left: 10px;">
-        Contact reply:
-    </h3>
+    <div class="d-flex align-items-center justify-content-between" style="padding: 10px;">
+        <h3>
+            Contact reply:
+        </h3>
+        @if ($contact->replyMails->count())
+        <a type='button' class='btn btn-warning btn-sm' href="{{ route('admin.contactRelpiesList', $contact->id) }}">View Replied List</a>
+        @endif
+    </div>
     <div class="row">
         <div class="col-lg-12 col-md-12 col" style="margin-left: auto;margin-right:auto">
 
@@ -33,26 +38,22 @@
                             <tr>
                                 <th scope="row">Name</th>
                                 <td>{{ $contact->fullname }}</td>
-                            </tr>
-                            <tr>
                                 <th scope="row">Email</th>
                                 <td>{{ $contact->email }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Mobile</th>
                                 <td>{{ $contact->mobile }}</td>
-                            </tr>
-                            <tr>
                                 <th scope="row">City</th>
                                 <td>{{ $contact->city }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Contact Reason</th>
-                                <td>{{ $contact->reason_contact }}</td>
+                                <td colspan="3">{{ $contact->reason_contact }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Message</th>
-                                <td>{{ $contact->message }}</td>
+                                <td colspan="3">{{ $contact->message }}</td>
                             </tr>
                         </tbody>
                     </table>

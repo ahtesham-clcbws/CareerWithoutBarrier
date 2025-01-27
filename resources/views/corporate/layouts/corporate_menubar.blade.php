@@ -1,21 +1,20 @@
+
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+$corporate = Auth::guard('corporate')->user();
+
+?>
 <nav class="main-header navbar navbar-expand-lg navbar-light">
     <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
         <i class=" fa fa-bars"></i>
     </button>
+    <!-- <h5 class="text-white pt-1">Institute Panel</h5> -->
+     <h5 class="pt-1 fw-bold text-white">{{ $corporate->institute_name }}</h5>
 
     <ul class="navbar-nav dashboard2" id="menu1-top">
-        <li class="nav-item search-box-css" style="margin-right: 38px;">
-            <button class="panel-heading"> <i class="fa fa-search" aria-hidden="true"></i> </button>
-            <div class="dropdown-content panel-collapse"> <input type="text" placeholder="Search....."> <button class="res_btn">Result</button> </div>
-        </li>
 
-        <?php
-
-        use Illuminate\Support\Facades\Auth;
-
-        $corporate = Auth::guard('corporate')->user();
-
-        ?>
         <li class="nav-item">
             <button class="panel-heading last_p">@if($corporate->attachment)
                 <img src="{{ asset('/storage/'.$corporate->attachment) }}">

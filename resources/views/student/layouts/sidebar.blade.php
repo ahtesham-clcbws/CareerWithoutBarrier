@@ -69,10 +69,10 @@ if ($studCode) {
 
 <nav class=" sidebar navbar-inverse fixed-top elevation-4" id="sidebar-wrapper" role="navigation" style="overflow-y: hidden;  font-style: italic !important;">
     <div class="sidebar-header">
-        <div class="sidebar-brand">
-            <div class="info">
+        <div class="sidebar-brand" style="height: auto !important;">
+            <div>
                 <a href="{{('studentDashboard')}}">
-                    <h5 style="margin-top: 20px;"> Student Panel</h5>
+                    <img src="/website/assets/images/brand/logo.png" style="width: 100%;"/>
                 </a>
             </div>
         </div>

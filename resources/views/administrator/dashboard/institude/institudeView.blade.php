@@ -17,20 +17,20 @@
     }
 
     /* Adjust the input width and margin */
-    .institude-coupon-grid-content-input input.form-control {
+    .institute-coupon-grid-content-input input.form-control {
         width: 80%;
         margin-right: 10px;
         /* Adjust as needed */
     }
 
     /* Center the Apply button vertically */
-    .institude-coupon-grid-content-input .input-group-append .apply-btn {
+    .institute-coupon-grid-content-input .input-group-append .apply-btn {
         display: flex;
         align-items: center;
     }
 
     /* Style the Apply button */
-    .institude-coupon-grid-content-input .input-group-append .apply-btn {
+    .institute-coupon-grid-content-input .input-group-append .apply-btn {
         cursor: pointer;
         background-color: #007bff;
         /* Example color, adjust as needed */
@@ -41,7 +41,7 @@
     }
 
     /* Hover effect for Apply button */
-    .institude-coupon-grid-content-input .input-group-append .apply-btn:hover {
+    .institute-coupon-grid-content-input .input-group-append .apply-btn:hover {
         background-color: #0056b3;
         /* Example color, adjust as needed */
     }
@@ -297,7 +297,7 @@ use App\Models\CouponCode;
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="institude-coupon-grid-content-input" style="display: none;">
+                                    <div class="institute-coupon-grid-content-input" style="display: none;">
                                         <div class="input-group input-group-lg m-3">
                                             <input type="text" class="form-control" pattern="[1-9]{4}" placeholder="Enter number of coupon" aria-label="Number of coupon" aria-describedby="apply-btn">
                                             <div class="input-group-append" style="width:15%">
@@ -442,7 +442,7 @@ use App\Models\CouponCode;
 
 <script>
     $(".institudeCouponGrid").on('click', function() {
-        $(".institude-coupon-grid-content-input").not($(this).parent().next()).hide();
+        $(".institute-coupon-grid-content-input").not($(this).parent().next()).hide();
 
         if ($(this).data('couponremain') == 0) {
             error('The Coupon is not avaialable.');
@@ -613,11 +613,11 @@ use App\Models\CouponCode;
         var prefix = $(this).data('prefix');
         var corporateId = $(this).data('corporate');
         var remainCount = $(this).data('remaincount');
-        var enteredValue = $(this).closest('.institude-coupon-grid-content-input').find('input').val();
+        var enteredValue = $(this).closest('.institute-coupon-grid-content-input').find('input').val();
         var $btn = $(this);
 
         if (remainCount == 0) {
-            $(".institude-coupon-grid-content-input").not($(this).parent().next()).hide();
+            $(".institute-coupon-grid-content-input").not($(this).parent().next()).hide();
             error('The Coupon is not avaialable.');
         }
 
@@ -677,7 +677,7 @@ use App\Models\CouponCode;
                 $('.totalIssuedCoupon').text(parseInt(enteredValue)+parseInt("{{ $totalIssuedCount}}"));
 
                 $btn.attr('disabled', false);
-                $btn.closest('.institude-coupon-grid-content-input').find('input').val('');
+                $btn.closest('.institute-coupon-grid-content-input').find('input').val('');
             },
 
             error: function(xhr, status, e) {

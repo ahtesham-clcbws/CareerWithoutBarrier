@@ -18,7 +18,7 @@ class FreeForm extends Component
 
     public $sortKey = 'city';
     public $sortDirection = 'asc'; // desc
-    public $entriesPerPage = 5;
+    public $entriesPerPage = 25;
     public $searchQuery = '';
     public $entiresArray = [5, 10, 15, 25, 50, 100, 0];
     public $query = '';
@@ -40,9 +40,11 @@ class FreeForm extends Component
         // Fetch paginated institutes in render() and pass them to the view
         $institutesQuery = Corporate::where('is_approved', 1)->where('signup_approved', 1)->whereNotNull('signup_at');
         if ($this->query) {
-            $institutesQuery->where('city', 'like', '%' . $this->query . '%');
-            $institutesQuery->orWhere('name', 'like', '%' . $this->query . '%');
+            // $institutesQuery->where('city', 'like', '%' . $this->query . '%');
+            $institutesQuery->where('name', 'like', '%' . $this->query . '%');
             $institutesQuery->orWhere('institute_name', 'like', '%' . $this->query . '%');
+            $institutesQuery->orWhere('address', 'like', '%' . $this->query . '%');
+            $institutesQuery->orWhere('phone', 'like', '%' . $this->query . '%');
         }
         if ($this->selectedDistrict) {
             $institutesQuery->where('district_id', $this->selectedDistrict);

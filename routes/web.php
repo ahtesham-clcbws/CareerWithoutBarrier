@@ -17,6 +17,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Livewire\Auth\Registration;
 use App\Livewire\Pages\FreeForm;
+use App\Livewire\Student\AddTestimonial;
 use App\Livewire\Student\ApplyForm\AdditionalDetailsForm;
 use App\Livewire\Student\PaymentPage;
 use App\Livewire\Student\StudentProfile;
@@ -177,7 +178,8 @@ Route::prefix('students')->group(function () {
         Route::any('/profile', StudentProfile::class)->name('students.profilePage');
         Route::post('/upload-photo',  [StudentController::class, 'uploadPhoto'])->name('upload.photo');
 
-        Route::any('/say_about_us', [StudentController::class, 'studentSayAboutUs'])->name('student.sayAboutUs');
+        Route::any('/say_about_us', AddTestimonial::class)->name('student.sayAboutUs');
+        // Route::get('/say-about-us', AddTestimonial::class);
 
         Route::post('razorpay-payment', [Razorpay::class, 'store'])->name('razorpay.payment.store');
 

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CorporateController;
+use App\Livewire\Auth\Corporate\InstituteSignUpForm;
+use App\Livewire\Corporate\AddTestimonial;
 use App\Livewire\Corporate\CouponList;
 use App\Livewire\Corporate\CouponRequest;
 use App\Livewire\Corporate\Profile;
@@ -19,7 +21,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::match(['get', 'post'], '/', [CorporateController::class, 'login'])->name('corporatelogin');
-Route::match(['get', 'post'], '/signup/{branch_code?}', [CorporateController::class, 'signup'])->name('corporateSignup');
+// Route::match(['get', 'post'], '/signup/{branch_code?}', [CorporateController::class, 'signup'])->name('corporateSignup');
+Route::any('/signup/{branch_code?}', InstituteSignUpForm::class)->name('corporateSignup');
 
 Route::match(['get', 'post'], '/forgotpassword', [CorporateController::class, 'forgotpassword'])->name('corporate.forgotpassword');
 
@@ -37,7 +40,8 @@ Route::group(['middleware' => ['corporate']], function () {
     // Route::any('/corporate_coupon_list/{corporate?}', [CorporateController::class, 'corporateCouponlist'])->name('corporate.couponlist');
     Route::any('/corporate_coupon_list/{corporate?}', CouponList::class)->name('corporate.couponlist');
 
-    Route::any('/say_about_us', [CorporateController::class, 'sayAboutUs'])->name('corporate.sayAboutUs');
+    // Route::any('/say_about_us', [CorporateController::class, 'sayAboutUs'])->name('corporate.sayAboutUs');
+    Route::any('/say_about_us', AddTestimonial::class)->name('corporate.sayAboutUs');
 
     Route::any('/change_password', [CorporateController::class, 'changePassword'])->name('corporate.changePassword');
     // Route::any('/profile', [CorporateController::class, 'profilePage'])->name('corporate.profilePage');

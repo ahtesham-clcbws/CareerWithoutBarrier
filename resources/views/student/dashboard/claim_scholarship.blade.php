@@ -49,8 +49,8 @@
                             <div class="row mt-2 ">
 
                                 <div class="col-md-12 col mb-2">
-                                    <label class="form-label">Institude Name<span class="text-danger">*</span></label>
-                                    <input required pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Enter Name of institude" name="institude_name1" value="{{$claimForm?->institude_name1}}" />
+                                    <label class="form-label">Institute Name<span class="text-danger">*</span></label>
+                                    <input required pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Enter Name of institute" name="institude_name1" value="{{$claimForm?->institude_name1}}" />
                                     @error('institude_name')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="col-md-12 mb-2">
                                     <label class="form-label">Institute Address<span class="text-danger">*</span></label>
-                                    <input required  class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address1" value="{{$claimForm?->institude_address1}}" />
+                                    <input required  class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institute Address" name="institude_address1" value="{{$claimForm?->institude_address1}}" />
                                     @error('institude_address')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
@@ -144,8 +144,8 @@
                             </h5>
                             <div class="row mt-2 ">
                                 <div class="col-md-12 col mb-2">
-                                    <label class="form-label">Institude Name<span class="text-danger">*</span></label>
-                                    <input required pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Enter Name of institude" name="institude_name2" value="{{$claimForm?->institude_name2}}" />
+                                    <label class="form-label">Institute Name<span class="text-danger">*</span></label>
+                                    <input required pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Enter Name of institute" name="institude_name2" value="{{$claimForm?->institude_name2}}" />
                                     @error('institude_name')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
@@ -196,7 +196,7 @@
                                 </div>
                                 <div class="col-md-12 mb-2">
                                     <label class="form-label">Institute Address<span class="text-danger">*</span></label>
-                                    <input required class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address2" value="{{$claimForm?->institude_address2}}" />
+                                    <input required class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institute Address" name="institude_address2" value="{{$claimForm?->institude_address2}}" />
                                     @error('institude_address')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
@@ -243,8 +243,8 @@
                             <div class="row mt-2 ">
 
                                 <div class="col-md-12 col mb-2">
-                                    <label class="form-label">Institude Name</label>
-                                    <input pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Enter Name of institude" name="institude_name3" value="{{$claimForm?->institude_name3}}" />
+                                    <label class="form-label">Institute Name</label>
+                                    <input pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Enter Name of institute" name="institude_name3" value="{{$claimForm?->institude_name3}}" />
                                     @error('institude_name')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
@@ -295,7 +295,7 @@
                                 </div>
                                 <div class="col-md-12 mb-2">
                                     <label class="form-label">Institute Address</label>
-                                    <input  class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address3" value="{{$claimForm?->institude_address3}}" />
+                                    <input  class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institute Address" name="institude_address3" value="{{$claimForm?->institude_address3}}" />
                                     @error('institude_address')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
@@ -338,8 +338,8 @@
                             </h5>
                             <div class="row mt-2 ">
                                 <div class="col-md-12 col mb-2">
-                                    <label class="form-label">Institude Name</label>
-                                    <input pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Enter Name of institude" name="institude_name4" value="{{$claimForm?->institude_name4}}" />
+                                    <label class="form-label">Institute Name</label>
+                                    <input pattern="[A-Za-z ]+" class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Enter Name of institute" name="institude_name4" value="{{$claimForm?->institude_name4}}" />
                                     @error('institude_name')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror
@@ -390,7 +390,7 @@
                                 </div>
                                 <div class="col-md-12 mb-2">
                                     <label class="form-label">Institute Address</label>
-                                    <input class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institude Address" name="institude_address4" value="{{$claimForm?->institude_address4}}" />
+                                    <input class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important" placeholder="Institute Address" name="institude_address4" value="{{$claimForm?->institude_address4}}" />
                                     @error('institude_address')
                                     <div class="text-danger">{{$message}}</div>
                                     @enderror

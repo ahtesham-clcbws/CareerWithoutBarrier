@@ -119,8 +119,11 @@
                                 {{ $contact->message }}
                             </td>
                             <td class="text-end text-nowrap">
+                                @if ($contact->replyMails->count())
+                                <a type='button' class='btn btn-warning btn-sm' href="{{ route('admin.contactRelpiesList', $contact->id) }}">View Replied</a>
+                                @endif
                                 <a type='button' class='btn btn-primary btn-sm' href="{{ route('admin.contactEnquiryReply', $contact->id) }}">Reply</a>
-                                <button type="button" class="btn btn-danger btn-sm" wire:click="delete({{ $contact->id }})">Delete</button>
+                                <button type="button" class="btn btn-danger btn-sm" wire:click="delete({{ $contact->id }})" wire:confirm="Are you sure you want to delete this?">Delete</button>
                             </td>
                         </tr>
                         @endforeach
