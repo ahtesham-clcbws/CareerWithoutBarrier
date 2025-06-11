@@ -10,17 +10,17 @@
             border-start-start-radius: 0 !important;
         }
     </style>
+
     <div class="w-100" style="margin-top:72px;background-color:#f26b3c;">
         <div class="container text-center py-5 pb-4">
             <h2 style="font-size:32px" class="text-white">Student Registration</h2>
         </div>
     </div>
 
-
     <div class="container py-5">
         <div class="row">
             <div class="col-md-6 mx-auto card registrationFormCard">
-                @if (!$otpRequestId && !$otpSendSuccess)
+
                 <form class="form-row g-1 card-body" wire:submit="register">
                     @csrf
 
@@ -86,7 +86,7 @@
                             @enderror
                         </div>
 
-                        @if ($remainingForms <= 300)
+                        @if($remainingForms <= 300)
                         <div class="col-12">
                             <label class="form-label mb-0">Referrence Code</label>
                             <div class="input-group input-group-sm">
@@ -136,16 +136,42 @@
                             <small class="text-danger small">{{ $message }}</small>
                             @enderror
                         </div>
-                        <!-- mobile -->
-                        <div class="mb-2 col-md-6">
-                            <label class="form-label mb-0">Mobile</label>
-                            <input type="number" wire:model.blur="mobile" placeholder="Valid mobile number" class="form-control form-control-sm @error('mobile') is-invalid @enderror" min="6000000000" max="9999999990" minlength="10" maxlength="10">
-                            @error('mobile')
-                            <small class="text-danger small">{{ $message }}</small>
-                            @enderror
+                        <div class="col-12">
+                            <div class="form-row g-1">
+                                <!-- mobile -->
+                                <div class="mb-2 col">
+                                    <label class="form-label mb-0">Mobile</label>
+                                    <div class="input-group">
+                                        <input type="number" wire:model.live="mobile" placeholder="Valid mobile number" class="form-control form-control-sm @error('mobile') is-invalid @enderror" min="6000000000" max="9999999990" minlength="10" maxlength="10" @if($isOtpVerfied) readonly @endif>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-secondary btn-sm" style="background-color: #f73f05; border-color: #f73f05 !important;" type="button" wire:click="sendOTP" @if($isOtpVerfied) disabled @endif>
+                                                Get OTP
+                                            </button>
+                                        </div>
+                                    </div>
+                                    @error('mobile')
+                                    <small class="text-danger small">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <!-- OTP -->
+                                <div class="mb-2 col">
+                                    <label class="form-label mb-0">OTP</label>
+                                    <div class="input-group">
+                                        <input type="number" wire:model.live="userOtp" placeholder="Enter 6 Digits OTP" class="form-control form-control-sm @error('userOtp') is-invalid @enderror @if($isOtpVerfied) is-valid @endif" min="100000" max="999999" minlength="6" maxlength="6" @if (!$otpSendSuccess) disabled @endif @if($isOtpVerfied) readonly @endif>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-secondary btn-sm" style="background-color: #f73f05; border-color: #f73f05 !important;" type="button" wire:click="verifyOtp" @if (!$otpSendSuccess) disabled @endif @if($isOtpVerfied) disabled @endif>
+                                                Verify OTP
+                                            </button>
+                                        </div>
+                                    </div>
+                                    @error('userOtp')
+                                    <small class="text-danger small">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                         <!-- email -->
-                        <div class="mb-2 col-md-6">
+                        <div class="mb-2 col-12">
                             <label class="form-label mb-0">Email</label>
                             <input type="email" wire:model.blur="email" placeholder="Valid email address" class="form-control form-control-sm @error('email') is-invalid @enderror">
                             @error('email')
@@ -218,31 +244,16 @@
                             @enderror
                         </div>
 
-
                     </div>
 
-
                     <div class="mb-2 col-12">
-                        <button type="submit" class="btn-custom w-100 d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-secondary w-100" style="background-color: #f73f05; border-color: #f73f05 !important;" @if (!$otpSendSuccess || !$isOtpVerfied) disabled @endif>
                             <span class="spinner-border spinner-border-sm mr-3" wire:loading wire:target="register" role="status" aria-hidden="true"></span>
                             Register
                         </button>
                     </div>
                 </form>
-                @else
-                <form class="form-row g-1 card-body" wire:submit="verifyOtp">
-                    <div class="mb-2 col-12">
-                        <label class="form-label mb-0 text-center d-block"><b>Enter OTP, you recieved on Mobile number!</b></label>
-                        <input type="number" wire:model="userOtp" class="form-control form-control-lg text-center" min="100000" max="999999" minlength="6" maxlength="6">
-                    </div>
-                    <div class="mb-3 col-12">
-                        <button type="submit" class="btn-custom w-100 d-flex justify-content-center align-items-center">
-                            <span class="spinner-border spinner-border-sm mr-3" wire:loading wire:target="verifyOtp" role="status" aria-hidden="true"></span>
-                            Register
-                        </button>
-                    </div>
-                </form>
-                @endif
+                
             </div>
         </div>
     </div>

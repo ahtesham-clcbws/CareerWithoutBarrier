@@ -1,4 +1,4 @@
-<div class="content admin-1" style="min-height: 100%;">
+<div class="content admin-1" style="min-height: 100%;" x-data>
     <style>
         .d-block {
             color: inherit !important
@@ -96,18 +96,16 @@
                                             <tr class="dn">
                                                 <td colspan="4">
 
-                        @if ($student->latestStudentCode?->is_coupan_code_applied)
-                            <div style="display:block;text-align:center;">
-                                <h6 style="font-weight:700;">Discount Voucher Provided By: SQS Foundation</h6>
-                            </div>
-                        @endif
+                                                    @if ($student->latestStudentCode?->is_coupan_code_applied)
+                                                        <div style="display:block;text-align:center;">
+                                                            <h6 style="font-weight:700;">Discount Voucher Provided By: SQS Foundation</h6>
+                                                        </div>
+                                                    @endif
 
-                                                    <button type="button" style="width: 5rem;height: 2rem;" class="btn btn-md btn-info" data-print="modal" onclick="PrintDoc()"> Print <i class="fa fa-print"></i></button>
+                                                    <button type="button" style="width: 5rem;height: 2rem;" class="btn btn-md btn-info" data-print="modal" @click="printDocument()"> Print <i class="fa fa-print"></i></button>
                                                 </td>
                                             </tr>
                                             @endif
-
-
 
                                             @if($studentPayment && $studentPayment->payment_status == 'success' )
                                             <tr>
@@ -218,4 +216,42 @@
 
     <div class="modal-backdrop fade @if($modalOpened) show @else d-none @endif"></div>
 
+    <!-- Alpine.js Script -->
+    <script>
+        function printDocument() {
+            let printContent = document.getElementById('prodiv').innerHTML;
+            let popupWin = window.open('', '_blank', 'width=1100,height=600');
+
+            popupWin.document.open();
+            popupWin.document.write(`
+                <html>
+                <head>
+                    <title>Payment Receipts</title>
+                    <style>
+                        body { font-family: Arial; }
+                        .noprint { display: none; }
+                        .table { width: 100%; border-collapse: collapse; }
+                        h1 { font-size: 15pt; }
+                        .table th, .table td { border: 1px solid #000; padding: 5px; font-size: 10pt; }
+                        .photo { text-align: center; }
+                        .photo img { width: 115px; }
+                    </style>
+                </head>
+                <body onload="window.print()">
+                    ${printContent}
+                </body>
+                </html>
+            `);
+            popupWin.document.close();
+        }
+    </script>
 </div>
+@script
+<script>
+    $wire.on('coupon-applied', () => {
+        setTimeout(() => {
+            $wire.dispatch('close-modal');
+        }, 1000);
+    });
+</script>
+@endscript

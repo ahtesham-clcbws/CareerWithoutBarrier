@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::match(['get', 'post'], '/', [CorporateController::class, 'login'])->name('corporatelogin');
+Route::match(['get', 'post'], 'login', [CorporateController::class, 'login'])->name('corporatelogin');
 // Route::match(['get', 'post'], '/signup/{branch_code?}', [CorporateController::class, 'signup'])->name('corporateSignup');
 Route::any('/signup/{branch_code?}', InstituteSignUpForm::class)->name('corporateSignup');
 

@@ -3,6 +3,7 @@
 namespace App\Livewire\Website\Corporate;
 
 use App\Models\Corporate;
+use App\Models\OtpVerifications;
 use App\Models\TermsCondition;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -13,12 +14,6 @@ class EnquiryForm extends Component
     use WithFileUploads;
 
     public $institudeTermsCondition = null;
-
-    public $otpRequestId = '';
-    public $otpSendSuccess = false;
-    public $otp = 0;
-
-    public $userOtp;
 
     #[Validate('required', message: 'Please enter your name.')]
     #[Validate('min:5', message: 'Name must be minimum of 5 characters.')]
@@ -75,6 +70,17 @@ class EnquiryForm extends Component
     #[Validate('required', message: 'Please accept our terms and conditions.')]
     public $privacy_policy;
 
+
+    public $otpRequestId = '';
+    public $otpSendSuccess = false;
+
+    #[Validate('required', message: 'Please enter OTP')]
+    #[Validate('exists:otp_verifications,otp', message: 'OTP is invalid.')]
+    public $userOtp;
+
+    public $isOtpVerfied = false;
+
+
     public function mount()
     {
         $this->institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
@@ -86,76 +92,114 @@ class EnquiryForm extends Component
     }
 
 
-    public function enquirySubmit()
+    // public function enquirySubmit()
+    // {
+    //     $this->validate();
+    //     try {
+    //         // send verification code and chows the OTP screen
+    //         $validated = $this->validate();
+    //         if ($validated) {
+    //             // continue to send otp to the user mobile
+    //             $this->otpRequestId = 'someRequestIdAfterOTP';
+    //             $this->otpSendSuccess = true;
+    //             // $this->otp = rand(100000, 99999);
+    //             $this->otp = 123456;
+    //             $this->js("window.scrollTo({ top: 0, behavior: 'smooth'})");
+    //         }
+    //     } catch (\Throwable $th) {
+    //         //throw $th;
+    //         $this->js("toastr.error(" . $th->getMessage() . ")");
+    //     }
+    // }
+
+
+    public function sendOTP()
     {
-        $this->validate();
-        try {
-            // send verification code and chows the OTP screen
-            $validated = $this->validate();
-            if ($validated) {
-                // continue to send otp to the user mobile
-                $this->otpRequestId = 'someRequestIdAfterOTP';
+        $validated = $this->validateOnly('phone');
+        if ($validated) {
+            $otp = rand(1253489, 9865324);
+            $otp = 123456;
+            $otpCreated = OtpVerifications::create([
+                'type' => 'mobile',
+                'credential' => $this->phone,
+                'otp' => $otp,
+            ]);
+            if ($otpCreated) {
+                $this->otpRequestId = $otpCreated->id;
                 $this->otpSendSuccess = true;
-                // $this->otp = rand(100000, 99999);
-                $this->otp = 123456;
-                $this->js("window.scrollTo({ top: 0, behavior: 'smooth'})");
             }
-        } catch (\Throwable $th) {
-            //throw $th;
-            $this->js("toastr.error(" . $th->getMessage() . ")");
+
+            $this->js('toastr.success("OTP send successfully, please check your phone.")');
+        } else {
+            $this->js('toastr.error("Phone number, id not valid.")');
         }
+    }
+
+    public function verifyOtp()
+    {
+        $getOTP = OtpVerifications::where('type', 'mobile')->where('credential', $this->phone)->orderBy('id', 'desc')->first();
+        if (!$getOTP) {
+            $this->addError('phone', 'Enter correct phone number.');
+            return false;
+        }
+        if ($getOTP->otp != $this->userOtp) {
+            $this->addError('userOtp', 'Enter correct OTP.');
+            return false;
+        }
+        $this->isOtpVerfied = true;
     }
 
     public function VerifyAndSubmit()
     {
-        if ($this->otp == $this->userOtp || $this->userOtp == 123456) {
-            $this->validate();
-            try {
-                $validated = $this->validate();
-                if ($validated) {
-                    $institute = new Corporate();
 
-                    $institute->name = $this->name;
-                    $institute->institute_name = $this->institute_name;
-                    $institute->type_institution = $this->type_institution;
-                    $institute->established_year = $this->established_year;
-                    $institute->interested_for = implode(',', $this->interested_for);
+        $this->validate();
 
-                    $institute->phone = $this->phone;
-                    $institute->email = $this->email;
+        if (!$this->otpRequestId || !$this->otpSendSuccess) {
+            $this->addError('phone', 'Please verify your phone number.');
+            return false;
+        }
+        if (!$this->isOtpVerfied) {
+            $this->addError('userOtp', 'OTP is not valid, Please check again.');
+            return false;
+        }
 
-                    $institute->state_id = $this->state_id;
-                    $institute->district_id = $this->district_id;
+        try {
+            $institute = new Corporate();
 
-                    $institute->address = $this->address;
-                    $institute->pincode = $this->pincode;
+            $institute->name = $this->name;
+            $institute->institute_name = $this->institute_name;
+            $institute->type_institution = $this->type_institution;
+            $institute->established_year = $this->established_year;
+            $institute->interested_for = implode(',', $this->interested_for);
 
-                    $institute->attachment = $this->attachment->store('corporate-attachment', 'public');
-                    $institute->attachment_profile = $this->attachment_profile->store('corporate-attachment', 'public');
+            $institute->phone = $this->phone;
+            $institute->email = $this->email;
 
-                    $institute->is_otp_verified = true;
-                    $institute->save();
+            $institute->state_id = $this->state_id;
+            $institute->district_id = $this->district_id;
 
-                    $this->js("toastr.success('Corporate inquiry submitted successfully!')");
-                    // $this->reset();
-                    $this->js("window.location.href = '/'");
-                } else {
-                    $this->js("toastr.error('Unable to submitted enquiry, try after some time.')");
-                    $this->otpRequestId = '';
-                    $this->otpSendSuccess = false;
-                }
-            } catch (\Throwable $th) {
-                //throw $th;
-                $this->otpRequestId = '';
-                $this->otpSendSuccess = false;
+            $institute->address = $this->address;
+            $institute->pincode = $this->pincode;
 
-                logger('Registration Failed:', [$th]);
-                $this->js("toastr.error(" . $th->getMessage() . ")");
-                $this->js("toastr.error('Unable to submitted enquiry, try after some time.')");
-                return false;
-            }
-        } else {
-            $this->js("toastr.error('Invalid OTP, please try again.')");
+            $institute->attachment = $this->attachment->store('corporate-attachment', 'public');
+            $institute->attachment_profile = $this->attachment_profile->store('corporate-attachment', 'public');
+
+            $institute->is_otp_verified = true;
+            $institute->save();
+
+            $this->js("toastr.success('Corporate inquiry submitted successfully!')");
+            // $this->reset();
+            $this->js("window.location.href = '/'");
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+            $this->otpRequestId = '';
+            $this->otpSendSuccess = false;
+
+            logger('Registration Failed:', [$th]);
+            $this->js("toastr.error(" . $th->getMessage() . ")");
+            $this->js("toastr.error('Unable to submitted enquiry, try after some time.')");
+            return false;
         }
     }
 }

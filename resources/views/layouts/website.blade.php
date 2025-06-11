@@ -818,7 +818,7 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                                 <div class="contact__msg">Thank you.</div>
                                 <ul>
                                     <li class="full"> <label for="mobile">Mobile<span class="text-danger">*</span></label>
-                                        <input type="text" pattern="[6-9]{1}[0-9]{9}" name="mobile" placeholder="Mobile Number" title="Please enter valid mobile" class="form-control" required>
+                                        <input type="number" pattern="[6-9]{1}[0-9]{9}" name="mobile" placeholder="Mobile Number" title="Please enter valid mobile" class="form-control" required>
                                         @error('mobile')
                                         <div class="text-danger">{{$message}}</div>
                                         @enderror

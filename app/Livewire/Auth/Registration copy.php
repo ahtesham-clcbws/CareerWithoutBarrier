@@ -14,15 +14,14 @@ use App\Models\StudentCode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Livewire\Attributes\Layout;
 
 class Registration extends Component
 {
     public $showPassword = false;
 
+
     #[Validate('required', message: 'Please select Qualification')]
     public $selectedBoard = null;
-
     #[Validate('required', message: 'Please select Scholarship')]
     public $selectedScholarship = null;
     #[Validate('required', message: 'Please select State')]
@@ -119,6 +118,7 @@ class Registration extends Component
         return false;
     }
 
+
     public function updated($property)
     {
         // $this->js('console.log("' . \json_encode($this->getErrorBag()) . '")');
@@ -142,6 +142,7 @@ class Registration extends Component
             $this->remainingForms = $data?->remaining ?? 0;
         }
     }
+
 
     // public function boot()
     // {
@@ -194,20 +195,7 @@ class Registration extends Component
             $this->js('toastr.error("Mobile number, id not valid.")');
         }
     }
-
-    public function verifyOtp()
-    {
-        $getOTP = OtpVerifications::where('type', 'mobile')->where('credential', $this->mobile)->orderBy('id', 'desc')->first();
-        if (!$getOTP) {
-            $this->addError('mobile', 'Enter correct mobile number.');
-            return false;
-        }
-        if($getOTP->otp != $this->userOtp) {
-            $this->addError('userOtp', 'Enter correct OTP.');
-            return false;
-        }
-        $this->isOtpVerfied = true;
-    }
+    // public function verifyOtp(){}
 
     public function register()
     {
@@ -217,14 +205,25 @@ class Registration extends Component
             return $this->couponVerify();
         }
 
-        if (!$this->otpRequestId || !$this->otpSendSuccess) {
-            $this->addError('mobile', 'Please verify your mobile number.');
-            return false;
+        if($this->otpRequestId && $this->otpSendSuccess) {}
+
+        try {
+            $validated = $this->validate();
+            if ($validated) {
+                // continue to send otp to the user mobile
+                $this->otpRequestId = 'someRequestIdAfterOTP';
+                $this->otpSendSuccess = true;
+                $this->js("window.scrollTo({ top: 0, behavior: 'smooth'})");
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            $this->js("toastr.error(" . $th->getMessage() . ")");
         }
-        if (!$this->isOtpVerfied) {
-            $this->addError('userOtp', 'OTP is not valid, Please check again.');
-            return false;
-        }
+    }
+
+    public function verifyOtp()
+    {
+        // fisrt verify user otp
 
         try {
             $student = new Student();
@@ -255,13 +254,18 @@ class Registration extends Component
             $this->js("toastr.success('Registered successfully.')");
 
             return $this->redirect('/students/studentDashboard');
+            // } else {
+            //     $this->js("toastr.error('Forms not available for this district right now, please after some time, or contact administrator.')");
+            //     return false;
+            // }
         } catch (\Throwable $th) {
-            // $this->otpRequestId = '';
-            // $this->otpSendSuccess = false;
+            $this->otpRequestId = '';
+            $this->otpSendSuccess = false;
             // DB::rollBack();
             logger('Registration Failed:', [$th]);
-            // $this->js("toastr.error(" . $th->getMessage() . ")");
+            $this->js("toastr.error(" . $th->getMessage() . ")");
             $this->js("toastr.error('Unable to register, try after some time.')");
+            return false;
         }
     }
 

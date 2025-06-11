@@ -4,22 +4,30 @@ namespace App\Livewire\Student;
 
 use App\Models\CouponCode;
 use App\Models\StudentCode;
-use Livewire\Attributes\Layout;
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
+use Livewire\Component;
+use Livewire\Attributes\On;
+
 
 #[Layout('student.layouts.master')]
 class PaymentPage extends Component
 {
-
     public $modalOpened = false;
+
     public $student;
 
     #[Validate('required', 'string')]
     public $coupan_code;
 
+    public function updated($property)
+    {
+        if ($property) {
+
+        }
+    }
 
     public function render()
     {
@@ -36,7 +44,7 @@ class PaymentPage extends Component
             'student' => $this->student,
             // 'appCode' => $appCode,
             'studentPayment' => $studentPayment,
-            'calculateDiscountPercentage' => $calculateDiscountPercentage
+            'calculateDiscountPercentage' => $calculateDiscountPercentage,
         ]);
     }
 
@@ -46,15 +54,15 @@ class PaymentPage extends Component
             return 0;
         }
         $discountPercentage = ($discountAmount / $originalAmount) * 100;
+
         return $discountPercentage;
     }
-
 
     public function applyCoupon()
     {
         $studentCode = StudentCode::where('stud_id', $this->student->id)->get()->last();
-        if (!$studentCode) {
-            $studentCode = new StudentCode();
+        if (! $studentCode) {
+            $studentCode = new StudentCode;
             $studentCode->stud_id = $this->student->id;
         }
 
@@ -68,6 +76,7 @@ class PaymentPage extends Component
 
             if (is_null($couponCode)) {
                 $this->addError('coupan_code', 'Coupon Code invalid');
+
                 // return response()->json([
                 //     'status' => false,
                 //     'message' => "Coupon Code invalid"
@@ -77,7 +86,6 @@ class PaymentPage extends Component
 
             $couponCode->is_applied = 1;
             $couponCode->save();
-
 
             $afterAppliedRemainValue = couponValueApply($couponCode->valueType, $couponCode->value);
 
@@ -110,12 +118,14 @@ class PaymentPage extends Component
             //     'corporate_name' => $studentCode->corporate_name
             // ]);
         } catch (\Throwable $th) {
-            $this->addError('coupan_code', 'Failed to apply code');
+            // $this->addError('coupan_code', 'Failed to apply code');
             DB::rollBack();
             logger('Failed:', [$th]);
+
             return false;
             // return back()->withErrors('Failed to apply code');
         }
+        $this->dispatch('coupon-applied');
 
         // Redirect back or return a response
 
@@ -128,8 +138,9 @@ class PaymentPage extends Component
             DB::beginTransaction();
             $studentCode = StudentCode::where('stud_id', $this->student->id)->where('coupan_code', $this->coupan_code)->first();
 
-            if (!$studentCode) {
+            if (! $studentCode) {
                 $this->js("error('No coupon applied to remove')");
+
                 // $this->addError('coupan_code', 'No coupon applied to remove.');
                 return false;
                 // return response()->json([
@@ -167,13 +178,21 @@ class PaymentPage extends Component
             DB::rollBack();
             logger('Failed:', [$th]);
             $this->js("error('Failed to remove coupon.')");
+
             return false;
             // return response()->json([
             //     'status' => false,
             //     'message' => 'Failed to remove coupon.',
             // ]);
         }
+        $this->dispatch('coupon-applied');
     }
 
-    public function formSubmit(){}
+    public function formSubmit() {}
+
+    #[On('close-modal')]
+    public function closeModal()
+    {
+        $this->modalOpened = false;
+    }
 }

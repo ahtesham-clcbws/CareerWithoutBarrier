@@ -172,7 +172,7 @@ Other cleanups at website - [DONE]
 
 Institute signup -> livewire form - [DONE]
 
-Registration or Enquiry form -> OTP in form verification
+Registration or Enquiry form -> OTP in form verification - [DONE]
 
 Roll no generation testing
 

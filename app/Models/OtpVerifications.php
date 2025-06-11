@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class OtpVerifications extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'type',
+        'credential',
+        'otp',
+        'status'
+    ];
 }
