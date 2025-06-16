@@ -23,6 +23,7 @@ use App\Livewire\Student\PaymentPage;
 use App\Livewire\Student\StudentProfile;
 use App\Livewire\Website\Corporate\Enquiry\Form;
 use App\Livewire\Website\Corporate\EnquiryForm;
+use App\Livewire\Website\PolicyPageFrontend;
 use App\Services\TextlocalService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Artisan;
@@ -199,6 +200,8 @@ Route::get('/categories', [CommonController::class, 'categoryAll'])->name('categ
 Route::get('subcategories/{category}', [CommonController::class, 'subcategory'])->name('subcategory');
 Route::get('subjects/{subcategory}', [CommonController::class, 'subject'])->name('subject');
 Route::get('districts/{state}', [CommonController::class, 'districts']);
+
+Route::get('p/{slug}', PolicyPageFrontend::class)->name('website.policy-page');
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();

@@ -11,6 +11,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\NewsController;
 use App\Livewire\Admin\Setting\Districts;
+use App\Livewire\Admin\Setting\PolicyPages\PolicyPageAddUpdate;
+use App\Livewire\Admin\Setting\PolicyPages\PolicyPagesList;
 use App\Livewire\Admin\Setting\ScholarshipForms;
 use App\Livewire\Admin\Setting\States;
 use App\Livewire\Administrator\Corporate\AdminCouponRequestsList;
@@ -64,7 +66,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('/');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-
+Route::redirect('administrator', 'administrator/login');
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout',  [LoginController::class, 'logout'])->name('admin.logout');
 
@@ -201,8 +203,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::any('/districts', Districts::class)->name('admin.district-settings');
         Route::any('/states', States::class)->name('admin.state-settings');
         Route::any('/scholarship-forms', ScholarshipForms::class)->name('admin.scholarship-forms');
-    });
 
+        Route::any('/policy-pages', PolicyPagesList::class)->name('admin.policy-pages');
+        Route::any('/policy-pages/{page}', PolicyPageAddUpdate::class)->name('admin.policy-page-update');
+    });
 
     Route::prefix('news')->group(function () {
         Route::get('/notification', [NewsController::class, 'notification'])->name('news.notification');

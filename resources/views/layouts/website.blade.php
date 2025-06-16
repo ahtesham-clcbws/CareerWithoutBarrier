@@ -10,7 +10,9 @@
     <meta name="description" content="">
     <meta name="keyword" content="">
     <!-- SEO TITLE AND DESCRIPTIONS -->
-    <title>Welcome to Carrier Without Barrier</title>
+    <title>
+        {{ isset($title) && !empty(trim($title)) ? $title . ' | Carrier Without Barrier' : 'Welcome to Carrier Without Barrier' }}
+    </title>
     <!-- FAV ICON(BROWSER TAB ICON) -->
     <link rel="shortcut icon" href="{{ asset('website/assets/images/fav-icon.png') }}" type="image/x-icon">
     <!-- Google Fonts -->
@@ -511,9 +513,9 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
 
                         $institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
 
-                        $privacy_policy = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'privacy-policy']])->first();
+                        // $privacy_policy = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'privacy-policy']])->first();
 
-                        $privacy_policy_cond = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'privacy-policy']])->first();
+                        // $privacy_policy_cond = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'privacy-policy']])->first();
 
                         $imp_link = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'important-links']])->first();
 
@@ -527,8 +529,15 @@ $prospectus = EProspectusModel::where('status', 1)->orderBy('updated_at')->first
                             <li><a href="{{ route('corporateEnquiry') }}">Institutional Enquiry</a></li>
                             <p><a href="{{ $imp_link ? asset('home/'.$imp_link->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $imp_link ? '_blank' : '_self'}}">Important Links</a></p>
                             <!--<p><a href="javascipt:void(0)">Downloads</a></p>-->
-                            <p><a href="{{ $privacy_policy ? asset('home/'.$privacy_policy->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Privacy Policy</a></p>
-                            <p><a href="{{ $termsCondition ? asset('home/'.$termsCondition->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Terms & Conditions</a>
+                            {{-- PolicyPage --}}
+                            @php
+                                $pages = App\Models\PolicyPage::all();
+                            @endphp
+                            @foreach ($pages as $page)
+                            <p><a href="{{ route('website.policy-page', $page->slug) }}">{{ $page->title }}</a></p>
+                            @endforeach
+                            {{-- <p><a href="{{ $privacy_policy ? asset('home/'.$privacy_policy->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Privacy Policy</a></p> --}}
+                            {{-- <p><a href="{{ $termsCondition ? asset('home/'.$termsCondition->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Terms & Conditions</a> --}}
                             </p>
                             <p><a href="{{URL::to('/faq')}}">Faq</a></p>
                             <p><a href="{{ route('freeform') }}">Get 100% Free Form (Limited)</a></p>
