@@ -26,7 +26,7 @@ Testimonials
                     @foreach ($testimonials as $testimonial)
                         <tr>
                             <th scope="row">{{$loop->iteration}}</th>
-                            <td> <img src="{{ asset('home/' . $testimonial->image) }}"
+                            <td> <img src="{{ asset('storage/' . $testimonial->image) }}"
                                     style="width: 100px;border-radius:10px"></td>
                             <td width="40%">{!! $testimonial->message !!}</td>
                             <td>

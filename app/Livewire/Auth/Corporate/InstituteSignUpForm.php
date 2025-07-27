@@ -67,7 +67,7 @@ class InstituteSignUpForm extends Component
             $corporate->save();
 
             $this->js("success('You are SignUp Successfully. Please Check Your Email for Confirmation Login Link.')");
-            $this->js('reload300()');
+            return $this->redirect('/');
         } catch (\Throwable $th) {
             // throw $th;
             logger('Institute Signup Failed:', [$th]);

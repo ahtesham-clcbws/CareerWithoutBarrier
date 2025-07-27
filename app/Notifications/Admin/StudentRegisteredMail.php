@@ -40,7 +40,7 @@ class StudentRegisteredMail extends Notification
         $student = $this->student;
         return (new MailMessage)
             ->subject('Success: Student Registration')
-            ->markdown('mail.admin.student_registration', compact('student'));
+            ->markdown('mail.admin.admin_student_registration', compact('student'));
     }
 
     /**
