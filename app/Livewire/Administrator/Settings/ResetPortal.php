@@ -4,6 +4,8 @@ namespace App\Livewire\Administrator\Settings;
 
 use App\Models\BoardAgencyStateModel;
 use App\Models\ClassGoupExamModel;
+use App\Models\Corporate;
+use App\Models\CorporateCouponRequest;
 use App\Models\CouponCode;
 use App\Models\Gn_DisplayExamAgencyBoardUniversity;
 use App\Models\Gn_DisplayOtherExamClassDetail;
@@ -12,10 +14,12 @@ use App\Models\Gn_OtherExamClassDetailModel;
 use App\Models\MobileNumber;
 use App\Models\OtpVerifications;
 use App\Models\Payment;
+use App\Models\Student;
 use App\Models\StudentClaimForm;
 use App\Models\StudentCode;
 use App\Models\StudentPaperExported;
 use App\Models\StudentPayment;
+use App\Models\TestimonialsModel;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -28,9 +32,11 @@ class ResetPortal extends Component
         return view('livewire.administrator.settings.reset-portal');
     }
 
-    public function resetPortal(){
+    public function resetPortal()
+    {
         try {
             // DB::beginTransaction();
+            TestimonialsModel::truncate();
             StudentCode::truncate();
             CouponCode::truncate();
             StudentClaimForm::truncate();
@@ -39,18 +45,13 @@ class ResetPortal extends Component
             MobileNumber::truncate();
             OtpVerifications::truncate();
             Payment::truncate();
-            // ClassGoupExamModel::truncate();
-            // BoardAgencyStateModel::truncate();
-            
-            // Gn_EducationClassExamAgencyBoardUniversity::truncate();
-            // Gn_OtherExamClassDetailModel::truncate();
-            // Gn_DisplayExamAgencyBoardUniversity::truncate();
-            // Gn_DisplayOtherExamClassDetail::truncate();
-            
-            // Gn_DisplayOtherExamClassDetail::truncate();
+            CorporateCouponRequest::truncate();
+            Corporate::truncate();
+            Student::truncate();
             // DB::commit();
-            $this->js('window.location.href = "/administrator"');
+            $this->js('window.location.href = "/administrator/dashboard"');
         } catch (\Throwable $th) {
+            // DB::rollBack();
             throw $th;
         }
     }

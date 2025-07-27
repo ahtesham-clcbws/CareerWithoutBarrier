@@ -24,3 +24,5 @@ storage/framework/cache/data
 storage/framework/views
 TODO.md
 /vendor/_laravel_ide
+storage/framework/sessions
+storage/logs

@@ -19,11 +19,10 @@
     </style>
 
     <div class="d-flex align-items-center justify-content-between" style="padding: 10px;">
-        <h3>
-            Contact reply:
-        </h3>
+        <a class="btn btn-primary btn-sm" href="{{ route('admin.contactEnquiry') }}">Close</a>
         @if ($contact->replyMails->count())
-        <a type='button' class='btn btn-warning btn-sm' href="{{ route('admin.contactRelpiesList', $contact->id) }}">View Replied List</a>
+            <a class='btn btn-danger btn-sm' type='button'
+                href="{{ route('admin.contactRelpiesList', $contact->id) }}">View Replied List</a>
         @endif
     </div>
     <div class="row">
@@ -33,7 +32,7 @@
             <div class="boxShadow">
 
                 <div class="p-1">
-                    <table class="table w-100 table-bordered customTable">
+                    <table class="w-100 table-bordered customTable table">
                         <tbody>
                             <tr>
                                 <th scope="row">Name</th>
@@ -58,18 +57,16 @@
                         </tbody>
                     </table>
                 </div>
-                <form class="mt-2 row gap-3" wire:submit.prevent="save">
+                <form class="row mt-2 gap-3" wire:submit.prevent="save">
                     <div wire:ignore>
-                        <textarea wire:model="message"
-                            class="form-control"
-                            style="min-height: 300px;"
-                            rows="10"
-                            name="message"
-                            id="message">
+                        <textarea class="form-control" id="message" name="message" style="min-height: 300px;" wire:model="message"
+                            rows="10">
                         </textarea>
                     </div>
 
-                    @error('message')<div class="text-danger">{{ $message }}</div>@enderror
+                    @error('message')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
 
                     <!-- Submit Button -->
                     <div class="text-end">
@@ -92,21 +89,19 @@
     </div>
 </div>
 @push('custom-scripts')
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
 
-<script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor.create(document.querySelector('#message'), {
 
-<script>
-    ClassicEditor.create(document.querySelector('#message'), {
-
-        })
-        .then(editor => {
-            editor.model.document.on('change:data', () => {
-                @this.set('message', editor.getData());
             })
-        })
-        .catch(error => {
-            console.error(error);
-        });
-</script>
-
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                    @this.set('message', editor.getData());
+                })
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 @endpush

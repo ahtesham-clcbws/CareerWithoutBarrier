@@ -2,17 +2,22 @@
     Hello!
     <br>
     <div style="text-align: center">
-        <img width="70" src="{{ asset('images/approvalmark.png') }}">
+        <img src="{{ asset('images/approvalmark.png') }}" width="70">
     </div>
-    <div >
-        <h2 style="color:rgb(35, 33, 33); text-align:center ">Success</h2>
-        <p align="center" style="margin-top: 10px; color:rgb(35, 33, 33); text-align:center" id='message'>
-            New Student {{ $student->name }}  successfully Registered! Mobile Number: {{$student->mobile}}.
+    <div>
+        <h2 style="color:rgb(35, 33, 33); text-align: center;">Congratulations!</h2>
+        <h2 style="color:rgb(35, 33, 33); text-align: center;">Registration Successful</h2>
+        <br />
+        <p id='message' style="margin-top: 10px; color:rgb(35, 33, 33); text-align:center" align="center">
+            Student's Name: <b>{{ $student->name }}</b><br />
+            Mobile Number: <b>{{ $student->mobile }}</b>.
         </p>
+        <br />
+        @component('mail::button', ['url' => route('studentDashboard')])
+            Click here
+        @endcomponent
+        <small>Use your phone number / password to proceed further</small>
     </div>
-    @component('mail::button', ['url' => route('admin.student', [$student])])
-        Click here
-    @endcomponent
     <br> <br>
     Thanks
     Best regards,<br>
