@@ -1,13 +1,12 @@
 import { defineConfig } from 'vite';
 import laravel, { refreshPaths } from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue';
-
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/sass/app.scss',
+                'resources/css/app.scss',
                 'resources/js/app.js',
             ],
             refresh: [
@@ -15,6 +14,6 @@ export default defineConfig({
                 'app/Livewire/**',
             ],
         }),
-        vue()
+        tailwindcss(),
     ],
 });

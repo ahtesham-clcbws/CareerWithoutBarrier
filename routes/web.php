@@ -1,15 +1,10 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\CommonController;
-use App\Http\Controllers\CouponCodeController;
-use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ImgaeController;
 use App\Http\Controllers\InternalRequestsController;
-use App\Http\Controllers\NewsController;
 use App\Http\Controllers\Razorpay;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\StudentController;
@@ -21,14 +16,9 @@ use App\Livewire\Student\AddTestimonial;
 use App\Livewire\Student\ApplyForm\AdditionalDetailsForm;
 use App\Livewire\Student\PaymentPage;
 use App\Livewire\Student\StudentProfile;
-use App\Livewire\Website\Corporate\Enquiry\Form;
 use App\Livewire\Website\Corporate\EnquiryForm;
 use App\Livewire\Website\PolicyPageFrontend;
-use App\Services\TextlocalService;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -130,9 +120,9 @@ Route::prefix('enquiry')->group(function () {
     Route::post('/replymail', [EnquiryController::class, 'replymail'])->name('enquiry.replymail');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('dashboard', function () {
+    return redirect()->to('/administrator/dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/scholarshipForm', [HomeController::class, 'scholarshipForm'])->name('home.scholarshipForm');

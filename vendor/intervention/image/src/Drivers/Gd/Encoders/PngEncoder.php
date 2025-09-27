@@ -25,23 +25,18 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
     {
         $output = $this->prepareOutput($image);
 
-        // encode
-        $data = $this->buffered(function () use ($output) {
+        return $this->createEncodedImage(function ($pointer) use ($output): void {
             imageinterlace($output, $this->interlaced);
-            imagepng($output, null, -1);
-        });
-
-        return new EncodedImage($data, 'image/png');
+            imagepng($output, $pointer, -1);
+        }, 'image/png');
     }
 
     /**
      * Prepare given image instance for PNG format output according to encoder settings
      *
-     * @param ImageInterface $image
      * @throws RuntimeException
      * @throws ColorException
      * @throws AnimationException
-     * @return GdImage
      */
     private function prepareOutput(ImageInterface $image): GdImage
     {
