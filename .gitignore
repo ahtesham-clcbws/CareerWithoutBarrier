@@ -1,7 +1,6 @@
 /node_modules
 # /public/build
 /public/hot
-/storage/*.key
 # /vendor
 .env
 .env.backup
@@ -19,13 +18,8 @@ _ide_helper.php
 *.zip
 storage/debugbar
 storage/logs
-storage/framework/cache/laravel-excel
-storage/framework/cache/data
-storage/framework/views
 TODO.md
 /vendor/_laravel_ide
-storage/framework/sessions
-storage/logs
 .env_production
 composer copy.lock
 package-lock copy.json
