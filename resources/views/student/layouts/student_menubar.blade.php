@@ -20,7 +20,7 @@ $student = Auth::guard('student')->user();
         <?php
         $user = Auth::guard('student')->user(); ?>
         <li class="nav-item">
-            <button class="panel-heading last_p">@if($student->photograph)
+            <button class="panel-heading last_p studentImage">@if($student->photograph)
                 <img src="{{ explode('/', $student->photograph)[0] == 'student' ? '/storage/'.$student->photograph : '/upload/student/'.$student->photograph  }}">
                 @else
                 <img src="{{asset('student/images/th_5.png')}}">

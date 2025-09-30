@@ -194,7 +194,7 @@
                                             <button type="button" @class(['btn btn-sm newButton', 'btn-success' => $isOtpVerfied]) wire:click="verifyOtp"
                                                 @if (!$otpSendSuccess) disabled @endif
                                                 @if ($isOtpVerfied) disabled @endif>
-                                                Verify OTP
+                                                {{ $isOtpVerfied ? "Verified" : "Verify OTP" }}
                                             </button>
                                         </div>
                                     </div>
@@ -279,7 +279,8 @@
                                 <label class="form-check-label d-inline-block" for="termsCheckbox">
                                     @if ($institudeTermsCondition)
                                         I accept the&nbsp;<a class="inline-block"
-                                            href="{{ asset('home/' . $institudeTermsCondition) }}"
+                                            href="/p/terms-and-conditions"
+                                            {{-- href="{{ asset('home/' . $institudeTermsCondition) }}" --}}
                                             style="text-decoration: underline;" target="_blank">Terms &
                                             Conditions</a>&nbsp;of Career without barrier
                                     @else

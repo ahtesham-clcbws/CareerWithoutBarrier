@@ -62,7 +62,7 @@
                                     <p class="card-text"><b>Message: </b>{!! $student->testimonial->message !!}</p>
                                 </div>
                                 <div class="col-md-5 col"> @if ($student->testimonial->image)
-                                    <img style="width: 64px;" src="{{ asset('home/' . $student->testimonial->image) }}" class="card-img-top" alt="{{ $student->testimonial->name }}">
+                                    <img src="{{ asset('/storage/' . $student->testimonial->image) }}" class="card-img-top" alt="{{ $student->testimonial->name }}">
                                     @endif
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                     </div>
                     @else
                     <div class="">
-                        <h5 class="m-3">You have not submitted a testimonial yet.</h5>
+                        <h6 class="m-3">You have not submitted a testimonial yet.</h6>
                     </div>
                     @endif
                 </div>

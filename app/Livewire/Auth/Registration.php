@@ -6,6 +6,7 @@ use App\Models\Corporate;
 use App\Models\CouponCode;
 use App\Models\District;
 use App\Models\OtpVerifications;
+use App\Models\PolicyPage;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 

@@ -1,7 +1,7 @@
 /node_modules
 # /public/build
 /public/hot
-# /vendor
+/vendor
 .env
 .env.backup
 .env.production
@@ -23,3 +23,10 @@ TODO.md
 .env_production
 composer copy.lock
 package-lock copy.json
+storage/category_images
+storage/files
+storage/app/livewire-tmp
+storage/framework
+storage/images
+storage/slider
+public/storage

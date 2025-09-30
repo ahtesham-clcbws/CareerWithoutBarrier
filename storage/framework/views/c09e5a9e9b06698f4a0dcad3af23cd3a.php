@@ -76,7 +76,7 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                                     <p class="card-text"><b>Message: </b><?php echo $student->testimonial->message; ?></p>
                                 </div>
                                 <div class="col-md-5 col"> <!--[if BLOCK]><![endif]--><?php if($student->testimonial->image): ?>
-                                    <img style="width: 64px;" src="<?php echo e(asset('home/' . $student->testimonial->image)); ?>" class="card-img-top" alt="<?php echo e($student->testimonial->name); ?>">
+                                    <img src="<?php echo e(asset('/storage/' . $student->testimonial->image)); ?>" class="card-img-top" alt="<?php echo e($student->testimonial->name); ?>">
                                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                                 </div>
                             </div>
@@ -85,7 +85,7 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
                     <?php else: ?>
                     <div class="">
-                        <h5 class="m-3">You have not submitted a testimonial yet.</h5>
+                        <h6 class="m-3">You have not submitted a testimonial yet.</h6>
                     </div>
                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                 </div>
