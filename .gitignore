@@ -2,31 +2,24 @@
 # /public/build
 /public/hot
 /vendor
-.env
-.env.backup
-.env.production
-.phpunit.result.cache
-Homestead.json
-Homestead.yaml
-auth.json
-npm-debug.log
-yarn-error.log
+/.env
+/.env.backup
+/.env.production
+/.phpunit.result.cache
+/Homestead.json
+/Homestead.yaml
+/auth.json
+/npm-debug.log
+/yarn-error.log
 /.fleet
 /.idea
 /.vscode
-_ide_helper.php
-*.zip
-storage/debugbar
-storage/logs
-TODO.md
+/_ide_helper.php
+/*.zip
+/TODO.md
 /vendor/_laravel_ide
-.env_production
-composer copy.lock
-package-lock copy.json
-storage/category_images
-storage/files
-storage/app/livewire-tmp
-storage/framework
-storage/images
-storage/slider
-public/storage
+/.env_production
+/composer copy.lock
+/package-lock copy.json
+/storage
+/public/storage
