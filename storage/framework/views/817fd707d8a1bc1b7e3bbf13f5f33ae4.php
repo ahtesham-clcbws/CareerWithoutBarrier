@@ -56,15 +56,9 @@
     <div class="pagecontentbody container">
         <div class="tab-content">
             <div class="pagebody p-4">
-                <div class="row">
-                    <div class="col-md-9">
-                        
-                    </div>
-                    <div class="col-md-3 text-end">
-                        <button data-print="modal" type="button"
-                            style="border: 1px solid #17a2b8;background: #17a2b8;color:#fff" onclick="PrintDoc()"> <i
-                                class="fa fa-print"></i> </button>
-                    </div>
+                <div class="text-end">
+                    <button data-print="modal" type="button" style="border: 1px solid #17a2b8;background: #17a2b8;color:#fff"
+                        onclick="PrintDoc()"> <i class="fa fa-print"></i> </button>
                 </div>
                 <form action="<?php echo e($student->is_final_submitted ? '#' : route('students.finalSubmit')); ?>" method="post">
                     <?php echo csrf_field(); ?>
@@ -122,13 +116,13 @@
 
                                                 </td>
                                                 <td rowspan="5" colspan="2" align="center">
-                                                    <div class="text-center" style="display: inline-grid;">
+                                                    <div class="text-center" style="display: inline-grid; studentImage">
                                                         <img class="img-fluid"
                                                             src="<?php echo e(explode('/', $student->photograph)[0] == 'student' ? '/storage/' . $student->photograph : '/upload/student/' . $student->photograph); ?>"
-                                                            style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: auto;">
+                                                            style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: 160px;">
                                                         <img class="img-fluid"
                                                             src="<?php echo e(explode('/', $student->signature)[0] == 'student' ? '/storage/' . $student->signature : '/upload/student/' . $student->signature); ?>"
-                                                            style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: auto;">
+                                                            style="width: 160px;border: 1px double #dee2e6;padding: 4px;height: 160px;">
                                                     </div>
                                                 </td>
                                             </tr>

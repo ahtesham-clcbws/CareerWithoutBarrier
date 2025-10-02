@@ -9,7 +9,13 @@ class StudentPayment extends Model
 {
     use HasFactory;
 
-    public function student(){
-        return $this->belongsTo(Student::class,'student_id');
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'student_id');
+    }
+
+    public function institute()
+    {
+        return $this->belongsTo(Corporate::class);
     }
 }

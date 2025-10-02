@@ -63,13 +63,19 @@
                 width: -webkit-fill-available;
                 height: -webkit-fill-available;
             }
+
+            @media print {
+                .no-print {
+                    display: none !important;
+                }
+            }
         </style>
 
         @livewireStyles
 
     </head>
 
-    <body>
+    <body style="background-color: #f4f6f9;">
         <div class="toggled" id="wrapper" style="height: -webkit-fill-available;">
             <div class="overlay"></div>
 

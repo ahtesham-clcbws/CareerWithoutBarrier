@@ -4,19 +4,22 @@
             color: inherit !important
         }
     </style>
-    <div class="row corporate-cards" style="width: 50%;text-align: center;margin-left: 20%;padding-top:5%;margin-right: auto;">
+    <div class="row corporate-cards"
+        style="width: 50%;text-align: center;margin-left: 20%;padding-top:5%;margin-right: auto;">
         <div class="col-md-12 col-12" id="prodiv">
             <div class="card">
-                <div class="card-header" style="background-color:#18c968 ; color: white;text-align:center;justify-content:center">
+                <div class="card-header"
+                    style="background-color:#18c968 ; color: white;text-align:center;justify-content:center">
                     <div st>
-                        <h6 style="color: #000;">Your Application no is: <b> <?php echo e($student->latestStudentCode?->application_code); ?></b></h6>
+                        <h6 style="color: #000;">Your Application no is: <b>
+                                <?php echo e($student->latestStudentCode?->application_code); ?></b></h6>
                     </div>
                 </div>
                 <br>
                 <div class="card-body">
                     <div class="col-md-12">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="studentTable">
+                            <table class="table-bordered table-hover table" id="studentTable">
                                 <tbody>
                                     <tr>
                                         <td colspan="2"><b>Name</b></td>
@@ -32,11 +35,15 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2"><b>Referral Code Issued By</b></td>
-                                        <td class="information-txt" colspan="2"><?php echo e($student->latestStudentCode?->corporate?->institute_name ? $student->latestStudentCode?->corporate?->institute_name : 'SQS Foundation, Kanpur'); ?></td>
+                                        <td class="information-txt" colspan="2">
+                                            <?php echo e($student->latestStudentCode?->corporate?->institute_name ? $student->latestStudentCode?->corporate?->institute_name : 'SQS Foundation, Kanpur'); ?>
+
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="2"><b>Referral Subscription Code</b></td>
-                                        <td class="information-txt" colspan="2"><?php echo e($student->latestStudentCode?->coupan_code ?? '-'); ?></td>
+                                        <td class="information-txt" colspan="2">
+                                            <?php echo e($student->latestStudentCode?->coupan_code ?? '-'); ?></td>
                                     </tr>
 
                                     <tr>
@@ -45,99 +52,136 @@
                                     </tr>
 
                                     <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?>
-                                    <!--[if BLOCK]><![endif]--><?php if($calculateDiscountPercentage < 60): ?>
-                                        <tr>
-                                        <td colspan="2"><b>Discount Amount</b></td>
-                                        <td class="information-txt" colspan="2">
-                                            <?php echo e($student->latestStudentCode?->is_coupan_code_applied ? $student->latestStudentCode?->coupan_value : 'No'); ?>
+                                        <!--[if BLOCK]><![endif]--><?php if($calculateDiscountPercentage < 60): ?>
+                                            <tr>
+                                                <td colspan="2"><b>Discount Amount</b></td>
+                                                <td class="information-txt" colspan="2">
+                                                    <?php echo e($student->latestStudentCode?->is_coupan_code_applied ? $student->latestStudentCode?->coupan_value : 'No'); ?>
 
-                                            <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?> &#8377; <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-                                        </td>
-                                        </tr>
+                                                    <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?>
+                                                        &#8377;
+                                                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                                                </td>
+                                            </tr>
                                         <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-                                        <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
-                                        <!--[if BLOCK]><![endif]--><?php if(($student->latestStudentCode?->is_coupan_code_applied && !$student->latestStudentCode?->is_paid && ($student->latestStudentCode?->fee_amount > 0))): ?>
+                                    <!--[if BLOCK]><![endif]--><?php if(
+                                        $student->latestStudentCode?->is_coupan_code_applied &&
+                                            !$student->latestStudentCode?->is_paid &&
+                                            $student->latestStudentCode?->fee_amount > 0): ?>
                                         <tr>
                                             <td colspan="2"><b>
-                                                    <?php echo e($calculateDiscountPercentage < 60 ? 'Final Payable Amount':'Final online Paid Amount'); ?>
+                                                    <?php echo e($calculateDiscountPercentage < 60 ? 'Final Payable Amount' : 'Final online Paid Amount'); ?>
 
                                                 </b></td>
                                             <td class="information-txt" colspan="2">
                                                 <?php echo e($student->latestStudentCode?->fee_amount); ?> &#8377;
                                             </td>
                                         </tr>
-                                        <?php elseif($student->latestStudentCode?->is_coupan_code_applied && $student->latestStudentCode?->fee_amount <= 0): ?>
-                                            <tr>
+                                    <?php elseif($student->latestStudentCode?->is_coupan_code_applied && $student->latestStudentCode?->fee_amount <= 0): ?>
+                                        <tr>
                                             <td colspan="2"><b>
-                                                    <?php echo e($calculateDiscountPercentage < 60 ? 'Final Payable Amount':'Final online Paid Amount'); ?>
+                                                    <?php echo e($calculateDiscountPercentage < 60 ? 'Final Payable Amount' : 'Final online Paid Amount'); ?>
 
                                                 </b></td>
                                             <td class="information-txt" colspan="2">
                                                 0 &#8377;
                                             </td>
-                                            </tr>
-                                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-                                            <!--[if BLOCK]><![endif]--><?php if( $student->latestStudentCode?->is_paid && $studentPayment?->payment_amount): ?>
-                                            <tr>
-                                                <td colspan="2"><b>
-                                                        <?php echo e($calculateDiscountPercentage < 60 ? 'Final Payable Amount':'Final online Paid Amount'); ?>
+                                        </tr>
+                                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                                    <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_paid && $studentPayment?->payment_amount): ?>
+                                        <tr>
+                                            <td colspan="2"><b>
+                                                    <?php echo e($calculateDiscountPercentage < 60 ? 'Final Payable Amount' : 'Final online Paid Amount'); ?>
 
-                                                    </b></td>
-                                                <td class="information-txt" colspan="2">
-                                                    <?php echo $studentPayment?->payment_amount .' &#8377;' ?? 0; ?>
+                                                </b></td>
+                                            <td class="information-txt" colspan="2">
+                                                <?php echo $studentPayment?->payment_amount . ' &#8377;' ?? 0; ?>
 
-                                                </td>
-                                            </tr>
-                                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-                                            <!--[if BLOCK]><![endif]--><?php if(!$studentPayment && !$student->latestStudentCode?->is_paid && ($student->latestStudentCode?->is_coupan_code_applied ? ($student->latestStudentCode?->fee_amount > 0) : true) ): ?>
-                                            <tr>
-                                                <td class="text-center" colspan="4">
-                                                    <button type="button" id="exampleModalCenterButton" class="bg-success btn-lg  btn text-white action-button" wire:click="$toggle('modalOpened')"><b>Pay Now</b></button>
-                                                </td>
-                                            </tr>
-                                            <?php else: ?>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                                    <!--[if BLOCK]><![endif]--><?php if(
+                                        !$studentPayment &&
+                                            !$student->latestStudentCode?->is_paid &&
+                                            ($student->latestStudentCode?->is_coupan_code_applied ? $student->latestStudentCode?->fee_amount > 0 : true)): ?>
+                                        <tr>
+                                            <td class="text-center" colspan="4">
+                                                <button class="bg-success btn-lg btn action-button text-white"
+                                                    id="exampleModalCenterButton" type="button"
+                                                    wire:click="$toggle('modalOpened')"><b>Pay Now</b></button>
+                                            </td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <tr class="dn">
+                                            <td colspan="4">
 
-                                            <tr class="dn">
-                                                <td colspan="4">
+                                                <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?>
+                                                    <div style="display:block;text-align:center;">
+                                                        <h3 style="font-weight:700; font-size:18px;">Discount Voucher Provided By: SQS
+                                                            Foundation</h3>
+                                                    </div>
+                                                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
-                                                    <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?>
-                                                        <div style="display:block;text-align:center;">
-                                                            <h6 style="font-weight:700;">Discount Voucher Provided By: SQS Foundation</h6>
-                                                        </div>
-                                                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                                                <button class="btn btn-md btn-info noprint" data-print="modal"
+                                                    type="button" style="width: 5rem;height: 2rem;"
+                                                    @click="printDocument()"> Print <i class="fa fa-print"></i></button>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
-                                                    <button type="button" style="width: 5rem;height: 2rem;" class="btn btn-md btn-info" data-print="modal" @click="printDocument()"> Print <i class="fa fa-print"></i></button>
-                                                </td>
-                                            </tr>
-                                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                                    <!--[if BLOCK]><![endif]--><?php if($studentPayment && $studentPayment->payment_status == 'success'): ?>
+                                        <tr>
 
-                                            <!--[if BLOCK]><![endif]--><?php if($studentPayment && $studentPayment->payment_status == 'success' ): ?>
-                                            <tr>
-                                                <table class="table table-response">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Course Type</th>
-                                                            <th>Course</th>
-                                                            <th>Institute</th>
-                                                            <th>Amount</th>
-                                                            <th>Payment Order ID </th>
-                                                            <th>Payment Status</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td><?php echo e($studentPayment->course_type); ?></td>
-                                                            <td><?php echo e($studentPayment->course_id); ?></td>
-                                                            <td><?php echo e($studentPayment->institute_id); ?></td>
-                                                            <td><?php echo e($studentPayment->payment_amount); ?></td>
-                                                            <td><?php echo e($studentPayment->payment_order_id); ?></td>
-                                                            <td><?php echo e(ucfirst($studentPayment->payment_status)); ?></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </tr>
-                                            <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                                            <table class="table-bordered table-hover table" id="studentTable">
+                                                <tbody>
+                                                    <tr>
+                                                        <td colspan="2"><b>Course Type</b></td>
+                                                        <td class="information-txt" colspan="2">
+                                                            <?php echo e($studentPayment->course_type); ?>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"><b>Course</b></td>
+                                                        <td class="information-txt" colspan="2">
+                                                            <?php echo e($studentPayment->course_id); ?>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"><b>Institute</b></td>
+                                                        <td class="information-txt" colspan="2">
+                                                            <?php echo e($studentPayment->institute?->institute_name); ?>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"><b>Amount</b></td>
+                                                        <td class="information-txt" colspan="2">
+                                                            <?php echo e($studentPayment->payment_amount); ?>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"><b>Payment Order ID</b></td>
+                                                        <td class="information-txt" colspan="2">
+                                                            <?php echo e($studentPayment->payment_order_id); ?>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"><b>Payment Status</b></td>
+                                                        <td class="information-txt" colspan="2">
+                                                            <?php echo e(ucfirst($studentPayment->payment_status)); ?>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </tr>
+                                    <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                                 </tbody>
                             </table>
                         </div>
@@ -147,26 +191,38 @@
         </div>
     </div>
 
-    <div class="modal fade <?php if($modalOpened): ?> show d-block <?php endif; ?>" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade <?php if($modalOpened): ?> show d-block <?php endif; ?>" id="exampleModalCenter" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true" tabindex="-1">
         <form id="couponForm" action="<?php echo e(route('student.paymentCreate')); ?>" method="get">
             <?php echo csrf_field(); ?>
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <div style="<?php echo e($student->latestStudentCode?->is_coupan_code_applied ? 'margin-left: 16%;':''); ?>">
-                            <h6 class="modal-title" id="exampleModalLongTitle"> <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?> Refferel Coupon is Applied Successfully <?php else: ?> Apply Coupon Code: <?php endif; ?><!--[if ENDBLOCK]><![endif]--></h6>
+                        <div
+                            style="<?php echo e($student->latestStudentCode?->is_coupan_code_applied ? 'margin-left: 16%;' : ''); ?>">
+                            <h6 class="modal-title" id="exampleModalLongTitle">
+                                <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?>
+                                    Refferel Coupon is Applied Successfully
+                                <?php else: ?>
+                                    Apply Coupon Code:
+                                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
+                            </h6>
                         </div>
-                        <button type="button" class="close" wire:click="$toggle('modalOpened')">
+                        <button class="close" type="button" wire:click="$toggle('modalOpened')">
                             <span aria-hidden="true"style="color:black;">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="text-center fee_amount-dv">
-                            <p id="fee_amount" class="text-sucsess font-weight:20px;" style="margin-left: -45px;margin-bottom:0rem;" readonly>Fee Amount (Rs.) : 750</p>
+                        <div class="fee_amount-dv text-center">
+                            <p class="text-sucsess font-weight:20px;" id="fee_amount"
+                                style="margin-left: -45px;margin-bottom:0rem;" readonly>Fee Amount (Rs.) : 750</p>
                             <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?>
-                            <p class="text-danger fee_discount_amount" style="margin-left: -20px; margin-bottom:0rem;">Discount Amount (Rs.): -<?php echo e($student->latestStudentCode?->coupan_value); ?></p>
+                                <p class="text-danger fee_discount_amount"
+                                    style="margin-left: -20px; margin-bottom:0rem;">Discount Amount (Rs.):
+                                    -<?php echo e($student->latestStudentCode?->coupan_value); ?></p>
 
-                            <p id="payable_amount" style="font-weight:700; ">Final Payable Amount (Rs.): <?php echo e($student->latestStudentCode?->fee_amount); ?> </p>
+                                <p id="payable_amount" style="font-weight:700; ">Final Payable Amount (Rs.):
+                                    <?php echo e($student->latestStudentCode?->fee_amount); ?> </p>
                             <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
 
                         </div>
@@ -181,10 +237,16 @@
                         <label for="coupan_code">Coupan code: </label>
 
                         <div class="input-group">
-                            <input type="text" placeholder="Enter coupon code" class="form-control" wire:model="coupan_code"  <?php echo e($coupan_code ? "readonly"  : ""); ?>>
+                            <input class="form-control" type="text" placeholder="Enter coupon code"
+                                wire:model="coupan_code" <?php echo e($coupan_code ? 'readonly' : ''); ?>>
                             <div class="input-group-append">
-                                <button type="button" id="applyCoupon" wire:click="applyCoupon" class="btn btn-primary bg-success" style="display:<?php echo e($student->latestStudentCode?->is_coupan_code_applied ? 'none' : 'block'); ?>;"">Apply Coupon</button>
-                                <button type="button" id="removeCoupon" wire:click="removeCoupon" class="btn btn-primary text-danger" style="background: #fd0000;color: white !important;border: #f91818;<?php echo e($student->latestStudentCode?->is_coupan_code_applied ? 'display:block' : 'display:none'); ?>">Remove Coupon</button>
+                                <button type="button" id="applyCoupon" wire:click="applyCoupon"
+                                    class="btn btn-primary bg-success"
+                                    style="display:<?php echo e($student->latestStudentCode?->is_coupan_code_applied ? 'none' : 'block'); ?>;"">Apply
+                                    Coupon</button>
+                                <button class="btn btn-primary text-danger" id="removeCoupon" type="button"
+                                    style="background: #fd0000;color: white !important;border: #f91818;<?php echo e($student->latestStudentCode?->is_coupan_code_applied ? 'display:block' : 'display:none'); ?>"
+                                    wire:click="removeCoupon">Remove Coupon</button>
                             </div>
                         </div>
 
@@ -193,24 +255,28 @@ $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <span class="text-danger"> <?php echo e($message); ?></span>
+                            <span class="text-danger"> <?php echo e($message); ?></span>
                         <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
 
                     </div>
-                    <div class="modal-footer justify-content-center" id="pay-now-btn-modal" style="display:block;text-align:center;">
+                    <div class="modal-footer justify-content-center" id="pay-now-btn-modal"
+                        style="display:block;text-align:center;">
                         <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?>
                             <div style="display:block;text-align:center;">
                                 <h6 style="font-weight:700;">Discount Voucher Provided By: SQS Foundation</h6>
-                                <?php echo $student->latestStudentCode?->corporate?->institute_name ? '<p>Voucher issued By: '.$student->latestStudentCode?->corporate?->institute_name.'</p>' : ''; ?>
+                                <?php echo $student->latestStudentCode?->corporate?->institute_name
+                                    ? '<p>Voucher issued By: ' . $student->latestStudentCode?->corporate?->institute_name . '</p>'
+                                    : ''; ?>
 
                             </div>
                         <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
-                        
-                        <!--[if BLOCK]><![endif]--><?php if(!$student->latestStudentCode?->is_paid && ($student->latestStudentCode?->is_coupan_code_applied ? ($student->latestStudentCode?->fee_amount) > 0 : true)): ?>
-                        <button type="submit" class="btn btn-primary">Pay Now</button>
+                        <!--[if BLOCK]><![endif]--><?php if(
+                            !$student->latestStudentCode?->is_paid &&
+                                ($student->latestStudentCode?->is_coupan_code_applied ? $student->latestStudentCode?->fee_amount > 0 : true)): ?>
+                            <button class="btn btn-primary" type="submit">Pay Now</button>
                         <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                     </div>
                 </div>
@@ -254,13 +320,13 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
         $__scriptKey = '3094064526-0';
         ob_start();
     ?>
-<script>
-    $wire.on('coupon-applied', () => {
-        setTimeout(() => {
-            $wire.dispatch('close-modal');
-        }, 1000);
-    });
-</script>
+    <script>
+        $wire.on('coupon-applied', () => {
+            setTimeout(() => {
+                $wire.dispatch('close-modal');
+            }, 1000);
+        });
+    </script>
     <?php
         $__output = ob_get_clean();
 
