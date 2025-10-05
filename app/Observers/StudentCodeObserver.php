@@ -12,24 +12,20 @@ class StudentCodeObserver
     /**
      * Handle the StudentCodeObserver "created" event.
      */
-    public function created(StudentCode $studentCode): void
-    {
-    }
+    public function created(StudentCode $studentCode): void {}
 
     /**
      * Handle the StudentCodeObserver "updated" event.
      */
     public function updated(StudentCode $studentCode): void
     {
-
-
-        if ($studentCode->wasChanged('is_paid') || $studentCode->wasChanged('used_coupon')) {
-            $adminUser = User::where('email', 'sqscwb@gmail.com')->first();
-           if($adminUser)
-            $adminUser->notify(new StudentPaymentAdminMail($studentCode));
-
-            $studentCode->student->notify(new StudentPaymentMail($studentCode));
-        }
+        // if ($studentCode->wasChanged('is_paid') || $studentCode->wasChanged('used_coupon')) {
+        //     $adminUser = User::where('email', 'sqscwb@gmail.com')->first();
+        //     if ($adminUser) {
+        //         $adminUser->notify(new StudentPaymentAdminMail($studentCode));
+        //     }
+        //     $studentCode->student->notify(new StudentPaymentMail($studentCode));
+        // }
     }
 
     /**

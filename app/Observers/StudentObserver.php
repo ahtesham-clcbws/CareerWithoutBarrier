@@ -15,11 +15,11 @@ class StudentObserver
      */
     public function created(Student $student): void
     {
-        $adminUser = User::where('email', 'sqscwb@gmail.com')->first();
-        if ($adminUser) {
-            $adminUser->notify(new AdminStudentRegisteredMail($student));
-        }
-        $student->notify(new StudentRegisteredMail($student));
+        // $adminUser = User::where('email', 'sqscwb@gmail.com')->first();
+        // if ($adminUser) {
+        //     $adminUser->notify(new AdminStudentRegisteredMail($student));
+        // }
+        // $student->notify(new StudentRegisteredMail($student));
     }
 
     /**

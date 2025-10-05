@@ -66,7 +66,6 @@ class Registration extends Component
     public bool $isCouponVerify = false;
     public $customErrors = null;
 
-
     public $otpRequestId = '';
     public $otpSendSuccess = false;
 
@@ -77,19 +76,6 @@ class Registration extends Component
     public $isOtpVerfied = false;
 
     public $institudeTermsCondition;
-
-    public function mount()
-    {
-        // $this->addError('couponcode', 'Referrence code is not in Valid District.');
-        $termsAndConditions = DB::table('terms_conditions')->where([['status', 1], ['type', 'student'], ['page_name', 'terms-and-condition']])->first();
-        if ($termsAndConditions) {
-            $this->institudeTermsCondition = $termsAndConditions->terms_condition_pdf;
-            // $this->terms = false;
-        } else {
-            $this->institudeTermsCondition = null;
-            // $this->terms = true;
-        }
-    }
 
     public function couponVerify()
     {
@@ -122,7 +108,6 @@ class Registration extends Component
 
     public function updated($property)
     {
-        // $this->js('console.log("' . \json_encode($this->getErrorBag()) . '")');
         if ($property == 'selectedBoard') {
             $this->selectedScholarship = null;
             $this->selectedState = null;
@@ -143,31 +128,6 @@ class Registration extends Component
             $this->remainingForms = $data?->remaining ?? 0;
         }
     }
-
-    // public function boot()
-    // {
-    //     $this->withValidator(function ($validator) {
-    //         $validator->after(function ($validator) {
-    //             if ($this->remainingForms <= 300) {
-    //                 if (empty(trim($this->couponcode))) {
-    //                     $validator->errors()->add('couponcode', 'Referrence code is required');
-    //                 } else {
-    //                     $couponAvailable = CouponCode::where('couponcode', $this->couponcode)->where('status', 1)->where('is_applied', 0)->first();
-    //                     if ($couponAvailable) {
-    //                         if ($couponAvailable->corporate_id && $couponAvailable->is_issued) {
-    //                             $corporate = Corporate::find($couponAvailable->corporate_id);
-    //                             if ($corporate && $corporate->district_id != $this->selectedDistrict) {
-    //                                 $validator->errors()->add('couponcode', 'Referrence code is not valid');
-    //                             }
-    //                         }
-    //                     } else {
-    //                         $validator->errors()->add('couponcode', 'Referrence code is not Valid.' . $this->selectedDistrict);
-    //                     }
-    //                 }
-    //             }
-    //         });
-    //     });
-    // }
 
     public function render()
     {
@@ -254,14 +214,9 @@ class Registration extends Component
             // Log the user in after registration
             Auth::guard('student')->login($student);
             $this->js("toastr.success('Registered successfully.')");
-
             return $this->redirect('/students/studentDashboard');
         } catch (\Throwable $th) {
-            // $this->otpRequestId = '';
-            // $this->otpSendSuccess = false;
-            // DB::rollBack();
             logger('Registration Failed:', [$th]);
-            // $this->js("toastr.error(" . $th->getMessage() . ")");
             $this->js("toastr.error('Unable to register, try after some time.')");
         }
     }

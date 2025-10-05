@@ -10,7 +10,7 @@
            Hello <b>{{ $student->name }}</b>  {{$studentCode->used_coupon ? 'You Used Coupon Code ' : 'Your Payment Done ' }} successfully!
         </p>
     </div>
-    @component('mail::button', ['url' => route('dashboard')])
+    @component('mail::button', ['url' => route('studentDashboard')])
         Click here
     @endcomponent
     <br> <br>

@@ -194,7 +194,7 @@
                                             <button type="button" @class(['btn btn-sm newButton', 'btn-success' => $isOtpVerfied]) wire:click="verifyOtp"
                                                 @if (!$otpSendSuccess) disabled @endif
                                                 @if ($isOtpVerfied) disabled @endif>
-                                                {{ $isOtpVerfied ? "Verified" : "Verify OTP" }}
+                                                {{ $isOtpVerfied ? 'Verified' : 'Verify OTP' }}
                                             </button>
                                         </div>
                                     </div>
@@ -277,15 +277,9 @@
                                 <input class="form-check-input text-start" id="termsCheckbox" type="checkbox"
                                     wire:model.live="terms">
                                 <label class="form-check-label d-inline-block" for="termsCheckbox">
-                                    @if ($institudeTermsCondition)
-                                        I accept the&nbsp;<a class="inline-block"
-                                            href="/p/terms-and-conditions"
-                                            {{-- href="{{ asset('home/' . $institudeTermsCondition) }}" --}}
-                                            style="text-decoration: underline;" target="_blank">Terms &
-                                            Conditions</a>&nbsp;of Career without barrier
-                                    @else
-                                        I accept the Terms & Conditions of Career without barrier
-                                    @endif
+                                    I accept the&nbsp;<a class="inline-block" href="/p/terms-and-conditions"
+                                        style="text-decoration: underline;" target="_blank">Terms &
+                                        Conditions</a>&nbsp;of Career without barrier
                                 </label>
                             </div>
                             @error('terms')
