@@ -1,10 +1,14 @@
 <?php
 
+use App\Models\District;
 use App\Models\DistrictScholarshipLimit;
+use App\Models\EducationType;
 use App\Models\Image;
 use App\Models\Student;
+use App\Models\StudentCode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Collection;
 
 function moveFile($path, $files)
 {
@@ -60,6 +64,7 @@ function familyIncome($family_income)
     }
     return $incomeRange;
 }
+
 function institudeCodeGenerate($institudeNamte): string
 {
     preg_match_all('/\b(\w)/', $institudeNamte, $matches);
@@ -79,6 +84,7 @@ if (!function_exists('couponValueApply')) {
         return 750 - $valueAmount;
     }
 }
+
 function maskMobile($mobile)
 {
     return 'xxxxxxx' . substr($mobile, -3);
@@ -114,11 +120,10 @@ function getExamTime($exam_at, $exam_hours)
     if ($durationMinutes > 0) {
         $displayString .= " {$durationMinutes} Min";
     }
-    $displayString .= ")";
+    $displayString .= ')';
 
     return $displayString;
 }
-
 
 function encodeId($id)
 {
@@ -170,7 +175,6 @@ if (!function_exists('genderShort')) {
     }
 }
 
-
 function getStudentById($id)
 {
     $student = Student::with([
@@ -194,9 +198,9 @@ function getStudentById($id)
         $student->scholar_ship_category->name = str_replace("\r\n", ' ', $student->scholar_ship_category->name);
     }
 
-
     return $student;
 }
+
 function getBase64Image($base64String)
 {
     try {
@@ -209,7 +213,6 @@ function getBase64Image($base64String)
         return null;
     }
 }
-
 
 /**
  * Get the registration limit for a given district and education type.
@@ -224,4 +227,112 @@ function getLimit($districtId, $educationTypeId)
 
     // return $limit;
     return $limit ? $limit->max_registration_limit : 0;
+}
+
+function isFirstTimeRollNumberGeneration()
+{
+    return StudentCode::whereNotNull('roll_no')->first() ? false : true;
+}
+
+function setFormsStartEndSerial()
+{
+    $allLimits = DistrictScholarshipLimit::query()->orderBy('district_id')->get();
+    $lastNumber = 0;
+    foreach ($allLimits as $index => $limit) {
+        $startNumber = $lastNumber;
+        if ($startNumber == 0) {
+            $startNumber = 1;
+        }
+        $limit->start_from = $startNumber;
+        $limit->save();
+
+        $lastNumber = $lastNumber + $limit->max_registration_limit;
+    }
+}
+
+function resetFormSerials()
+{
+    DistrictScholarshipLimit::query()->update(['start_from' => 0]);
+}
+
+function getRollNumbers($district_id, $scholarship_category, $total)
+{
+    try {
+        $query = DistrictScholarshipLimit::where(['district_id' => $district_id, 'education_type_id' => $scholarship_category])->first();
+
+        if ($query) {
+            $alreadyCreatedRollNumbers = Student::where('district_id', $district_id)
+                ->where('scholarship_category', $scholarship_category)
+                ->whereHas('latestStudentCode', function ($q) {
+                    $q->whereNotNull('roll_no');
+                })
+                ->count();
+
+            $rollNumberStarts = ($query->start_from + 1) + $alreadyCreatedRollNumbers;
+            $rollNumberEnds = $query->start_from + $query->max_registration_limit;
+
+            $rollNumbers = [];
+            for ($i = 0; $i < $total; $i++) {
+                $rollNumbers[] = '1' . sprintf('%05d', ($rollNumberStarts + $i));
+            }
+
+            // logger('getRollNumbers', [$rollNumbers]);
+            // return $rollNumbers;
+            return [
+                'success' => true,
+                'roll_numbers' => $rollNumbers
+            ];
+        } else {
+            $district = District::find($district_id);
+            $scholarship = EducationType::find($scholarship_category);
+            $message = 'There is no limit defined for ' . $scholarship->name . ' in ' . $district->name;
+            return [
+                'success' => false,
+                'message' => $message
+            ];
+        }
+    } catch (\Throwable $th) {
+        // throw $th;
+        logger('roll number generation error: ', [$th]);
+        return [
+            'success' => false,
+            'message' => $th->getMessage()
+        ];
+    }
+}
+
+/**
+ * Recursively group and round-robin merge Eloquent models by fields.
+ *
+ * @param \Illuminate\Support\Collection $students
+ * @param array $fields   Order of fields to alternate by
+ * @return \Illuminate\Support\Collection
+ */
+function alternateSort(Collection $students, array $fields): Collection
+{
+    if (empty($fields) || $students->count() <= 1) {
+        return $students->values();
+    }
+
+    $field = array_shift($fields);
+
+    // Group by current field
+    $grouped = $students->groupBy($field);
+
+    // Recursively apply to subgroups
+    $grouped = $grouped->map(function ($group) use ($fields) {
+        return alternateSort($group, $fields);
+    });
+
+    // Round-robin merge
+    $result = collect();
+    while ($grouped->flatten(1)->isNotEmpty()) {
+        foreach ($grouped as $key => $group) {
+            if ($group->isNotEmpty()) {
+                $result->push($group->shift());
+            }
+        }
+    }
+
+    return $result->values();
 }

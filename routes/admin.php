@@ -97,8 +97,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::any('/student_list', [AdminController::class, 'studentList'])->name('admin.studentList');
     Route::any('/registered-students', [AdminController::class, 'studentListRegistered'])->name('admin.studentListRegistered');
+
     Route::any('/studentRollList', [AdminController::class, 'studentRollList'])->name('admin.studentRollList');
-    // Route::any('/studentRollList', StudentRollList::class)->name('admin.studentRollList');
+    Route::any('/student-roll-list', StudentRollList::class)->name('admin.student-roll-list');
+
     Route::any('/student_generate_roll_no', [AdminController::class, 'studentGenerateRollNo'])->name('admin.studentGenerateRollNo');
     Route::get('/student_list/{student}', [AdminController::class, 'studentView'])->name('admin.student');
     Route::any('/get_scholarship_category', [AdminController::class, 'getClassByScholarshipType'])->name('admin.getClassByScholarshipType');

@@ -176,7 +176,8 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" x-placement="top-start">
                     <a class="dropdown-item" href="{{route('admin.studentListRegistered')}}">New Student</a>
                     <a class="dropdown-item" href="{{route('admin.studentList')}}">Student List</a>
-                    <a class="dropdown-item" href="{{route('admin.studentRollList')}}">Student Roll No</a>
+                    {{-- <a class="dropdown-item" href="{{route('admin.studentRollList')}}">Student Roll No</a> --}}
+                    <a class="dropdown-item" href="{{route('admin.student-roll-list')}}">Student Roll No</a>
                     <a class="dropdown-item" href="{{route('admin.studentExamCenter')}}">Allot Exam Center</a>
                     <a class="dropdown-item" href="{{route('admin.student.result')}}">Student Result</a>
                 </div>

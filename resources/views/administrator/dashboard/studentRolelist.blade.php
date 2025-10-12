@@ -9,17 +9,17 @@ Students Roll number generation
         color: black !important;
     }
 </style>
+<script type="text/javascript" src="{{ asset('js/admineducationtypes.js') }}"></script>
 <div class="row px-3">
     <div class="col-12 m-t-15">
         <h2 class="py-2">Students Roll number generation</h2>
 
         <div class="card rounded">
             <div class="card-header">
-                <form action="" method="post" id="generateRollNumberForm">
+                <form action="" method="get" id="generateRollNumberForm">
                     @csrf
                     <div class="row" style="margin-bottom: 15px">
                         <div class="col-md-3">
-                            <!-- <label class="form-label">City<span class="text-danger">*</span></label> -->
                             <select name="district_id[]" multiple class="form-control form-select" id="district-ids" required>
                                 <option value="">--Select City--</option>
                                 @foreach($cities as $city)
@@ -71,7 +71,7 @@ Students Roll number generation
                             <!-- <label class="form-label">&nbsp;</label> <br> -->
                             <div class="btn-group w-100" role="group">
                                 <button type="submit" class="btn btn-primary">Filter</button>
-                                <button type="button" onclick="windows.location.href = '/administrator/studentRollList'" class="btn btn-danger ">Reset</button>
+                                <button type="button" onclick="window.location.href = '/administrator/studentRollList'" class="btn btn-danger ">Reset</button>
                                 <button type="button" id="generateRollNumber" class="btn btn-warning">Gen. Roll No</button>
                             </div>
                         </div>
@@ -139,7 +139,6 @@ Students Roll number generation
 </div>
 <!-- /#page-content-wrapper -->
 
-<script type="text/javascript" src="{{ asset('js/admineducationtypes.js') }}"></script>
 <script>
     $(document).ready(function() {
         $('#generateRollNumber').on('click', function() {
@@ -182,7 +181,7 @@ Students Roll number generation
 
     function scholarshipTypesChange(value) {
         var scholarshipCategory = $("#education_name").val();
-        console.log("Valur : ", scholarshipCategory);
+        console.log("Value : ", scholarshipCategory);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

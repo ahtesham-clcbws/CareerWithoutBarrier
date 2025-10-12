@@ -50,7 +50,6 @@ class Student extends Authenticatable
     public function latestStudentCode()
     {
         return $this->hasOne(StudentCode::class, 'stud_id')
-            // ->select('id', 'stud_id', 'application_code', 'roll_no')
             ->latestOfMany('created_at');
     }
 

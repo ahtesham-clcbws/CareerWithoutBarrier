@@ -166,7 +166,7 @@ class AdminController extends Controller
 
         $query->where('is_final_submitted', 1);
 
-        if ($request->isMethod('POST')) {
+        // if ($request->isMethod('POST')) {
 
             if (!empty($request->district_id)) {
                 $query->whereIn('district_id', $request->district_id);
@@ -181,8 +181,8 @@ class AdminController extends Controller
                 $classes = BoardAgencyStateModel::whereIn('id', $request->class)->select('id', 'name')->get();
             }
 
-            $students = $query->with('latestStudentCode')->get();
-        }
+            // $students = $query->with('latestStudentCode')->get();
+        // }
         $students = $query->orderBy('id', 'desc')->get();
 
         return view('administrator.dashboard.studentRolelist', compact('students', 'cities', 'scholarshipTypes', 'classes'));

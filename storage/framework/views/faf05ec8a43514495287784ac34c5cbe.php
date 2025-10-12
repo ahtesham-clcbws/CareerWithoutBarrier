@@ -176,7 +176,8 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" x-placement="top-start">
                     <a class="dropdown-item" href="<?php echo e(route('admin.studentListRegistered')); ?>">New Student</a>
                     <a class="dropdown-item" href="<?php echo e(route('admin.studentList')); ?>">Student List</a>
-                    <a class="dropdown-item" href="<?php echo e(route('admin.studentRollList')); ?>">Student Roll No</a>
+                    
+                    <a class="dropdown-item" href="<?php echo e(route('admin.student-roll-list')); ?>">Student Roll No</a>
                     <a class="dropdown-item" href="<?php echo e(route('admin.studentExamCenter')); ?>">Allot Exam Center</a>
                     <a class="dropdown-item" href="<?php echo e(route('admin.student.result')); ?>">Student Result</a>
                 </div>

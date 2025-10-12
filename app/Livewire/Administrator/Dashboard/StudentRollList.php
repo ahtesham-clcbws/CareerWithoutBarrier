@@ -2,97 +2,199 @@
 
 namespace App\Livewire\Administrator\Dashboard;
 
+use App\Models\BoardAgencyStateModel;
+use App\Models\District;
+use App\Models\DistrictScholarshipLimit;
+use App\Models\EducationType;
 use App\Models\State;
+use App\Models\Student;
+use App\Models\StudentCode;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Layout('administrator.layouts.master')]
 class StudentRollList extends Component
 {
-    public $selectedState = null;
-    public $selectedDistricts = [];
-    public $selectedScholarhips = [];
-    public $selectedGenders = [];
-    public $selectedClasses = [];
+    use WithPagination;
 
+    #[Url('perPage')]
+    public $perPage = 5;
+
+    #[Url('search')]
+    public $search = '';
+
+    #[Url('district_id')]
+    public $district_id = '';
+
+    #[Url('genders')]
+    public $genders = [];
+
+    #[Url('scholarhips')]
+    public $scholarhips = [];
+
+    #[Url('classes')]
+    public $classes = [];
+
+    #[Url('roll_number_filter')]
+    public $roll_number_filter = 'A';
+
+    public function updated()
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {
-        $states = State::get();
-        // $achievedUsers = [];
-        // $users = User::with(['referrals', 'investments'])->get();
+        $cities = District::orderBy('name')->get();
 
-        // // Get query parameters for filtering and sorting
-        // $search = $request->input('search.value');
-        // $orderColumn = $request->input('order.0.column');
-        // $orderDir = $request->input('order.0.dir');
+        $query = Student::query()
+            ->with([
+                'choiceCenterA',
+                'studentPayment',
+                'district',
+                'qualifications',
+                'scholarShipCategory',
+                'scholarShipOptedFor'
+            ]);
 
-        // // Apply filtering based on search term
-        // if (!empty($search)) {
-        //     $users = $users->where(function ($query) use ($search) {
-        //         $query->where('name', 'like', '%' . $search . '%')
-        //               ->orWhere('email', 'like', '%' . $search . '%')
-        //               ->orWhere('phone', 'like', '%' . $search . '%');
-        //     });
+        if ($this->district_id) {
+            $query->where('district_id', $this->district_id);
+        }
+
+        if (!empty($this->genders)) {
+            $query->whereIn('gender', $this->genders);
+        }
+
+        if (!empty($this->scholarhips)) {
+            $query->whereIn('scholarship_category', $this->scholarhips);
+        }
+
+        if (!empty($this->classes)) {
+            $query->whereIn('qualification', $this->classes);
+        }
+
+        // if ($this->roll_number_filter) {
+            if ($this->roll_number_filter == 'B') {
+                $query
+                    ->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at')
+                    ->whereHas('latestStudentCode', function ($q) {
+                        $q->whereNotNull('roll_no');
+                    });
+            } elseif ($this->roll_number_filter == 'C') {
+                $query
+                    ->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at')
+                    ->whereHas('latestStudentCode', function ($q) {
+                        $q->whereNull('roll_no');
+                    });
+            } else {
+                $query->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at');
+            }
+        // } else {
+        //     $query->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at');
         // }
 
-        // // Apply sorting based on order column and direction
-        // if (!empty($orderColumn)) {
-        //     $sortableColumns = ['name', 'email', 'phone', 'last_login', 'achieved_level', 'total_referral_count'];
-        //     $orderColumn = $sortableColumns[$orderColumn];
-        //     $users = $users->orderBy($orderColumn, $orderDir);
-        // }
+        $query->withAggregate('latestStudentCode', 'roll_no');
 
-        // foreach ($users as $user) {
-        //     // Use a cached version of referral users with investment data if available
-        //     if (!isset($referralCache[$user->id])) {
-        //         $referralCache[$user->id] = $user->referralUsersWithInvestment([$user->id]);
-        //     }
-        //     $achievedLevel = $user->getRewardAchievementLevel();
-        //     if ($achievedLevel > 0) {
-        //         $totalReferralCount = 0;
-        //         $referralData = $referralCache[$user->id];
-        //         // Calculate total referral count for the current user
-        //         foreach ($referralData as $level => $referrals) {
-        //             $totalReferralCount += count($referrals);
-        //         }
-        //         // Add only the users who achieved levels
-        //         $achievedUsers[] = (object) [
-        //             'user_id' => $user->id,
-        //             'getUser' => $user->getUser(),
-        //             'email' => $user->email,
-        //             'phone' => $user->phone,
-        //             'last_login' => $user->last_login,
-        //             'achieved_level' => $achievedLevel,
-        //             'total_referral_count' => $totalReferralCount,
-        //         ];
-        //     }
-        // }
+        $query->where('is_final_submitted', 1);
 
-        // $achievedUsers = (object)$achievedUsers;
+        $query->orderBy('latest_student_code_roll_no');
 
-        // return DataTables::of($achievedUsers)
-        //     ->addColumn('user', function ($item): mixed {
-        //         return $item->getUser;
-        //     })
-        //     ->addColumn('email', function ($item) {
-        //         return '<span class="d-block h5 mb-0">' . $item->email . '</span>
-        //                     <span class="d-block fs-5">' . $item->phone . '</span>';
-        //     })
-        //     ->addColumn('achieved_level', function ($item) {
-        //         return 'Level: '.$item->achieved_level;
-        //     })
-        //     ->addColumn('total_referral_count', function ($item) {
-        //         return $item->total_referral_count.' Referrals';
-        //     })
-        //     ->addColumn('last_login', function ($item) {
-        //         return diffForHumans($item->last_login);
-        //     })
-        //     ->rawColumns(['user', 'email', 'achieved_level', 'total_referral_count', 'last_login'])
-        //     ->make(true);
+        $students = $query->paginate($this->perPage);
 
-        return view('livewire.administrator.dashboard.student-roll-list', [
-            'states' => $states
-        ]);
+        return view('livewire.administrator.dashboard.student-roll-list', compact('students', 'cities'));
+    }
+
+    public function clearFilter(?string $filter = null)
+    {
+        if ($filter == 'district') {
+            $this->district_id = '';
+        } elseif ($filter == 'gender') {
+            $this->genders = [];
+        } elseif ($filter == 'scholarhip') {
+            $this->scholarhips = [];
+        } elseif ($filter == 'class') {
+            $this->classes = [];
+        } else {
+            $this->district_id = '';
+            $this->genders = [];
+            $this->scholarhips = [];
+            $this->classes = [];
+            $this->roll_number_filter = 'A';
+        }
+    }
+
+    public function resetRollNumbers()
+    {
+        $studentsQuery = Student::select('id', 'district_id', 'scholarship_category', 'qualification', 'gender', 'is_final_submitted');
+        if ($this->district_id) {
+            $studentsQuery->where('district_id', $this->district_id);
+        }
+        if (!empty($this->scholarhips)) {
+            $studentsQuery->whereIn('scholarship_category', $this->scholarhips);
+        }
+        if (!empty($this->classes)) {
+            $studentsQuery->whereIn('qualification', $this->classes);
+        }
+        if (!empty($this->genders)) {
+            $studentsQuery->whereIn('gender', $this->genders);
+        }
+        $studentsQuery->where('is_final_submitted', 1);
+        $studentsQuery
+            ->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at')
+            ->whereHas('latestStudentCode', function ($q) {
+                $q->whereNotNull('roll_no');
+            });
+        $studentsQuery->orderBy('id', 'desc');
+        $allStudents = $studentsQuery->get();
+        $studentCodeIds = $allStudents->pluck('latestStudentCode.id')->toArray();
+        // logger('studentCodeIds: ', $studentCodeIds);
+        StudentCode::whereIn('id', $studentCodeIds)->update(['roll_no' => null]);
+        return $this->js('alert("Rest Selected roll numbers successfull.")');
+    }
+
+    public function generateRollNumbers()
+    {
+        if (DistrictScholarshipLimit::where('start_from', 0)->count() > 1) {
+            setFormsStartEndSerial();
+        }
+
+        if ($this->district_id && !empty($this->scholarhips) && !empty($this->classes) && !empty($this->genders)) {
+            $studentsQuery = Student::select('id', 'district_id', 'scholarship_category', 'qualification', 'gender', 'is_final_submitted');
+            $studentsQuery->where('district_id', $this->district_id);
+            $studentsQuery->whereIn('scholarship_category', $this->scholarhips);
+            $studentsQuery->whereIn('qualification', $this->classes);
+            $studentsQuery->whereIn('gender', $this->genders);
+            $studentsQuery->where('is_final_submitted', 1);
+            $studentsQuery
+                ->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at')
+                ->whereHas('latestStudentCode', function ($q) {
+                    $q->whereNull('roll_no');
+                });
+            $studentsQuery->orderBy('id', 'desc');
+            $allStudents = $studentsQuery->get();
+            // logger('students: ', [$students->toArray()]);
+            // $fields = ['scholarship_category', 'qualification', 'gender'];
+            $fields = ['qualification', 'gender'];
+
+            foreach ($this->scholarhips as $key => $scholarhip) {
+                $students = $allStudents->where('scholarship_category', $scholarhip);
+                $sortedStudents = alternateSort($students, $fields);
+
+                $rollNumbers = getRollNumbers($this->district_id, $scholarhip, $sortedStudents->count());
+                if ($rollNumbers['success']) {
+                    $roll_numbers = $rollNumbers['roll_numbers'];
+                    foreach ($sortedStudents as $key => $student) {
+                        $student->latestStudentCode->roll_no = isset($roll_numbers[$key]) ? $roll_numbers[$key] : null;
+                        $student->latestStudentCode->save();
+                    }
+                } else {
+                    $this->js('alert("' . $rollNumbers['message'] . '")');
+                }
+            }
+        } else {
+            return $this->js('alert("Please select: District, Scholarship Type, Class/Exam and Gender.")');
+        }
     }
 }

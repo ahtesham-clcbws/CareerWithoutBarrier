@@ -5,9 +5,10 @@ namespace App\Livewire\Admin\Setting;
 use App\Livewire\Forms\Admin\Setting\ScholarshipDistrictForm;
 use App\Models\District;
 use App\Models\DistrictScholarshipLimit;
-use Livewire\Component;
+use App\Models\StudentCode;
 use Livewire\Attributes\Layout;
 use Livewire\Features\SupportPagination\WithoutUrlPagination;
+use Livewire\Component;
 use Livewire\WithPagination;
 
 #[Layout('administrator.layouts.master')]
@@ -19,13 +20,19 @@ class ScholarshipForms extends Component
     public $selectedDistrict = null;
     public $selectedCategory = null;
     public $searchString = null;
-
     public ScholarshipDistrictForm $form;
     // public $formsData;
 
     public function render()
     {
-        $query = DistrictScholarshipLimit::with('EducationType:id,name')->with('District:id,name');
+        $query = DistrictScholarshipLimit::query()
+            ->with([
+                'EducationType:id,name',
+                'District:id,name',
+            ])
+            ->withCount('students')
+            ->withCount('roll_numbers');
+
         // Apply filter conditions
         if (!empty(trim($this->selectedCategory . '')) && intval($this->selectedCategory) > 0) {
             $query->where('education_type_id', intval($this->selectedCategory));
@@ -41,9 +48,10 @@ class ScholarshipForms extends Component
         if (!empty(trim($this->searchString . ''))) {
             $searchTerm = '%' . $this->searchString . '%';
 
-            $query->whereHas('District', function ($q) use ($searchTerm) {
-                $q->where('name', 'like', $searchTerm);
-            })
+            $query
+                ->whereHas('District', function ($q) use ($searchTerm) {
+                    $q->where('name', 'like', $searchTerm);
+                })
                 ->orWhereHas('EducationType', function ($q) use ($searchTerm) {
                     $q->where('name', 'like', $searchTerm);
                 });
@@ -52,7 +60,8 @@ class ScholarshipForms extends Component
         $formsData = $query->orderBy('district_id', 'asc')->orderBy('education_type_id', 'asc')->paginate(10);
 
         return view('livewire.admin.setting.scholarship-forms', [
-            'formsData' => $formsData
+            'formsData' => $formsData,
+            'roll_numbers' => StudentCode::whereNotNull('roll_no')->count()
         ]);
     }
 
@@ -66,6 +75,7 @@ class ScholarshipForms extends Component
         $data = DistrictScholarshipLimit::find($id);
         $this->form->setData($data);
     }
+
     public function deleteForm($id)
     {
         return DistrictScholarshipLimit::destroy($id);
