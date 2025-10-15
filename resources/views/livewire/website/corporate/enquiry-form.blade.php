@@ -195,13 +195,19 @@
                             <small class="text-danger small">{{ $message }}</small>
                             @enderror
                         </div>
-                        <div class="mb-2 col-12" style="font-size: 13px;display:flex">
-                            <label form="privacy_policy">
-                                <input type="checkbox" style="width: 20px;height:20px" wire:model.change="privacy_policy" id="privacy_policy"> &nbsp; I accept the &nbsp;
-                                @if($institudeTermsCondition) <a style="text-decoration: underline;" href="{{ asset('home/'.$institudeTermsCondition->terms_condition_pdf) }}" target="_blank"> Terms & Conditions </a>@endif
-                            </label>
+
+                        <div class="col-12 mb-2">
+                            <div class="form-group form-check mb-0">
+                                <input class="form-check-input text-start" type="checkbox"
+                                    wire:model.change="privacy_policy" id="privacy_policy">
+                                <label class="form-check-label d-inline-block" for="termsCheckbox">
+                                    I accept the&nbsp;<a class="inline-block" href="/p/terms-and-conditions"
+                                        style="text-decoration: underline;" target="_blank">Terms &
+                                        Conditions</a>
+                                </label>
+                            </div>
                             @error('privacy_policy')
-                            <small class="text-danger small">{{ $message }}</small>
+                                <small class="text-danger small">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="mb-2 col-12">

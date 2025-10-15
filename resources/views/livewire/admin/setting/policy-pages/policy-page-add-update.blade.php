@@ -23,7 +23,7 @@
 
             <div class="boxShadow">
 
-                <form class="row mt-2 gap-3" wire:submit.prevent="save">
+                <form class="row mt-2 gap-3" wire:submit="save">
 
                     <div class="row row-cols-3">
                         <div class="row">
@@ -54,14 +54,14 @@
 
                     <!-- Submit Button -->
                     <div class="text-end">
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" type="submit" wire:loading.attr="disabled" wire:target="save">
                             <span wire:loading wire:target="save">
                                 <div class="spinner-border spinner-border-sm" role="status">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>&nbsp;
                                 Saving Page ...
                             </span>
-                            <span wire:loading.remove>Save Page</span>
+                            <span wire:loading.remove wire:target="save">Save Page</span>
                         </button>
                     </div>
                 </form>

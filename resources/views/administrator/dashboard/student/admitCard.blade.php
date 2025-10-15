@@ -71,8 +71,7 @@ use Illuminate\Support\Carbon;
                     <td style="width:105pt;" class="tb1" rowspan="5">
                         <p style="text-indent: 0pt;text-align: left;"><br /></p>
                         <p style="padding-left: 13pt;text-indent: 0pt;text-align: left;"><span>
-                                <!-- <img width="105" height="139" src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png" /> -->
-                                <img src="{{url('upload/student/')}}/{{$student->photograph}}" class="img-fluid" width="105" height="139">
+                                <img src="/storage/{{$student->photograph}}" class="img-fluid" width="105" height="139">
 
                             </span></p>
                     </td>
@@ -169,7 +168,7 @@ use Illuminate\Support\Carbon;
                         {{ ($appCode?->exam_at && $appCode?->exam_mins) ? getExamTime($appCode?->exam_at, $appCode?->exam_mins) : '' }}</p>
                     </td>
                     <td style="width:105pt;" class="tb1" rowspan="3">
-                        <center><img src="{{url('upload/student/')}}/{{$student->signature}}" style="width:140px;margin-top:5px">
+                        <center><img src="/storage/{{$student->signature}}" style="width:140px;margin-top:5px">
                         </center>
                     </td>
                 </tr>

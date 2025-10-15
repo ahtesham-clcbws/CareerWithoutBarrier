@@ -79,7 +79,7 @@ class Registration extends Component
 
     public function couponVerify()
     {
-        $this->resetValidation();
+        $this->resetValidation(['couponcode']);
         // if ($this->remainingForms <= 300 && $this->couponcode) {
         if (empty(trim($this->couponcode))) {
             $this->isCouponVerify = false;
@@ -173,6 +173,11 @@ class Registration extends Component
     public function register()
     {
         $this->validate();
+        // $this->couponVerify();
+
+        // if (!$this->couponVerify()) {
+        //     return false;
+        // }
 
         if ($this->remainingForms <= 300 && !$this->isCouponVerify) {
             return $this->couponVerify();

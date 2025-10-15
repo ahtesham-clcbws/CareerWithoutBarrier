@@ -17,7 +17,7 @@
                                     <th>Name</th>
                                     <th>Mobile</th>
                                     <th>Email</th>
-                                    <th>Fee Amount</th>
+                                    <th>Paid Amount</th>
                                     <th>Discount Amount</th>
                                     <th>Voucher name</th>
                                     <th>Voucher Code</th>
