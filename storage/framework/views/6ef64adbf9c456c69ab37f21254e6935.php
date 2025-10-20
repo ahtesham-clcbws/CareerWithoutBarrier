@@ -330,8 +330,8 @@
                                 alt="img">
                         </div>
                         <!-- <h2><span class="counter">Free</span></h2>
-                            <h6>Online Education</h6>
-                            <h6>For All</h6> -->
+                                <h6>Online Education</h6>
+                                <h6>For All</h6> -->
 
                         <h6>Free online education for</h6>
                         <h2><span class="counter" data-count-start="9990" data-count-end="10000"
@@ -410,33 +410,25 @@
                             <li class="splide__slide">
                                 <div class="card h-100 d-flex flex-column justify-content-between">
                                     <div class="card-body">
-                                        <div class="text-center">
-                                            <img class="rounded-circle img-fluid img-thumbnail"
-                                                src="<?php echo e($corporateTestimonial->corporate?->attachment ? asset('/storage/' . $corporateTestimonial->corporate->attachment) : asset('student/images/th_5.png')); ?>"
-                                                alt="<?php echo e($corporateTestimonial->name); ?>" style="max-height: 100px;">
+                                        <div class="d-flex align-items-center studentImage">
+                                            <img class="img-thumbnail rounded"
+                                                src="<?php echo e($corporateTestimonial->corporate->attachment ? asset('/storage/' . $corporateTestimonial->corporate->attachment) : asset('student/images/th_5.png')); ?>"
+                                                alt="<?php echo e($corporateTestimonial->name); ?>"
+                                                style="height: 80px;width: 80px;">
+
+                                            <p class="card-text pl-2">
+                                                <b><?php echo e($corporateTestimonial->name); ?></b><?php echo isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->institute_name) ? ',<br /> '.$corporateTestimonial->corporate?->institute_name : ''; ?><?php echo e(isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->district, $corporateTestimonial->corporate->district->name) ? ', '.$corporateTestimonial->corporate->district->name : ''); ?>
+
+                                            </p>
                                         </div>
-                                        <p class="card-text"><?php echo $corporateTestimonial->message; ?></p>
                                         <?php if($corporateTestimonial->image): ?>
-                                            <img class="img-fluid img-thumbnail"
+                                            <img class="img-fluid img-thumbnail mt-3 w-100"
                                                 src="<?php echo e(asset('/storage/' . $corporateTestimonial->image)); ?>"
-                                                alt="<?php echo e($corporateTestimonial->name); ?>">
+                                                alt="<?php echo e($corporateTestimonial->corporate?->institute_name ? $corporateTestimonial->corporate?->institute_name : $corporateTestimonial->name); ?>">
                                         <?php endif; ?>
+                                        <p class="card-text mt-3"><?php echo $studentTestimonial->message; ?></p>
                                     </div>
-                                    <div class="card-footer border-0 bg-white">
-                                        <p class="card-text">
-                                            <b>Director:</b> <?php echo e($corporateTestimonial->name); ?>
-
-                                            <?php if($corporateTestimonial->corporate?->institute_name): ?>
-                                                <br /><b>Institute:</b>
-                                                <?php echo e($corporateTestimonial->corporate?->institute_name); ?>
-
-                                            <?php endif; ?>
-                                            <?php if($corporateTestimonial->corporate?->district?->name): ?>
-                                                <br /><b>City:</b> <?php echo e($corporateTestimonial->corporate->district?->name); ?>
-
-                                            <?php endif; ?>
-                                        </p>
-                                    </div>
+                                    
                                 </div>
                             </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

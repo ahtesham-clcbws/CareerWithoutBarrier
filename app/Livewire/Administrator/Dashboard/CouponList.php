@@ -17,14 +17,17 @@ class CouponList extends Component
     public $couponslist;
 
     public $prefixes;
+
     public $selectedPrefix = '';
 
     public $selectedStatus = '';
 
     public $values;
+
     public $selectedValue = '';
 
     public $institutes = [];
+
     public $selectedInstitute = '';
 
     public $selectedValueType = '';
@@ -40,6 +43,7 @@ class CouponList extends Component
     public $selectedCupons = [];
 
     public $sortType = 'id';
+
     public $sortDirection = 'desc';
 
     public function sort($type)
@@ -98,7 +102,11 @@ class CouponList extends Component
             $query->where('value', $this->selectedValue);
         }
         if (!empty(trim($this->selectedInstitute))) {
-            $query->where('corporate_id', $this->selectedInstitute);
+            if ($this->selectedInstitute == 'admin-only') {
+                $query->whereNull('corporate_id');
+            } else {
+                $query->where('corporate_id', $this->selectedInstitute);
+            }
         }
         if (!empty(trim($this->selectedValueType))) {
             $query->where('valueType', $this->selectedValueType);
@@ -140,11 +148,13 @@ class CouponList extends Component
         $this->selectAll = false;
         // return redirect()->route('coupon.lists');
     }
+
     public function delete($id)
     {
         CouponCode::where('id', $id)->delete();
         $this->js("success('Successfully delete coupon')");
     }
+
     public function statusChange($id, $active = false)
     {
         CouponCode::where('id', $id)->update(['status' => $active ? 1 : 0]);

@@ -77,8 +77,7 @@
                     </div>
                     @if (!empty(trim($selectedPrefix)) || !empty(trim($selectedStatus)) || !empty(trim($selectedValue)) || !empty(trim($selectedValueType)))
                     <div class="flex-fill">
-                        <!-- <label>&nbsp;</label><br /> -->
-                        <button class="btn btn-danger w-100" wire:click="resetFilters"><i class="bi bi-arrow-clockwise"></i> Reset</button>
+                        <button class="btn btn-danger w-100" wire:click="resetFilters"><i class="bi bi-x-lg"></i> Reset</button>
                     </div>
                     @endif
 

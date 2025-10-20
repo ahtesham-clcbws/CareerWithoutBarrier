@@ -7,15 +7,14 @@ use App\Models\CouponCode;
 use App\Models\District;
 use App\Models\OtpVerifications;
 use App\Models\PolicyPage;
-use Livewire\Attributes\Validate;
-use Livewire\Component;
-
 use App\Models\Student;
 use App\Models\StudentCode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Validate;
+use Livewire\Component;
 
 class Registration extends Component
 {
@@ -26,22 +25,28 @@ class Registration extends Component
 
     #[Validate('required', message: 'Please select Scholarship')]
     public $selectedScholarship = null;
+
     #[Validate('required', message: 'Please select State')]
     public $selectedState = null;
+
     #[Validate('required', message: 'Please select District')]
     public $selectedDistrict = null;
+
     public District $selectedDistrictData;
 
     #[Validate('required', message: 'Please enter your name')]
     #[Validate('min:8', message: 'Full name must be minimum 8 characters')]
     public $name;
+
     #[Validate('required', message: 'Please select Gender')]
     public $gender;
+
     #[Validate('required', message: 'Please enter mobile number')]
     #[Validate('min_digits:10', message: 'Mobile number must minimum 10 digits')]
     #[Validate('max_digits:10', message: 'Mobile number have maximum 10 digits')]
     #[Validate('unique:students,mobile', message: 'Mobile number is already in use')]
     public $mobile;
+
     #[Validate('required', message: 'Please enter your email address')]
     #[Validate('email', message: 'Please enter valid email address')]
     #[Validate('unique:students,email', message: 'Email address is already in use')]
@@ -50,6 +55,7 @@ class Registration extends Component
     #[Validate('required', message: 'Password is required')]
     #[Validate('min:8', message: 'Password should be minimum 8 characters')]
     public $password;
+
     #[Validate('required', message: 'Password is required')]
     #[Validate('min:8', message: 'Password should be minimum 8 characters')]
     #[Validate('same:password', message: 'Confirm password should matched with password')]
@@ -58,6 +64,7 @@ class Registration extends Component
     #[Validate('required', message: 'Disability is required')]
     #[Validate('in:Yes,No', message: 'Please choose disability')]
     public $disability = 'No';
+
     #[Validate('required', message: 'Please accept our term & conditions before proceed further')]
     public $terms = null;
 
@@ -65,7 +72,6 @@ class Registration extends Component
     public $couponcode;
     public bool $isCouponVerify = false;
     public $customErrors = null;
-
     public $otpRequestId = '';
     public $otpSendSuccess = false;
 
@@ -74,7 +80,6 @@ class Registration extends Component
     public $userOtp;
 
     public $isOtpVerfied = false;
-
     public $institudeTermsCondition;
 
     public function couponVerify()
@@ -163,21 +168,50 @@ class Registration extends Component
             $this->addError('mobile', 'Enter correct mobile number.');
             return false;
         }
-        if($getOTP->otp != $this->userOtp) {
+        if ($getOTP->otp != $this->userOtp) {
             $this->addError('userOtp', 'Enter correct OTP.');
             return false;
         }
         $this->isOtpVerfied = true;
     }
 
+    public function registerVerifyCoupon()
+    {
+        if (!empty(trim($this->couponcode))) {
+            $coupon = CouponCode::where('couponcode', $this->couponcode)->where('status', 1)->where('is_applied', 0)->first();
+            if ($coupon->corporate_id && $coupon->is_issued) {
+                $corporate = Corporate::find($coupon->corporate_id);
+                if ($corporate && $corporate->district_id == $this->selectedDistrict) {
+                    $this->isCouponVerify = false;
+                    return (object) [
+                        'success' => true,
+                    ];
+                }
+            }
+            return (object) [
+                'success' => false,
+                'message' => 'Referrence code is not verified with District.'
+            ];
+        } else {
+            return (object) [
+                'success' => true
+            ];
+        }
+    }
+
     public function register()
     {
         $this->validate();
-        // $this->couponVerify();
 
-        // if (!$this->couponVerify()) {
-        //     return false;
-        // }
+        $couponVerify = $this->registerVerifyCoupon();
+        if ($couponVerify && !$couponVerify->success) {
+            $this->isCouponVerify = false;
+            $this->addError('couponcode', $couponVerify->message);
+            return false;
+        } else {
+            $this->isCouponVerify = true;
+            $this->resetValidation(['couponcode']);
+        }
 
         if ($this->remainingForms <= 300 && !$this->isCouponVerify) {
             return $this->couponVerify();
@@ -191,6 +225,8 @@ class Registration extends Component
             $this->addError('userOtp', 'OTP is not valid, Please check again.');
             return false;
         }
+
+        // return false;
 
         try {
             $student = new Student();
@@ -225,7 +261,6 @@ class Registration extends Component
             $this->js("toastr.error('Unable to register, try after some time.')");
         }
     }
-
 
     public function applyCoupon($studentId, $coupon)
     {

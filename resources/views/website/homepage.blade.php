@@ -332,8 +332,8 @@
                                 alt="img">
                         </div>
                         <!-- <h2><span class="counter">Free</span></h2>
-                            <h6>Online Education</h6>
-                            <h6>For All</h6> -->
+                                <h6>Online Education</h6>
+                                <h6>For All</h6> -->
 
                         <h6>Free online education for</h6>
                         <h2><span class="counter" data-count-start="9990" data-count-end="10000"
@@ -411,30 +411,24 @@
                             <li class="splide__slide">
                                 <div class="card h-100 d-flex flex-column justify-content-between">
                                     <div class="card-body">
-                                        <div class="text-center">
-                                            <img class="rounded-circle img-fluid img-thumbnail"
-                                                src="{{ $corporateTestimonial->corporate?->attachment ? asset('/storage/' . $corporateTestimonial->corporate->attachment) : asset('student/images/th_5.png') }}"
-                                                alt="{{ $corporateTestimonial->name }}" style="max-height: 100px;">
+                                        <div class="d-flex align-items-center studentImage">
+                                            <img class="img-thumbnail rounded"
+                                                src="{{ $corporateTestimonial->corporate->attachment ? asset('/storage/' . $corporateTestimonial->corporate->attachment) : asset('student/images/th_5.png') }}"
+                                                alt="{{ $corporateTestimonial->name }}"
+                                                style="height: 80px;width: 80px;">
+
+                                            <p class="card-text pl-2">
+                                                <b>{{ $corporateTestimonial->name }}</b>{!! isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->institute_name) ? ',<br /> '.$corporateTestimonial->corporate?->institute_name : '' !!}{{ isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->district, $corporateTestimonial->corporate->district->name) ? ', '.$corporateTestimonial->corporate->district->name : '' }}
+                                            </p>
                                         </div>
-                                        <p class="card-text">{!! $corporateTestimonial->message !!}</p>
                                         @if ($corporateTestimonial->image)
-                                            <img class="img-fluid img-thumbnail"
+                                            <img class="img-fluid img-thumbnail mt-3 w-100"
                                                 src="{{ asset('/storage/' . $corporateTestimonial->image) }}"
-                                                alt="{{ $corporateTestimonial->name }}">
+                                                alt="{{ $corporateTestimonial->corporate?->institute_name ? $corporateTestimonial->corporate?->institute_name : $corporateTestimonial->name }}">
                                         @endif
+                                        <p class="card-text mt-3">{!! $studentTestimonial->message !!}</p>
                                     </div>
-                                    <div class="card-footer border-0 bg-white">
-                                        <p class="card-text">
-                                            <b>Director:</b> {{ $corporateTestimonial->name }}
-                                            @if ($corporateTestimonial->corporate?->institute_name)
-                                                <br /><b>Institute:</b>
-                                                {{ $corporateTestimonial->corporate?->institute_name }}
-                                            @endif
-                                            @if ($corporateTestimonial->corporate?->district?->name)
-                                                <br /><b>City:</b> {{ $corporateTestimonial->corporate->district?->name }}
-                                            @endif
-                                        </p>
-                                    </div>
+                                    
                                 </div>
                             </li>
                         @endforeach
