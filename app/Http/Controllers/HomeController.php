@@ -81,9 +81,9 @@ class HomeController extends Controller
 
         $benefits = BenefitsModel::where('is_featured', 1)->get();
 
-        $studentTestimonials = TestimonialsModel::where('type', 'student')->orderBy('id','desc')->get();
+        $studentTestimonials = TestimonialsModel::where('type', 'student')->where('status',true)->orderBy('id','desc')->get();
 
-        $corporateTestimonials = TestimonialsModel::where('type', 'corporate')->orderBy('id','desc')->get();
+        $corporateTestimonials = TestimonialsModel::where('type', 'corporate')->where('status',true)->orderBy('id','desc')->get();
 
         // $studentTestimonials = TestimonialsModel::where('status', 1)->where('type', 'student')->orderBy('id','desc')->get();
 

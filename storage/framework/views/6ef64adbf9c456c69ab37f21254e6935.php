@@ -139,7 +139,8 @@
             </div>
         </section>
     <?php endif; ?>
-    <!-- SECTION: TRAVEL PACKAGES -->
+
+    <?php if($courses->count()): ?>
     <section>
         <div class="packages">
             <!-- ALL SECTION COMMEN TITTLE -->
@@ -171,10 +172,9 @@
 
         </div>
     </section>
+    <?php endif; ?>
 
-    <!-- SECTION: WHY CHOOSE -->
-
-    <!-- SECTION: ASK TRAVELLER -->
+    <?php if($benefits->count()): ?>
     <section>
         <div class="ask-experts comm-p-t-b">
             <div class="container">
@@ -200,6 +200,7 @@
             </div>
         </div>
     </section>
+    <?php endif; ?>
 
     <section class="important-information">
         <div class="container">
@@ -255,6 +256,7 @@
         </div>
     </section>
 
+    <?php if($govtwebsites->count()): ?>
     <section>
         <div class="packages govt-web">
             <div class="comm-tit-ani tit">
@@ -282,6 +284,7 @@
             </div>
         </div>
     </section>
+    <?php endif; ?>
 
     <div class="counter-section">
         <div class="container">
@@ -330,8 +333,8 @@
                                 alt="img">
                         </div>
                         <!-- <h2><span class="counter">Free</span></h2>
-                                <h6>Online Education</h6>
-                                <h6>For All</h6> -->
+                                    <h6>Online Education</h6>
+                                    <h6>For All</h6> -->
 
                         <h6>Free online education for</h6>
                         <h2><span class="counter" data-count-start="9990" data-count-end="10000"
@@ -343,102 +346,110 @@
         </div>
     </div>
 
-    <!-- SECTION: TESTIMONIALS-->
-    <section>
-        <div class="container mt-5">
-            <div class="heading text-center">
-                <div class="comm-tit-ani tit">
-                    <p>Hear it directly</p>
-                    <h2>from <span>our students</span><br></h2><span class="line"></span><br />
-                    <span>The passage experienced a surge in popularity during the 1960s when Letraset </span>
+    <?php if($studentTestimonials->count()): ?>
+        <!-- SECTION: TESTIMONIALS-->
+        <section>
+            <div class="container mt-5">
+                <div class="heading text-center">
+                    <div class="comm-tit-ani tit">
+                        <p>Hear it directly</p>
+                        <h2>from <span>our students</span><br></h2><span class="line"></span><br />
+                        <span>The passage experienced a surge in popularity during the 1960s when Letraset </span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="splide splide-testimonials" role="group">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        <?php $__currentLoopData = $studentTestimonials; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $studentTestimonial): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <li class="splide__slide">
-                                <div class="card h-100 d-flex flex-column justify-content-between">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center studentImage">
-                                            <img class="img-thumbnail rounded"
-                                                src="<?php echo e($studentTestimonial->student->photograph ? asset('/storage/' . $studentTestimonial->student->photograph) : asset('student/images/th_5.png')); ?>"
-                                                alt="<?php echo e($studentTestimonial->name); ?>" style="height: 80px;width: 80px;">
+                <div class="splide splide-testimonials" id="splide-testimonials" role="group">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            <?php $__currentLoopData = $studentTestimonials; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $studentTestimonial): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li class="splide__slide">
+                                    <div class="card h-100 d-flex flex-column justify-content-between">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center studentImage">
+                                                <img class="img-thumbnail rounded"
+                                                    src="<?php echo e($studentTestimonial->student->photograph ? asset('/storage/' . $studentTestimonial->student->photograph) : asset('student/images/th_5.png')); ?>"
+                                                    alt="<?php echo e($studentTestimonial->name); ?>"
+                                                    style="height: 80px;width: 80px;">
 
-                                            <p class="card-text pl-2">
-                                                <b><?php echo e($studentTestimonial->name); ?></b>,
-                                                <?php if($studentTestimonial->student->district?->name): ?>
-                                                    <?php echo e($studentTestimonial->student->district?->name); ?>
+                                                <p class="card-text pl-2">
+                                                    <b><?php echo e($studentTestimonial->name); ?></b>,
+                                                    <?php if($studentTestimonial->student->district?->name): ?>
+                                                        <?php echo e($studentTestimonial->student->district?->name); ?>
 
-                                                <?php endif; ?>
-                                            </p>
+                                                    <?php endif; ?>
+                                                </p>
+                                            </div>
+                                            <?php if($studentTestimonial->image): ?>
+                                                <img class="img-fluid img-thumbnail mt-3"
+                                                    src="<?php echo e(asset('/storage/' . $studentTestimonial->image)); ?>"
+                                                    alt="<?php echo e($studentTestimonial->name); ?>">
+                                            <?php endif; ?>
+                                            <p class="card-text mt-3"><?php echo $studentTestimonial->message; ?></p>
                                         </div>
-                                        <?php if($studentTestimonial->image): ?>
-                                            <img class="img-fluid img-thumbnail mt-3"
-                                                src="<?php echo e(asset('/storage/' . $studentTestimonial->image)); ?>"
-                                                alt="<?php echo e($studentTestimonial->name); ?>">
-                                        <?php endif; ?>
-                                        <p class="card-text mt-3"><?php echo $studentTestimonial->message; ?></p>
                                     </div>
-                                </div>
-                            </li>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </ul>
+                                </li>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </ul>
+                    </div>
                 </div>
+
             </div>
+        </section>
+        <!-- SECTION: BRANDS -->
+    <?php endif; ?>
 
-        </div>
-    </section>
-    <!-- SECTION: BRANDS -->
-
-    <!-- SECTION: Institute TESTIMONIALS-->
-    <section>
-        <div class="container mt-5">
-            <div class="heading text-center">
-                <div class="comm-tit-ani tit">
-                    <p>Hear it directly</p>
-                    <h2>from <span>our Institute</span><br></h2><span class="line"></span><br />
-                    <span>The passage experienced a surge in popularity during the 1960s when Letraset </span>
+    <?php if($corporateTestimonials->count()): ?>
+        <!-- SECTION: Institute TESTIMONIALS-->
+        <section>
+            <div class="container mt-5">
+                <div class="heading text-center">
+                    <div class="comm-tit-ani tit">
+                        <p>Hear it directly</p>
+                        <h2>from <span>our Institute</span><br></h2><span class="line"></span><br />
+                        <span>The passage experienced a surge in popularity during the 1960s when Letraset </span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="splide splide-corporate-testimonials" role="group">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        <?php $__currentLoopData = $corporateTestimonials; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $corporateTestimonial): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <li class="splide__slide">
-                                <div class="card h-100 d-flex flex-column justify-content-between">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center studentImage">
-                                            <img class="img-thumbnail rounded"
-                                                src="<?php echo e($corporateTestimonial->corporate->attachment ? asset('/storage/' . $corporateTestimonial->corporate->attachment) : asset('student/images/th_5.png')); ?>"
-                                                alt="<?php echo e($corporateTestimonial->name); ?>"
-                                                style="height: 80px;width: 80px;">
+                <div class="splide splide-corporate-testimonials" id="splide-corporate-testimonials" role="group">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            <?php $__currentLoopData = $corporateTestimonials; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $corporateTestimonial): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li class="splide__slide">
+                                    <div class="card h-100 d-flex flex-column justify-content-between">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center studentImage">
+                                                <img class="img-thumbnail rounded"
+                                                    src="<?php echo e($corporateTestimonial->corporate->attachment ? asset('/storage/' . $corporateTestimonial->corporate->attachment) : asset('student/images/th_5.png')); ?>"
+                                                    alt="<?php echo e($corporateTestimonial->name); ?>"
+                                                    style="height: 80px;width: 80px;">
 
-                                            <p class="card-text pl-2">
-                                                <b><?php echo e($corporateTestimonial->name); ?></b><?php echo isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->institute_name) ? ',<br /> '.$corporateTestimonial->corporate?->institute_name : ''; ?><?php echo e(isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->district, $corporateTestimonial->corporate->district->name) ? ', '.$corporateTestimonial->corporate->district->name : ''); ?>
+                                                <p class="card-text pl-2">
+                                                    <b><?php echo e($corporateTestimonial->name); ?></b><?php echo isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->institute_name)
+                                                        ? ',<br /> ' . $corporateTestimonial->corporate?->institute_name
+                                                        : ''; ?><?php echo e(isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->district, $corporateTestimonial->corporate->district->name) ? ', ' . $corporateTestimonial->corporate->district->name : ''); ?>
 
-                                            </p>
+                                                </p>
+                                            </div>
+                                            <?php if($corporateTestimonial->image): ?>
+                                                <img class="img-fluid img-thumbnail w-100 mt-3"
+                                                    src="<?php echo e(asset('/storage/' . $corporateTestimonial->image)); ?>"
+                                                    alt="<?php echo e($corporateTestimonial->corporate?->institute_name ? $corporateTestimonial->corporate?->institute_name : $corporateTestimonial->name); ?>">
+                                            <?php endif; ?>
+                                            <p class="card-text mt-3"><?php echo $studentTestimonial->message; ?></p>
                                         </div>
-                                        <?php if($corporateTestimonial->image): ?>
-                                            <img class="img-fluid img-thumbnail mt-3 w-100"
-                                                src="<?php echo e(asset('/storage/' . $corporateTestimonial->image)); ?>"
-                                                alt="<?php echo e($corporateTestimonial->corporate?->institute_name ? $corporateTestimonial->corporate?->institute_name : $corporateTestimonial->name); ?>">
-                                        <?php endif; ?>
-                                        <p class="card-text mt-3"><?php echo $studentTestimonial->message; ?></p>
+
                                     </div>
-                                    
-                                </div>
-                            </li>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </ul>
+                                </li>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </ul>
+                    </div>
                 </div>
+
             </div>
+        </section>
+    <?php endif; ?>
 
-        </div>
-    </section>
-
+    <?php if($ourJourneys->count()): ?>
     <!-- SECTION: BRANDS -->
     <section>
         <div class="ani-eql country-wise never-ending-journey">
@@ -468,7 +479,9 @@
             <!--COUNTRY WISE TRAVEL MAP AND LINE END-->
         </div>
     </section>
+    <?php endif; ?>
 
+    <?php if($ourContributors->count()): ?>
     <div class="great-contributor mb-5">
         <div class="container relative">
             <div class="comm-tit-ani tit ani-tit">
@@ -476,13 +489,13 @@
                 <h2>Thanks To Our <span>Great Contributor</span><br></h2><span class="line"></span>
             </div>
 
-            <div class="splide splide-contributor-testimonials" role="group">
+            <div class="splide splide-contributor-testimonials" id="splide-contributor-testimonials" role="group">
                 <div class="splide__track">
                     <ul class="splide__list">
                         <?php $__currentLoopData = $ourContributors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ourContributor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <li class="splide__slide">
                                 <img class="img-fluid" src="<?php echo e(asset('home/' . $ourContributor->logo)); ?>"
-                                    alt="img">
+                                    alt="img" />
                             </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </ul>
@@ -491,6 +504,7 @@
 
         </div>
     </div>
+    <?php endif; ?>
 
 
     <?php

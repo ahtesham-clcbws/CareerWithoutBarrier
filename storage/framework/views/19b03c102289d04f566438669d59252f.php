@@ -957,7 +957,8 @@ unset($__errorArgs, $__bag); ?>
                                     <div class="contact__msg">Thank you.</div>
                                     <ul>
                                         <li class="full forgetmobiledn"> <span style="display: flex;"> Mobile
-                                                <validation class="text-danger">*</validation></span>
+                                                <validation class="text-danger">*</validation>
+                                            </span>
                                             <div class="input-group">
                                                 <input class="form-control" id="forget_mobile" name="mobile"
                                                     type="text" title="Please enter valid mobile"
@@ -1589,19 +1590,25 @@ unset($__errorArgs, $__bag); ?>
                 }
             }
             document.addEventListener('DOMContentLoaded', function() {
-                var splide = new Splide('.splide-testimonials', {
-                    ...miniSliderOptions
-                });
-                splide.mount();
-                var corporateTestimonials = new Splide('.splide-corporate-testimonials', {
-                    ...miniSliderOptions,
-                    perPage: 3,
-                });
-                corporateTestimonials.mount();
-                var contributorTestimonials = new Splide('.splide-contributor-testimonials', {
-                    ...miniSliderOptions
-                });
-                contributorTestimonials.mount();
+                if (document.getElementById('splide-testimonials')) {
+                    var splide = new Splide('#splide-testimonials', {
+                        ...miniSliderOptions,
+                    });
+                    splide.mount();
+                }
+                if (document.getElementById('splide-corporate-testimonials')) {
+                    var corporateTestimonials = new Splide('#splide-corporate-testimonials', {
+                        ...miniSliderOptions,
+                        perPage: 3,
+                    });
+                    corporateTestimonials.mount();
+                }
+                if (document.getElementById('splide-contributor-testimonials')) {
+                    var contributorTestimonials = new Splide('#splide-contributor-testimonials', {
+                        ...miniSliderOptions,
+                    });
+                    contributorTestimonials.mount();
+                }
             });
 
             function interestedForInit() {
