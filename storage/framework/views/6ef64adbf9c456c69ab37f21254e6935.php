@@ -381,7 +381,7 @@
                                             </div>
                                             <?php if($studentTestimonial->image): ?>
                                                 <img class="img-fluid img-thumbnail mt-3"
-                                                    src="<?php echo e(asset('/storage/' . $studentTestimonial->image)); ?>"
+                                                    src="<?php echo e($studentTestimonial->image ? asset('/storage/' . $studentTestimonial->image) : '/website/assets/images/placeholder.webp'); ?>"
                                                     alt="<?php echo e($studentTestimonial->name); ?>">
                                             <?php endif; ?>
                                             <p class="card-text mt-3"><?php echo $studentTestimonial->message; ?></p>

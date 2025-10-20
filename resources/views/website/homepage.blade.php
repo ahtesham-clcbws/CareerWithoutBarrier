@@ -143,65 +143,66 @@
     @endif
 
     @if ($courses->count())
-    <section>
-        <div class="packages">
-            <!-- ALL SECTION COMMEN TITTLE -->
-            <div class="comm-tit-ani tit">
-                <p>Popular Courses</p>
-                <h2>For <span>100% Scholarship</span><br></h2><span class="line"></span>
-            </div>
-
-            <div class="container">
-                <div class="row">
-                    @foreach ($courses as $course)
-                        <div class="ani-eql col-lg-4 col-md-6 packages-ani mb-5">
-                            <div class="customAnchor overflow-hidden bg-white p-3 shadow" style="border-radius: 15px;">
-                                <a class="d-flex align-items-center"
-                                    href="{{ route('home.career', encodeId($course->id)) }}" target="_blank">
-                                    <div style="width: 50px; height: 50px;">
-                                        <img class="h-100 mx-auto" src="{{ asset('home/course/' . $course->course_logo) }}"
-                                            alt="{{ $course->title }}">
-                                    </div>
-                                    <p class="mb-0"
-                                        style="line-height: 50px; font-size:18px; font-weight:700; margin-left:12px;">
-                                        {{ $course->title }}</p>
-                                </a>
-                            </div>
-                        </div>
-                    @endforeach
+        <section>
+            <div class="packages">
+                <!-- ALL SECTION COMMEN TITTLE -->
+                <div class="comm-tit-ani tit">
+                    <p>Popular Courses</p>
+                    <h2>For <span>100% Scholarship</span><br></h2><span class="line"></span>
                 </div>
-            </div>
 
-        </div>
-    </section>
+                <div class="container">
+                    <div class="row">
+                        @foreach ($courses as $course)
+                            <div class="ani-eql col-lg-4 col-md-6 packages-ani mb-5">
+                                <div class="customAnchor overflow-hidden bg-white p-3 shadow" style="border-radius: 15px;">
+                                    <a class="d-flex align-items-center"
+                                        href="{{ route('home.career', encodeId($course->id)) }}" target="_blank">
+                                        <div style="width: 50px; height: 50px;">
+                                            <img class="h-100 mx-auto"
+                                                src="{{ asset('home/course/' . $course->course_logo) }}"
+                                                alt="{{ $course->title }}">
+                                        </div>
+                                        <p class="mb-0"
+                                            style="line-height: 50px; font-size:18px; font-weight:700; margin-left:12px;">
+                                            {{ $course->title }}</p>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+            </div>
+        </section>
     @endif
 
     @if ($benefits->count())
-    <section>
-        <div class="ask-experts comm-p-t-b">
-            <div class="container">
-                <div class="comm-tit-ani tit ani-tit">
-                    <p>Benefit of CAREER without</p>
-                    <h2>BARRIER <span>scholarship Exam</span><br></h2><span class="line"></span>
-                </div>
-                <div class="row">
+        <section>
+            <div class="ask-experts comm-p-t-b">
+                <div class="container">
+                    <div class="comm-tit-ani tit ani-tit">
+                        <p>Benefit of CAREER without</p>
+                        <h2>BARRIER <span>scholarship Exam</span><br></h2><span class="line"></span>
+                    </div>
+                    <div class="row">
 
-                    <div class="traveller-advice">
-                        <ul class="row row-cols-2 row-cols-md-4">
-                            @foreach ($benefits as $benefit)
-                                <li class="ani-eql">
-                                    <div class="traveller-point">
-                                        <i class="{{ $benefit->icon }}" aria-hidden="true"></i>
-                                        <h4>{{ $benefit->benefits }} </h4>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
+                        <div class="traveller-advice">
+                            <ul class="row row-cols-2 row-cols-md-4">
+                                @foreach ($benefits as $benefit)
+                                    <li class="ani-eql">
+                                        <div class="traveller-point">
+                                            <i class="{{ $benefit->icon }}" aria-hidden="true"></i>
+                                            <h4>{{ $benefit->benefits }} </h4>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
     @endif
 
     <section class="important-information">
@@ -259,33 +260,35 @@
     </section>
 
     @if ($govtwebsites->count())
-    <section>
-        <div class="packages govt-web">
-            <div class="comm-tit-ani tit">
-                <p>Important</p>
-                <h2>Govt <span>Websites</span><br></h2><span class="line"></span>
-            </div>
-            <div class="container">
-                <div class='marquee' style="outline: none; background-color: transparent; box-shadow: none;">
-                    <div class="row flex-nowrap">
-                        @foreach ($govtwebsites as $govtwebsite)
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-2 govt-web-col" style="align-content: space-around;">
-                                <div class="govt-web-logo">
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <a href="{{ $govtwebsite->website_link }}">
-                                            <img class="" src="{{ asset('home/courses/' . $govtwebsite->image) }}"
-                                                alt="img" style="width: 100px; height: 100px;">
-                                        </a>
-                                        <span class="remark">{{ $govtwebsite->remark }}</span>
+        <section>
+            <div class="packages govt-web">
+                <div class="comm-tit-ani tit">
+                    <p>Important</p>
+                    <h2>Govt <span>Websites</span><br></h2><span class="line"></span>
+                </div>
+                <div class="container">
+                    <div class='marquee' style="outline: none; background-color: transparent; box-shadow: none;">
+                        <div class="row flex-nowrap">
+                            @foreach ($govtwebsites as $govtwebsite)
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-2 govt-web-col"
+                                    style="align-content: space-around;">
+                                    <div class="govt-web-logo">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <a href="{{ $govtwebsite->website_link }}">
+                                                <img class=""
+                                                    src="{{ asset('home/courses/' . $govtwebsite->image) }}" alt="img"
+                                                    style="width: 100px; height: 100px;">
+                                            </a>
+                                            <span class="remark">{{ $govtwebsite->remark }}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
     @endif
 
     <div class="counter-section">
@@ -335,8 +338,8 @@
                                 alt="img">
                         </div>
                         <!-- <h2><span class="counter">Free</span></h2>
-                                    <h6>Online Education</h6>
-                                    <h6>For All</h6> -->
+                                        <h6>Online Education</h6>
+                                        <h6>For All</h6> -->
 
                         <h6>Free online education for</h6>
                         <h2><span class="counter" data-count-start="9990" data-count-end="10000"
@@ -380,11 +383,9 @@
                                                     @endif
                                                 </p>
                                             </div>
-                                            @if ($studentTestimonial->image)
-                                                <img class="img-fluid img-thumbnail mt-3"
-                                                    src="{{ asset('/storage/' . $studentTestimonial->image) }}"
-                                                    alt="{{ $studentTestimonial->name }}">
-                                            @endif
+                                            <img class="img-fluid img-thumbnail mt-3"
+                                                src="{{ $studentTestimonial->image ? asset('/storage/' . $studentTestimonial->image) : '/website/assets/images/placeholder.webp' }}"
+                                                alt="{{ $studentTestimonial->name }}">
                                             <p class="card-text mt-3">{!! $studentTestimonial->message !!}</p>
                                         </div>
                                     </div>
@@ -430,11 +431,9 @@
                                                         : '' !!}{{ isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->district, $corporateTestimonial->corporate->district->name) ? ', ' . $corporateTestimonial->corporate->district->name : '' }}
                                                 </p>
                                             </div>
-                                            @if ($corporateTestimonial->image)
-                                                <img class="img-fluid img-thumbnail w-100 mt-3"
-                                                    src="{{ asset('/storage/' . $corporateTestimonial->image) }}"
-                                                    alt="{{ $corporateTestimonial->corporate?->institute_name ? $corporateTestimonial->corporate?->institute_name : $corporateTestimonial->name }}">
-                                            @endif
+                                            <img class="img-fluid img-thumbnail w-100 mt-3"
+                                                src="{{ $corporateTestimonial->image ? asset('/storage/' . $corporateTestimonial->image) : '/website/assets/images/placeholder.webp' }}"
+                                                alt="{{ $corporateTestimonial->corporate?->institute_name ? $corporateTestimonial->corporate?->institute_name : $corporateTestimonial->name }}">
                                             <p class="card-text mt-3">{!! $studentTestimonial->message !!}</p>
                                         </div>
 
@@ -450,60 +449,61 @@
     @endif
 
     @if ($ourJourneys->count())
-    <!-- SECTION: BRANDS -->
-    <section>
-        <div class="ani-eql country-wise never-ending-journey">
-            <!--COUNTRY WISE TRAVEL TITTLE-->
-            <h2>NEVER ENDING JOURNEYS</h2>
-            <p>Lorem ipsum dolor sit amet, pri in persius oporteat, usu ex erat aperiam nusquam. His liber verear <br>
-                ornatus eu. Nobis regione patrioque pri te.</p>
+        <!-- SECTION: BRANDS -->
+        <section>
+            <div class="ani-eql country-wise never-ending-journey">
+                <!--COUNTRY WISE TRAVEL TITTLE-->
+                <h2>NEVER ENDING JOURNEYS</h2>
+                <p>Lorem ipsum dolor sit amet, pri in persius oporteat, usu ex erat aperiam nusquam. His liber verear <br>
+                    ornatus eu. Nobis regione patrioque pri te.</p>
 
-            <!--COUNTRY WISE TRAVEL MAP AND LINE-->
-            <div class="tim-lin">
-                <div class="country-travel">
-                    <ul>
-                        @foreach ($ourJourneys as $ourJourney)
-                            <li>
-                                <div class="country-travel-1">
-                                    <img class="loc-img" src="{{ asset('home/' . $ourJourney->logo) }}" alt="">
-                                    <img src="{{ asset('home/' . $ourJourney->image) }}" alt="">
-                                    <div class="travel-content">
-                                        <h3>{{ $ourJourney->title }}</h3>
+                <!--COUNTRY WISE TRAVEL MAP AND LINE-->
+                <div class="tim-lin">
+                    <div class="country-travel">
+                        <ul>
+                            @foreach ($ourJourneys as $ourJourney)
+                                <li>
+                                    <div class="country-travel-1">
+                                        <img class="loc-img" src="{{ asset('home/' . $ourJourney->logo) }}"
+                                            alt="">
+                                        <img src="{{ asset('home/' . $ourJourney->image) }}" alt="">
+                                        <div class="travel-content">
+                                            <h3>{{ $ourJourney->title }}</h3>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
+                <!--COUNTRY WISE TRAVEL MAP AND LINE END-->
             </div>
-            <!--COUNTRY WISE TRAVEL MAP AND LINE END-->
-        </div>
-    </section>
+        </section>
     @endif
 
     @if ($ourContributors->count())
-    <div class="great-contributor mb-5">
-        <div class="container relative">
-            <div class="comm-tit-ani tit ani-tit">
-                <p>WE WOULD LIKE TO SAY</p>
-                <h2>Thanks To Our <span>Great Contributor</span><br></h2><span class="line"></span>
-            </div>
-
-            <div class="splide splide-contributor-testimonials" id="splide-contributor-testimonials" role="group">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        @foreach ($ourContributors as $ourContributor)
-                            <li class="splide__slide">
-                                <img class="img-fluid" src="{{ asset('home/' . $ourContributor->logo) }}"
-                                    alt="img" />
-                            </li>
-                        @endforeach
-                    </ul>
+        <div class="great-contributor mb-5">
+            <div class="container relative">
+                <div class="comm-tit-ani tit ani-tit">
+                    <p>WE WOULD LIKE TO SAY</p>
+                    <h2>Thanks To Our <span>Great Contributor</span><br></h2><span class="line"></span>
                 </div>
-            </div>
 
+                <div class="splide splide-contributor-testimonials" id="splide-contributor-testimonials" role="group">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            @foreach ($ourContributors as $ourContributor)
+                                <li class="splide__slide">
+                                    <img class="img-fluid" src="{{ asset('home/' . $ourContributor->logo) }}"
+                                        alt="img" />
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div>
     @endif
 
 
