@@ -733,7 +733,7 @@ class AdminController extends Controller
     public function testimonialList()
     {
 
-        $testimonials = TestimonialsModel::all();
+        $testimonials = TestimonialsModel::orderByDesc('id')->get();
 
         return view('administrator.dashboard.testimonials', compact('testimonials'));
     }
