@@ -363,11 +363,9 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="4">
-                                                    <b>I agree for Career without Barrier’s @if ($student->terms_conditions && $termsCondition)
-                                                            <a href="{{ asset('home/' . $termsCondition->terms_condition_pdf) }}"
+                                                    <b>I agree for Career without Barrier’s <a href="/p/student-terms-and-conditions"
                                                                 style="text-decoration: underline;" target="_blank"> Terms
                                                                 & Conditions </a></b> &nbsp;&nbsp; &check;
-                                                    @endif
 
                                                 </td>
                                             </tr>

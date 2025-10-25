@@ -91,6 +91,9 @@
                             <th class="sortHead" data-type="message">
                                 <span>Message</span>
                             </th>
+                            <th data-type="created_at">
+                                <span>Date Time</span>
+                            </th>
 
                             <th class="text-end">Actions</th>
                         </tr>
@@ -117,6 +120,9 @@
                             </td>
                             <td style="font-size: 13px; max-width: 300px !important;" class="text-wrap">
                                 {{ $contact->message }}
+                            </td>
+                            <td style="font-size: 13px;" class="text-wrap">
+                                {{ date('d-M-Y h:i A', strtotime($contact->created_at)) }}
                             </td>
                             <td class="text-end text-nowrap">
                                 @if ($contact->replyMails->count())

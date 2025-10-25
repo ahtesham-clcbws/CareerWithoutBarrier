@@ -242,7 +242,7 @@
 
                             <input type="hidden" name="terms_conditions" value="0"> <!-- Hidden input for unchecked value -->
                             <input type="checkbox" name="terms_conditions" class="form-check-input" id="terms_conditions" value="1" {{ $student->terms_conditions ? 'checked' : '' }} required> <!-- Checked value -->
-                            <label class="form-check-label" for="terms_conditions"><span class="text-danger">*</span> <b>I agree for Career without Barrier’s @if($student->terms_conditions && $termsCondition) <a style="text-decoration: underline;" href="{{ asset('home/'.$termsCondition->terms_condition_pdf) }}" target="_blank"> Terms & Conditions </a></b> &nbsp;&nbsp; &check; @endif</label>
+                            <label class="form-check-label" for="terms_conditions"><span class="text-danger">*</span> <b>I agree for Career without Barrier’s <a style="text-decoration: underline;" href="/p/student-terms-and-conditions" target="_blank"> Terms & Conditions </a></b> &nbsp;&nbsp; &check;</label>
 
                         </div>
                     </div>

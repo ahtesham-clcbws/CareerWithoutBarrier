@@ -190,7 +190,7 @@ class Registration extends Component
             }
             return (object) [
                 'success' => false,
-                'message' => 'Referrence code is not verified with District.'
+                'message' => 'Referrence code is not valid for this city.'
             ];
         } else {
             return (object) [
