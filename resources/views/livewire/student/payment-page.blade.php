@@ -5,7 +5,7 @@
         }
 
         .half {
-            width: 49% !important;
+            width: 50% !important;
         }
     </style>
     <div class="row corporate-cards"
@@ -290,7 +290,7 @@
                         .table th, .table td { border: 1px solid #000; padding: 5px; font-size: 10pt; }
                         .photo { text-align: center; }
                         .photo img { width: 115px; }
-                        .half { width: 49% !important; }
+                        .half { width: 50% !important; }
                     </style>
                 </head>
                 <body onload="window.print()">
