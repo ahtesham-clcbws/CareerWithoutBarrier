@@ -22,39 +22,39 @@
                             <table class="table-bordered table-hover table" id="studentTable">
                                 <tbody>
                                     <tr>
-                                        <td colspan="2"><b>Name</b></td>
-                                        <td class="information-txt" colspan="2">{{ $student->name }}</td>
+                                        <td colspan="2" class="half"><b>Name</b></td>
+                                        <td class="information-txt half" colspan="2">{{ $student->name }}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>Mobile</b></td>
-                                        <td class="information-txt" colspan="2">{{ $student->mobile }}</td>
+                                        <td colspan="2" class="half"><b>Mobile</b></td>
+                                        <td class="information-txt half" colspan="2">{{ $student->mobile }}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>Email</b></td>
-                                        <td class="information-txt" colspan="2">{{ $student->email }}</td>
+                                        <td colspan="2" class="half"><b>Email</b></td>
+                                        <td class="information-txt half" colspan="2">{{ $student->email }}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>Referral Code Issued By</b></td>
-                                        <td class="information-txt" colspan="2">
+                                        <td colspan="2" class="half"><b>Referral Code Issued By</b></td>
+                                        <td class="information-txt half" colspan="2">
                                             {{ $student->latestStudentCode?->corporate?->institute_name ? $student->latestStudentCode?->corporate?->institute_name : 'SQS Foundation, Kanpur' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>Referral Subscription Code</b></td>
-                                        <td class="information-txt" colspan="2">
+                                        <td colspan="2" class="half"><b>Referral Subscription Code</b></td>
+                                        <td class="information-txt half" colspan="2">
                                             {{ $student->latestStudentCode?->coupan_code ?? '-' }}</td>
                                     </tr>
 
                                     <tr>
-                                        <td colspan="2"><b>Fee Amount</b></td>
-                                        <td class="information-txt" colspan="2">750 &#8377;</td>
+                                        <td colspan="2" class="half"><b>Fee Amount</b></td>
+                                        <td class="information-txt half" colspan="2">750 &#8377;</td>
                                     </tr>
 
                                     @if ($student->latestStudentCode?->is_coupan_code_applied)
                                         @if ($calculateDiscountPercentage < 60)
                                             <tr>
-                                                <td colspan="2"><b>Discount Amount</b></td>
-                                                <td class="information-txt" colspan="2">
+                                                <td colspan="2" class="half"><b>Discount Amount</b></td>
+                                                <td class="information-txt half" colspan="2">
                                                     {{ $student->latestStudentCode?->is_coupan_code_applied ? $student->latestStudentCode?->coupan_value : 'No' }}
                                                     @if ($student->latestStudentCode?->is_coupan_code_applied)
                                                         &#8377;
@@ -69,29 +69,29 @@
                                             !$student->latestStudentCode?->is_paid &&
                                             $student->latestStudentCode?->fee_amount > 0)
                                         <tr>
-                                            <td colspan="2"><b>
+                                            <td colspan="2" class="half"><b>
                                                     {{ $calculateDiscountPercentage < 60 ? 'Final Payable Amount' : 'Final online Paid Amount' }}
                                                 </b></td>
-                                            <td class="information-txt" colspan="2">
+                                            <td class="information-txt half" colspan="2">
                                                 {{ $student->latestStudentCode?->fee_amount }} &#8377;
                                             </td>
                                         </tr>
                                     @elseif($student->latestStudentCode?->is_coupan_code_applied && $student->latestStudentCode?->fee_amount <= 0)
                                         <tr>
-                                            <td colspan="2"><b>
+                                            <td colspan="2" class="half"><b>
                                                     {{ $calculateDiscountPercentage < 60 ? 'Final Payable Amount' : 'Final online Paid Amount' }}
                                                 </b></td>
-                                            <td class="information-txt" colspan="2">
+                                            <td class="information-txt half" colspan="2">
                                                 0 &#8377;
                                             </td>
                                         </tr>
                                     @endif
                                     @if ($student->latestStudentCode?->is_paid && $studentPayment?->payment_amount)
                                         <tr>
-                                            <td colspan="2"><b>
+                                            <td colspan="2" class="half"><b>
                                                     {{ $calculateDiscountPercentage < 60 ? 'Final Payable Amount' : 'Final online Paid Amount' }}
                                                 </b></td>
-                                            <td class="information-txt" colspan="2">
+                                            <td class="information-txt half" colspan="2">
                                                 {!! $studentPayment?->payment_amount . ' &#8377;' ?? 0 !!}
                                             </td>
                                         </tr>
@@ -131,38 +131,38 @@
                                             <table class="table-bordered table-hover table" id="studentTable">
                                                 <tbody>
                                                     <tr>
-                                                        <td colspan="2"><b>Course Type</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td colspan="2" class="half"><b>Course Type</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             {{ $studentPayment->course_type }}
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"><b>Course</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td colspan="2" class="half"><b>Course</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             {{ $studentPayment->course_id }}
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"><b>Institute</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td colspan="2" class="half"><b>Institute</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             {{ $studentPayment->institute?->institute_name }}
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"><b>Amount</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td colspan="2" class="half"><b>Amount</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             {{ $studentPayment->payment_amount }}
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"><b>Payment Order ID</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td colspan="2" class="half"><b>Payment Order ID</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             {{ $studentPayment->payment_order_id }}
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"><b>Payment Status</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td colspan="2" class="half"><b>Payment Status</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             {{ ucfirst($studentPayment->payment_status) }}
                                                         </td>
                                                     </tr>
@@ -285,6 +285,7 @@
                         .table th, .table td { border: 1px solid #000; padding: 5px; font-size: 10pt; }
                         .photo { text-align: center; }
                         .photo img { width: 115px; }
+                        .half { width: 49% !important; }
                     </style>
                 </head>
                 <body onload="window.print()">
