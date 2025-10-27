@@ -3,6 +3,10 @@
         .d-block {
             color: inherit !important
         }
+
+        .half {
+            width: 50% !important;
+        }
     </style>
     <div class="row corporate-cards"
         style="width: 50%;text-align: center;margin-left: 20%;padding-top:5%;margin-right: auto;">
@@ -22,40 +26,40 @@
                             <table class="table-bordered table-hover table" id="studentTable">
                                 <tbody>
                                     <tr>
-                                        <td colspan="2"><b>Name</b></td>
-                                        <td class="information-txt" colspan="2"><?php echo e($student->name); ?></td>
+                                        <td class="half" colspan="2"><b>Name</b></td>
+                                        <td class="information-txt half" colspan="2"><?php echo e($student->name); ?></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>Mobile</b></td>
-                                        <td class="information-txt" colspan="2"><?php echo e($student->mobile); ?></td>
+                                        <td class="half" colspan="2"><b>Mobile</b></td>
+                                        <td class="information-txt half" colspan="2"><?php echo e($student->mobile); ?></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>Email</b></td>
-                                        <td class="information-txt" colspan="2"><?php echo e($student->email); ?></td>
+                                        <td class="half" colspan="2"><b>Email</b></td>
+                                        <td class="information-txt half" colspan="2"><?php echo e($student->email); ?></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>Referral Code Issued By</b></td>
-                                        <td class="information-txt" colspan="2">
+                                        <td class="half" colspan="2"><b>Referral Code Issued By</b></td>
+                                        <td class="information-txt half" colspan="2">
                                             <?php echo e($student->latestStudentCode?->corporate?->institute_name ? $student->latestStudentCode?->corporate?->institute_name : 'SQS Foundation, Kanpur'); ?>
 
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><b>Referral Subscription Code</b></td>
-                                        <td class="information-txt" colspan="2">
+                                        <td class="half" colspan="2"><b>Referral Subscription Code</b></td>
+                                        <td class="information-txt half" colspan="2">
                                             <?php echo e($student->latestStudentCode?->coupan_code ?? '-'); ?></td>
                                     </tr>
 
                                     <tr>
-                                        <td colspan="2"><b>Fee Amount</b></td>
-                                        <td class="information-txt" colspan="2">750 &#8377;</td>
+                                        <td class="half" colspan="2"><b>Fee Amount</b></td>
+                                        <td class="information-txt half" colspan="2">750 &#8377;</td>
                                     </tr>
 
                                     <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?>
                                         <!--[if BLOCK]><![endif]--><?php if($calculateDiscountPercentage < 60): ?>
                                             <tr>
-                                                <td colspan="2"><b>Discount Amount</b></td>
-                                                <td class="information-txt" colspan="2">
+                                                <td class="half" colspan="2"><b>Discount Amount</b></td>
+                                                <td class="information-txt half" colspan="2">
                                                     <?php echo e($student->latestStudentCode?->is_coupan_code_applied ? $student->latestStudentCode?->coupan_value : 'No'); ?>
 
                                                     <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?>
@@ -71,32 +75,32 @@
                                             !$student->latestStudentCode?->is_paid &&
                                             $student->latestStudentCode?->fee_amount > 0): ?>
                                         <tr>
-                                            <td colspan="2"><b>
+                                            <td class="half" colspan="2"><b>
                                                     <?php echo e($calculateDiscountPercentage < 60 ? 'Final Payable Amount' : 'Final online Paid Amount'); ?>
 
                                                 </b></td>
-                                            <td class="information-txt" colspan="2">
+                                            <td class="information-txt half" colspan="2">
                                                 <?php echo e($student->latestStudentCode?->fee_amount); ?> &#8377;
                                             </td>
                                         </tr>
                                     <?php elseif($student->latestStudentCode?->is_coupan_code_applied && $student->latestStudentCode?->fee_amount <= 0): ?>
                                         <tr>
-                                            <td colspan="2"><b>
+                                            <td class="half" colspan="2"><b>
                                                     <?php echo e($calculateDiscountPercentage < 60 ? 'Final Payable Amount' : 'Final online Paid Amount'); ?>
 
                                                 </b></td>
-                                            <td class="information-txt" colspan="2">
+                                            <td class="information-txt half" colspan="2">
                                                 0 &#8377;
                                             </td>
                                         </tr>
                                     <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                                     <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_paid && $studentPayment?->payment_amount): ?>
                                         <tr>
-                                            <td colspan="2"><b>
+                                            <td class="half" colspan="2"><b>
                                                     <?php echo e($calculateDiscountPercentage < 60 ? 'Final Payable Amount' : 'Final online Paid Amount'); ?>
 
                                                 </b></td>
-                                            <td class="information-txt" colspan="2">
+                                            <td class="information-txt half" colspan="2">
                                                 <?php echo $studentPayment?->payment_amount . ' &#8377;' ?? 0; ?>
 
                                             </td>
@@ -119,7 +123,8 @@
 
                                                 <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?>
                                                     <div style="display:block;text-align:center;">
-                                                        <h3 style="font-weight:700; font-size:18px;">Discount Voucher Provided By: SQS
+                                                        <h3 style="font-weight:700; font-size:18px;">Discount Voucher
+                                                            Provided By: SQS
                                                             Foundation</h3>
                                                     </div>
                                                 <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
@@ -137,43 +142,43 @@
                                             <table class="table-bordered table-hover table" id="studentTable">
                                                 <tbody>
                                                     <tr>
-                                                        <td colspan="2"><b>Course Type</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td class="half" colspan="2"><b>Course Type</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             <?php echo e($studentPayment->course_type); ?>
 
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"><b>Course</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td class="half" colspan="2"><b>Course</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             <?php echo e($studentPayment->course_id); ?>
 
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"><b>Institute</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td class="half" colspan="2"><b>Institute</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             <?php echo e($studentPayment->institute?->institute_name); ?>
 
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"><b>Amount</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td class="half" colspan="2"><b>Amount</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             <?php echo e($studentPayment->payment_amount); ?>
 
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"><b>Payment Order ID</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td class="half" colspan="2"><b>Payment Order ID</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             <?php echo e($studentPayment->payment_order_id); ?>
 
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="2"><b>Payment Status</b></td>
-                                                        <td class="information-txt" colspan="2">
+                                                        <td class="half" colspan="2"><b>Payment Status</b></td>
+                                                        <td class="information-txt half" colspan="2">
                                                             <?php echo e(ucfirst($studentPayment->payment_status)); ?>
 
                                                         </td>
@@ -242,7 +247,7 @@
                             <div class="input-group-append">
                                 <button type="button" id="applyCoupon" wire:click="applyCoupon"
                                     class="btn btn-primary bg-success"
-                                    style="display:<?php echo e($student->latestStudentCode?->is_coupan_code_applied ? 'none' : 'block'); ?>;"">Apply
+                                    style="display:<?php echo e($student->latestStudentCode?->is_coupan_code_applied ? 'none' : 'block'); ?>;">Apply
                                     Coupon</button>
                                 <button class="btn btn-primary text-danger" id="removeCoupon" type="button"
                                     style="background: #fd0000;color: white !important;border: #f91818;<?php echo e($student->latestStudentCode?->is_coupan_code_applied ? 'display:block' : 'display:none'); ?>"
@@ -267,6 +272,12 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                         <!--[if BLOCK]><![endif]--><?php if($student->latestStudentCode?->is_coupan_code_applied): ?>
                             <div style="display:block;text-align:center;">
                                 <h6 style="font-weight:700;">Discount Voucher Provided By: SQS Foundation</h6>
+                                <?php
+                                    $couponDetails = getCouponDetails($student?->latestStudentCode?->coupan_code ?? null);
+                                ?>
+                                <!--[if BLOCK]><![endif]--><?php if($couponDetails && !empty(trim($couponDetails->description)) && !$student->latestStudentCode?->corporate?->institute_name): ?>
+                                <?php echo e($couponDetails->description); ?><br />
+                                <?php endif; ?><!--[if ENDBLOCK]><![endif]-->
                                 <?php echo $student->latestStudentCode?->corporate?->institute_name
                                     ? '<p>Voucher issued By: ' . $student->latestStudentCode?->corporate?->institute_name . '</p>'
                                     : ''; ?>
@@ -286,7 +297,6 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
 
     <div class="modal-backdrop fade <?php if($modalOpened): ?> show <?php else: ?> d-none <?php endif; ?>"></div>
 
-    <!-- Alpine.js Script -->
     <script>
         function printDocument() {
             let printContent = document.getElementById('prodiv').innerHTML;
@@ -305,6 +315,7 @@ unset($__errorArgs, $__bag); ?><!--[if ENDBLOCK]><![endif]-->
                         .table th, .table td { border: 1px solid #000; padding: 5px; font-size: 10pt; }
                         .photo { text-align: center; }
                         .photo img { width: 115px; }
+                        .half { width: 50% !important; }
                     </style>
                 </head>
                 <body onload="window.print()">

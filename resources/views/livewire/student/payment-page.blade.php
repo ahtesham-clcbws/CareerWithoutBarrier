@@ -235,7 +235,7 @@
                             <div class="input-group-append">
                                 <button type="button" id="applyCoupon" wire:click="applyCoupon"
                                     class="btn btn-primary bg-success"
-                                    style="display:{{ $student->latestStudentCode?->is_coupan_code_applied ? 'none' : 'block' }};"">Apply
+                                    style="display:{{ $student->latestStudentCode?->is_coupan_code_applied ? 'none' : 'block' }};">Apply
                                     Coupon</button>
                                 <button class="btn btn-primary text-danger" id="removeCoupon" type="button"
                                     style="background: #fd0000;color: white !important;border: #f91818;{{ $student->latestStudentCode?->is_coupan_code_applied ? 'display:block' : 'display:none' }}"
@@ -253,6 +253,12 @@
                         @if ($student->latestStudentCode?->is_coupan_code_applied)
                             <div style="display:block;text-align:center;">
                                 <h6 style="font-weight:700;">Discount Voucher Provided By: SQS Foundation</h6>
+                                @php
+                                    $couponDetails = getCouponDetails($student?->latestStudentCode?->coupan_code ?? null);
+                                @endphp
+                                @if ($couponDetails && !empty(trim($couponDetails->description)) && !$student->latestStudentCode?->corporate?->institute_name)
+                                {{ $couponDetails->description }}<br />
+                                @endif
                                 {!! $student->latestStudentCode?->corporate?->institute_name
                                     ? '<p>Voucher issued By: ' . $student->latestStudentCode?->corporate?->institute_name . '</p>'
                                     : '' !!}
@@ -271,7 +277,6 @@
 
     <div class="modal-backdrop fade @if ($modalOpened) show @else d-none @endif"></div>
 
-    <!-- Alpine.js Script -->
     <script>
         function printDocument() {
             let printContent = document.getElementById('prodiv').innerHTML;

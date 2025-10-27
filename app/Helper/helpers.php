@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CouponCode;
 use App\Models\District;
 use App\Models\DistrictScholarshipLimit;
 use App\Models\EducationType;
@@ -335,4 +336,12 @@ function alternateSort(Collection $students, array $fields): Collection
     }
 
     return $result->values();
+}
+
+function getCouponDetails(?string $couponCode = null)
+{
+    if(!$couponCode) {
+        return null;
+    }
+    return CouponCode::where('couponcode', $couponCode)->first();
 }

@@ -125,7 +125,7 @@ class PaymentPage extends Component
             return false;
             // return back()->withErrors('Failed to apply code');
         }
-        $this->dispatch('coupon-applied');
+        // $this->dispatch('coupon-applied');
 
         // Redirect back or return a response
 
@@ -185,8 +185,9 @@ class PaymentPage extends Component
             //     'message' => 'Failed to remove coupon.',
             // ]);
         }
-        $this->dispatch('coupon-applied');
+        // $this->dispatch('coupon-applied');
     }
+    // SQS AKGEFCNZInP7227
 
     public function formSubmit() {}
 
