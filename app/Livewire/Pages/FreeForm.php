@@ -38,7 +38,8 @@ class FreeForm extends Component
     public function render()
     {
         // Fetch paginated institutes in render() and pass them to the view
-        $institutesQuery = Corporate::where('is_approved', 1)->where('signup_approved', 1)->whereNotNull('signup_at');
+        $institutesQuery = Corporate::whereHas('district')
+        ->where('is_approved', 1)->where('signup_approved', 1)->whereNotNull('signup_at');
         if ($this->query) {
             // $institutesQuery->where('city', 'like', '%' . $this->query . '%');
             $institutesQuery->where('name', 'like', '%' . $this->query . '%');

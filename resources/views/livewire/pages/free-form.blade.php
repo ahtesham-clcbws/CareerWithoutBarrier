@@ -60,7 +60,6 @@
                 </thead>
                 <tbody>
                     @foreach ($institutes as $institute)
-
                     <tr>
                         <td class="small">{{ $loop->index +1}}</td>
                         <td class="small text-primary">{{ $institute->district->name }}</td>
