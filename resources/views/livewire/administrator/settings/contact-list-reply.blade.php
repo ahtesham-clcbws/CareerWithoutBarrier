@@ -48,7 +48,9 @@
                             </tr>
                             <tr>
                                 <th scope="row">Contact Reason</th>
-                                <td colspan="3">{{ $contact->reason_contact }}</td>
+                                <td>{{ $contact->reason_contact }}</td>
+                                <th scope="row">Date/Time</th>
+                                <td>{{date('d-M-Y h:i A', strtotime( $contact->created_at)) }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Message</th>

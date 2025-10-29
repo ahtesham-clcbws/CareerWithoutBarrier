@@ -40,12 +40,13 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col" style="margin-left: auto;margin-right:auto">
 
-            <div class="container boxShadow">
+            <div class="boxShadow container">
 
                 <div class="d-flex justify-content-between mb-2">
-                    <div class="d-flex flex-wrap gap-2 align-items-end">
+                    <div class="d-flex align-items-end flex-wrap gap-2">
                         @if (count($selectedCupons))
-                        <div class="flex-fill"><button class="btn btn-danger" wire:click="deleteSelected">Delete Selected</button></div>
+                            <div class="flex-fill"><button class="btn btn-danger" wire:click="deleteSelected">Delete
+                                    Selected</button></div>
                         @endif
                         <div class="flex-fill">
                             <select class="form-select" id="showResutsPerPage" wire:model.live="perPage">
@@ -59,17 +60,18 @@
                     </div>
                     <div>
                         <div class="flex-fill">
-                            <input class="form-control" type="search" id="couponCodeSearch" wire:model.live="couponCodeSearch" placeholder="Coupon code search" />
+                            <input class="form-control" id="couponCodeSearch" type="search"
+                                wire:model.live="couponCodeSearch" placeholder="Coupon code search" />
                         </div>
                     </div>
                 </div>
 
-                <table class="table coupons_table" style="width:100%">
+                <table class="coupons_table table" style="width:100%">
                     <thead class="thead-light">
                         <tr class="">
                             <th>
-                                <input type="checkbox" id="selectAll" wire:model.live="selectAll">
-                                <label for="selectAll" class="sr-only">Select All</label>
+                                <input id="selectAll" type="checkbox" wire:model.live="selectAll">
+                                <label class="sr-only" for="selectAll">Select All</label>
                             </th>
                             <th>#</th>
                             <th>
@@ -84,50 +86,67 @@
                             <th>
                                 <span>Coupons List</span>
                             </th>
+                            <th>
+                                <span>Prefix</span>
+                            </th>
+                            <th>
+                                <span>Coupons</span>
+                            </th>
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="table-striped table-striped-coupon">
                         @if (count($coupons))
-                        @foreach ($coupons as $coupon)
-                        <tr style="<?= $coupon->status == 'completed' ? 'background-color: #2180614d;' : ($coupon->status == 'rejected' ? 'color: red;' : '') ?>">
-                            <td> <input type="checkbox" class="selectSingle" value="{{ $coupon->id }}" wire:model.live="selectedCupons" <?= $coupon->status == 'completed' ? 'disabled' : '' ?>></td>
+                            @foreach ($coupons as $coupon)
+                                <tr
+                                    style="<?= $coupon->status == 'completed' ? 'background-color: #2180614d;' : ($coupon->status == 'rejected' ? 'color: red;' : '') ?>">
+                                    <td> <input class="selectSingle" type="checkbox" value="{{ $coupon->id }}"
+                                            wire:model.live="selectedCupons"
+                                            <?= $coupon->status == 'completed' ? 'disabled' : '' ?>></td>
 
-                            <td style="font-size: 13px">{{ $loop->index+1 }}</td>
-                            <td style="font-size: 13px">{{ $coupon->corporate->institute_name }}</td>
-                            <td style="font-size: 13px">
-                                {{ $coupon->created_at->format('d-M-Y') }}
-                            </td>
-                            <td style="font-size: 13px">
-                                    @if ($coupon->status == 'pending')
-                                    <span class="badge badge-warning">Pending</span>
-                                    @elseif($coupon->status == 'completed')
-                                    <span class="badge badge-success">Completed</span>
-                                    @else
-                                    <span class="badge badge-danger">Rejected</span>
-                                    @if ($coupon->status == 'rejected' && $coupon->reject_reason)
-                                    <br /><span>{{ $coupon->reject_reason }}</span>
-                                    @endif
-                                    @endif
-                            </td>
-                            <td style="font-size: 13px">
-                                <a href="{{ route('institute.CoprporateCouponlists', $coupon->corporate_id) }}" class="">View list</a>
-                            </td>
-                            <td class="text-end">
-                                @if($coupon->status == 'pending')
-                                <a type='button' class='btn btn-success btn-sm' href="{{ route('institute.view',[$coupon->corporate]) }}">Allot</a>
-                                <button type='button' class='btn btn-warning btn-sm' wire:click="rejectRequest({{ $coupon->id }}, false)">Reject</button>
-                                @endif
-                                <button type="button" class="btn btn-danger btn-sm" wire:confirm="Are you sure you want to delete this?" wire:click="delete({{ $coupon->id }})">Delete</button>
-                            </td>
-                        </tr>
-                        @endforeach
+                                    <td style="font-size: 13px">{{ $loop->index + 1 }}</td>
+                                    <td style="font-size: 13px">{{ $coupon->corporate->institute_name }}</td>
+                                    <td style="font-size: 13px">
+                                        {{ $coupon->created_at->format('d-M-Y') }}
+                                    </td>
+                                    <td style="font-size: 13px">
+                                        @if ($coupon->status == 'pending')
+                                            <span class="badge badge-warning">Pending</span>
+                                        @elseif($coupon->status == 'completed')
+                                            <span class="badge badge-success">Completed</span>
+                                        @else
+                                            <span class="badge badge-danger">Rejected</span>
+                                            @if ($coupon->status == 'rejected' && $coupon->reject_reason)
+                                                <br /><span>{{ $coupon->reject_reason }}</span>
+                                            @endif
+                                        @endif
+                                    </td>
+                                    <td style="font-size: 13px">
+                                        <a class=""
+                                            href="{{ route('institute.CoprporateCouponlists', $coupon->corporate_id) }}">View
+                                            list</a>
+                                    </td>
+                                    <td style="font-size: 13px">{{ $coupon->prefix }}</td>
+                                    <td style="font-size: 13px">{{ $coupon->numbers }}</td>
+                                    <td class="text-end">
+                                        @if ($coupon->status == 'pending')
+                                            <a class='btn btn-success btn-sm' type='button'
+                                                href="{{ route('institute.view', [$coupon->corporate]) }}">Allot</a>
+                                            <button class='btn btn-warning btn-sm' type='button'
+                                                wire:click="rejectRequest({{ $coupon->id }}, false)">Reject</button>
+                                        @endif
+                                        <button class="btn btn-danger btn-sm" type="button"
+                                            wire:confirm="Are you sure you want to delete this?"
+                                            wire:click="delete({{ $coupon->id }})">Delete</button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         @else
-                        <tr>
-                            <td rowspan="7" colspan="9" class="text-center py-5">
-                                <h2>No results found</h2>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td class="py-5 text-center" rowspan="7" colspan="9">
+                                    <h2>No results found</h2>
+                                </td>
+                            </tr>
                         @endif
                     </tbody>
                 </table>

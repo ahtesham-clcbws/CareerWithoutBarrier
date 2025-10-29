@@ -13,6 +13,8 @@ class CorporateCouponRequest extends Model
         'corporate_id',
         'status',
         'reject_reason',
+        'prefix',
+        'numbers'
     ];
 
     public function corporate()
