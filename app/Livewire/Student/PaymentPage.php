@@ -2,15 +2,17 @@
 
 namespace App\Livewire\Student;
 
+use App\Models\Corporate;
 use App\Models\CouponCode;
+use App\Models\Student;
 use App\Models\StudentCode;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
-use Livewire\Attributes\On;
-
 
 #[Layout('student.layouts.master')]
 class PaymentPage extends Component
@@ -22,16 +24,16 @@ class PaymentPage extends Component
     #[Validate('required', 'string')]
     public $coupan_code;
 
-    public function updated($property)
-    {
-        if ($property) {
-
-        }
-    }
+    // public function updated($property)
+    // {
+    //     if ($property) {
+    //     }
+    // }
 
     public function render()
     {
         $this->student = Auth::guard('student')->user();
+        // $this->student = $student;
         $this->student->latestStudentCode;
         // $appCode = $this->student->latestStudentCode;
         $studentPayment = $this->student->studentPayment->last();
@@ -61,7 +63,7 @@ class PaymentPage extends Component
     public function applyCoupon()
     {
         $studentCode = StudentCode::where('stud_id', $this->student->id)->get()->last();
-        if (! $studentCode) {
+        if (!$studentCode) {
             $studentCode = new StudentCode;
             $studentCode->stud_id = $this->student->id;
         }
@@ -70,19 +72,26 @@ class PaymentPage extends Component
 
         try {
             DB::beginTransaction();
-            $couponCode = CouponCode::where('is_applied', 0)
-                ->where('couponcode', $this->coupan_code)
-                ->first();
+            $couponCode = CouponCode::where('couponcode', $this->coupan_code)->where('status', 1)->where('is_applied', 0)->first();
+            // $couponCode = CouponCode::where('is_applied', 0)
+            //     ->where('couponcode', $this->coupan_code)
+            //     ->first();
 
             if (is_null($couponCode)) {
                 $this->addError('coupan_code', 'Coupon Code invalid');
-
-                // return response()->json([
-                //     'status' => false,
-                //     'message' => "Coupon Code invalid"
-                // ]);
                 return false;
             }
+
+            // coupon district verification added
+            $userDistrcit = $this->student->district_id;
+            if ($couponCode->corporate_id && $couponCode->is_issued) {
+                $corporate = Corporate::find($couponCode->corporate_id);
+                if ($corporate && $corporate->district_id != $userDistrcit) {
+                    $this->addError('coupan_code', 'Referrence code is not valid for this city.');
+                    return false;
+                }
+            }
+            // coupon district verification added
 
             $couponCode->is_applied = 1;
             $couponCode->save();
@@ -94,9 +103,7 @@ class PaymentPage extends Component
                 $studentCode->corporate_id = $corporate->id;
                 $studentCode->corporate_name = $corporate->name;
             }
-            // $studentCode->forceFill([
-            //     'coupan_code' => $this->coupan_code
-            // ]);
+
             $studentCode->coupan_code = $this->coupan_code;
             $studentCode->is_coupan_code_applied = 1;
             $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ? 750 - $afterAppliedRemainValue : 0;
@@ -109,26 +116,11 @@ class PaymentPage extends Component
 
             DB::commit();
             $this->js("success('Coupon Code Applied.')");
-            // return response()->json([
-            //     'status' => true,
-            //     'message' => 'Coupon code applied successfully.',
-            //     'amount' => $studentCode->fee_amount,
-            //     'discount_amount' => $studentCode->coupan_value,
-            //     'coupan_code' => $couponCode->couponcode,
-            //     'corporate_name' => $studentCode->corporate_name
-            // ]);
         } catch (\Throwable $th) {
-            // $this->addError('coupan_code', 'Failed to apply code');
             DB::rollBack();
             logger('Failed:', [$th]);
-
             return false;
-            // return back()->withErrors('Failed to apply code');
         }
-        // $this->dispatch('coupon-applied');
-
-        // Redirect back or return a response
-
     }
 
     public function removeCoupon()
@@ -138,7 +130,7 @@ class PaymentPage extends Component
             DB::beginTransaction();
             $studentCode = StudentCode::where('stud_id', $this->student->id)->where('coupan_code', $this->coupan_code)->first();
 
-            if (! $studentCode) {
+            if (!$studentCode) {
                 $this->js("error('No coupon applied to remove')");
 
                 // $this->addError('coupan_code', 'No coupon applied to remove.');
@@ -187,6 +179,7 @@ class PaymentPage extends Component
         }
         // $this->dispatch('coupon-applied');
     }
+
     // SQS AKGEFCNZInP7227
 
     public function formSubmit() {}

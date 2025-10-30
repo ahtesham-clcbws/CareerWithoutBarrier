@@ -8,6 +8,11 @@
             width: 50% !important;
         }
     </style>
+                                                        @php
+                                                            $couponDetails = getCouponDetails(
+                                                                $student?->latestStudentCode?->coupan_code ?? null,
+                                                            );
+                                                        @endphp
     <div class="row corporate-cards"
         style="width: 50%;text-align: center;margin-left: 20%;padding-top:5%;margin-right: auto;">
         <div class="col-md-12 col-12" id="prodiv">
@@ -120,6 +125,12 @@
                                                         <h3 style="font-weight:700; font-size:18px;">Discount Voucher
                                                             Provided By: SQS
                                                             Foundation</h3>
+                                                        @if (
+                                                            $couponDetails &&
+                                                                !empty(trim($couponDetails->description)) &&
+                                                                !$student->latestStudentCode?->corporate?->institute_name)
+                                                            {{ $couponDetails->description }}<br />
+                                                        @endif
                                                     </div>
                                                 @endif
 
@@ -184,8 +195,8 @@
         </div>
     </div>
 
-    <div class="modal fade @if ($modalOpened) show d-block @endif" id="exampleModalCenter" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true" tabindex="-1">
+    <div class="modal fade @if ($modalOpened) show d-block @endif" id="exampleModalCenter"
+        role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" tabindex="-1">
         <form id="couponForm" action="{{ route('student.paymentCreate') }}" method="get">
             @csrf
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -233,9 +244,9 @@
                             <input class="form-control" type="text" placeholder="Enter coupon code"
                                 wire:model="coupan_code" {{ $coupan_code ? 'readonly' : '' }}>
                             <div class="input-group-append">
-                                <button type="button" id="applyCoupon" wire:click="applyCoupon"
-                                    class="btn btn-primary bg-success"
-                                    style="display:{{ $student->latestStudentCode?->is_coupan_code_applied ? 'none' : 'block' }};">Apply
+                                <button class="btn btn-primary bg-success" id="applyCoupon" type="button"
+                                    style="display:{{ $student->latestStudentCode?->is_coupan_code_applied ? 'none' : 'block' }};"
+                                    wire:click="applyCoupon">Apply
                                     Coupon</button>
                                 <button class="btn btn-primary text-danger" id="removeCoupon" type="button"
                                     style="background: #fd0000;color: white !important;border: #f91818;{{ $student->latestStudentCode?->is_coupan_code_applied ? 'display:block' : 'display:none' }}"
@@ -253,11 +264,11 @@
                         @if ($student->latestStudentCode?->is_coupan_code_applied)
                             <div style="display:block;text-align:center;">
                                 <h6 style="font-weight:700;">Discount Voucher Provided By: SQS Foundation</h6>
-                                @php
-                                    $couponDetails = getCouponDetails($student?->latestStudentCode?->coupan_code ?? null);
-                                @endphp
-                                @if ($couponDetails && !empty(trim($couponDetails->description)) && !$student->latestStudentCode?->corporate?->institute_name)
-                                {{ $couponDetails->description }}<br />
+                                @if (
+                                    $couponDetails &&
+                                        !empty(trim($couponDetails->description)) &&
+                                        !$student->latestStudentCode?->corporate?->institute_name)
+                                    {{ $couponDetails->description }}<br />
                                 @endif
                                 {!! $student->latestStudentCode?->corporate?->institute_name
                                     ? '<p>Voucher issued By: ' . $student->latestStudentCode?->corporate?->institute_name . '</p>'

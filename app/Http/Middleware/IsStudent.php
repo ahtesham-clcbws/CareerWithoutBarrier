@@ -21,7 +21,7 @@ class IsStudent
             if ($student->is_final_submitted) {
                 $studCode = $student->studentCode->first();
                 if ($studCode && $studCode->is_paid == 1) {
-                    return redirect()->route('studentDashboardAfterPaid');
+                    return redirect()->route('student.payment');
                 }
                 return redirect()->route('student.payment');
             }

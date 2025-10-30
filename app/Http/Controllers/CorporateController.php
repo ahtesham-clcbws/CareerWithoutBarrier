@@ -280,7 +280,7 @@ class CorporateController extends Controller
             $student->login_password = $request->new_password;
             $student->save();
 
-           //return redirect()->route('studentDashboardAfterPaid');
+           //return redirect()->route('student.payment');
         }
         return view('corporate.dashboard.changePassword', compact('student'));
     }

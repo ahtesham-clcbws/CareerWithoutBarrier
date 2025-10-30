@@ -23,14 +23,14 @@
                <div class="row mt-2 ">
                   <div class="col-md-6 mb-3">
                      <label class="form-label">Student Name</label>
-                     <input pattern="[A-Za-z ]+" class="form-control" value="{{$student->name}}" name="name" />
+                     <input class="form-control" value="{{$student->name}}" name="name" />
                      @error('name')
                      <div class="text-danger">{{$message}}</div>
                      @enderror
                   </div>
                   <div class="col-md-6 col mb-3">
                      <label class="form-label">Name of Father<span class="text-danger">*</span></label>
-                     <input pattern="[A-Za-z ]+" class="form-control" placeholder="Enter name of Father" value="{{$student->father_name}}" name="father_name" required />
+                     <input class="form-control" placeholder="Enter name of Father" value="{{$student->father_name}}" name="father_name" required />
                      @error('father_name')
                      <div class="text-danger">{{$message}}</div>
                      @enderror

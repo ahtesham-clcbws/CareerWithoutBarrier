@@ -35,7 +35,7 @@ class Registration extends Component
     public District $selectedDistrictData;
 
     #[Validate('required', message: 'Please enter your name')]
-    #[Validate('min:8', message: 'Full name must be minimum 8 characters')]
+    #[Validate('min:3', message: 'Full name must be minimum 8 characters')]
     public $name;
 
     #[Validate('required', message: 'Please select Gender')]
@@ -69,7 +69,7 @@ class Registration extends Component
     public $terms = null;
 
     public $remainingForms = 1000;
-    public $couponcode;
+    public ?string $couponcode = null;
     public bool $isCouponVerify = false;
     public $customErrors = null;
     public $otpRequestId = '';
@@ -96,7 +96,7 @@ class Registration extends Component
                     $corporate = Corporate::find($couponAvailable->corporate_id);
                     if ($corporate && $corporate->district_id != $this->selectedDistrict) {
                         $this->isCouponVerify = false;
-                        return $this->addError('couponcode', 'Referrence code is not valid.');
+                        return $this->addError('couponcode', 'Referrence code is not valid for this city.');
                     }
                 }
             } else {
@@ -131,6 +131,8 @@ class Registration extends Component
             $data = $this->selectedDistrictData?->getLimit($this->selectedScholarship);
             $limit = $data?->limit ?? 0;
             $this->remainingForms = $data?->remaining ?? 0;
+            $this->isCouponVerify = false;
+            $this->couponcode = null;
         }
     }
 
@@ -203,18 +205,25 @@ class Registration extends Component
     {
         $this->validate();
 
-        $couponVerify = $this->registerVerifyCoupon();
-        if ($couponVerify && !$couponVerify->success) {
-            $this->isCouponVerify = false;
-            $this->addError('couponcode', $couponVerify->message);
-            return false;
-        } else {
-            $this->isCouponVerify = true;
-            $this->resetValidation(['couponcode']);
-        }
+        // $couponVerify = $this->registerVerifyCoupon();
+        // if ($couponVerify && !$couponVerify->success) {
+        //     $this->isCouponVerify = false;
+        //     $this->addError('couponcode', $couponVerify->message);
+        //     return false;
+        // } else {
+        //     $this->isCouponVerify = true;
+        //     $this->resetValidation(['couponcode']);
+        // }
 
         if ($this->remainingForms <= 400 && !$this->isCouponVerify) {
-            return $this->couponVerify();
+            $couponVerify = $this->couponVerify();
+            if (!$couponVerify) {
+                return false;
+            } else {
+                $this->isCouponVerify = true;
+                $this->resetValidation(['couponcode']);
+            }
+            // return $this->couponVerify();
         }
 
         if (!$this->otpRequestId || !$this->otpSendSuccess) {

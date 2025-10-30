@@ -71,7 +71,7 @@ class Razorpay extends Controller
                 $studentCode->is_paid = true;
                 $studentCode->save();
 
-                return redirect()->route('studentDashboardAfterPaid')->with(['success' => 'Paid successfully']);
+                return redirect()->route('student.payment')->with(['success' => 'Paid successfully']);
             } catch (Exception $e) {
                 logger('payment save failed:', [$e]);
                 \Session::put('error', $e->getMessage());
