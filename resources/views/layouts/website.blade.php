@@ -537,12 +537,15 @@
                                 <h2>Important Link</h2>
                                 <p><a href="{{ route('corporateEnquiry') }}">Collaborate with Us</a></p>
                                 <p><a href="{{ $imp_link ? asset('home/' . $imp_link->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $imp_link ? '_blank' : '_self' }}">Important Links</a></p>
-                                @php
+                                {{-- @php
                                     $pages = App\Models\PolicyPage::all();
-                                @endphp
-                                @foreach ($pages as $page)
+                                @endphp --}}
+                                {{-- @foreach ($pages as $page)
                                     <p><a href="{{ route('website.policy-page', $page->slug) }}">{{ $page->title }}</a></p>
-                                @endforeach
+                                @endforeach --}}
+                                <p><a href="/p/privacy-policy">Privacy Policy</a></p>
+                                <p><a href="/p/terms-and-conditions">Terms &amp; Conditions</a></p>
+                                <p><a href="/p/refund-policy">Refund Policy</a></p>
                                 <p><a href="{{ URL::to('/faq') }}">Faq</a></p>
                                 <p><a href="{{ route('freeform') }}">Get 100% Free Form (Limited)</a></p>
                             </div>

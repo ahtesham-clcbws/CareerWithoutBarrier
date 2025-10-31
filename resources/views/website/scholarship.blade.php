@@ -8,15 +8,9 @@
     <div class="w-100" style="margin-top:72px;background-color:#f26b3c;">
         <div class="container text-center py-5 pb-4">
             <h2 style="font-size:32px" class="text-white">CAREER without BARRIER</h2>
-            <p class="text-white" style="font-size:20px">14th Certified Annual Scholarship Program</p>
+            <p class="text-white" style="font-size:20px">14th Certified Annual Scholarship Program - 2025</p>
         </div>
     </div>
-    {{-- <div class="perpration-page-banner common-banner" style="margin-top:72px;">
-        <div class="container py-5 pb-4 text-center">
-            <h2 style="font-size:32px">CAREER without BARRIER</h2>
-            <p class="text-white">14th Certified Annual Scholarship Program</p>
-        </div>
-    </div> --}}
 
     <div class="scolarship-programe">
         <div class="container">

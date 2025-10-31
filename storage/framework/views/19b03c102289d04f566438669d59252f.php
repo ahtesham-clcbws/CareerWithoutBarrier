@@ -541,12 +541,11 @@
                                 <h2>Important Link</h2>
                                 <p><a href="<?php echo e(route('corporateEnquiry')); ?>">Collaborate with Us</a></p>
                                 <p><a href="<?php echo e($imp_link ? asset('home/' . $imp_link->terms_condition_pdf) : 'javascipt:void(0)'); ?>" target="<?php echo e($imp_link ? '_blank' : '_self'); ?>">Important Links</a></p>
-                                <?php
-                                    $pages = App\Models\PolicyPage::all();
-                                ?>
-                                <?php $__currentLoopData = $pages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <p><a href="<?php echo e(route('website.policy-page', $page->slug)); ?>"><?php echo e($page->title); ?></a></p>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                
+                                
+                                <p><a href="https://careerwithoutbarrier.com/p/privacy-policy">Privacy Policy</a></p>
+                                <p><a href="https://careerwithoutbarrier.com/p/terms-and-conditions">Terms &amp; Conditions</a></p>
+                                <p><a href="https://careerwithoutbarrier.com/p/refund-policy">Refund Policy</a></p>
                                 <p><a href="<?php echo e(URL::to('/faq')); ?>">Faq</a></p>
                                 <p><a href="<?php echo e(route('freeform')); ?>">Get 100% Free Form (Limited)</a></p>
                             </div>
