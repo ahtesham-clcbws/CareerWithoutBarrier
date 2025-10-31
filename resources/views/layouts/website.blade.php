@@ -529,39 +529,20 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                             <?php
-                            
-                            $termsCondition = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'terms-and-condition']])->first();
-                            
-                            $institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
-                            
-                            // $privacy_policy = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'privacy-policy']])->first();
-                            
-                            // $privacy_policy_cond = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'privacy-policy']])->first();
-                            
-                            $imp_link = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'important-links']])->first();
-                            
-                            //$privacy_policy_cond = TermsCondition::where([['status',1],['type','website'],['page_name','privacy-policy']])->first();
-                            
+                                $termsCondition = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'terms-and-condition']])->first();
+                                $institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
+                                $imp_link = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'important-links']])->first();
                             ?>
                             <div class="features-foter">
                                 <h2>Important Link</h2>
-                                <!-- <p><a data-toggle="modal" data-target="#instituteModel" href="javascipt:void(0)">Institutional Enquiry</a></p> -->
-                                <li><a href="{{ route('corporateEnquiry') }}">Institutional Enquiry</a></li>
-                                <p><a href="{{ $imp_link ? asset('home/' . $imp_link->terms_condition_pdf) : 'javascipt:void(0)' }}"
-                                        target="{{ $imp_link ? '_blank' : '_self' }}">Important Links</a></p>
-                                <!--<p><a href="javascipt:void(0)">Downloads</a></p>-->
-                                {{-- PolicyPage --}}
+                                <p><a href="{{ route('corporateEnquiry') }}">Collaborate with Us</a></p>
+                                <p><a href="{{ $imp_link ? asset('home/' . $imp_link->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $imp_link ? '_blank' : '_self' }}">Important Links</a></p>
                                 @php
                                     $pages = App\Models\PolicyPage::all();
                                 @endphp
                                 @foreach ($pages as $page)
-                                    <p><a
-                                            href="{{ route('website.policy-page', $page->slug) }}">{{ $page->title }}</a>
-                                    </p>
+                                    <p><a href="{{ route('website.policy-page', $page->slug) }}">{{ $page->title }}</a></p>
                                 @endforeach
-                                {{-- <p><a href="{{ $privacy_policy ? asset('home/'.$privacy_policy->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Privacy Policy</a></p> --}}
-                                {{-- <p><a href="{{ $termsCondition ? asset('home/'.$termsCondition->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $termsCondition ? '_blank' : '_self'}}">Website Terms & Conditions</a> --}}
-                                </p>
                                 <p><a href="{{ URL::to('/faq') }}">Faq</a></p>
                                 <p><a href="{{ route('freeform') }}">Get 100% Free Form (Limited)</a></p>
                             </div>
@@ -573,8 +554,7 @@
         <!-- SECTION: COPY RIGHT -->
         <section>
             <div class="cpy-right py-3">
-                <a><img class="mx-auto" src="{{ asset('logos/weblies-logo.png') }}"
-                        alt="Weblies equations private limited" style="max-width:350px;"></a>
+                <a><img class="mx-auto" src="{{ asset('logos/weblies-logo.png') }}" alt="Weblies equations private limited" style="max-width:350px;"></a>
             </div>
         </section>
 
@@ -586,43 +566,6 @@
                     <i class="fa fa-long-arrow-up" aria-hidden="true"></i></a>
             </div>
         </section>
-
-        <script>
-            $(document).ready(function() {
-                $('#getOtpBtn').click(function() {
-                    $(this).attr('disabled', true);
-                    $('#preloader').show();
-                    var email = $('#email').val();
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
-                    $.ajax({
-                        url: "{{ route('home.sendMail') }}",
-                        method: "POST",
-                        data: {
-                            'email': email
-                        },
-                        success: function(response) {
-                            console.log(response);
-                            success(response.message);
-                            $('#getOtpBtn').attr('disabled', false);
-                            $('#preloader').hide();
-
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            console.error(xhr.responseText);
-                            errors(xhr.responseText);
-                            $('#getOtpBtn').attr('disabled', false);
-                            $('#preloader').hide();
-
-                        }
-                    });
-                });
-            });
-        </script>
 
         {{-- applynow --}}
         <div class="modal fade" id="applynow" role="dialog">
@@ -1041,7 +984,6 @@
             </div>
         </div>
 
-
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="{{ asset('website/assets/js/jquery-3.6.0.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
@@ -1064,6 +1006,45 @@
 
         <!-- Optional JavaScript -->
         <script src="{{ asset('website/assets/js/jquery.marquee.min.js') }}"></script>
+
+        <script>
+            $(document).ready(function() {
+                if (document.getElementById('getOtpBtn')) {
+                    $('#getOtpBtn').click(function() {
+                        $(this).attr('disabled', true);
+                        $('#preloader').show();
+                        var email = $('#email').val();
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+
+                        $.ajax({
+                            url: "{{ route('home.sendMail') }}",
+                            method: "POST",
+                            data: {
+                                'email': email
+                            },
+                            success: function(response) {
+                                console.log(response);
+                                success(response.message);
+                                $('#getOtpBtn').attr('disabled', false);
+                                $('#preloader').hide();
+
+                            },
+                            error: function(xhr, textStatus, errorThrown) {
+                                console.error(xhr.responseText);
+                                errors(xhr.responseText);
+                                $('#getOtpBtn').attr('disabled', false);
+                                $('#preloader').hide();
+
+                            }
+                        });
+                    });
+                }
+            });
+        </script>
 
         <script>
             $(function() {
@@ -1475,10 +1456,6 @@
                 color: red !important;
             }
         </style>
-
-        <script>
-            // success('check error messages')
-        </script>
 
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <link

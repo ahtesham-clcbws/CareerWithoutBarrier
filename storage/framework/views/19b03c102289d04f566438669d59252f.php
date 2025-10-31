@@ -533,28 +533,15 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                             <?php
-                            
                             $termsCondition = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'terms-and-condition']])->first();
-                            
                             $institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
-                            
-                            // $privacy_policy = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'privacy-policy']])->first();
-                            
-                            // $privacy_policy_cond = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'privacy-policy']])->first();
-                            
                             $imp_link = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'important-links']])->first();
-                            
-                            //$privacy_policy_cond = TermsCondition::where([['status',1],['type','website'],['page_name','privacy-policy']])->first();
-                            
                             ?>
                             <div class="features-foter">
                                 <h2>Important Link</h2>
-                                <!-- <p><a data-toggle="modal" data-target="#instituteModel" href="javascipt:void(0)">Institutional Enquiry</a></p> -->
-                                <li><a href="<?php echo e(route('corporateEnquiry')); ?>">Institutional Enquiry</a></li>
+                                <p><a href="<?php echo e(route('corporateEnquiry')); ?>">Collaborate with  Us</a></p>
                                 <p><a href="<?php echo e($imp_link ? asset('home/' . $imp_link->terms_condition_pdf) : 'javascipt:void(0)'); ?>"
                                         target="<?php echo e($imp_link ? '_blank' : '_self'); ?>">Important Links</a></p>
-                                <!--<p><a href="javascipt:void(0)">Downloads</a></p>-->
-                                
                                 <?php
                                     $pages = App\Models\PolicyPage::all();
                                 ?>
@@ -563,9 +550,6 @@
                                             href="<?php echo e(route('website.policy-page', $page->slug)); ?>"><?php echo e($page->title); ?></a>
                                     </p>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                
-                                
-                                </p>
                                 <p><a href="<?php echo e(URL::to('/faq')); ?>">Faq</a></p>
                                 <p><a href="<?php echo e(route('freeform')); ?>">Get 100% Free Form (Limited)</a></p>
                             </div>
@@ -590,43 +574,6 @@
                     <i class="fa fa-long-arrow-up" aria-hidden="true"></i></a>
             </div>
         </section>
-
-        <script>
-            $(document).ready(function() {
-                $('#getOtpBtn').click(function() {
-                    $(this).attr('disabled', true);
-                    $('#preloader').show();
-                    var email = $('#email').val();
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
-                    $.ajax({
-                        url: "<?php echo e(route('home.sendMail')); ?>",
-                        method: "POST",
-                        data: {
-                            'email': email
-                        },
-                        success: function(response) {
-                            console.log(response);
-                            success(response.message);
-                            $('#getOtpBtn').attr('disabled', false);
-                            $('#preloader').hide();
-
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            console.error(xhr.responseText);
-                            errors(xhr.responseText);
-                            $('#getOtpBtn').attr('disabled', false);
-                            $('#preloader').hide();
-
-                        }
-                    });
-                });
-            });
-        </script>
 
         
         <div class="modal fade" id="applynow" role="dialog">
@@ -1111,6 +1058,45 @@ unset($__errorArgs, $__bag); ?>
         <script src="<?php echo e(asset('website/assets/js/jquery.marquee.min.js')); ?>"></script>
 
         <script>
+            $(document).ready(function() {
+                if (document.getElementById('getOtpBtn')) {
+                    $('#getOtpBtn').click(function() {
+                        $(this).attr('disabled', true);
+                        $('#preloader').show();
+                        var email = $('#email').val();
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+
+                        $.ajax({
+                            url: "<?php echo e(route('home.sendMail')); ?>",
+                            method: "POST",
+                            data: {
+                                'email': email
+                            },
+                            success: function(response) {
+                                console.log(response);
+                                success(response.message);
+                                $('#getOtpBtn').attr('disabled', false);
+                                $('#preloader').hide();
+
+                            },
+                            error: function(xhr, textStatus, errorThrown) {
+                                console.error(xhr.responseText);
+                                errors(xhr.responseText);
+                                $('#getOtpBtn').attr('disabled', false);
+                                $('#preloader').hide();
+
+                            }
+                        });
+                    });
+                }
+            });
+        </script>
+
+        <script>
             $(function() {
                 var $mwo = $('.marquee-with-options');
                 $('.marquee').marquee({
@@ -1520,10 +1506,6 @@ unset($__errorArgs, $__bag); ?>
                 color: red !important;
             }
         </style>
-
-        <script>
-            // success('check error messages')
-        </script>
 
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <link

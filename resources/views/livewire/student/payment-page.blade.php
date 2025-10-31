@@ -127,8 +127,7 @@
                                                             Foundation</h3>
                                                         @if (
                                                             $couponDetails &&
-                                                                !empty(trim($couponDetails->description)) &&
-                                                                !$student->latestStudentCode?->corporate?->institute_name)
+                                                                !empty(trim($couponDetails->description)))
                                                             {{ $couponDetails->description }}<br />
                                                         @endif
                                                     </div>
@@ -266,8 +265,7 @@
                                 <h6 style="font-weight:700;">Discount Voucher Provided By: SQS Foundation</h6>
                                 @if (
                                     $couponDetails &&
-                                        !empty(trim($couponDetails->description)) &&
-                                        !$student->latestStudentCode?->corporate?->institute_name)
+                                        !empty(trim($couponDetails->description)))
                                     {{ $couponDetails->description }}<br />
                                 @endif
                                 {!! $student->latestStudentCode?->corporate?->institute_name
