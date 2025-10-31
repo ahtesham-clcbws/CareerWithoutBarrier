@@ -510,10 +510,10 @@
                                 <h2>Direct get in touch</h2>
                                 <h6>Application & Admit card Related:</h6>
 
-                                <p class="mb-3">Phone No: 9336171302 <br />
+                                <p class="mb-3">Phone No: 9335171302 <br />
                                     Email: <?php echo e(strtolower('query@careerwithoutbarrier.com')); ?></p>
                                 <h6>Results & Admit Card Related:</h6>
-                                <p class="mb-3">Phone No: 9389696641 <br />
+                                <p class="mb-3">Phone No: 9336171302 <br />
                                     Email: <?php echo e(strtolower('support@careerwithoutbarrier.com')); ?></p>
                             </div>
                         </div>
@@ -523,12 +523,12 @@
                                 <h6>Weblies Equations Private Limited</h6>
                                 <p class="mb-3">
                                     Email: webliesequations@gmail.com<br />
-                                    Phone No: 9335334045
+                                    Phone No: 9389696641
                                 </p>
                                 <h6>Test & Notes:</h6>
                                 <p class="mb-3">Website: Testandnotes.com<br />
                                     Email: Query@testandnotes.com<br />
-                                    Phone No: 9335334045</p>
+                                    Phone No: 9389696641</p>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-12">
@@ -543,9 +543,9 @@
                                 <p><a href="<?php echo e($imp_link ? asset('home/' . $imp_link->terms_condition_pdf) : 'javascipt:void(0)'); ?>" target="<?php echo e($imp_link ? '_blank' : '_self'); ?>">Important Links</a></p>
                                 
                                 
-                                <p><a href="https://careerwithoutbarrier.com/p/privacy-policy">Privacy Policy</a></p>
-                                <p><a href="https://careerwithoutbarrier.com/p/terms-and-conditions">Terms &amp; Conditions</a></p>
-                                <p><a href="https://careerwithoutbarrier.com/p/refund-policy">Refund Policy</a></p>
+                                <p><a href="/p/privacy-policy">Privacy Policy</a></p>
+                                <p><a href="/p/terms-and-conditions">Terms &amp; Conditions</a></p>
+                                <p><a href="/p/refund-policy">Refund Policy</a></p>
                                 <p><a href="<?php echo e(URL::to('/faq')); ?>">Faq</a></p>
                                 <p><a href="<?php echo e(route('freeform')); ?>">Get 100% Free Form (Limited)</a></p>
                             </div>
