@@ -56,8 +56,7 @@
                         <th scope="col"><small class="font-weight-bold">Institute/School/Person<br />E-mail &
                                 Mobile</small>
                         <th scope="col"><small class="font-weight-bold">Address</small>
-                        <th scope="col"><small class="font-weight-bold">100% Discount<br />Coupon/Applied
-                                Coupon</small>
+                        <th scope="col"><small class="font-weight-bold">100% Discount<br />Coupon</small>
                         <th scope="col"><small class="font-weight-bold">Other Discount<br />Coupon upto 60%</small>
                     </tr>
                 </thead>
