@@ -73,9 +73,9 @@
                                     style="width: 32px; height: 32px;"
                                     src="{{ asset('/storage/'.$institute->attachment)}}"
                                     data-holder-rendered="true"> --}}
-                                <b class="media-body lh-125 mb-0" style="border-bottom: 1px solid #dedede; color: #F26B3C;">
-                                    Ashutosh Pathak</b>
-                                <b class="media-body lh-125 mb-0" style="color: #F26B3C;">Shamendra Sharma</b>
+                                <p class="media-body lh-125 mb-0 text-primary" style="border-bottom: 1px solid #dedede; ">
+                                    Ashutosh Pathak</p>
+                                <p class="media-body lh-125 mb-0 text-primary" style="">Shamendra Sharma</p>
                             </div>
                             {{-- <!-- {{ $institute->attachment }}<br /> --> --}}
                             {{-- <!-- {{ $institute->name }} --> --}}
