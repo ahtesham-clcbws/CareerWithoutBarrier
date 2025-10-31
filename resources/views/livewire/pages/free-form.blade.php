@@ -51,7 +51,7 @@
                 <thead>
                     <tr>
                         <th scope="col"><small class="font-weight-bold">#</small>
-                        <th scope="col"><small class="font-weight-bold">City</small>
+                        <th scope="col"><small class="font-weight-bold">City/State</small>
                         <th scope="col"><small class="font-weight-bold">Authorised person</small>
                         <th scope="col"><small class="font-weight-bold">Institute/School/Person<br />E-mail &
                                 Mobile</small>
