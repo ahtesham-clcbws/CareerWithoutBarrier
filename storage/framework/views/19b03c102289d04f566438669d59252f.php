@@ -533,22 +533,19 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                             <?php
-                            $termsCondition = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'terms-and-condition']])->first();
-                            $institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
-                            $imp_link = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'important-links']])->first();
+                                $termsCondition = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'terms-and-condition']])->first();
+                                $institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
+                                $imp_link = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'important-links']])->first();
                             ?>
                             <div class="features-foter">
                                 <h2>Important Link</h2>
-                                <p><a href="<?php echo e(route('corporateEnquiry')); ?>">Collaborate with  Us</a></p>
-                                <p><a href="<?php echo e($imp_link ? asset('home/' . $imp_link->terms_condition_pdf) : 'javascipt:void(0)'); ?>"
-                                        target="<?php echo e($imp_link ? '_blank' : '_self'); ?>">Important Links</a></p>
+                                <p><a href="<?php echo e(route('corporateEnquiry')); ?>">Collaborate with Us</a></p>
+                                <p><a href="<?php echo e($imp_link ? asset('home/' . $imp_link->terms_condition_pdf) : 'javascipt:void(0)'); ?>" target="<?php echo e($imp_link ? '_blank' : '_self'); ?>">Important Links</a></p>
                                 <?php
                                     $pages = App\Models\PolicyPage::all();
                                 ?>
                                 <?php $__currentLoopData = $pages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <p><a
-                                            href="<?php echo e(route('website.policy-page', $page->slug)); ?>"><?php echo e($page->title); ?></a>
-                                    </p>
+                                    <p><a href="<?php echo e(route('website.policy-page', $page->slug)); ?>"><?php echo e($page->title); ?></a></p>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <p><a href="<?php echo e(URL::to('/faq')); ?>">Faq</a></p>
                                 <p><a href="<?php echo e(route('freeform')); ?>">Get 100% Free Form (Limited)</a></p>
@@ -561,8 +558,7 @@
         <!-- SECTION: COPY RIGHT -->
         <section>
             <div class="cpy-right py-3">
-                <a><img class="mx-auto" src="<?php echo e(asset('logos/weblies-logo.png')); ?>"
-                        alt="Weblies equations private limited" style="max-width:350px;"></a>
+                <a><img class="mx-auto" src="<?php echo e(asset('logos/weblies-logo.png')); ?>" alt="Weblies equations private limited" style="max-width:350px;"></a>
             </div>
         </section>
 
@@ -1032,7 +1028,6 @@ unset($__errorArgs, $__bag); ?>
                 </div>
             </div>
         </div>
-
 
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="<?php echo e(asset('website/assets/js/jquery-3.6.0.min.js')); ?>"></script>

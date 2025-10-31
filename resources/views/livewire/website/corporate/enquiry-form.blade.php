@@ -30,6 +30,7 @@
     <div class="w-100" style="margin-top:72px;background-color:#f26b3c;">
         <div class="container text-center py-5 pb-4">
             <h2 style="font-size:32px" class="text-white">Collaboration Form</h2>
+            <p class="text-white" style="font-size:20px">Only For Coaching Institutes, School/ Colleges, Trust/ Societies, Social Workers</p>
         </div>
     </div>
 
