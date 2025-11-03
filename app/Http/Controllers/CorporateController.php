@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OTPCorporateMail;
+use App\Mail\OTPMail;
 use App\Models\Corporate;
 use App\Models\CouponCode;
+use App\Models\MobileNumber;
+use App\Models\OtpVerifications;
 use App\Models\Student;
 use App\Models\StudentCode;
 use App\Models\TestimonialsModel;
+use App\Services\TextlocalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Services\TextlocalService;
-use App\Models\MobileNumber;
-use App\Models\OtpVerifications;
-use App\Mail\OTPMail;
-use App\Mail\OTPCorporateMail;
 use Illuminate\Support\Facades\Mail;
+
 class CorporateController extends Controller
 {
     protected $textlocalService;
@@ -24,11 +25,42 @@ class CorporateController extends Controller
     {
         $this->textlocalService = $textlocalService;
     }
+
     public function index()
     {
         $corporate = Auth::guard('corporate')->check();
-        return view('corporate.dashboard.dashboard', compact('corporate'));
+        $corporateId = Auth::guard('corporate')->id();
+
+        $newStudents = Student::where('isNew', 1)
+            ->whereHas('studentCode', function ($query) use ($corporateId) {
+                $query
+                    ->where('corporate_id', $corporateId)
+                    ->where('is_coupan_code_applied', 1);
+            })
+            ->with(['studentCode' => function ($query) use ($corporateId) {
+                $query
+                    ->where('corporate_id', $corporateId)
+                    ->where('is_coupan_code_applied', 1);
+            }])
+            ->count();
+        $students = Student::where('isNew', 0)
+            ->whereHas('studentCode', function ($query) use ($corporateId) {
+                $query
+                    ->where('corporate_id', $corporateId)
+                    ->where('is_coupan_code_applied', 1);
+            })
+            ->with(['studentCode' => function ($query) use ($corporateId) {
+                $query
+                    ->where('corporate_id', $corporateId)
+                    ->where('is_coupan_code_applied', 1);
+            }])
+            ->count();
+
+        $coupons = CouponCode::where('corporate_id', $corporateId)->where('status', 1)->count();
+
+        return view('corporate.dashboard.dashboard', compact('corporate', 'students', 'newStudents', 'coupons'));
     }
+
     public function login(Request $request)
     {
         $authUser = Auth::guard('corporate')->check();
@@ -40,13 +72,11 @@ class CorporateController extends Controller
             $request->validate([
                 'email' => 'required',
                 'password' => 'required'
-
             ], [
                 'email.required' => 'Please Enter Registration Email ID',
                 'password.required' => 'Please Enter Password',
             ]);
             $corporate = Corporate::where('email', $request->email)->first();
-
 
             if ($corporate && Hash::check($request->password, $corporate->password) && $corporate->signup_approved && Auth::guard('corporate')->attempt(['email' => $request->email, 'password' => $request->password])) {
                 return redirect()->route('corporateDashboard')->with('success', 'Login Successfully.');
@@ -59,7 +89,6 @@ class CorporateController extends Controller
 
     function signup(Request $request)
     {
-
         if ($request->isMethod('POST')) {
             $request->validate([
                 'branch_code' => 'required',
@@ -74,7 +103,8 @@ class CorporateController extends Controller
 
             $corporate = Corporate::where('institude_code', $request->branch_code)
                 ->where('email', $request->email)
-                ->where('phone', $request->mobile)->first();
+                ->where('phone', $request->mobile)
+                ->first();
 
             if ($corporate) {
                 $corporate->signup_at = now();
@@ -108,22 +138,22 @@ class CorporateController extends Controller
 
     public function studentList(Request $request, $student = null)
     {
-
         $corporate = Auth::guard('corporate')->user();
 
         $students = Student::whereHas('studentCode', function ($query) use ($corporate) {
-            $query->where('corporate_id', $corporate->id)
+            $query
+                ->where('corporate_id', $corporate->id)
                 ->where('is_coupan_code_applied', 1);
         })->with(['studentCode' => function ($query) use ($corporate) {
-            $query->where('corporate_id', $corporate->id)
+            $query
+                ->where('corporate_id', $corporate->id)
                 ->where('is_coupan_code_applied', 1);
         }, 'studentCode.voucher', 'scholarShipCategory', 'scholarShipOptedFor'])->get();
 
-
-        if ($student) {
-            $student = $students->where('id', $student)->first();
-            return view('corporate.dashboard.student.view', compact('student'));
-        }
+        // if ($student) {
+        //     $student = $students->where('id', $student)->first();
+        //     return view('corporate.dashboard.student.view', compact('student'));
+        // }
         // Flatten student codes collection
         $studentCodes = $students->flatMap->studentCodes;
 
@@ -138,7 +168,7 @@ class CorporateController extends Controller
         $corporateStatus = $status == 0 ? 1 : 0;
         $count = 0;
         if (is_array($studCodeIds)) {
-            $count =  StudentCode::whereIn('id', $studCodeIds)->where('is_paid', 0)->update(['issued_admitcard' => $status, 'corporate_stop_admitcard' => $corporateStatus]);
+            $count = StudentCode::whereIn('id', $studCodeIds)->where('is_paid', 0)->update(['issued_admitcard' => $status, 'corporate_stop_admitcard' => $corporateStatus]);
         } else {
             $studentCode = StudentCode::find($studCodeIds);
             if ($studentCode) {
@@ -211,7 +241,7 @@ class CorporateController extends Controller
             $testimonials->type_id = $corporate->id;
             $testimonials->type = 'corporate';
 
-            $formattedMessage = $message . ' <div class="institute_nameTestimonialsModel"><br><b>Director Name: ' .  $corporate->name  . '</b><br><b>Institute / school name: ' .  $corporate->institute_name  . '</b>br><br>  <b> City: ' . $corporate->city . '</b></div>';
+            $formattedMessage = $message . ' <div class="institute_nameTestimonialsModel"><br><b>Director Name: ' . $corporate->name . '</b><br><b>Institute / school name: ' . $corporate->institute_name . '</b>br><br>  <b> City: ' . $corporate->city . '</b></div>';
             $testimonials->message = $formattedMessage;
 
             if ($request->hasFile('profile_image')) {
@@ -228,18 +258,18 @@ class CorporateController extends Controller
 
         return view('corporate.dashboard.testimonial', compact('corporate', 'testimonial'));
     }
+
     public function profilePage(Request $request)
     {
         $corporate = Corporate::find(Auth::guard('corporate')->id());
 
         if ($request->isMethod('POST')) {
-
             $validatedData = $request->validate([
                 'name' => 'required|string',
                 // 'email' => 'required|string|lowercase|email|unique:students,id,' . $student->id,
-                 //'phone' => 'required|digits:10|unique:corporates,phone,' . $corporate->id,
-                //'gender' => 'nullable',
-                //'disability' => 'required',
+                // 'phone' => 'required|digits:10|unique:corporates,phone,' . $corporate->id,
+                // 'gender' => 'nullable',
+                // 'disability' => 'required',
             ]);
 
             try {
@@ -249,16 +279,15 @@ class CorporateController extends Controller
                 return redirect()->back()->with(['success' => 'Updated successfully']);
             } catch (\Throwable $th) {
                 logger('message failed:', [$th]);
-                return back()->withErrors('Failed to updated'.$th);
+                return back()->withErrors('Failed to updated' . $th);
             }
         }
 
         return view('corporate.dashboard.profile', compact('corporate'));
     }
-    
+
     public function changePassword(Request $request)
     {
-
         $student = Corporate::find(Auth::guard('corporate')->id());
 
         if ($request->isMethod('POST')) {
@@ -280,12 +309,12 @@ class CorporateController extends Controller
             $student->login_password = $request->new_password;
             $student->save();
 
-           //return redirect()->route('student.payment');
+            // return redirect()->route('student.payment');
         }
         return view('corporate.dashboard.changePassword', compact('student'));
     }
-    
-     public function uploadPhoto(Request $request)
+
+    public function uploadPhoto(Request $request)
     {
         $student = Corporate::find(Auth::guard('corporate')->id());
 
@@ -315,38 +344,34 @@ class CorporateController extends Controller
             return response()->json(['message' => 'Failed to upload11.'], 403);
         } catch (\Throwable $th) {
             logger('failed:', [$th]);
-            return response()->json(['error' => 'Failed to upload image1222.'.$th], 503);
+            return response()->json(['error' => 'Failed to upload image1222.' . $th], 503);
         }
     }
-    
-    public function forgotpassword(Request $request){
-        
-        
 
+    public function forgotpassword(Request $request)
+    {
         if ($request->isMethod('POST')) {
-
             $validatedData = $request->validate([
                 'email' => 'required|string',
-                
             ]);
 
             try {
-                $corporate = Corporate::where('email',$request->email)->first();
+                $corporate = Corporate::where('email', $request->email)->first();
                 $corporate->forceFill($validatedData);
                 $corporate->save();
 
                 return redirect()->back()->with(['success' => 'Updated successfully']);
             } catch (\Throwable $th) {
                 logger('message failed:', [$th]);
-                return back()->withErrors('Failed to updated'.$th);
+                return back()->withErrors('Failed to updated' . $th);
             }
         }
 
         return view('corporate.corporate_forgotpassword');
     }
 
-    public function resetForgotPassword(Request $request){
-        
+    public function resetForgotPassword(Request $request)
+    {
         $request->validate([
             'forget_mobile' => 'required',
             'forget_otp' => 'required',
@@ -357,7 +382,7 @@ class CorporateController extends Controller
         $student = Corporate::where('phone', $request->forget_mobile)->first();
 
         $time = date('Y-m-d H:i:s', strtotime('-10 minutes'));
-        $otpVerification =  OtpVerifications::where([['credential', '=', $request->forget_mobile], ['otp', '=', $request->forget_otp], ['status', '=', 1], ['created_at', '>=', $time]])->first();
+        $otpVerification = OtpVerifications::where([['credential', '=', $request->forget_mobile], ['otp', '=', $request->forget_otp], ['status', '=', 1], ['created_at', '>=', $time]])->first();
 
         if (is_null($otpVerification)) {
             return response()->json(['success' => false, 'msg' => 'Otp expired.']);
@@ -371,111 +396,82 @@ class CorporateController extends Controller
         } else {
             return response()->json(['status' => false, 'message' => 'You are not registered.']);
         }
-        
     }
 
-    public function CorporateSendVerificationOtpMobileNoChange(Request $request){
-
-        
-
+    public function CorporateSendVerificationOtpMobileNoChange(Request $request)
+    {
         $textlocal = new TextlocalService;
 
-       
+        $mobileNumber = $request->mobile;
 
-        $mobileNumber =  $request->mobile;
-
-        //check mobile no already exist 
+        // check mobile no already exist
         $checkMobile = Corporate::where('phone', $mobileNumber)->first();
-        if(isset($checkMobile) && !empty($checkMobile)){
+        if (isset($checkMobile) && !empty($checkMobile)) {
+            // get no of times
+            // $noof_time = $checkMobile
 
-            //get no of times 
-           // $noof_time = $checkMobile
-
-           return response()->json(['status' => false, 'message' => 'Mobile no already taken! try with different number. Max 3 times can be changed','mobile_no'=>'']);
-
-
-        }else{
-            //get user id 
+            return response()->json(['status' => false, 'message' => 'Mobile no already taken! try with different number. Max 3 times can be changed', 'mobile_no' => '']);
+        } else {
+            // get user id
             $userId = Auth::guard('corporate')->id();
             $getCorporateDetails = Corporate::where('id', $userId)->first();
 
-            if(isset($getCorporateDetails) && !empty($getCorporateDetails)){
-
-                //check nof of attempt
+            if (isset($getCorporateDetails) && !empty($getCorporateDetails)) {
+                // check nof of attempt
                 $noofattempt = $getCorporateDetails->no_of_time_phone_no_changed;
 
-                if($noofattempt>2){
-
-                    return response()->json(['status' => false, 'message' => 'Maximum 3 times you can changed mobile no.','mobile_no'=>'']);
-
-                }else{
-
-
+                if ($noofattempt > 2) {
+                    return response()->json(['status' => false, 'message' => 'Maximum 3 times you can changed mobile no.', 'mobile_no' => '']);
+                } else {
                     $time = date('Y-m-d H:i:s', strtotime('-10 minutes'));
 
                     $verifiedMobile = MobileNumber::where('mobile', $mobileNumber)->where('isOtpRequired', 1)->first();
 
                     if ($verifiedMobile) {
-                        return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.','mobile_no'=>'']);
+                        return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.', 'mobile_no' => '']);
                     }
 
                     $otpVerifications = OtpVerifications::where('credential', $mobileNumber)
-                    ->where('created_at', '>=', $time)
-                    ->first();
-
+                        ->where('created_at', '>=', $time)
+                        ->first();
 
                     if ('otp_verify' == $request->form_name) {
                         $otp = $request->otp;
                         if (is_null($otp)) {
-                            return response()->json(['status' => false, 'message' => 'Please Enter OTP.','mobile_no'=>'']);
+                            return response()->json(['status' => false, 'message' => 'Please Enter OTP.', 'mobile_no' => '']);
                         }
-            
+
                         if (is_null($otpVerifications)) {
-                            return response()->json(['status' => false, 'message' => 'Invalid Otp.','mobile_no'=>'']);
+                            return response()->json(['status' => false, 'message' => 'Invalid Otp.', 'mobile_no' => '']);
                         }
-            
+
                         $otpVerifications->status = 1;
                         $otpVerifications->save();
 
-                        //update phone no. 
+                        // update phone no.
                         $getCorporateDetails->phone = $mobileNumber;
-                        $newpp = $noofattempt+1;
-                        $getCorporateDetails->no_of_time_phone_no_changed= $newpp;
+                        $newpp = $noofattempt + 1;
+                        $getCorporateDetails->no_of_time_phone_no_changed = $newpp;
                         $getCorporateDetails->save();
 
-
-            
-                        return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.','mobile_no'=>$mobileNumber]);
+                        return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.', 'mobile_no' => $mobileNumber]);
                     }
 
                     if (is_null($otpVerifications)) {
-                         
-                       // $corporateEmail = $getCorporateDetails->email;
-                        $otp   = mt_rand(100000, 999999);
+                        // $corporateEmail = $getCorporateDetails->email;
+                        $otp = mt_rand(100000, 999999);
                         $textlocal->sendSms($mobileNumber, $otp);
-            
-                       // Mail::to($corporateEmail)->send(new OTPCorporateMail($otp));
-            
-                        return response()->json(['status' => true, 'message' => 'Otp sent Successfully.','mobile_no'=>'']);
+
+                        // Mail::to($corporateEmail)->send(new OTPCorporateMail($otp));
+
+                        return response()->json(['status' => true, 'message' => 'Otp sent Successfully.', 'mobile_no' => '']);
                     } else {
-                        return response()->json(['status' => false, 'message' => 'Try again after 10 minutes later.','mobile_no'=>'']);
+                        return response()->json(['status' => false, 'message' => 'Try again after 10 minutes later.', 'mobile_no' => '']);
                     }
-
-
-
-                    
                 }
-
-
-            }else{
-
-                return response()->json(['status' => false, 'message' => 'Session Expired! Please login again to continue','mobile_no'=>'']);
-
+            } else {
+                return response()->json(['status' => false, 'message' => 'Session Expired! Please login again to continue', 'mobile_no' => '']);
             }
-            
         }
-
-        
-        
     }
 }

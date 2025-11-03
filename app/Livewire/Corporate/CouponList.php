@@ -85,7 +85,7 @@ class CouponList extends Component
 
         $query->orderBy($this->sortType, $this->sortDirection);
         $coupons = $query->paginate($this->perPage);
-        // $this->couponslist = $coupons->pluck('id');
+        
         $this->couponslist = $coupons->pluck('id');
 
         return view('livewire.corporate.coupon-list', [

@@ -15,7 +15,7 @@
                                 <div class="db-info">
                                     <h6>Students</h6>
                                     <h3>
-                                        <p class="text-black">5</p>
+                                        <p class="text-black">{{ $students }}</p>
                                     </h3>
                                 </div>
                                 <div class="db-icon">
@@ -32,7 +32,7 @@
                                 <div class="db-info">
                                     <h6>New Students</h6>
                                     <h3>
-                                        <p class="text-black">15</p>
+                                        <p class="text-black">{{ $newStudents }}</p>
                                     </h3>
                                 </div>
                                 <div class="db-icon">
@@ -50,7 +50,7 @@
                                 <div class="db-info">
                                     <h6>Vouchers</h6>
                                     <h3>
-                                        <p class="text-black">10</p>
+                                        <p class="text-black">{{ $coupons }}</p>
                                     </h3>
                                 </div>
                                 <div class="db-icon">
@@ -67,7 +67,7 @@
                                 <div class="db-info">
                                     <h6>Testimonials</h6>
                                     <h3>
-                                        <p class="text-black">50</p>
+                                        <p class="text-black">0</p>
                                     </h3>
                                 </div>
                                 <div class="db-icon">
