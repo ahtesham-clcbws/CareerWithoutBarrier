@@ -33,9 +33,9 @@
                         </a>
                     </li>
                     @endforeach
-                    @foreach($bannerSectionTwos as $sectionTwo)
+                    @foreach($bannerSectionTwos as $sectionKey => $sectionTwo)
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link " id="home-tab" data-toggle="tab" href="#section-tab{{$key+1}}" role="tab" aria-controls="section-tab{{$key+1}}" aria-selected="false">
+                        <a class="nav-link " id="home-tab" data-toggle="tab" href="#section-tab{{$sectionKey+1}}" role="tab" aria-controls="section-tab{{$sectionKey+1}}" aria-selected="false">
                             <span class="mr-1 tab-icon">
                                 <img src="{{ asset('home/aboutus/'.$sectionTwo->banner) }}" alt="img"></span>
                             {{$sectionTwo->title}}
@@ -75,8 +75,8 @@
                         </div>
                     </div>
                     @endforeach
-                    @foreach($bannerSectionTwos as $sectionTwo)
-                    <div class="tab-pane" id="section-tab{{$key+1}}" role="tabpanel" aria-labelledby="section-tab{{$key+1}}">
+                    @foreach($bannerSectionTwos as $sectionKey => $sectionTwo)
+                    <div class="tab-pane" id="section-tab{{$sectionKey+1}}" role="tabpanel" aria-labelledby="section-tab{{$sectionKey+1}}">
                         <div class="custom-tooltip-container">
                             <div class="add">
                                 <div class="custom-grid">
