@@ -61,24 +61,45 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    @foreach ($mainInstitutes as $institute)
+                        <tr>
+                            <td class="small">{{ $loop->index + 3 }}</td>
+                            <td class="small text-primary">{{ $institute->district->name }}</td>
+                            <td class="small">
+                                <div class="media text-muted d-flex flex-column">
+                                    <img class="d-block mr-2 rounded"
+                                        data-src="{{ $institute->attachment }}"
+                                        data-holder-rendered="true"
+                                        src="{{ $institute->attachment }}"
+                                        alt="{{ $institute->name }}" style="width: 32px; height: 32px;">
+                                    <p class="media-body lh-125 text-primary mb-0">
+                                        {{ $institute->name }}
+                                    </p>
+                                </div>
+                            </td>
+                            <td class="small">
+                                <span class="text-primary"><b>{{ $institute->institute_name }}</b></span><br />
+                                <small>{{ $institute->phone }}</small><br />
+                                <small>{{ $institute->message }}</small>
+                            </td>
+                            <td class="small">{{ $institute->address }}</td>
+                            <td>
+                                <span class="badge badge-success px-3 py-2">100% Free <i class="fa fa-check"></i></span><br />
+                                <small class="text-danger font-weight-bold">Limited Forms</small>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    @endforeach
+                    {{-- <tr>
                         <td class="small">1</td>
                         <td class="small" style="color: #F26B3C;"><b>Uttar Pradesh</b></td>
                         <td class="small">
                             <div class="media text-muted d-flex flex-column">
-                                {{-- <img
-                                    data-src="{{ asset('/storage/'.$institute->attachment)}}"
-                                    alt="{{ $institute->name }}"
-                                    class="mr-2 rounded d-block"
-                                    style="width: 32px; height: 32px;"
-                                    src="{{ asset('/storage/'.$institute->attachment)}}"
-                                    data-holder-rendered="true"> --}}
                                 <p class="media-body lh-125 mb-0 text-primary" style="border-bottom: 1px solid #dedede; ">
                                     Ashutosh Pathak</p>
                                 <p class="media-body lh-125 mb-0 text-primary" style="">Shamendra Sharma</p>
                             </div>
-                            {{-- <!-- {{ $institute->attachment }}<br /> --> --}}
-                            {{-- <!-- {{ $institute->name }} --> --}}
                         </td>
                         <td class="small">
                             <b style="color: #F26B3C;">SQS Foundation</b><br />
@@ -91,10 +112,10 @@
                                     class="fa fa-check"></i></span><br />
                             <small class="text-danger font-weight-bold">Limited forms only</small>
                         </td>
-                    </tr>
+                    </tr> --}}
                     @foreach ($institutes as $institute)
                         <tr>
-                            <td class="small">{{ $loop->index + 2 }}</td>
+                            <td class="small">{{ $loop->index + 3 }}</td>
                             <td class="small text-primary">{{ $institute->district->name }}</td>
                             <td class="small">
                                 <div class="media text-muted d-flex flex-column">
