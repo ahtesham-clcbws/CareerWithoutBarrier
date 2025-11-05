@@ -88,7 +88,6 @@ h4,
 h5,
 h6 {
     font-weight: 600;
-    font-family: "Josefin Sans", sans-serif;
 }
 
 h3 {}
@@ -837,7 +836,6 @@ h6 {
     text-transform: capitalize;
     padding: 5px 0px 6px 0px;
     display: block;
-    font-family: "Josefin Sans", sans-serif;
     font-weight: 700;
     letter-spacing: -2px;
 }
@@ -847,7 +845,6 @@ h6 {
     background: linear-gradient(45deg, #2627fa, #ff544f 80%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-family: "Josefin Sans", sans-serif;
     font-size: 65px;
     letter-spacing: -3px;
     background: -o-linear-gradient(7deg, #00000094, #060608a6);
@@ -1943,7 +1940,6 @@ p.ani-tit {
     font-weight: 700;
     position: relative;
     color: #6216cc;
-    font-family: "Josefin Sans", sans-serif;
     letter-spacing: -1px;
     text-align: left;
 }
@@ -2151,7 +2147,6 @@ p.ani-tit {
 
     font-weight: 700;
     letter-spacing: -3px;
-    font-family: "Josefin Sans";
 }
 
 .plan-travel-img .offer i {
@@ -3806,7 +3801,6 @@ p.ani-tit {
     padding: 0;
     color: #0c2ff3;
     display: inline-block;
-    font-family: "Josefin Sans", sans-serif;
     font-size: 35px;
     font-weight: 500;
     letter-spacing: 0.4px;
@@ -5229,7 +5223,6 @@ p.ani-tit {
 
 .lhs-bg-1 h2 span {
     color: #f3ce07;
-    font-family: "Josefin Sans", sans-serif;
     font-weight: 700;
 }
 
@@ -5694,7 +5687,6 @@ p.ani-tit {
 
 .book-now span {
     display: block;
-    font-family: "Josefin Sans";
     font-size: 16px;
     font-weight: 600;
     padding: 0 0 7px 4px;
@@ -6215,7 +6207,6 @@ button.btn-custom:disabled {
     position: relative;
     letter-spacing: 1px;
     font-weight: 700;
-    font-family: "Josefin Sans", sans-serif;
 }
 
 .abt-info .abt-head:before,
@@ -6802,7 +6793,6 @@ button.btn-custom:disabled {
     font-size: 32px;
     font-weight: 600;
     padding: 15px 0;
-    font-family: "Josefin Sans", sans-serif;
     color: #fff;
 }
 
@@ -7319,7 +7309,6 @@ contact-input ul li:nth-child(5) input {
     background: #055dfd;
     letter-spacing: 0.2px;
     padding: 15px 50px;
-    font-family: "Josefin Sans", sans-serif;
 }
 
 .contact-input ul li .sub:hover {
@@ -8376,7 +8365,6 @@ contact-input ul li:nth-child(5) input {
     text-transform: inherit;
     font-weight: 700;
     line-height: 38px;
-    font-family: "Josefin Sans", sans-serif;
 }
 
 .packages-overview {
@@ -8483,7 +8471,6 @@ contact-input ul li:nth-child(5) input {
     position: relative;
     overflow: hidden;
     font-weight: 700;
-    font-family: "Josefin Sans", sans-serif;
     text-transform: inherit;
     font-style: italic;
     margin: 30px 0 60px 0;

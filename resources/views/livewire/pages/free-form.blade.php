@@ -1,7 +1,9 @@
 <div>
     <div class="w-100" style="margin-top:72px;background-color:#f26b3c;">
         <div class="container py-5 pb-4 text-center">
-            <h2 class="text-white" style="font-size:32px">Institutes list</h2>
+            <h3 class="text-white" style="font-size:22px; font-weight:900;">
+                Authorised Coaching Institutes, School/ Colleges, Trust/ Societies, Social Workers<br />For<br />Free Form Disribution in Uttar Pradesh
+            </h3>
         </div>
     </div>
     <style>
