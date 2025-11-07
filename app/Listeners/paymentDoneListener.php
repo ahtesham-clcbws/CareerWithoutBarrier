@@ -2,9 +2,11 @@
 
 namespace App\Listeners;
 
+use App\Mail\ApplicationFormSubmittedSuccessfully;
 use App\Models\User;
 use App\Notifications\Admin\StudentPaymentAdminMail;
 use App\Notifications\Student\StudentPaymentMail;
+
 class paymentDoneListener
 {
     /**
@@ -26,7 +28,16 @@ class paymentDoneListener
 
         $admins = User::where('roles', 'admin')->whereNotNull('email')->get();
 
-        $student->notify(new StudentPaymentMail($studentCode));
+        // $student->notify(new StudentPaymentMail($studentCode));
+
+        $data = [
+            'name' => $student->name,
+            'city' => $student->district?->name ? $student->district->name : null,
+            'application_no' => $student->latestStudentCode->application_code,
+            'mobile' => $student->mobile,
+            'email' => $student->email,
+        ];
+        $student->notify(new ApplicationFormSubmittedSuccessfully($data));
         foreach ($admins as $admin) {
             $admin->notify(new StudentPaymentAdminMail($studentCode));
         }

@@ -3,9 +3,6 @@
 namespace App\Observers;
 
 use App\Models\StudentCode;
-use App\Models\User;
-use App\Notifications\Admin\StudentPaymentAdminMail;
-use App\Notifications\Student\StudentPaymentMail;
 
 class StudentCodeObserver
 {
@@ -19,13 +16,6 @@ class StudentCodeObserver
      */
     public function updated(StudentCode $studentCode): void
     {
-        // if ($studentCode->wasChanged('is_paid') || $studentCode->wasChanged('used_coupon')) {
-        //     $adminUser = User::where('email', 'sqscwb@gmail.com')->first();
-        //     if ($adminUser) {
-        //         $adminUser->notify(new StudentPaymentAdminMail($studentCode));
-        //     }
-        //     $studentCode->student->notify(new StudentPaymentMail($studentCode));
-        // }
     }
 
     /**

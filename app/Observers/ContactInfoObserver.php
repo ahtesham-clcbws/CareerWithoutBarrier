@@ -27,7 +27,6 @@ class ContactInfoObserver
 
         //    if($contactInfo->wasChanged('is_paid')){
         //     $adminUser = User::find('1');
-        //     $adminUser->notify(new StudentPaymentMail($contactInfo));
         //    }
     }
 }

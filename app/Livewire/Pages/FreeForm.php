@@ -40,7 +40,12 @@ class FreeForm extends Component
         $institutesQuery = Corporate::whereHas('district')
             ->where('is_approved', 1)
             ->where('signup_approved', 1)
-            ->whereNotNull('signup_at');
+            ->whereNotNull('signup_at')
+            ->orderBy(function ($query) {
+                $query->select('name')
+                    ->from('districts')
+                    ->whereColumn('districts.id', 'corporates.district_id');
+            }, $this->sortDirection);
         if ($this->query) {
             // $institutesQuery->where('city', 'like', '%' . $this->query . '%');
             $institutesQuery->where('name', 'like', '%' . $this->query . '%');

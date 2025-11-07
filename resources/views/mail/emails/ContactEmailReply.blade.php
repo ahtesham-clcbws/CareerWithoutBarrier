@@ -1,5 +1,5 @@
 <x-mail.template>
-    <x-slot:title>Corporate Request Successfully Received</x-slot:title>
+    <x-slot:title>Contact Email Reply</x-slot:title>
 
     <p class="text-light">
         Dear, {{ $name }}<br />

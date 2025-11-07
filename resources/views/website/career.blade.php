@@ -68,13 +68,13 @@
                         <div class="width d-flex" style="font-size: small;max-width:100%">
                             <div class="div width">
                                 <i class="bi bi-megaphone"></i>
-                                <a class="" href="{{asset('home/course/'.$course->notification_file_path)}}">Gazette Notification
+                                <a class="" target="_blank" href="{{asset('home/course/'.$course->notification_file_path)}}">Gazette Notification
                                     <i class="bi bi-download text-success"></i>
                                 </a>
                             </div>
                             <div class="div width ml-4">
                                 <i class="bi bi-book"></i>
-                                <a class="" href="{{asset('home/course/'.$course->exam_details_file_path)}}">Course/Exam Details
+                                <a class="" target="_blank" href="{{asset('home/course/'.$course->exam_details_file_path)}}">Course/Exam Details
                                     <i class="bi bi-download text-success"></i>
                                 </a>
                             </div>
@@ -204,7 +204,7 @@
                                                 <a href="{{ asset('home/course/'.$course->prospectus) }}" target="_blank"> <img src="{{ asset('home/course/'.$course->prospectus) }}" alt="Prospectus Image" style="max-width: 50px; max-height: 40px;">
                                                 </a>
                                                 @else
-                                                <a href="{{ asset('home/course/'.$course->prospectus) }}">
+                                                <a href="{{ asset('home/course/'.$course->prospectus) }}" target="_blank">
                                                     Download &nbsp;<i class="fa fa-download ml-2" aria-hidden="true"></i>
                                                 </a>
                                                 @endif

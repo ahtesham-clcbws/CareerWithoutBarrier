@@ -108,7 +108,7 @@
     <body>
 
         <div class="main-card">
-            <img class="logo" src="https://careerwithoutbarrier.com/website/assets/images/brand/logo.png" />
+            <img class="logo" src="{{ url('/website/assets/images/brand/logo.png') }}" />
             <div class="content">
                 {!! isset($welcome) ? '<h1>' . $welcome . '</h1>' : '' !!}
 
@@ -126,19 +126,25 @@
                 </p> --}}
                 <p class="text-low text-xs">
                     Regards:<br />
-                    Support Team<br />
-                    Communication Wing<br />
-                    SQS Foundation, Kanpur
+                    M. Ravee (Founder)<br />
+                    SQS Foundation<br />
+                    Kanpur
+                </p>
+                <p class="text-low text-xs">
+                    WhatsApp: <a href="tel:+919336171302">9336171302</a> (11am-07pm)<br />
+                    E-mail: <a href="mailto:info@careerwithoutbarrier.com">info@careerwithoutbarrier.com</a><br />
+                    Website: <a href="https://www.careerwithoutbarrier.com">www.careerwithoutbarrier.com</a>
                 </p>
             </div>
             <div class="footer">
                 <span class="text-light text-sm">
                     Need more help?<br />
-                    <a class="link" href="https://careerwithoutbarrier.com/contact" target="_blank">We're here, ready
+                    <a class="link" href="{{ url('/contact') }}" target="_blank">We're here, ready
                         to talk</a>
                 </span>
             </div>
         </div>
+        <div style="font-size:12px; text-align: center; margin:10px; font-weight: 700;" class="text-light">Note: This is system generated mail so you don't need to reply this e-mail</div>
 
     </body>
 

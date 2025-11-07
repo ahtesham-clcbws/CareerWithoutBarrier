@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Test;
 use App\Http\Requests\StoreTestRequest;
 use App\Http\Requests\UpdateTestRequest;
+use App\Models\ContactInfo;
 use App\Models\Corporate;
+use App\Models\Student;
+use App\Models\Test;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,7 +32,35 @@ class TestController extends Controller
         // $user->mobile = 9810763314;
         // return print_r($cities);
         // return view('components.mail.template');
-        return view('mail.emails.CorporateRequestSuccessfullyReceived');
+
+        $student = Student::find(10);
+        $student_data = [
+            'name' => $student->name,
+            'city' => $student->district?->name ? $student->district->name : null,
+            'application_no' => $student->latestStudentCode->application_code,
+            'mobile' => $student->mobile,
+            'email' => $student->email,
+        ];
+
+        $institute = Corporate::find(3);
+        $institute_data = [
+            'name' => $institute->name,
+            'institute_name' => $institute->institute_name,
+            'email' => $institute->email,
+            'city' => $institute->district?->name ? $institute->district->name : null,
+            'mobile' => $institute->phone,
+            'code' => $institute->institude_code,
+        ];
+        
+        $contactInfo = ContactInfo::find(486);
+        $contact_info_data = [
+            'name' => $contactInfo->fullname,
+            'email' => $contactInfo->email,
+            'city' => $contactInfo->city
+        ];
+
+        $data = $contact_info_data;
+        return view('mail.emails.CorporateRequestSuccessfullyReceived', $data);
     }
 
     /**

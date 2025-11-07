@@ -65,7 +65,7 @@
                 <tbody>
                     @foreach ($mainInstitutes as $institute)
                         <tr>
-                            <td class="small">{{ $loop->index + 3 }}</td>
+                            <td class="small">{{ $loop->index + 1 }}</td>
                             <td class="small text-primary">{{ $institute->district->name }}</td>
                             <td class="small">
                                 <div class="media text-muted d-flex flex-column">
@@ -117,7 +117,7 @@
                     </tr> --}}
                     @foreach ($institutes as $institute)
                         <tr>
-                            <td class="small">{{ $loop->index + 3 }}</td>
+                            <td class="small">{{ $loop->index + 1 + count($mainInstitutes) }}</td>
                             <td class="small text-primary">{{ $institute->district->name }}</td>
                             <td class="small">
                                 <div class="media text-muted d-flex flex-column">

@@ -31,6 +31,6 @@ class OTPCorporateMail extends Mailable
     public function build(): void
     {
         $this->subject('O T P Mail')
-            ->view('emails.otp_corporate')->with('otp', $this->otp);;
+            ->view('emails.otp_corporate')->with('otp', $this->otp);
     }
 }

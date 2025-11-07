@@ -3,10 +3,6 @@
 namespace App\Observers;
 
 use App\Models\Student;
-use App\Models\User;
-use App\Notifications\Student\StudentPaymentMail;
-use App\Notifications\Admin\StudentRegisteredMail as AdminStudentRegisteredMail;
-use App\Notifications\Student\StudentRegisteredMail;
 
 class StudentObserver
 {
@@ -15,11 +11,6 @@ class StudentObserver
      */
     public function created(Student $student): void
     {
-        // $adminUser = User::where('email', 'sqscwb@gmail.com')->first();
-        // if ($adminUser) {
-        //     $adminUser->notify(new AdminStudentRegisteredMail($student));
-        // }
-        // $student->notify(new StudentRegisteredMail($student));
     }
 
     /**
