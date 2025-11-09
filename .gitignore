@@ -26,3 +26,6 @@
 storage/framework
 storage/logs
 storage/debugbar
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md

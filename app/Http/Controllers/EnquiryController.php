@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InstituteCollaborationApproved;
 use App\Mail\OTPMail;
 use App\Models\ContactInfo;
 use App\Models\Corporate;
@@ -12,10 +13,10 @@ use App\Notifications\InstitudeApprovedMail;
 use App\Notifications\InstitudeRejectMail;
 use App\Notifications\InstitudeReplyMail;
 use App\Notifications\InstitudeSignApproveMail;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class EnquiryController extends Controller
 {
@@ -25,7 +26,7 @@ class EnquiryController extends Controller
             $corporate = Corporate::find($id);
 
             if (is_null($corporate->institude_code)) {
-                $newInstitudeCode  = institudeCodeGenerate($corporate->institute_name);
+                $newInstitudeCode = institudeCodeGenerate($corporate->institute_name);
                 $corporate->institude_code = $newInstitudeCode;
                 $corporate->save();
             }
@@ -39,11 +40,11 @@ class EnquiryController extends Controller
 
     public function instituteList()
     {
-
         $enq = Corporate::where('is_approved', 1)
             ->where('signup_approved', 1)
             ->orderBy('id', 'desc')
-            ->whereNotNull('signup_at')->get();
+            ->whereNotNull('signup_at')
+            ->get();
 
         return view('administrator.dashboard.institude.institude_list', ['institute' => $enq]);
     }
@@ -62,7 +63,6 @@ class EnquiryController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
-
         return view('administrator.dashboard.institude.institude_list_signup', ['institute' => $enq]);
     }
 
@@ -74,7 +74,6 @@ class EnquiryController extends Controller
 
     public function instituteView(Corporate $corporate)
     {
-
         $coupons = CouponCode::select(
             'name',
             'prefix',
@@ -112,9 +111,8 @@ class EnquiryController extends Controller
         $corporate = Corporate::where('id', $request->id)->where('phone', $request->phone)->first();
 
         if ($corporate && $request->type == 'approved') {
-
             if (is_null($corporate->institude_code)) {
-                $newInstitudeCode  = institudeCodeGenerate($corporate->institute_name);
+                $newInstitudeCode = institudeCodeGenerate($corporate->institute_name);
                 $corporate->institude_code = $newInstitudeCode;
             }
 
@@ -122,7 +120,15 @@ class EnquiryController extends Controller
             $corporate->message = $request->message;
             $corporate->save();
 
-            $corporate->notify(new InstitudeApprovedMail($corporate));
+            $data = [
+                'name' => $corporate->name,
+                'institute_name' => $corporate->institute_name,
+                'email' => $corporate->email,
+                'city' => $corporate->district?->name ? $corporate->district->name : null,
+                'mobile' => $corporate->phone,
+                'code' => $corporate->institude_code,
+            ];
+            $corporate->notify(new InstituteCollaborationApproved($data));
 
             // Return a success response
             return response()->json([
@@ -133,7 +139,6 @@ class EnquiryController extends Controller
         } else if ($corporate && $request->type == 'reply') {
             $corporate->message = $request->message;
             $corporate->save();
-
 
             $corporate->notify(new InstitudeReplyMail($corporate));
             return response()->json([
@@ -185,12 +190,10 @@ class EnquiryController extends Controller
     public function contactEnquiryDelete(Request $request, ContactInfo $contactInfo)
     {
         try {
-
             $contactInfo->delete();
 
             return back()->withErrors('Deleted Successfully.');
         } catch (\Throwable $th) {
-
             throw $th;
             return back()->withErrors('Failed to Delete.');
         }
@@ -199,7 +202,6 @@ class EnquiryController extends Controller
     public function contactEnquiryReplyMail(Request $request, ContactInfo $contactInfo)
     {
         try {
-
             $request->validate([
                 'email_message' => 'required'
             ]);
@@ -222,7 +224,6 @@ class EnquiryController extends Controller
 
     public function printNewInstituteEnquiry(Request $request)
     {
-
         $enq = Corporate::where('is_approved', 0)->whereNull('signup_at')->get();
 
         $pdf = Pdf::loadView('administrator/download/new-institute-enquiry', ['institute' => $enq]);
@@ -232,7 +233,6 @@ class EnquiryController extends Controller
 
     public function printSignUpInstituteList(Request $request)
     {
-
         $enq = Corporate::where('is_approved', 1)
             ->where('signup_approved', 0)
             ->get();
@@ -245,10 +245,10 @@ class EnquiryController extends Controller
 
     public function printApproveInstituteList(Request $request)
     {
-
         $enq = Corporate::where('is_approved', 1)
             ->where('signup_approved', 1)
-            ->whereNotNull('signup_at')->get();
+            ->whereNotNull('signup_at')
+            ->get();
 
         $pdf = Pdf::loadView('administrator/download/print-approve-institute-list', ['institute' => $enq]);
         $pdf->setPaper('A4', 'landscape');

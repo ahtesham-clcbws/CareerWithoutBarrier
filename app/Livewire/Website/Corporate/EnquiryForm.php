@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Website\Corporate;
 
+use App\Mail\InstituteRequestForCollaboration;
 use App\Models\Corporate;
 use App\Models\OtpVerifications;
 use App\Models\TermsCondition;
@@ -19,6 +20,7 @@ class EnquiryForm extends Component
     #[Validate('min:5', message: 'Name must be minimum of 5 characters.')]
     #[Validate('max:250', message: 'Name must not exceeds 250 characters.')]
     public $name;
+
     #[Validate('required', message: 'Please enter Institute name.')]
     #[Validate('min:5', message: 'Institute name must be minimum of 5 characters.')]
     #[Validate('max:250', message: 'Institute name must not exceeds 250 characters.')]
@@ -26,6 +28,7 @@ class EnquiryForm extends Component
 
     #[Validate('required', message: 'Please select type of institution.')]
     public $type_institution;
+
     #[Validate('required', message: 'Please select establishment year.')]
     public $established_year;
 
@@ -45,6 +48,7 @@ class EnquiryForm extends Component
 
     #[Validate('required', message: 'Please select state.')]
     public $state_id;
+
     #[Validate('required', message: 'Please select district.')]
     public $district_id;
 
@@ -52,6 +56,7 @@ class EnquiryForm extends Component
     #[Validate('min:15', message: 'Address must be minimum of 15 characters.')]
     #[Validate('max:250', message: 'Address must not exceeds 250 characters.')]
     public $address;
+
     #[Validate('required', message: 'Please enter pincode.')]
     #[Validate('min_digits:6', message: 'Pincode must be minimum of 6 digits.')]
     #[Validate('max_digits:6', message: 'Pincode must not exceeds 6 digits.')]
@@ -62,6 +67,7 @@ class EnquiryForm extends Component
     #[Validate('mimes:jpeg,png', message: 'Image must be a JPEG or PNG image.')]
     #[Validate('max:2048', message: 'Image size must not exceed 2MB.')]
     public $attachment;
+
     #[Validate('required', message: 'Please select institute images pdf.')]
     #[Validate('mimes:pdf', message: 'Institute images must be in PDF format.')]
     #[Validate('max:2048', message: 'PDF size must not exceed 2MB.')]
@@ -69,7 +75,6 @@ class EnquiryForm extends Component
 
     #[Validate('required', message: 'Please accept our terms and conditions.')]
     public $privacy_policy;
-
 
     public $otpRequestId = '';
     public $otpSendSuccess = false;
@@ -80,7 +85,6 @@ class EnquiryForm extends Component
 
     public $isOtpVerfied = false;
 
-
     public function mount()
     {
         $this->institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
@@ -90,28 +94,6 @@ class EnquiryForm extends Component
     {
         return view('livewire.website.corporate.enquiry-form');
     }
-
-
-    // public function enquirySubmit()
-    // {
-    //     $this->validate();
-    //     try {
-    //         // send verification code and chows the OTP screen
-    //         $validated = $this->validate();
-    //         if ($validated) {
-    //             // continue to send otp to the user mobile
-    //             $this->otpRequestId = 'someRequestIdAfterOTP';
-    //             $this->otpSendSuccess = true;
-    //             // $this->otp = rand(100000, 99999);
-    //             $this->otp = 123456;
-    //             $this->js("window.scrollTo({ top: 0, behavior: 'smooth'})");
-    //         }
-    //     } catch (\Throwable $th) {
-    //         //throw $th;
-    //         $this->js("toastr.error(" . $th->getMessage() . ")");
-    //     }
-    // }
-
 
     public function sendOTP()
     {
@@ -151,7 +133,6 @@ class EnquiryForm extends Component
 
     public function VerifyAndSubmit()
     {
-
         $this->validate();
 
         if (!$this->otpRequestId || !$this->otpSendSuccess) {
@@ -187,17 +168,24 @@ class EnquiryForm extends Component
             $institute->is_otp_verified = true;
             $institute->save();
 
+            $data = [
+                'name' => $institute->name,
+                'institute_name' => $institute->institute_name,
+                'email' => $institute->email,
+                'city' => $institute->district?->name ? $institute->district->name : null,
+            ];
+            $institute->notify(new InstituteRequestForCollaboration($data));
+
             $this->js("toastr.success('Corporate inquiry submitted successfully!')");
             // $this->reset();
             $this->js("window.location.href = '/'");
-            
         } catch (\Throwable $th) {
-            //throw $th;
+            // throw $th;
             $this->otpRequestId = '';
             $this->otpSendSuccess = false;
 
             logger('Registration Failed:', [$th]);
-            $this->js("toastr.error(" . $th->getMessage() . ")");
+            $this->js('toastr.error(' . $th->getMessage() . ')');
             $this->js("toastr.error('Unable to submitted enquiry, try after some time.')");
             return false;
         }
