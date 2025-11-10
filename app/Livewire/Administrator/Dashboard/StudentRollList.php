@@ -56,7 +56,8 @@ class StudentRollList extends Component
                 'district',
                 'qualifications',
                 'scholarShipCategory',
-                'scholarShipOptedFor'
+                'scholarShipOptedFor',
+                'latestStudentCode',
             ]);
 
         if ($this->district_id) {
@@ -76,21 +77,21 @@ class StudentRollList extends Component
         }
 
         // if ($this->roll_number_filter) {
-            if ($this->roll_number_filter == 'B') {
-                $query
-                    ->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at')
-                    ->whereHas('latestStudentCode', function ($q) {
-                        $q->whereNotNull('roll_no');
-                    });
-            } elseif ($this->roll_number_filter == 'C') {
-                $query
-                    ->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at')
-                    ->whereHas('latestStudentCode', function ($q) {
-                        $q->whereNull('roll_no');
-                    });
-            } else {
-                $query->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at');
-            }
+        if ($this->roll_number_filter == 'B') {
+            $query
+                // ->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at')
+                ->whereHas('latestStudentCode', function ($q) {
+                    $q->whereNotNull('roll_no');
+                });
+        } elseif ($this->roll_number_filter == 'C') {
+            $query
+                // ->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at')
+                ->whereHas('latestStudentCode', function ($q) {
+                    $q->whereNull('roll_no');
+                });
+        } else {
+            // $query->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at');
+        }
         // } else {
         //     $query->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at');
         // }
