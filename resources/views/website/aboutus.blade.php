@@ -258,7 +258,7 @@
                         <!--TESTIMONIALS LEFT SIDE CONTENT-->
 
                         <!--TESTIMONIALS RIGHT SIDE BOX-->
-                        <div class="testi1">
+                        <div class="testi1" style="width: 100%;">
                             <div class="testi2">
                                 <div id="demo" class="carousel slide" data-ride="carousel">
                                     @foreach($corporateTestimonials->chunk(3) as $chunks)
@@ -273,7 +273,9 @@
                                                         </div>
                                                         {!! $corporateTestimonial->message !!}
                                                         <div class="testimonials-user">
-                                                            <img src="{{ asset('home/'.$corporateTestimonial->image) }}" alt="img">
+                                                            <img 
+                                                            src="{{ $corporateTestimonial->image ? asset('/storage/' . $corporateTestimonial->image) : '/website/assets/images/placeholder.webp' }}"
+                                                             alt="{{ $corporateTestimonial->name }}">
                                                         </div>
                                                         <h5 class="mb-0">{{$corporateTestimonial?->corporate?->name}}</h5>
                                                         <h6 class="mb-0">{{$corporateTestimonial?->corporate?->type_institution}}</h6>
