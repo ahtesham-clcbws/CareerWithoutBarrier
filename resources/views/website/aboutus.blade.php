@@ -258,9 +258,9 @@
                         <!--TESTIMONIALS LEFT SIDE CONTENT-->
 
                         <!--TESTIMONIALS RIGHT SIDE BOX-->
-                        <div class="testi1" style="width: 100%;">
-                            <div class="testi2">
-                                <div id="demo" class="carousel slide" data-ride="carousel">
+                        <div class="testi1" style="width: 100% !important;">
+                            <div class="testi2" style="width: 100% !important;">
+                                <div id="demo" class="carousel slide" data-ride="carousel" style="width: 100% !important;">
                                     @foreach($corporateTestimonials->chunk(3) as $chunks)
                                     <div class="carousel-inner">
                                         @foreach($chunks as $key=>$corporateTestimonial)
