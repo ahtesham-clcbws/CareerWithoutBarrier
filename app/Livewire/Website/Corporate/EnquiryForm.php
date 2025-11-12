@@ -6,6 +6,7 @@ use App\Mail\InstituteRequestForCollaboration;
 use App\Models\Corporate;
 use App\Models\OtpVerifications;
 use App\Models\TermsCondition;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -174,7 +175,7 @@ class EnquiryForm extends Component
                 'email' => $institute->email,
                 'city' => $institute->district?->name ? $institute->district->name : null,
             ];
-            $institute->notify(new InstituteRequestForCollaboration($data));
+            Mail::to($institute)->send(new InstituteRequestForCollaboration($data));
 
             $this->js("toastr.success('Corporate inquiry submitted successfully!')");
             // $this->reset();

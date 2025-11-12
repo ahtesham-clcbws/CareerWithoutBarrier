@@ -128,7 +128,7 @@ class EnquiryController extends Controller
                 'mobile' => $corporate->phone,
                 'code' => $corporate->institude_code,
             ];
-            $corporate->notify(new InstituteCollaborationApproved($data));
+            Mail::to($corporate)->send(new InstituteCollaborationApproved($data));
 
             // Return a success response
             return response()->json([

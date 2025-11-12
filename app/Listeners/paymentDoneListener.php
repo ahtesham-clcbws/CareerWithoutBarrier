@@ -6,6 +6,7 @@ use App\Mail\ApplicationFormSubmittedSuccessfully;
 use App\Models\User;
 use App\Notifications\Admin\StudentPaymentAdminMail;
 use App\Notifications\Student\StudentPaymentMail;
+use Illuminate\Support\Facades\Mail;
 
 class paymentDoneListener
 {
@@ -37,7 +38,8 @@ class paymentDoneListener
             'mobile' => $student->mobile,
             'email' => $student->email,
         ];
-        $student->notify(new ApplicationFormSubmittedSuccessfully($data));
+        Mail::to($student)->send(new ApplicationFormSubmittedSuccessfully($data));
+
         foreach ($admins as $admin) {
             $admin->notify(new StudentPaymentAdminMail($studentCode));
         }

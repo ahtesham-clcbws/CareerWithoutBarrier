@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\StudentsSubjectMarkFillExport;
 use App\Imports\StudentPapersImport;
+use App\Mail\InstituteDiscountVoucherRequestCompleted;
 use App\Models\AboutUs;
 use App\Models\AboutUsFounder;
 use App\Models\AboutUsSectionFive;
@@ -14,20 +15,24 @@ use App\Models\AboutUsSectionThree;
 use App\Models\BlognewsModel;
 use App\Models\BoardAgencyStateModel;
 use App\Models\Center;
+use App\Models\ClassGoupExamModel;
+use App\Models\ContactInfo;
 use App\Models\Corporate;
+use App\Models\CorporateCouponRequest;
 use App\Models\CouponCode;
 use App\Models\District;
 use App\Models\EducationType;
 use App\Models\EProspectusModel;
 use App\Models\FaqModel;
-use App\Models\Gn_EducationClassExamAgencyBoardUniversity;
 use App\Models\Gn_DisplayExamAgencyBoardUniversity;
-use App\Models\GnResultSubjectMapping;
+use App\Models\Gn_EducationClassExamAgencyBoardUniversity;
 use App\Models\Gn_OtherExamClassDetailModel;
+use App\Models\GnResultSubjectMapping;
 use App\Models\GovtwebsiteModel;
 use App\Models\MobileNumber;
 use App\Models\NotificationModel;
 use App\Models\PaymentSetting;
+use App\Models\PrivacyPolicy;
 use App\Models\RollNumber;
 use App\Models\ScholarshipHome;
 use App\Models\ScholarshipHomeTwo;
@@ -37,22 +42,19 @@ use App\Models\Student;
 use App\Models\StudentClaimForm;
 use App\Models\StudentCode;
 use App\Models\StudentPaperExported;
+use App\Models\Subject;
 use App\Models\SubjectPaperDetail;
 use App\Models\TermsCondition;
-use App\Models\PrivacyPolicy;
 use App\Models\TestimonialsModel;
-use App\Models\ContactInfo;
 use App\Models\User;
-use App\Models\ClassGoupExamModel;
-use App\Models\CorporateCouponRequest;
 use App\Services\StudentRankService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\Subject;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminController extends Controller
 {
@@ -65,12 +67,10 @@ class AdminController extends Controller
         $data = [
             'newStudents' => Student::where('isNew', true)->count(),
             'totalStudents' => Student::count(),
-
             'newInstituteInquiry' => Corporate::where('is_approved', 0)->whereNull('signup_at')->select('id')->count(),
             'newInstituteSignup' => Corporate::where('is_approved', 1)->where('signup_approved', 0)->count(),
             'approvedInsititutes' => Corporate::where('is_approved', 1)->where('signup_approved', 1)->whereNotNull('signup_at')->count(),
             'newTestimonials' => TestimonialsModel::where('isNew', true)->count(),
-
             'newContactEnquiries' => ContactInfo::where('isNew', true)->count(),
             'newCouponRequests' => CorporateCouponRequest::where('status', 'pending')->count(),
         ];
@@ -99,7 +99,6 @@ class AdminController extends Controller
         $query->where('is_final_submitted', 1);
 
         if ($request->isMethod('POST')) {
-
             if (!empty($request->district_id)) {
                 $query->whereIn('district_id', $request->district_id);
             }
@@ -168,31 +167,32 @@ class AdminController extends Controller
 
         // if ($request->isMethod('POST')) {
 
-            if (!empty($request->district_id)) {
-                $query->whereIn('district_id', $request->district_id);
-            }
+        if (!empty($request->district_id)) {
+            $query->whereIn('district_id', $request->district_id);
+        }
 
-            if (!empty($request->gender)) {
-                $query->whereIn('gender', $request->gender);
-            }
+        if (!empty($request->gender)) {
+            $query->whereIn('gender', $request->gender);
+        }
 
-            if (!empty($request->class)) {
-                $query->whereIn('qualification', $request->class);
-                $classes = BoardAgencyStateModel::whereIn('id', $request->class)->select('id', 'name')->get();
-            }
+        if (!empty($request->class)) {
+            $query->whereIn('qualification', $request->class);
+            $classes = BoardAgencyStateModel::whereIn('id', $request->class)->select('id', 'name')->get();
+        }
 
-            // $students = $query->with('latestStudentCode')->get();
+        // $students = $query->with('latestStudentCode')->get();
         // }
         $students = $query->orderBy('id', 'desc')->get();
 
         return view('administrator.dashboard.studentRolelist', compact('students', 'cities', 'scholarshipTypes', 'classes'));
     }
+
     public function studentGenerateRollNo(Request $request)
     {
         // return response()->json($request->all());
         // Fetch students based on final submission and include district relation
         $students = Student::where('is_final_submitted', 1)
-            ->whereIn('district_id', $request->district_id) // Fetch students from selected districts
+            ->whereIn('district_id', $request->district_id)  // Fetch students from selected districts
             ->with('district');
 
         // Apply filters based on scholarship, class, and gender
@@ -221,7 +221,7 @@ class AdminController extends Controller
                 'success' => false,
                 'message' => 'No Data Available for applied Filter.'
             ]);
-            return back()->with('error', "No Data Available for applied Filter.");
+            return back()->with('error', 'No Data Available for applied Filter.');
         }
 
         // Group students by district and gender
@@ -245,8 +245,9 @@ class AdminController extends Controller
             'success' => false,
             'message' => '"No roll numbers generated.'
         ]);
-        return back()->with('error', "No roll numbers generated.");
+        return back()->with('error', 'No roll numbers generated.');
     }
+
     private function groupStudentsByDistrictAndGender($students)
     {
         $grouped = [];
@@ -272,6 +273,7 @@ class AdminController extends Controller
 
         return $grouped;
     }
+
     private function generateRollNumbersForDistricts($groupedStudents, &$lastRollNumber)
     {
         $totalGenerated = 0;
@@ -290,6 +292,7 @@ class AdminController extends Controller
 
         return $totalGenerated;
     }
+
     private function generateRollNumbersForGroup($students, &$lastRollNumber)
     {
         $generatedCount = 0;
@@ -304,14 +307,15 @@ class AdminController extends Controller
 
         return $generatedCount;
     }
+
     public function rollNumberGenerate($student, &$lastRollNumber)
     {
         $studentCode = $student->latestStudentCode;
 
         // Assign roll number only if the student does not already have one
         if (!$studentCode->roll_no) {
-            $lastRollNumber++; // Increment the last roll number
-            $studentCode->roll_no = sprintf("%08d", $lastRollNumber); // Format roll number as 8 digits
+            $lastRollNumber++;  // Increment the last roll number
+            $studentCode->roll_no = sprintf('%08d', $lastRollNumber);  // Format roll number as 8 digits
             $studentCode->save();
 
             return ['generated' => true];
@@ -319,9 +323,8 @@ class AdminController extends Controller
 
         return ['generated' => false];
     }
+
     // end roll number generation & list
-
-
 
     public function studentView(Student $student)
     {
@@ -352,11 +355,20 @@ class AdminController extends Controller
             $affectedRows = CouponCode::where('prefix', $prefix)
                 ->where('is_issued', false)
                 ->where('is_applied', false)
-                ->take($enteredValue) // Take the given number of rows
+                ->take($enteredValue)  // Take the given number of rows
                 ->update(['is_issued' => true, 'corporate_id' => $corporate->id]);
 
-            $couponRequests = CorporateCouponRequest::where('corporate_id', $corporate->id)->where('status', 'pending')
+            $couponRequests = CorporateCouponRequest::where('corporate_id', $corporate->id)
+                ->where('status', 'pending')
                 ->update(['status' => 'completed']);
+
+            $emailData = [
+                'name' => $corporate->name,
+                'institute_name' => $corporate->institute_name,
+                'email' => $corporate->email,
+                'city' => $corporate->district?->name ? $corporate->district->name : null
+            ];
+            Mail::to($corporate)->send(new InstituteDiscountVoucherRequestCompleted($emailData));
 
             if ($affectedRows === 0) {
                 return response()->json(['message' => 'Coupon code not found Code, all Coupon code are issued.'], 404);
@@ -450,10 +462,10 @@ class AdminController extends Controller
             'city_id' => 'required',
         ];
 
-        $rules["center_namea"] = 'required';
-        $rules["addressa"] = 'required';
-        $rules["landmarka"] = 'nullable';
-        $rules["pincodea"] = 'required';
+        $rules['center_namea'] = 'required';
+        $rules['addressa'] = 'required';
+        $rules['landmarka'] = 'nullable';
+        $rules['pincodea'] = 'required';
 
         // Conditional validation rules for optional sets (b, c)
         $optionalSets = ['b', 'c'];
@@ -560,9 +572,7 @@ class AdminController extends Controller
             $subQuery->where('roll_no', '!=', null);
         });
 
-
         if ($request->isMethod('POST')) {
-
             if ($request->student_number) {
                 $query->limit(intval($request->student_number));
             }
@@ -571,7 +581,6 @@ class AdminController extends Controller
         } else {
             $students = $query->with('studentCode')->get();
         }
-
 
         return view('administrator.dashboard.student_exam_center_allot', compact('preloadedClasses', 'examCenters', 'students', 'cities', 'scholarshipTypes', 'filters'));
     }
@@ -660,12 +669,11 @@ class AdminController extends Controller
             }
         }
 
-        return response()->json(['status' => true, 'message' => "Exam center allotted successfully."]);
+        return response()->json(['status' => true, 'message' => 'Exam center allotted successfully.']);
     }
 
     public function examCenterAllottoAll($exam_center, Request $request)
     {
-
         $query = Student::where('is_final_submitted', 1);
         if ($request->student_number && intval($request->student_number)) {
             $query->limit(intval($request->student_number));
@@ -696,7 +704,7 @@ class AdminController extends Controller
             }
             $msg = '';
             if ($nullCountStudent > 0) {
-                $msg = 'And ' . $nullCountStudent . " Student Application Code is not generated.";
+                $msg = 'And ' . $nullCountStudent . ' Student Application Code is not generated.';
             }
             return redirect()->back()->with('success', "Exam center alloted Successfully. $msg");
         } else {
@@ -732,7 +740,6 @@ class AdminController extends Controller
 
     public function testimonialList()
     {
-
         $testimonials = TestimonialsModel::orderByDesc('id')->get();
 
         return view('administrator.dashboard.testimonials', compact('testimonials'));
@@ -776,10 +783,8 @@ class AdminController extends Controller
         $data = [];
 
         if ($request->isMethod('POST')) {
-
             $homeAboutFolder = 'home/aboutus';
             if ($request->form_type == 'about_banner') {
-
                 $validated = $request->validate([
                     'title' => 'required',
                     'banner' => 'required | image | mimes:jpeg,png,jpg,gif|max:2048',
@@ -796,7 +801,6 @@ class AdminController extends Controller
             }
 
             if ($request->form_type == 'about_section2') {
-
                 $validated = $request->validate([
                     'title' => 'required| string',
                     'banner' => 'required|image|  mimes:jpeg,png,jpg,gif|max:2048',
@@ -814,7 +818,6 @@ class AdminController extends Controller
                     'service_d_image' => 'required |image|  mimes:jpeg,png,jpg,gif|max:2048',
                     'service_d_description' => 'required| string| min:20'
                 ]);
-
 
                 $validated['banner'] = moveFile($homeAboutFolder, $request->file('banner'));
                 $validated['service_a_image'] = moveFile($homeAboutFolder, $request->file('service_a_image'));
@@ -836,7 +839,6 @@ class AdminController extends Controller
             }
 
             if ($request->form_type == 'about_section3') {
-
                 $validated = $request->validate([
                     'section_title' => 'nullable |string',
                     'section_remarks' => 'nullable',
@@ -855,7 +857,6 @@ class AdminController extends Controller
             }
 
             if ($request->form_type == 'about_section4') {
-
                 $validated = $request->validate([
                     'section_title' => 'nullable|string',
                     'section_remarks' => 'nullable',
@@ -874,7 +875,6 @@ class AdminController extends Controller
             }
 
             if ($request->form_type == 'about_section5') {
-
                 $validated = $request->validate([
                     'section_title' => 'nullable|string',
                     'section_remarks' => 'nullable',
@@ -892,7 +892,6 @@ class AdminController extends Controller
                 return redirect()->back()->with('success', 'About section 5 Data saved successfully!');
             }
             if ($request->form_type == 'about_section6') {
-
                 $validated = $request->validate([
                     'section_title' => 'nullable|string',
                     'section_remarks' => 'nullable',
@@ -942,12 +941,9 @@ class AdminController extends Controller
 
     public function aboutUsDelete($form_type, $id)
     {
-
         $message = null;
         try {
-
             if ($form_type == 'about_banner') {
-
                 $aboutUs = AboutUs::find($id);
                 $aboutUs->delete();
 
@@ -955,7 +951,6 @@ class AdminController extends Controller
             }
 
             if ($form_type == 'about_sectionTwo') {
-
                 $abboutUs = AboutUsSectionOne::find($id);
                 $abboutUs->delete();
 
@@ -963,7 +958,6 @@ class AdminController extends Controller
             }
 
             if ($form_type == 'about_sectionThree') {
-
                 $abboutUs = AboutUsSectionThree::find($id);
                 $abboutUs->delete();
 
@@ -971,21 +965,18 @@ class AdminController extends Controller
             }
 
             if ($form_type == 'about_sectionFour') {
-
                 $abboutUs = AboutUsSectionFour::find($id);
                 $abboutUs->delete();
 
                 $message = 'About Us Section Four';
             }
             if ($form_type == 'about_sectionFive') {
-
                 $abboutUs = AboutUsSectionFive::find($id);
                 $abboutUs->delete();
 
                 $message = 'About Us Section Five';
             }
             if ($form_type == 'about_sectionSix') {
-
                 $abboutUs = AboutUsSectionSix::find($id);
                 $abboutUs->delete();
 
@@ -993,7 +984,6 @@ class AdminController extends Controller
             }
 
             if ($form_type == 'about_founder') {
-
                 $abboutUs = AboutUsFounder::find($id);
                 $abboutUs->delete();
 
@@ -1012,11 +1002,9 @@ class AdminController extends Controller
 
     public function aboutUsStatusToggle(Request $request)
     {
-
         $mesage = null;
 
         if ($request->form_type == 'about_banner') {
-
             $abboutUs = AboutUs::findOrFail($request->id);
             $abboutUs->status = $request->status;
             $abboutUs->save();
@@ -1025,7 +1013,6 @@ class AdminController extends Controller
         }
 
         if ($request->form_type == 'about_sectionTwo') {
-
             $abboutUs = AboutUsSectionOne::findOrFail($request->id);
             $abboutUs->status = $request->status;
             $abboutUs->save();
@@ -1034,7 +1021,6 @@ class AdminController extends Controller
         }
 
         if ($request->form_type == 'about_sectionThree') {
-
             $abboutUs = AboutUsSectionThree::findOrFail($request->id);
             $abboutUs->status = $request->status;
             $abboutUs->save();
@@ -1043,7 +1029,6 @@ class AdminController extends Controller
         }
 
         if ($request->form_type == 'about_sectionFour') {
-
             $abboutUs = AboutUsSectionFour::findOrFail($request->id);
             $abboutUs->status = $request->status;
             $abboutUs->save();
@@ -1051,7 +1036,6 @@ class AdminController extends Controller
             $mesage = 'About Us Section Four';
         }
         if ($request->form_type == 'about_sectionFive') {
-
             $abboutUs = AboutUsSectionFive::findOrFail($request->id);
             $abboutUs->status = $request->status;
             $abboutUs->save();
@@ -1059,7 +1043,6 @@ class AdminController extends Controller
             $mesage = 'About Us Section Five';
         }
         if ($request->form_type == 'about_sectionSix') {
-
             $abboutUs = AboutUsSectionSix::findOrFail($request->id);
             $abboutUs->status = $request->status;
             $abboutUs->save();
@@ -1067,7 +1050,6 @@ class AdminController extends Controller
             $mesage = 'About Us Section Six';
         }
         if ($request->form_type == 'about_founder') {
-
             $abboutUs = AboutUsFounder::findOrFail($request->id);
             $abboutUs->status = $request->status;
             $abboutUs->save();
@@ -1076,7 +1058,6 @@ class AdminController extends Controller
         }
 
         if ($request->form_type == 'home_slider') {
-
             $home = SliderModel::findOrFail($request->id);
             $home->status = $request->status;
             $home->save();
@@ -1085,7 +1066,6 @@ class AdminController extends Controller
         }
 
         if ($request->form_type == 'gov_website') {
-
             $homeGov = GovtwebsiteModel::findOrFail($request->id);
             $homeGov->status = $request->status;
             $homeGov->save();
@@ -1093,9 +1073,7 @@ class AdminController extends Controller
             $mesage = 'Home Gov Website ';
         }
 
-
         if ($request->form_type == 'home_faqs') {
-
             $homeGov = FaqModel::findOrFail($request->id);
             $homeGov->status = $request->status;
             $homeGov->save();
@@ -1104,7 +1082,6 @@ class AdminController extends Controller
         }
 
         if ($request->form_type == 'blog_news') {
-
             $homeGov = BlognewsModel::findOrFail($request->id);
             $homeGov->status = $request->status;
             $homeGov->save();
@@ -1113,7 +1090,6 @@ class AdminController extends Controller
         }
 
         if ($request->form_type == 'home_notification') {
-
             $homeGov = NotificationModel::findOrFail($request->id);
             $homeGov->status = $request->status;
             $homeGov->save();
@@ -1122,7 +1098,6 @@ class AdminController extends Controller
         }
 
         if ($request->form_type == 'e_prospectus') {
-
             $homeGov = EProspectusModel::findOrFail($request->id);
             $homeGov->status = $request->status;
             $homeGov->save();
@@ -1144,9 +1119,7 @@ class AdminController extends Controller
         $homeAboutFolder = 'home/aboutus';
 
         if ($request->isMethod('POST')) {
-
             if ($request->form_type == 'scholarship_form') {
-
                 $validated = $request->validate([
                     'icon' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                     'education_type_id' => 'required',
@@ -1179,7 +1152,6 @@ class AdminController extends Controller
             }
 
             if ($request->form_type == 'scholarship_secondForm') {
-
                 $validated = $request->validate([
                     'scholarship_course' => 'required',
                     'prospectus' => 'required|mimes:pdf,jpeg,png,jpg,gif|max:2048',
@@ -1189,7 +1161,6 @@ class AdminController extends Controller
 
                 $validated['prospectus'] = moveFile($homeAboutFolder, $request->file('prospectus'));
                 $validated['guideline'] = moveFile($homeAboutFolder, $request->file('guideline'));
-
 
                 $aboutUsSectionOne = $request->scholarshipTwo_id ? ScholarshipHomeTwo::find($request->scholarshipTwo_id) : new ScholarshipHomeTwo();
                 $aboutUsSectionOne->fill(collect($validated)->except('scholarship_course')->toArray());
@@ -1213,12 +1184,9 @@ class AdminController extends Controller
 
     public function scholarshipDelete($form_type, $id)
     {
-
         $message = null;
         try {
-
             if ($form_type == 'scholarship') {
-
                 $aboutUs = ScholarshipHome::find($id);
                 $aboutUs->delete();
 
@@ -1226,7 +1194,6 @@ class AdminController extends Controller
             }
 
             if ($form_type == 'scholarship_secondForm') {
-
                 $abboutUs = ScholarshipHomeTwo::find($id);
                 $abboutUs->delete();
 
@@ -1246,11 +1213,9 @@ class AdminController extends Controller
 
     public function scholarshipStatusToggle(Request $request)
     {
-
         $mesage = null;
 
         if ($request->form_type == 'scholarship') {
-
             $abboutUs = ScholarshipHome::findOrFail($request->id);
             $abboutUs->is_featured = $request->status;
             $abboutUs->save();
@@ -1259,14 +1224,12 @@ class AdminController extends Controller
         }
 
         if ($request->form_type == 'scholarship_secondForm') {
-
             $abboutUs = ScholarshipHomeTwo::findOrFail($request->id);
             $abboutUs->is_featured = $request->status;
             $abboutUs->save();
 
             $mesage = 'ScholarShip Overview ';
         }
-
 
         if ($mesage) {
             return response()->json(['status' => $request->status == 1 ? true : false, 'message' => "$mesage Status updated successfully."]);
@@ -1288,15 +1251,14 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Student papers imported successfully.' . $th->getMessage());
         }
 
-
         return redirect()->back()->with('success', 'Student papers imported.');
     }
 
     public function subjectPaperDetailsAdd(Request $request)
     {
-
         $subjectPaperDetail = SubjectPaperDetail::where('subject_mapping_id', $request->subjectMapping_id)
-            ->where('subject_id', $request->subject_id)->first();
+            ->where('subject_id', $request->subject_id)
+            ->first();
         if ($subjectPaperDetail) {
             $subjectPaperDetail->max_marks = $request->input('max_marks');
             $subjectPaperDetail->total_questions = $request->input('total_questions');
@@ -1304,7 +1266,6 @@ class AdminController extends Controller
         } else {
             return response()->json(['status' => false, 'message' => 'Data saved successfully']);
         }
-
 
         return response()->json(['status' => true, 'message' => 'Data saved successfully']);
     }
@@ -1325,8 +1286,7 @@ class AdminController extends Controller
             'page_name' => 'required'
         ]);
         try {
-
-            //chevck data already exist or not
+            // chevck data already exist or not
             $pdfexist = DB::table('terms_conditions')->where('type', $request->type)->where('page_name', $request->page_name)->first();
             if (isset($pdfexist) && !empty($pdfexist)) {
                 return redirect()->back()->with('error', 'PDF Data already exist! Please delete previous data and try to re ipload again');
@@ -1402,7 +1362,6 @@ class AdminController extends Controller
         $user = User::find((Auth::id()));
 
         if ($request->isMethod('POST')) {
-
             if ($user->photograph) {
                 $photographRequired = 'nullable';
             } else {
@@ -1425,7 +1384,6 @@ class AdminController extends Controller
                 $user->forceFill($validatedData);
                 $user->save();
 
-
                 return redirect()->back()->with(['success' => 'Updated successfully']);
             } catch (\Throwable $th) {
                 logger('message failed:', [$th]);
@@ -1437,9 +1395,7 @@ class AdminController extends Controller
 
     public function mobileNumber(Request $request)
     {
-
         if ($request->isMethod('POST')) {
-
             $request->validate([
                 'mobile' => 'required|digits:10'
             ]);
@@ -1456,7 +1412,6 @@ class AdminController extends Controller
 
     public function toggleMobileStatus(Request $request)
     {
-
         $mobileNumber = MobileNumber::find($request->id);
 
         $mobileNumber->isOtpRequired = $request->status;
@@ -1467,7 +1422,6 @@ class AdminController extends Controller
 
     public function mobileNumberDelete(MobileNumber $mobileNumber)
     {
-
         $mobileNumber->delete();
 
         return back()->withErrors('Deleted Successfully');
@@ -1499,7 +1453,6 @@ class AdminController extends Controller
 
     public function studentResult(Request $request)
     {
-
         $scholarshipTypes = EducationType::get();
 
         $query = Student::query();
@@ -1508,11 +1461,12 @@ class AdminController extends Controller
 
         $classes = collect();
 
-        $query->select('students.*', 's.percentage')
+        $query
+            ->select('students.*', 's.percentage')
             ->leftJoin('student_codes as s', 'students.id', '=', 's.stud_id')
             ->leftJoin('student_paper_exporteds as sp', 'students.id', '=', 'sp.student_id')
             ->where('is_final_submitted', 1)
-            //->whereNotNull('sp.obtained_marks')
+            // ->whereNotNull('sp.obtained_marks')
             ->whereNotNull('s.percentage');
 
         if ($request->percentage) {
@@ -1527,7 +1481,8 @@ class AdminController extends Controller
             $query->limit($request->limit);
         }
 
-        $students = $query->orderByDesc('s.percentage')
+        $students = $query
+            ->orderByDesc('s.percentage')
             ->distinct('students.id')
             ->get();
 
@@ -1545,7 +1500,6 @@ class AdminController extends Controller
 
     public function studentResultClaimScholarship(Request $request)
     {
-
         $request->validate([
             'student_id' => 'required',
             'student_select' => 'required',
@@ -1568,7 +1522,6 @@ class AdminController extends Controller
 
     public function studentAdminCard(Student $student)
     {
-
         $appCode = $student->latestStudentCode;
 
         if ($appCode && $appCode->exam_center) {
@@ -1580,7 +1533,6 @@ class AdminController extends Controller
 
     public function studentClaimScholarship(Student $student)
     {
-
         $cities = $student->state?->districts;
         $claimForm = StudentClaimForm::where('student_id', $student->id)->first();
 
@@ -1666,14 +1618,11 @@ class AdminController extends Controller
     }
 
     /*
-
-    ADddition PRINt PDF
-
-    */
+     * ADddition PRINt PDF
+     */
 
     public function printStudentList(Request $request)
     {
-
         $scholarshipTypes = EducationType::get();
 
         $cities = District::get();
@@ -1693,7 +1642,6 @@ class AdminController extends Controller
         $query->where('is_final_submitted', 1);
 
         if ($request->isMethod('POST')) {
-
             if (!empty($request->district_id)) {
                 $query->whereIn('district_id', $request->district_id);
             }
@@ -1711,7 +1659,7 @@ class AdminController extends Controller
         } else {
             $students = $query->with('latestStudentCode')->get();
         }
-        //'students', 'cities', 'scholarshipTypes', 'classes'
+        // 'students', 'cities', 'scholarshipTypes', 'classes'
         $pdf = Pdf::loadView('administrator/download/print-student-list', ['students' => $students, 'cities' => $cities, 'scholarshipTypes' => $scholarshipTypes, 'classes' => $classes]);
         $pdf->setPaper('A4', 'landscape');
         return $pdf->stream('Generate Student List on ' . date('d-m-Y His A') . '.pdf');
@@ -1720,7 +1668,7 @@ class AdminController extends Controller
     public function printstudentView(Student $student)
     {
         $states = State::all();
-        $scholarshipTypes = EducationType::get(); //'student', 'states','scholarshipTypes'
+        $scholarshipTypes = EducationType::get();  // 'student', 'states','scholarshipTypes'
         $pdf = Pdf::loadView('administrator/download/print-student-details', ['student' => $student, 'states' => $states, 'scholarshipTypes' => $scholarshipTypes]);
         $pdf->setPaper('A4');
         return $pdf->stream('Registration Details of ' . $student->name . '.pdf');
@@ -1728,7 +1676,6 @@ class AdminController extends Controller
 
     public function getScholarshipCategory($id, $type = null)
     {
-
         if ($type == 'Yes') {
             $education = EducationType::where('id', $id)->get();
 
@@ -1744,7 +1691,6 @@ class AdminController extends Controller
 
     public function getScholarshipCategoryOptedFor($id, $qualificationId, $type = null)
     {
-
         $scholarOptedFor = Gn_OtherExamClassDetailModel::where('education_type_id', $id)->where('agency_board_university_id', $qualificationId)->get();
 
         if ($scholarOptedFor->isNotEmpty()) {
