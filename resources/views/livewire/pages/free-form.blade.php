@@ -41,7 +41,7 @@
 
             <div class="input-group mb-3 w-auto">
                 <input class="form-control" type="text" aria-label="Search" placeholder="Search institute/school ..."
-                    wire:model.live="query">
+                    wire:model.live="search">
                 <div class="input-group-append">
                     <i class="input-group-text fa fa-search"></i>
                 </div>
@@ -93,32 +93,10 @@
                             </td>
                         </tr>
                     @endforeach
-                    {{-- <tr>
-                        <td class="small">1</td>
-                        <td class="small" style="color: #F26B3C;"><b>Uttar Pradesh</b></td>
-                        <td class="small">
-                            <div class="media text-muted d-flex flex-column">
-                                <p class="media-body lh-125 mb-0 text-primary" style="border-bottom: 1px solid #dedede; ">
-                                    Ashutosh Pathak</p>
-                                <p class="media-body lh-125 mb-0 text-primary" style="">Shamendra Sharma</p>
-                            </div>
-                        </td>
-                        <td class="small">
-                            <b style="color: #F26B3C;">SQS Foundation</b><br />
-                            sqscwb@gmail.com<br />
-                            9336171302
-                        </td>
-                        <td class="small">Raipurwa, Kanpur Nagar, 208003</td>
-                        <td colspan="2">
-                            <span class="badge badge-success px-3 py-2">100% Free <i
-                                    class="fa fa-check"></i></span><br />
-                            <small class="text-danger font-weight-bold">Limited forms only</small>
-                        </td>
-                    </tr> --}}
                     @foreach ($institutes as $institute)
                         <tr>
                             <td class="small">{{ $loop->index + 1 + count($mainInstitutes) }}</td>
-                            <td class="small text-primary">{{ $institute->district->name }}</td>
+                            <td class="small text-primary">{{ $institute->district && $institute->district->name ? $institute->district->name : '' }}</td>
                             <td class="small">
                                 <div class="media text-muted d-flex flex-column">
                                     <img class="d-block mr-2 rounded"
