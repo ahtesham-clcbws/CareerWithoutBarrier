@@ -13,7 +13,7 @@
                         <a href="#" class="card-body">
                             <div class="db-widgets d-flex justify-content-between align-items-center">
                                 <div class="db-info">
-                                    <h6>Students</h6>
+                                    <h6>New Students</h6>
                                     <h3>
                                         <p class="text-black">{{ $students }}</p>
                                     </h3>
@@ -30,7 +30,7 @@
                         <a href="#" class="card-body">
                             <div class="db-widgets d-flex justify-content-between align-items-center">
                                 <div class="db-info">
-                                    <h6>New Students</h6>
+                                    <h6>Students</h6>
                                     <h3>
                                         <p class="text-black">{{ $newStudents }}</p>
                                     </h3>
@@ -60,7 +60,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 col-12 d-flex">
+                {{-- <div class="col-xl-3 col-sm-6 col-12 d-flex">
                     <div class="card bg-comman w-100">
                         <a href="#" class="card-body">
                             <div class="db-widgets d-flex justify-content-between align-items-center">
@@ -76,7 +76,7 @@
                             </div>
                         </a>
                     </div>
-                </div>
+                </div> --}}
 
             </div>
         </div>
