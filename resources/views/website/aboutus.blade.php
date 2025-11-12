@@ -252,12 +252,40 @@
                     <p>What</p>
                     <h2>Our Institute <span>say</span><br></h2><span class="line"></span>
                 </div>
-                <div class="">
-                    <!--TESTIMONIALS START-->
-                    <div class="testimonails-inner">
-                        <!--TESTIMONIALS LEFT SIDE CONTENT-->
 
-                        <!--TESTIMONIALS RIGHT SIDE BOX-->
+                <div class="splide splide-corporate-testimonials" id="splide-corporate-testimonials" role="group">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            @foreach ($corporateTestimonials as $corporateTestimonial)
+                                <li class="splide__slide">
+                                    <div class="card h-100 d-flex flex-column justify-content-between">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center studentImage">
+                                                <img class="img-thumbnail rounded"
+                                                    src="{{ $corporateTestimonial->corporate->attachment ? asset('/storage/' . $corporateTestimonial->corporate->attachment) : asset('student/images/th_5.png') }}"
+                                                    alt="{{ $corporateTestimonial->name }}"
+                                                    style="height: 80px;width: 80px;">
+
+                                                <p class="card-text pl-2">
+                                                    <b>{{ $corporateTestimonial->name }}</b>{!! isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->institute_name)
+                                                        ? ',<br /> ' . $corporateTestimonial->corporate?->institute_name
+                                                        : '' !!}{{ isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->district, $corporateTestimonial->corporate->district->name) ? ', ' . $corporateTestimonial->corporate->district->name : '' }}
+                                                </p>
+                                            </div>
+                                            <img class="img-fluid img-thumbnail w-100 mt-3"
+                                                src="{{ $corporateTestimonial->image ? asset('/storage/' . $corporateTestimonial->image) : '/website/assets/images/placeholder.webp' }}"
+                                                alt="{{ $corporateTestimonial->corporate?->institute_name ? $corporateTestimonial->corporate?->institute_name : $corporateTestimonial->name }}">
+                                            <p class="card-text mt-3">{!! $corporateTestimonial->message !!}</p>
+                                        </div>
+
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                {{-- <div class="row">
+                    <div class="testimonails-inner">
                         <div class="testi1" style="width: 100% !important;">
                             <div class="testi2" style="width: 100% !important;">
                                 <div id="demo" class="carousel slide" data-ride="carousel" style="width: 100% !important;">
@@ -292,7 +320,7 @@
 
                             </div>
                         </div>
-                        {{-- <div class="testimo-header">
+                        <div class="testimo-header">
                             <ul class="carousel-indicators">
 
                                 <li>
@@ -307,9 +335,9 @@
                                 </li>
 
                             </ul>
-                        </div> --}}
+                        </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

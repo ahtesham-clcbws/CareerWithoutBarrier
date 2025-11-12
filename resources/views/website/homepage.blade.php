@@ -434,7 +434,7 @@
                                             <img class="img-fluid img-thumbnail w-100 mt-3"
                                                 src="{{ $corporateTestimonial->image ? asset('/storage/' . $corporateTestimonial->image) : '/website/assets/images/placeholder.webp' }}"
                                                 alt="{{ $corporateTestimonial->corporate?->institute_name ? $corporateTestimonial->corporate?->institute_name : $corporateTestimonial->name }}">
-                                            <p class="card-text mt-3">{!! $studentTestimonial->message !!}</p>
+                                            <p class="card-text mt-3">{!! $corporateTestimonial->message !!}</p>
                                         </div>
 
                                     </div>
