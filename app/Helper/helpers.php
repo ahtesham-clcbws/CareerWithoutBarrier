@@ -269,7 +269,8 @@ function getRollNumbers($district_id, $scholarship_category, $total)
                 })
                 ->count();
 
-            $rollNumberStarts = ($query->start_from + 1) + $alreadyCreatedRollNumbers;
+            // $rollNumberStarts = ($query->start_from + 1) + $alreadyCreatedRollNumbers;
+            $rollNumberStarts = ($query->start_from) + $alreadyCreatedRollNumbers;
             $rollNumberEnds = $query->start_from + $query->max_registration_limit;
 
             $rollNumbers = [];
