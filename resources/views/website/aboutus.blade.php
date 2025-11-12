@@ -252,7 +252,7 @@
                     <p>What</p>
                     <h2>Our Institute <span>say</span><br></h2><span class="line"></span>
                 </div>
-                <div class="row">
+                <div class="">
                     <!--TESTIMONIALS START-->
                     <div class="testimonails-inner">
                         <!--TESTIMONIALS LEFT SIDE CONTENT-->
@@ -292,7 +292,7 @@
 
                             </div>
                         </div>
-                        <div class="testimo-header">
+                        {{-- <div class="testimo-header">
                             <ul class="carousel-indicators">
 
                                 <li>
@@ -307,7 +307,7 @@
                                 </li>
 
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
