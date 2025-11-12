@@ -10,7 +10,7 @@
 
                 <div class="col-xl-3 col-sm-6 col-12 d-flex">
                     <div class="card bg-comman w-100">
-                        <a href="#" class="card-body">
+                        <a href="/institute/student_list" class="card-body">
                             <div class="db-widgets d-flex justify-content-between align-items-center">
                                 <div class="db-info">
                                     <h6>New Students</h6>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-xl-3 col-sm-6 col-12 d-flex">
                     <div class="card bg-comman w-100">
-                        <a href="#" class="card-body">
+                        <a href="/institute/student_list" class="card-body">
                             <div class="db-widgets d-flex justify-content-between align-items-center">
                                 <div class="db-info">
                                     <h6>Students</h6>
@@ -45,7 +45,7 @@
 
                 <div class="col-xl-3 col-sm-6 col-12 d-flex">
                     <div class="card bg-comman w-100">
-                        <a href="#" class="card-body">
+                        <a href="/institute/corporate_coupon_list" class="card-body">
                             <div class="db-widgets d-flex justify-content-between align-items-center">
                                 <div class="db-info">
                                     <h6>Vouchers</h6>
