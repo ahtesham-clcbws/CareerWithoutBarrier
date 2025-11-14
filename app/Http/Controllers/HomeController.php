@@ -2,18 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Center;
-use App\Models\CompanyModel;
-use App\Models\ContactInfo;
-use App\Models\CourseDetailsModel;
-use App\Models\ExamSubject;
-use App\Models\ScholorshipExamModel;
-use App\Models\ScholorshipFormModel;
-use App\Models\User;
-use App\Models\Corporate;
-use Illuminate\Support\Facades\Hash;
-use App\Mail\OTPMail;
 use App\Mail\OTPCorporateMail;
+use App\Mail\OTPMail;
 use App\Models\AboutUs;
 use App\Models\AboutUsFounder;
 use App\Models\AboutUsSectionFive;
@@ -21,35 +11,45 @@ use App\Models\AboutUsSectionFour;
 use App\Models\AboutUsSectionOne;
 use App\Models\AboutUsSectionSix;
 use App\Models\AboutUsSectionThree;
-use App\Models\FaqModel;
-use App\Models\QuickContactModel;
-use App\Models\UserRegistration;
-use App\Services\TextlocalService;
-use Illuminate\Support\Facades\DB;
 use App\Models\BenefitsModel;
-use App\Models\TermsCondition;
 use App\Models\BlognewsModel;
+use App\Models\Center;
+use App\Models\CompanyModel;
+use App\Models\ContactInfo;
+use App\Models\Corporate;
+use App\Models\CourseDetailsModel;
 use App\Models\District;
 use App\Models\EducationType;
 use App\Models\EProspectusModel;
+use App\Models\ExamSubject;
+use App\Models\FaqModel;
 use App\Models\GovtwebsiteModel;
 use App\Models\MobileNumber;
 use App\Models\NotificationModel;
 use App\Models\OtpVerifications;
 use App\Models\OurContributor;
 use App\Models\OurJourney;
+use App\Models\QuickContactModel;
 use App\Models\ScholarshipHome;
+use App\Models\ScholorshipExamModel;
+use App\Models\ScholorshipFormModel;
 use App\Models\SliderModel;
 use App\Models\State;
 use App\Models\Student;
+use App\Models\TermsCondition;
 use App\Models\TestimonialsModel;
+use App\Models\User;
+use App\Models\UserRegistration;
 use App\Notifications\Admin\AdminOtpSent;
 use App\Notifications\MailOtp;
+use App\Services\TextlocalService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 
 class HomeController extends Controller
@@ -65,13 +65,13 @@ class HomeController extends Controller
     {
         $sliders = SliderModel::where('status', 1)->get();
 
-        $govtwebsites =  GovtwebsiteModel::where('status', 1)->get();
+        $govtwebsites = GovtwebsiteModel::where('status', 1)->get();
 
-        $blogNews =  BlognewsModel::where('status', 1)->get();
+        $blogNews = BlognewsModel::where('status', 1)->get();
 
-        $notifications =  NotificationModel::where('status', 1)->get();
+        $notifications = NotificationModel::where('status', 1)->get();
 
-        $courses =  CourseDetailsModel::where('status', 1)->select('id', 'title', 'course_logo')->get();
+        $courses = CourseDetailsModel::where('status', 1)->select('id', 'title', 'course_logo')->get();
 
         $educations = EducationType::where('is_featured', 1)->get();
 
@@ -81,19 +81,25 @@ class HomeController extends Controller
 
         $benefits = BenefitsModel::where('is_featured', 1)->get();
 
-        $studentTestimonials = TestimonialsModel::where('type', 'student')->where('status',true)->orderBy('id','desc')->get();
+        $studentTestimonials = TestimonialsModel::where('type', 'student')
+            ->where('status', true)
+            ->orderBy('id', 'desc')
+            ->with([
+                'student.latestStudentCode'
+            ])
+            ->get();
 
-        $corporateTestimonials = TestimonialsModel::where('type', 'corporate')->where('status',true)->orderBy('id','desc')->get();
+        $corporateTestimonials = TestimonialsModel::where('type', 'corporate')->where('status', true)->orderBy('id', 'desc')->get();
 
         // $studentTestimonials = TestimonialsModel::where('status', 1)->where('type', 'student')->orderBy('id','desc')->get();
 
         // $corporateTestimonials = TestimonialsModel::where('status', 1)->where('type', 'corporate')->orderBy('id','desc')->get();
 
-
         $institudeTermsCondition = TermsCondition::where('status', 1)->where('type', 'institute')->orderBy('created_at')->first();
 
         return view('website.homepage', compact('institudeTermsCondition', 'corporateTestimonials', 'studentTestimonials', 'benefits', 'ourContributors', 'ourJourneys', 'sliders', 'educations', 'govtwebsites', 'courses', 'notifications', 'blogNews'));
     }
+
     public function companyInsert(Request $request) {}
 
     public function addscholorship()
@@ -172,7 +178,6 @@ class HomeController extends Controller
 
     public function scholorship_insert(Request $request)
     {
-
         try {
             // Validate the incoming data
             $validatedData = $request->validate([
@@ -180,8 +185,8 @@ class HomeController extends Controller
                 'fathers_name' => 'required|string',
                 'dob' => 'required|date',
                 'gender' => 'required|string',
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules according to your needs
-                'sign' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules according to your needs
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Adjust validation rules according to your needs
+                'sign' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Adjust validation rules according to your needs
                 'disability' => 'required|string',
                 'address' => 'required|string',
                 'city' => 'required|string',
@@ -216,8 +221,8 @@ class HomeController extends Controller
                 $scholarshipForm->fathersname = $validatedData['fathers_name'];
                 $scholarshipForm->dob = $validatedData['dob'];
                 $scholarshipForm->gender = $validatedData['gender'];
-                $scholarshipForm->image = $request->file('image')->store('images'); // Store the image file and save the path
-                $scholarshipForm->sign = $request->file('sign')->store('images'); // Store the sign file and save the path
+                $scholarshipForm->image = $request->file('image')->store('images');  // Store the image file and save the path
+                $scholarshipForm->sign = $request->file('sign')->store('images');  // Store the sign file and save the path
                 $scholarshipForm->disability = $validatedData['disability'];
                 $scholarshipForm->address = $validatedData['address'];
                 $scholarshipForm->city = $validatedData['city'];
@@ -255,7 +260,7 @@ class HomeController extends Controller
             'companyname' => 'nullable|string',
             'shortname' => 'nullable|string',
             'cin' => 'nullable|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file validation rules as needed
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',  // Adjust file validation rules as needed
             'pan' => 'nullable|string',
             'tan' => 'nullable|string',
             'gst' => 'nullable|string',
@@ -283,7 +288,7 @@ class HomeController extends Controller
 
         // Handle file upload if a logo is present in the request
         if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('logos'); // Adjust storage path as needed
+            $logoPath = $request->file('logo')->store('logos');  // Adjust storage path as needed
             $validatedData['logo'] = $logoPath;
         }
 
@@ -346,7 +351,7 @@ class HomeController extends Controller
             'email.required' => 'The email field is required.',
             'email.email' => 'The email must be a valid email address.',
             'email.max' => 'The email may not be greater than 255 characters.',
-            //'email.unique' => 'The email has already been taken.',
+            // 'email.unique' => 'The email has already been taken.',
             'city.required' => 'The city field is required.',
             'city.string' => 'The city must be a string.',
             'city.max' => 'The city may not be greater than 255 characters.',
@@ -368,7 +373,6 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Message Submitted. Our team will contact you soon!');
     }
 
-
     public function contactInfo()
     {
         return view('Admin.Home.contactinfo');
@@ -385,7 +389,6 @@ class HomeController extends Controller
         $company = CompanyModel::find(1);
         return view('Admin.Home.company', compact('company'));
     }
-
 
     public function usersignup(Request $request)
     {
@@ -411,7 +414,6 @@ class HomeController extends Controller
         $usersignup->gender = $userGender;
         $usersignup->disability = $disability;
         $usersignup->save();
-
 
         // Create a corresponding user instance for authentication
         $user = new User();
@@ -446,7 +448,7 @@ class HomeController extends Controller
         ]);
 
         $credentials = $request->only('mobile', 'password');
-        $remember = $request->has('remember'); // Check if the "Remember Me" checkbox is checked
+        $remember = $request->has('remember');  // Check if the "Remember Me" checkbox is checked
 
         if (Auth::attempt($credentials, $remember)) {
             // Authentication successful
@@ -458,7 +460,6 @@ class HomeController extends Controller
         }
     }
 
-
     public function aboutus()
     {
         $banners = AboutUs::where('status', 1)->get();
@@ -467,17 +468,20 @@ class HomeController extends Controller
         $bannerSectionThreeHeader = AboutUsSectionThree::whereNotNull('section_title')->whereNotNull('section_remarks')->first();
 
         $bannerSectionFours = AboutUsSectionFour::where('status', 1)->get();
-        $bannerSectionFourHeader = AboutUsSectionFour::whereNotNull('section_title')->whereNotNull('section_remarks')
+        $bannerSectionFourHeader = AboutUsSectionFour::whereNotNull('section_title')
+            ->whereNotNull('section_remarks')
             ->first();
 
         $bannerSectionFives = AboutUsSectionFive::where('status', 1)->get();
-        $bannerSectionFiveHeader = AboutUsSectionFive::whereNotNull('section_title')->whereNotNull('section_remarks')
+        $bannerSectionFiveHeader = AboutUsSectionFive::whereNotNull('section_title')
+            ->whereNotNull('section_remarks')
             ->first();
 
         $corporateTestimonials = TestimonialsModel::where('status', 1)->where('type', 'corporate')->with(['corporate'])->get();
 
         $bannerSectionSixs = AboutUsSectionSix::where('status', 1)->get();
-        $bannerSectionSixHeader = AboutUsSectionSix::whereNotNull('section_title')->whereNotNull('section_remarks')
+        $bannerSectionSixHeader = AboutUsSectionSix::whereNotNull('section_title')
+            ->whereNotNull('section_remarks')
             ->first();
 
         $founderThoughts = AboutUsFounder::where('status', 1)->get();
@@ -487,7 +491,8 @@ class HomeController extends Controller
 
     public function preparation()
     {
-        $featuredCourses =  CourseDetailsModel::with(['scholarshipCategory'])->where('status', 1)
+        $featuredCourses = CourseDetailsModel::with(['scholarshipCategory'])
+            ->where('status', 1)
             ->select('id', 'scholarship_category', 'title', 'featured_image', 'is_featured', 'course_full_name', 'vacancies')
             ->where('is_featured', 1)
             ->get();
@@ -519,8 +524,7 @@ class HomeController extends Controller
         $textlocal = new TextlocalService;
 
         if ($request->form_user == 'admin') {
-
-            $otp   = mt_rand(100000, 999999);
+            $otp = mt_rand(100000, 999999);
 
             $admins = User::where('roles', 'admin')->whereNotNull('email')->get();
 
@@ -537,14 +541,13 @@ class HomeController extends Controller
             $votp->save();
 
             foreach ($admins as $admin) {
-                $admin->notify(new AdminOtpSent($otp,  $ipAddress, $userAgent));
+                $admin->notify(new AdminOtpSent($otp, $ipAddress, $userAgent));
             }
-
 
             return response()->json(['status' => true, 'message' => 'OTP Sent Success fully']);
         }
 
-        $mobileNumber =  $request->mobile;
+        $mobileNumber = $request->mobile;
 
         $time = date('Y-m-d H:i:s', strtotime('-10 minutes'));
 
@@ -583,7 +586,7 @@ class HomeController extends Controller
         }
 
         if (is_null($otpVerifications)) {
-            $otp   = mt_rand(100000, 999999);
+            $otp = mt_rand(100000, 999999);
             $textlocal->sendSms($mobileNumber, $otp);
 
             return response()->json(['status' => true, 'message' => 'Otp sent Successfully.']);
@@ -592,19 +595,11 @@ class HomeController extends Controller
         }
     }
 
-
-
     public function CorporateSendVerificationOtp(Request $request)
     {
-
-
-
-
         $textlocal = new TextlocalService;
 
-
-
-        $mobileNumber =  $request->mobile;
+        $mobileNumber = $request->mobile;
 
         $time = date('Y-m-d H:i:s', strtotime('-10 minutes'));
 
@@ -635,7 +630,6 @@ class HomeController extends Controller
             return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.']);
         }
         if ($request->form_user == 'forgetPassword') {
-
             $student = Corporate::where('phone', $mobileNumber)->first();
 
             if (is_null($student)) {
@@ -646,7 +640,7 @@ class HomeController extends Controller
         }
 
         if (is_null($otpVerifications)) {
-            $otp   = mt_rand(100000, 999999);
+            $otp = mt_rand(100000, 999999);
             $textlocal->sendSms($mobileNumber, $otp);
 
             Mail::to($corporateEmail)->send(new OTPCorporateMail($otp));
@@ -700,12 +694,12 @@ class HomeController extends Controller
             'established_year' => 'required|string',
             'email' => 'required|email',
             'phone' => 'required|string',
-            'otp' => 'required|string', // Ensure OTP is provided
+            'otp' => 'required|string',  // Ensure OTP is provided
             'address' => 'required|string',
             // 'city' => 'required|string',
             'pincode' => 'required|string|digits:6',
-            'attachment' => "nullable|image|max:2048",
-            'attachment_profile' => "nullable|image|max:2048",
+            'attachment' => 'nullable|image|max:2048',
+            'attachment_profile' => 'nullable|image|max:2048',
             'privacy_policy' => 'required|accepted',
             'state_id' => 'required|exists:states,id',
             'district_id' => 'required|exists:districts,id',
@@ -750,7 +744,7 @@ class HomeController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file types and size as needed
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Adjust file types and size as needed
         ]);
         $imagePath = null;
         // Save the image file
@@ -760,8 +754,8 @@ class HomeController extends Controller
         }
         // Create a new Category instance
         $slider = new SliderModel();
-        $slider->image = $imagePath; // Save the image path to the database
-        $slider->remark = $request->remark; // Save the image path to the database
+        $slider->image = $imagePath;  // Save the image path to the database
+        $slider->remark = $request->remark;  // Save the image path to the database
         $slider->save();
 
         // Redirect back or return a response
@@ -809,7 +803,7 @@ class HomeController extends Controller
         // Validate the request data
         $request->validate([
             'website_link' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file types and size as needed
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Adjust file types and size as needed
         ]);
 
         // Save the image file
@@ -819,7 +813,7 @@ class HomeController extends Controller
         $govtWebsite = new GovtwebsiteModel();
         $govtWebsite->image = $imagePath;
         $govtWebsite->remark = $request->remark;
-        $govtWebsite->website_link = $website_link; // Save the image path to the database
+        $govtWebsite->website_link = $website_link;  // Save the image path to the database
         $govtWebsite->save();
 
         // Redirect back or return a response
@@ -902,7 +896,6 @@ class HomeController extends Controller
 
     public function forgetPassword(Request $request)
     {
-
         $request->validate([
             'forget_mobile' => 'required',
             'forget_otp' => 'required',
@@ -913,7 +906,7 @@ class HomeController extends Controller
         $student = Student::where('mobile', $request->forget_mobile)->first();
 
         $time = date('Y-m-d H:i:s', strtotime('-10 minutes'));
-        $otpVerification =  OtpVerifications::where([['credential', '=', $request->forget_mobile], ['otp', '=', $request->forget_otp], ['status', '=', 1], ['created_at', '>=', $time]])->first();
+        $otpVerification = OtpVerifications::where([['credential', '=', $request->forget_mobile], ['otp', '=', $request->forget_otp], ['status', '=', 1], ['created_at', '>=', $time]])->first();
 
         if (is_null($otpVerification)) {
             return response()->json(['success' => false, 'msg' => 'Otp expired.']);
@@ -1026,7 +1019,6 @@ class HomeController extends Controller
         return view('administrator.Home.benefit.benefit', compact('ourBenefits'));
     }
 
-
     public function deletebenefits($id)
     {
         $benefit = BenefitsModel::find($id);
@@ -1041,7 +1033,6 @@ class HomeController extends Controller
 
     public function resetForgotPassword(Request $request)
     {
-
         $request->validate([
             'forget_mobile' => 'required',
             'forget_otp' => 'required',
@@ -1052,7 +1043,7 @@ class HomeController extends Controller
         $student = Corporate::where('phone', $request->forget_mobile)->first();
 
         $time = date('Y-m-d H:i:s', strtotime('-10 minutes'));
-        $otpVerification =  OtpVerifications::where([['credential', '=', $request->forget_mobile], ['otp', '=', $request->forget_otp], ['status', '=', 1], ['created_at', '>=', $time]])->first();
+        $otpVerification = OtpVerifications::where([['credential', '=', $request->forget_mobile], ['otp', '=', $request->forget_otp], ['status', '=', 1], ['created_at', '>=', $time]])->first();
 
         if (is_null($otpVerification)) {
             return response()->json(['success' => false, 'msg' => 'Otp expired.']);

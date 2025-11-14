@@ -368,32 +368,12 @@
                             <div class="col-lg-8 col-md-4 menu-top2">
                                 <div class="menu">
                                     <ul>
-                                        <!-- MOBILE BOOK NOW BUTTON(SHOW ONLY ON MOBILE VIEW) -->
-                                        <!-- <li><a data-toggle="modal" data-target="#myModal" href="#">book now</a></li> -->
-                                        <!--END MOBILE BOOK NOW BUTTON-->
-                                        <!-- <li> <a class="act" href="index.html">Home</a> -->
                                         <li> <a class="act" href="{{ route('home.front') }}"><i
                                                     class="fa fa-home home-icon" aria-hidden="true"></i></a>
                                         </li>
                                         <!--ADD SUB MENU-->
                                         <li class="add-menu">
                                             <a href="{{ route('home.aboutus') }}">About Us </a>
-                                            <!-- <div class="sub-menu">
-                                            <ul>
-                                                <li>
-                                                    <a href="#">About Us</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Preparation for</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Scholarship</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Contact Us</a>
-                                                </li>
-                                            </ul>
-                                        </div> -->
                                         </li>
                                         <!--ADD SUB MENU END-->
                                         <li> <a href="{{ route('home.preparation') }}">Preparation for</a></li>
@@ -536,13 +516,7 @@
                             <div class="features-foter">
                                 <h2>Important Link</h2>
                                 <p><a href="{{ route('corporateEnquiry') }}">Collaborate with Us</a></p>
-                                <p><a href="{{ $imp_link ? asset('home/' . $imp_link->terms_condition_pdf) : 'javascipt:void(0)' }}" target="{{ $imp_link ? '_blank' : '_self' }}">Important Links</a></p>
-                                {{-- @php
-                                    $pages = App\Models\PolicyPage::all();
-                                @endphp --}}
-                                {{-- @foreach ($pages as $page)
-                                    <p><a href="{{ route('website.policy-page', $page->slug) }}">{{ $page->title }}</a></p>
-                                @endforeach --}}
+                                <p><a href="/p/important-links">Important Links</a></p>
                                 <p><a href="/p/privacy-policy">Privacy Policy</a></p>
                                 <p><a href="/p/terms-and-conditions">Terms &amp; Conditions</a></p>
                                 <p><a href="/p/refund-policy">Refund Policy</a></p>
@@ -829,10 +803,6 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </li>
-                                        {{-- <li class="full">
-                                        <input type="checkbox" id="rememberMe" name="remember" value="1">
-                                        <label for="rememberMe">Remember Me</label>
-                                    </li> --}}
                                         <li class="full">
                                             <a id="myModalForgetbtn" data-toggle="modal" data-target="#myModalForget"
                                                 href="#">Forgot Password</a>

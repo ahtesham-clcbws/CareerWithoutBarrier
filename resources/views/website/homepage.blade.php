@@ -378,6 +378,9 @@
 
                                                 <p class="card-text pl-2">
                                                     <b>{{ $studentTestimonial->name }}</b>,
+                                                    @if ($studentTestimonial->student->latestStudentCode?->application_code)
+                                                        {{ $studentTestimonial->student->latestStudentCode->application_code }},&nbsp;
+                                                    @endif
                                                     @if ($studentTestimonial->student->district?->name)
                                                         {{ $studentTestimonial->student->district?->name }}
                                                     @endif

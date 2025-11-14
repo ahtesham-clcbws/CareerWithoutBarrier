@@ -96,7 +96,8 @@ Route::prefix('')->group(function () {
     Route::get('/free-form', FreeForm::class)->name('freeform');
 
     Route::get('registration', Registration::class)->name('registration');
-    Route::get('institute/enquiry', EnquiryForm::class)->name('corporateEnquiry');
+    // Route::get('institute/enquiry', EnquiryForm::class)->name('corporateEnquiry');
+    Route::get('collaboration-form', EnquiryForm::class)->name('corporateEnquiry');
 });
 
 Route::prefix('result')->group(function () {
