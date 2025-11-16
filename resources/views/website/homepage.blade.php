@@ -274,12 +274,12 @@
                                     style="align-content: space-around;">
                                     <div class="govt-web-logo">
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <a href="{{ $govtwebsite->website_link }}">
+                                            <a href="{{ $govtwebsite->website_link }}" target="_blank">
                                                 <img class=""
                                                     src="{{ asset('home/courses/' . $govtwebsite->image) }}" alt="img"
                                                     style="width: 100px; height: 100px;">
                                             </a>
-                                            <span class="remark">{{ $govtwebsite->remark }}</span>
+                                            <a href="{{ $govtwebsite->website_link }}" target="_blank" class="remark" style="color: #212529 !important;">{{ $govtwebsite->remark }}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -338,8 +338,8 @@
                                 alt="img">
                         </div>
                         <!-- <h2><span class="counter">Free</span></h2>
-                                        <h6>Online Education</h6>
-                                        <h6>For All</h6> -->
+                                            <h6>Online Education</h6>
+                                            <h6>For All</h6> -->
 
                         <h6>Free online education for</h6>
                         <h2><span class="counter" data-count-start="9990" data-count-end="10000"
@@ -375,20 +375,20 @@
                                                     src="{{ $studentTestimonial->student->photograph ? asset('/storage/' . $studentTestimonial->student->photograph) : asset('student/images/th_5.png') }}"
                                                     alt="{{ $studentTestimonial->name }}"
                                                     style="height: 80px;width: 80px;">
-
                                                 <p class="card-text pl-2">
                                                     <b>{{ $studentTestimonial->name }}</b>,
-                                                    @if ($studentTestimonial->student->latestStudentCode?->application_code)
-                                                        {{ $studentTestimonial->student->latestStudentCode->application_code }},&nbsp;
-                                                    @endif
                                                     @if ($studentTestimonial->student->district?->name)
-                                                        {{ $studentTestimonial->student->district?->name }}
+                                                        <br />{{ $studentTestimonial->student->district?->name }}
+                                                    @endif
+                                                    @if ($studentTestimonial->student->latestStudentCode?->application_code)
+                                                        <br />{{ $studentTestimonial->student->latestStudentCode->application_code }}
                                                     @endif
                                                 </p>
                                             </div>
                                             <img class="img-fluid img-thumbnail mt-3"
                                                 src="{{ $studentTestimonial->image ? asset('/storage/' . $studentTestimonial->image) : '/website/assets/images/placeholder.webp' }}"
-                                                alt="{{ $studentTestimonial->name }}">
+                                                alt="{{ $studentTestimonial->name }}"
+                                                style="aspect-ratio: 1 / 1; object-fit: contain;">
                                             <p class="card-text mt-3">{!! $studentTestimonial->message !!}</p>
                                         </div>
                                     </div>
@@ -431,12 +431,13 @@
                                                 <p class="card-text pl-2">
                                                     <b>{{ $corporateTestimonial->name }}</b>{!! isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->institute_name)
                                                         ? ',<br /> ' . $corporateTestimonial->corporate?->institute_name
-                                                        : '' !!}{{ isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->district, $corporateTestimonial->corporate->district->name) ? ', ' . $corporateTestimonial->corporate->district->name : '' }}
+                                                        : '' !!}{!! isset($corporateTestimonial->corporate, $corporateTestimonial->corporate->district, $corporateTestimonial->corporate->district->name) ? ',<br /> ' . $corporateTestimonial->corporate->district->name : '' !!}
                                                 </p>
                                             </div>
                                             <img class="img-fluid img-thumbnail w-100 mt-3"
                                                 src="{{ $corporateTestimonial->image ? asset('/storage/' . $corporateTestimonial->image) : '/website/assets/images/placeholder.webp' }}"
-                                                alt="{{ $corporateTestimonial->corporate?->institute_name ? $corporateTestimonial->corporate?->institute_name : $corporateTestimonial->name }}">
+                                                alt="{{ $corporateTestimonial->corporate?->institute_name ? $corporateTestimonial->corporate?->institute_name : $corporateTestimonial->name }}"
+                                                style="aspect-ratio: 1 / 1; object-fit: contain;">
                                             <p class="card-text mt-3">{!! $corporateTestimonial->message !!}</p>
                                         </div>
 
