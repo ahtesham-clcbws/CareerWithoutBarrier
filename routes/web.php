@@ -194,6 +194,6 @@ Route::get('districts/{state}', [CommonController::class, 'districts']);
 
 Route::get('p/{slug}', PolicyPageFrontend::class)->name('website.policy-page');
 
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-    \UniSharp\LaravelFilemanager\Lfm::routes();
-});
+// Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+//     \UniSharp\LaravelFilemanager\Lfm::routes();
+// });
