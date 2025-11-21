@@ -235,9 +235,9 @@
         <div class="faq comm-p-t-b">
             <div class="container">
                 <div class="row tex-center">
-                    <div class="col-12">
+                    {{-- <div class="col-12">
                         <h2>Contact</h2>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-6 col-md-12">
                         <form action="{{ route('home.contactinsert') }}" method="POST" style="height: 100% !important;">
                             @csrf
