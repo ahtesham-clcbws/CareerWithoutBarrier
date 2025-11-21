@@ -56,15 +56,15 @@ Route::post('/reset_forget_password', [HomeController::class, 'resetForgotPasswo
 
 // Route::prefix('homepage')->group(function () {
 Route::prefix('')->group(function () {
-    Route::get('/slider', [HomeController::class, 'slider'])->name('home.slider');
-    Route::get('/govtwebsite', [HomeController::class, 'govtwebsite'])->name('home.govtwebsite');
-    Route::post('/savegovtwebsite', [HomeController::class, 'savegovtwebsite'])->name('home.savegovtwebsite');
-    Route::get('/deleteGovtwebsite/{id}', [HomeController::class, 'deleteGovtwebsite'])->name('home.deleteGovtwebsite');
-    Route::post('/saveSlider', [HomeController::class, 'saveSlider'])->name('home.saveSlider');
-    Route::get('/deleteSlider/{id}', [HomeController::class, 'deleteSlider'])->name('home.deleteSlider');
-    Route::get('/benefit', [HomeController::class, 'benefit'])->name('home.benefit');
+    // Route::get('/slider', [HomeController::class, 'slider'])->name('home.slider');
+    // Route::get('/govtwebsite', [HomeController::class, 'govtwebsite'])->name('home.govtwebsite');
+    // Route::post('/savegovtwebsite', [HomeController::class, 'savegovtwebsite'])->name('home.savegovtwebsite');
+    // Route::get('/deleteGovtwebsite/{id}', [HomeController::class, 'deleteGovtwebsite'])->name('home.deleteGovtwebsite');
+    // Route::post('/saveSlider', [HomeController::class, 'saveSlider'])->name('home.saveSlider');
+    // Route::get('/deleteSlider/{id}', [HomeController::class, 'deleteSlider'])->name('home.deleteSlider');
+    // Route::get('/benefit', [HomeController::class, 'benefit'])->name('home.benefit');
     Route::post('/savebenefits', [HomeController::class, 'savebenefits'])->name('home.savebenefits');
-    Route::get('/deletebenefits/{id}', [HomeController::class, 'deletebenefits'])->name('home.deletebenefits');
+    // Route::get('/deletebenefits/{id}', [HomeController::class, 'deletebenefits'])->name('home.deletebenefits');
     Route::post('/contactinsert', [HomeController::class, 'contactinsert'])->name('home.contactinsert');
 
     Route::post('/corporateSubmit', [HomeController::class, 'corporateSubmit'])->name('home.corporateSubmit');
@@ -76,7 +76,7 @@ Route::prefix('')->group(function () {
     Route::get('/preparation-course/{course?}', [HomeController::class, 'career'])->name('home.career');
     Route::get('/scholarship', [HomeController::class, 'scholarship'])->name('home.scholarship');
     Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
-    Route::get('/faq', [HomeController::class, 'faqList'])->name('home.faq');
+    // Route::get('/faq', [HomeController::class, 'faqList'])->name('home.faq');
     Route::get('/', [HomeController::class, 'index'])->name('home.front');
     Route::post('/enquirySubmit', [HomeController::class, 'enquirySubmit'])->name('home.contactPage');
     Route::get('/company', [HomeController::class, 'company'])->name('home.company');
