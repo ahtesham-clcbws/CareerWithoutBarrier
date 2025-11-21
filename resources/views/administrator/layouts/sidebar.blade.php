@@ -197,6 +197,7 @@
                     <a class="dropdown-item" href="{{route('payment-settings.store')}}">Payment Settings</a>
                     <a class="dropdown-item" href="{{route('admin.mobile_number')}}">Mobile Number</a>
                     <a class="dropdown-item" href="{{route('admin.state-settings')}}">States</a>
+                    <a class="dropdown-item" href="{{route('admin.important-links')}}">Important Links</a>
                     <a class="dropdown-item" href="{{route('admin.district-settings')}}">Districts</a>
                     <a class="dropdown-item" href="{{route('admin.scholarship-forms')}}">Scholarship Forms</a>
                     <a class="dropdown-item" href="{{route('admin.policy-pages')}}">Policy Pages</a>
