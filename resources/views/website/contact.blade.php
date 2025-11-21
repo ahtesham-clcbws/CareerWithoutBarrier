@@ -197,7 +197,7 @@
         }
 
         .biz-card-footer-company {
-            font-size: 1.5em;
+            font-size: 1.2em;
             font-weight: 900;
             color: var(--main-blue);
             margin: 5px 0;
@@ -326,19 +326,6 @@
                             <div class="biz-card-header biz-card-section">
                                 <p class="biz-card-logo-organizer">Organised By</p>
                                 <img class="img-fluid mt-2" src="/logos/logo-square-2.png" style="max-width: 100px;" />
-                                {{-- <div class="biz-card-logo-box">
-                                        <svg class="biz-card-logo-image" viewBox="0 0 100 100">
-                                            <!-- The prominent 'S' shape -->
-                                            <path fill="#D90000"
-                                                d="M 50 10 C 35 10 25 18 25 30 C 25 42 35 45 45 45 L 45 55 C 35 55 25 58 25 70 C 25 82 35 90 50 90 C 65 90 75 82 75 70 L 75 60 L 65 60 L 65 70 C 65 75 60 80 50 80 C 40 80 35 75 35 70 C 35 65 40 60 50 60 L 50 40 C 40 40 35 35 35 30 C 35 25 40 20 50 20 C 60 20 65 25 65 30 L 65 40 L 75 40 L 75 30 C 75 18 65 10 50 10 Z">
-                                            </path>
-                                            <!-- Small globe/sphere detail (simplified) -->
-                                            <circle cx="35" cy="40" r="10" fill="#004b8d" />
-                                            <circle cx="35" cy="40" r="8" fill="#FFFFFF" />
-                                            <circle cx="35" cy="40" r="5" fill="#004b8d" />
-                                        </svg>
-                                        <p class="biz-card-logo-text">S.Q.S. FOUNDATION</p>
-                                    </div> --}}
                             </div>
 
                             <!-- Main Foundation Name -->
