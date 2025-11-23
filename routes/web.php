@@ -63,6 +63,7 @@ Route::prefix('')->group(function () {
     Route::get('/benefit', [HomeController::class, 'benefit'])->name('home.benefit');
     Route::get('/deletebenefits/{id}', [HomeController::class, 'deletebenefits'])->name('home.deletebenefits');
     Route::get('/career/{course?}', [HomeController::class, 'career'])->name('home.career');
+    Route::get('/faq', [HomeController::class, 'faqList'])->name('home.faq');
 
     Route::post('/savebenefits', [HomeController::class, 'savebenefits'])->name('home.savebenefits');
     Route::post('/contactinsert', [HomeController::class, 'contactinsert'])->name('home.contactinsert');
@@ -75,7 +76,6 @@ Route::prefix('')->group(function () {
     Route::get('/preparation-course/{course?}', [HomeController::class, 'career'])->name('home.career');
     Route::get('/scholarship', [HomeController::class, 'scholarship'])->name('home.scholarship');
     Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
-    // Route::get('/faq', [HomeController::class, 'faqList'])->name('home.faq');
     Route::get('/', [HomeController::class, 'index'])->name('home.front');
     Route::post('/enquirySubmit', [HomeController::class, 'enquirySubmit'])->name('home.contactPage');
     Route::get('/company', [HomeController::class, 'company'])->name('home.company');
