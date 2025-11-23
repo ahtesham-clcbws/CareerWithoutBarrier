@@ -516,7 +516,7 @@
                             <div class="features-foter">
                                 <h2>Important Link</h2>
                                 <p><a href="{{ route('corporateEnquiry') }}">Collaborate with Us</a></p>
-                                <p><a href="/p/important-links">Important Links</a></p>
+                                <p><a href="{{ route('home.important-links') }}">Important Links</a></p>
                                 <p><a href="/p/privacy-policy">Privacy Policy</a></p>
                                 <p><a href="/p/terms-and-conditions">Terms &amp; Conditions</a></p>
                                 <p><a href="/p/refund-policy">Refund Policy</a></p>

@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Livewire\Auth\Registration;
 use App\Livewire\Pages\FreeForm;
+use App\Livewire\Pages\ImportantLinksWebsitePage;
 use App\Livewire\Student\AddTestimonial;
 use App\Livewire\Student\ApplyForm\AdditionalDetailsForm;
 use App\Livewire\Student\PaymentPage;
@@ -93,6 +94,7 @@ Route::prefix('')->group(function () {
 
     // ahtesham create those routes
     Route::get('/free-form', FreeForm::class)->name('freeform');
+    Route::get('/important-links', ImportantLinksWebsitePage::class)->name('home.important-links');
 
     Route::get('registration', Registration::class)->name('registration');
     // Route::get('institute/enquiry', EnquiryForm::class)->name('corporateEnquiry');
