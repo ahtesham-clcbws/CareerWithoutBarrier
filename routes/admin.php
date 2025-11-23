@@ -68,6 +68,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::redirect('administrator', 'administrator/login');
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout',  [LoginController::class, 'logout'])->name('admin.logout');
 

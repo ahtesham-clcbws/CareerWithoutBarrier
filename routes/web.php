@@ -52,26 +52,25 @@ Route::post('/forget_password', [HomeController::class, 'forgetPassword'])->name
 Route::post('/reset_forget_password', [HomeController::class, 'resetForgotPassword'])->name('corporate.resetforgetPassword');
 
 
-
-
 // Route::prefix('homepage')->group(function () {
 Route::prefix('')->group(function () {
-    // Route::get('/slider', [HomeController::class, 'slider'])->name('home.slider');
-    // Route::get('/govtwebsite', [HomeController::class, 'govtwebsite'])->name('home.govtwebsite');
-    // Route::post('/savegovtwebsite', [HomeController::class, 'savegovtwebsite'])->name('home.savegovtwebsite');
-    // Route::get('/deleteGovtwebsite/{id}', [HomeController::class, 'deleteGovtwebsite'])->name('home.deleteGovtwebsite');
-    // Route::post('/saveSlider', [HomeController::class, 'saveSlider'])->name('home.saveSlider');
-    // Route::get('/deleteSlider/{id}', [HomeController::class, 'deleteSlider'])->name('home.deleteSlider');
-    // Route::get('/benefit', [HomeController::class, 'benefit'])->name('home.benefit');
+    Route::get('/slider', [HomeController::class, 'slider'])->name('home.slider');
+    Route::get('/govtwebsite', [HomeController::class, 'govtwebsite'])->name('home.govtwebsite');
+    Route::post('/savegovtwebsite', [HomeController::class, 'savegovtwebsite'])->name('home.savegovtwebsite');
+    Route::get('/deleteGovtwebsite/{id}', [HomeController::class, 'deleteGovtwebsite'])->name('home.deleteGovtwebsite');
+    Route::post('/saveSlider', [HomeController::class, 'saveSlider'])->name('home.saveSlider');
+    Route::get('/deleteSlider/{id}', [HomeController::class, 'deleteSlider'])->name('home.deleteSlider');
+    Route::get('/benefit', [HomeController::class, 'benefit'])->name('home.benefit');
+    Route::get('/deletebenefits/{id}', [HomeController::class, 'deletebenefits'])->name('home.deletebenefits');
+    Route::get('/career/{course?}', [HomeController::class, 'career'])->name('home.career');
+
     Route::post('/savebenefits', [HomeController::class, 'savebenefits'])->name('home.savebenefits');
-    // Route::get('/deletebenefits/{id}', [HomeController::class, 'deletebenefits'])->name('home.deletebenefits');
     Route::post('/contactinsert', [HomeController::class, 'contactinsert'])->name('home.contactinsert');
 
     Route::post('/corporateSubmit', [HomeController::class, 'corporateSubmit'])->name('home.corporateSubmit');
     Route::post('/sendOtp', [HomeController::class, 'sendOtp'])->name('home.sendOtp');
     Route::post('/sendMail', [HomeController::class, 'sendMail'])->name('home.sendMail');
     Route::get('/aboutus', [HomeController::class, 'aboutus'])->name('home.aboutus');
-    // Route::get('/career/{course?}', [HomeController::class, 'career'])->name('home.career');
     Route::get('/preparation', [HomeController::class, 'preparation'])->name('home.preparation');
     Route::get('/preparation-course/{course?}', [HomeController::class, 'career'])->name('home.career');
     Route::get('/scholarship', [HomeController::class, 'scholarship'])->name('home.scholarship');
@@ -104,8 +103,6 @@ Route::prefix('result')->group(function () {
     Route::get('/newresult', [ResultController::class, 'newresult'])->name('result.newresult');
     Route::get('/previousresult', [ResultController::class, 'subcategory'])->name('result.previousresult');
 });
-
-
 
 Route::prefix('centers')->group(function () {
     Route::get('/lists', [CenterController::class, 'list'])->name('centers.lists');
