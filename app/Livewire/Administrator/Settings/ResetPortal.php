@@ -49,7 +49,7 @@ class ResetPortal extends Component
             Corporate::truncate();
             Student::truncate();
             // DB::commit();
-            $this->js('window.location.href = "/administrator/dashboard"');
+            $this->js('window.location.href = "/administrator"');
         } catch (\Throwable $th) {
             // DB::rollBack();
             throw $th;

@@ -67,13 +67,11 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('/');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
-Route::redirect('administrator', 'administrator/login');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout',  [LoginController::class, 'logout'])->name('admin.logout');
 
-    Route::get('/', [AdminController::class, 'index']);
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('home');
+    Route::get('/', [AdminController::class, 'index'])->name('home');
 
     Route::get('/instituteListNew/{id?}', [EnquiryController::class, 'instituteListNew'])->name('institute.list.new');
     Route::get('/instituteListsignup/{id?}', [EnquiryController::class, 'instituteListSignup'])->name('institute.list.signup');
@@ -272,4 +270,5 @@ Route::prefix('course')->group(function () {
     Route::any('education-type', [ExamsController::class, 'eductaion_type'])->name('dashboard_eductaion_type');
     Route::any('subjects', [ExamsController::class, 'subjects'])->name('dashboard_subjects');
 });
-require __DIR__ . '/auth.php';
+
+// require __DIR__ . '/auth.php';

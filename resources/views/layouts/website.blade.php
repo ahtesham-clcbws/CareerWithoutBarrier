@@ -804,11 +804,13 @@
                                             @enderror
                                         </li>
                                         <li class="full">
-                                            <a id="myModalForgetbtn" data-toggle="modal" data-target="#myModalForget"
-                                                href="#">Forgot Password</a>
+                                            <a href="{{ route('forgetPassword') }}">Forgot Password</a>
                                         </li>
                                         <li class="full">
                                             <input id="loginBtn" name="loginsubmit" type="submit" value="Login">
+                                        </li>
+                                        <li class="full text-center">
+                                            <a href="{{ route('registration') }}">Register Here</a>
                                         </li>
                                     </ul>
                                 </form>

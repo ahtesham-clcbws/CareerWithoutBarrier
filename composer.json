@@ -19,13 +19,11 @@
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpspreadsheet": "^1.15",
         "razorpay/razorpay": "^2.9",
-        "tightenco/ziggy": "^2.0",
-        "unisharp/laravel-filemanager": "^2.9"
+        "tightenco/ziggy": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.9.1",
-        "laravel/breeze": "^2.0",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",

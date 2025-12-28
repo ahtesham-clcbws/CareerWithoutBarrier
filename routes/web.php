@@ -8,8 +8,10 @@ use App\Http\Controllers\InternalRequestsController;
 use App\Http\Controllers\Razorpay;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\StudentController;
-use App\Http\Controllers\ProfileController;
+// use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
+use App\Livewire\Auth\CorporateForgetPassword;
+use App\Livewire\Auth\ForgetPassword;
 use App\Livewire\Auth\Registration;
 use App\Livewire\Pages\FreeForm;
 use App\Livewire\Pages\ImportantLinksWebsitePage;
@@ -32,9 +34,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// Route::get('administrator', function () {
-//     return redirect()->to('/administrator/dashboard');
-// });
 
 Route::get('storage-link', function () {
     Artisan::call('storage:link');
@@ -51,6 +50,10 @@ Route::post('/otp_verification', [HomeController::class, 'sendVerificationOtp'])
 Route::post('/corporate_otp_verification', [HomeController::class, 'CorporateSendVerificationOtp']);
 Route::post('/forget_password', [HomeController::class, 'forgetPassword'])->name('student.forgetPassword');
 Route::post('/reset_forget_password', [HomeController::class, 'resetForgotPassword'])->name('corporate.resetforgetPassword');
+
+
+Route::get('/forget-password', ForgetPassword::class)->name('forgetPassword');
+Route::get('/corporate/forget-password', CorporateForgetPassword::class)->name('corporateForgetPassword');
 
 
 // Route::prefix('homepage')->group(function () {
@@ -121,7 +124,7 @@ Route::prefix('enquiry')->group(function () {
 });
 
 Route::get('dashboard', function () {
-    return redirect()->to('/administrator/dashboard');
+    return redirect()->to('/administrator');
 });
 
 Route::middleware('auth')->group(function () {
@@ -129,11 +132,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/scholorship_insert', [HomeController::class, 'scholorship_insert'])->name('home.scholorship_insert');
     Route::get('/home.couponcode', [HomeController::class, 'couponcode'])->name('home.couponcode');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/result', [ProfileController::class, 'result'])->name('profile.result');
-    Route::post('/searchresult', [ProfileController::class, 'searchresult'])->name('profile.searchresult');
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::get('/result', [ProfileController::class, 'result'])->name('profile.result');
+    // Route::post('/searchresult', [ProfileController::class, 'searchresult'])->name('profile.searchresult');
 });
 
 Route::post('/studentsignup', [StudentController::class, 'usersignup'])->name('studentSignup');

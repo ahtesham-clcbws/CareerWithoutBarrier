@@ -6,7 +6,7 @@
                     <h2>Important Links</h2>
                 </div>
                 <div class="col">
-                    <input class="form-control" type="file" wire:model='form.image' accepts=".jpg, .jpeg, .png" />
+                    <input class="form-control" type="file" wire:model='form.image' accept=".jpg, .jpeg, .png" />
                     @error('form.image')
                         <p class="text-danger">{{ $message }}</p>
                     @enderror

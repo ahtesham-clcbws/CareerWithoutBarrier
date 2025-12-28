@@ -41,11 +41,6 @@
                 text-align: center;
             }
 
-            .logo {
-                width: 100%;
-                height: 100%;
-            }
-
             .button {
                 display: inline-block;
                 background: #22cfae;
@@ -108,7 +103,10 @@
     <body>
 
         <div class="main-card">
-            <img class="logo" src="{{ url('/website/assets/images/brand/logo.png') }}" />
+            <div style="display: flex; justify-content: center; align-items: center; overflow: hidden;">
+                <img class="logo" src="{{ url('/website/assets/images/brand/logo.png') }}"
+                    style="width: 100%; height: auto; max-width: 350px;" />
+            </div>
             <div class="content">
                 {!! isset($welcome) ? '<h1>' . $welcome . '</h1>' : '' !!}
 
@@ -144,7 +142,8 @@
                 </span>
             </div>
         </div>
-        <div style="font-size:12px; text-align: center; margin:10px; font-weight: 700;" class="text-light">Note: This is system generated mail so you don't need to reply this e-mail</div>
+        <div class="text-light" style="font-size:12px; text-align: center; margin:10px; font-weight: 700;">Note: This is
+            system generated mail so you don't need to reply this e-mail</div>
 
     </body>
 

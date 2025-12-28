@@ -95,6 +95,10 @@
                             <span class="spinner-border spinner-border-sm mr-3" wire:loading wire:target="signUp" role="status" aria-hidden="true"></span>Signup
                         </button>
                     </div>
+
+                    <div class="col-12">
+                        Already have an account? <a href="{{ route('corporatelogin') }}">Login Here</a>
+                    </div>
                 </form>
 
             </div>

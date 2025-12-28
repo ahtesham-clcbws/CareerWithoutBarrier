@@ -298,6 +298,11 @@
                             Register
                         </button>
                     </div>
+                    <div class="col-12 mb-2">
+                        Already have an account? <a id="loginFormOpen" data-toggle="modal" data-target="#myModalLogin"
+                            href="#">Login Here</a>
+                    </div>
+
                 </form>
 
             </div>

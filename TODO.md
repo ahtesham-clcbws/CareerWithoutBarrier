@@ -23,6 +23,7 @@ SSH
 1988DEC7@htesham
 ssh -p 65002 u829699752@82.25.120.120
 cd domains/careerwithoutbarrier.com/public_html
+cd domains/testandnotes.com/public_html
 php artisan optimize:clear; php artisan clear-compiled; php artisan cache:clear; php artisan config:clear;php artisan optimize;
 # check for migration
 php artisan migrate;
