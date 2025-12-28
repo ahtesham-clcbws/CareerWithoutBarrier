@@ -18,7 +18,6 @@ class ForgetPassword extends Component
     public $password;
     public $password_confirmation;
 
-    public $otpRequestId;
     public $otpSendSuccess = false;
 
     public $showPassword = false;
@@ -32,7 +31,7 @@ class ForgetPassword extends Component
     {
         $validated = $this->validateOnly('email');
         if ($validated) {
-            $otp = rand(1253489, 9865324);
+            $otp = rand(123456, 998989);
             OtpVerifications::where('type', 'email')->where('credential', $this->email)->delete();
             $otpCreated = OtpVerifications::create([
                 'type' => 'email',
@@ -46,7 +45,6 @@ class ForgetPassword extends Component
                 $student = Student::where('email', $this->email)->first();
                 $student->notify(new ForgetPasswordOtp($otp));
                 $this->js('toastr.success("OTP send successfully, please check your email.")');
-                $this->otpRequestId = $otpCreated->id;
                 $this->otpSendSuccess = true;
             }
         } else {
@@ -58,11 +56,12 @@ class ForgetPassword extends Component
         $this->validate([
             'otp' => 'required',
             'password' => 'required|confirmed',
-            'password_confirmation' => 'required|same:password',
+            'password_confirmation' => 'required|same:password'
         ]);
 
-        $otp = OtpVerifications::where('type', 'email')->where('credential', $this->email)->orderBy('id', 'desc')->first();
-        if ($otp && $otp->otp == $this->otp) {
+        $getOtp = OtpVerifications::where('type', 'email')->where('credential', $this->email)->orderBy('id', 'desc')->first();
+
+        if ($getOtp && $getOtp->otp == $this->otp) {
             $student = Student::where('email', $this->email)->first();
             $student->update([
                 'password' => Hash::make($this->password),

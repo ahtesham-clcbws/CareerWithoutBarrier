@@ -145,7 +145,7 @@ class Registration extends Component
     {
         $validated = $this->validateOnly('mobile');
         if ($validated) {
-            $otp = rand(1253489, 9865324);
+            $otp = rand(123456, 998989);
             // $otp = 123456;
             $otpCreated = OtpVerifications::create([
                 'type' => 'mobile',

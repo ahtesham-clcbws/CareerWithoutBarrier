@@ -53,8 +53,7 @@ Route::post('/reset_forget_password', [HomeController::class, 'resetForgotPasswo
 
 
 Route::get('/forget-password', ForgetPassword::class)->name('forgetPassword');
-Route::get('/corporate/forget-password', CorporateForgetPassword::class)->name('corporateForgetPassword');
-
+Route::get('/institute/forget-password', CorporateForgetPassword::class)->name('corporate.forgotpassword');
 
 // Route::prefix('homepage')->group(function () {
 Route::prefix('')->group(function () {

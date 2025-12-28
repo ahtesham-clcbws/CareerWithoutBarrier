@@ -84,44 +84,6 @@
                 font-size: 20px
             }
 
-            /* .modal-dialog .modal-content .pop-up {
-            padding-bottom: 0px;
-        } */
-
-            /* .modal-dialog .modal-content .pop-up>.pop-up1 {
-            height: 100% !important;
-            position: relative !important;
-            overflow: hidden !important;
-        }
-        .modal-dialog .modal-content .pop-up>.pop-up1 .pop-im {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover !important;
-        } */
-
-            /* textarea:focus, */
-            /* *:focus,
-        select:focus,
-        input[type="text"]:focus,
-        input[type="password"]:focus,
-        input[type="datetime"]:focus,
-        input[type="datetime-local"]:focus,
-        input[type="date"]:focus,
-        input[type="month"]:focus,
-        input[type="time"]:focus,
-        input[type="week"]:focus,
-        input[type="number"]:focus,
-        input[type="email"]:focus,
-        input[type="url"]:focus,
-        input[type="search"]:focus,
-        input[type="tel"]:focus,
-        input[type="color"]:focus,
-        .uneditable-input:focus {
-            border-color: #ffc7b4 !important;
-            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(255, 199, 180, .25);
-            outline: 0 none;
-        } */
-
             .custom-file label,
             .form-control {
                 background-color: #fff;
@@ -509,9 +471,9 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                             <?php
-                                $termsCondition = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'terms-and-condition']])->first();
-                                $institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
-                                $imp_link = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'important-links']])->first();
+                            $termsCondition = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'terms-and-condition']])->first();
+                            $institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
+                            $imp_link = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'important-links']])->first();
                             ?>
                             <div class="features-foter">
                                 <h2>Important Link</h2>
@@ -531,7 +493,8 @@
         <!-- SECTION: COPY RIGHT -->
         <section>
             <div class="cpy-right py-3">
-                <a><img class="mx-auto" src="{{ asset('logos/weblies-logo.png') }}" alt="Weblies equations private limited" style="max-width:350px;"></a>
+                <a><img class="mx-auto" src="{{ asset('logos/weblies-logo.png') }}"
+                        alt="Weblies equations private limited" style="max-width:350px;"></a>
             </div>
         </section>
 

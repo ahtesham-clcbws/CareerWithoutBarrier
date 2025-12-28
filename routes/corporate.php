@@ -24,13 +24,13 @@ Route::match(['get', 'post'], 'login', [CorporateController::class, 'login'])->n
 // Route::match(['get', 'post'], '/signup/{branch_code?}', [CorporateController::class, 'signup'])->name('corporateSignup');
 Route::any('/signup/{branch_code?}', InstituteSignUpForm::class)->name('corporateSignup');
 
-Route::match(['get', 'post'], '/forgotpassword', [CorporateController::class, 'forgotpassword'])->name('corporate.forgotpassword');
+// Route::match(['get', 'post'], '/forgotpassword', [CorporateController::class, 'forgotpassword'])->name('corporate.forgotpassword');
 
 //Route::post('/reset_forget_password', [CorporateController::class, 'resetForgotPassword'])->name('corporate.resetforgetPassword');
 
 Route::group(['middleware' => ['corporate']], function () {
     Route::get('/corporate_logout', [CorporateController::class, 'logout'])->name('corporate.logout');
-    Route::get('/dashboard', [CorporateController::class, 'index'])->name('corporateDashboard');
+    Route::get('/', [CorporateController::class, 'index'])->name('corporateDashboard');
 
     Route::post('/corporate_otp_verification_mobile_no_change', [CorporateController::class, 'CorporateSendVerificationOtpMobileNoChange']);
 
