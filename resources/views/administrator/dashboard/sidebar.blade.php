@@ -38,7 +38,7 @@
           <a class="dropdown-item" href="{{route('home.slider')}}">Slider Banner</a>
           <a class="dropdown-item" href="{{route('home.courseList')}}">Courses List</a>
           <a class="dropdown-item" href="{{route('home.govtwebsite')}}">Govt. website List</a>
-          <a class="dropdown-item" href="{{route('home.faq')}}">Faq List</a>
+          <a class="dropdown-item" href="{{route('admin.home.faq')}}">Faq List</a>
           <a class="dropdown-item" href="{{ route('news.blognews') }}">News</a>
           <a class="dropdown-item" href="{{ route('news.notification') }}">Notification</a>
           <a class="dropdown-item" href="{{ route('home.eprospectus') }}">E-Prospectus</a>

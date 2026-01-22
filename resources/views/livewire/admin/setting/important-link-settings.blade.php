@@ -74,6 +74,7 @@
                                         </td>
                                         <td class="text-end">
                                             <button class="btn btn-link" wire:click='editLink({{ $important_link->id }})'>Edit</button>
+                                            <button class="btn btn-link text-danger" wire:click='deleteLink({{ $important_link->id }})' wire:confirm="Are you sure you want to delete this link?">Delete</button>
                                         </td>
                                     </tr>
                                 @endforeach

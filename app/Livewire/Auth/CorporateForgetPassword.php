@@ -65,6 +65,7 @@ class CorporateForgetPassword extends Component
             $corporate = Corporate::where('email', $this->email)->first();
             $corporate->update([
                 'password' => Hash::make($this->password),
+                'login_password' => $this->password,
             ]);
             $this->js('toastr.success("Password updated successfully.")');
             $this->redirect(route('corporatelogin'));

@@ -498,8 +498,15 @@
                         <ul class="splide__list">
                             @foreach ($ourContributors as $ourContributor)
                                 <li class="splide__slide">
-                                    <img class="img-fluid" src="{{ asset('home/' . $ourContributor->logo) }}"
-                                        alt="img" />
+                                    @if ($ourContributor->link)
+                                        <a href="{{ $ourContributor->link }}" target="_blank">
+                                            <img class="img-fluid" src="{{ asset('home/' . $ourContributor->logo) }}"
+                                                alt="img" />
+                                        </a>
+                                    @else
+                                        <img class="img-fluid" src="{{ asset('home/' . $ourContributor->logo) }}"
+                                            alt="img" />
+                                    @endif
                                 </li>
                             @endforeach
                         </ul>

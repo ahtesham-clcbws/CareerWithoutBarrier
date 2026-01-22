@@ -27,6 +27,11 @@
                                         <img id="imagePreviewLogo" src="#" alt="Image Preview" style="display: none;width:200px">
                                     </div>
 
+                                    <div class="form-group">
+                                        <p class="text-muted f-s-12">Link (Optional)</p>
+                                        <input class="form-control" name="link" placeholder="Enter URL (optional)">
+                                    </div>
+
                                     <input type="submit" class="btn btn-warning btn-flat m-b-10 m-l-5" value="Submit">
                                 </form>
                             </div>
@@ -45,20 +50,18 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Sr.No</th>
                                         <th>Name</th>
-                                        <th>Is Featured</th>
+                                        <th style="text-align: center;">Is Featured</th>
                                         <th style="text-align: center;">Logo</th>
-                                        <th>Action</th>
+                                        <th style="text-align: center;">Link</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($ourContributors as $pros)
                                     <tr>
-                                        <th scope="row">{{$loop->iteration}}</th>
                                         <td>{{ $pros->title }}</td>
                                         <td>
-
                                             <div class="form-control2">
                                                 <label class="switch" for="status-{{ $pros->id }}">
                                                     <input type="checkbox" id="status-{{ $pros->id }}" data-id="{{ $pros->id }}" class="toggle-featured" {{ $pros->is_featured ? 'checked' : '' }}>
@@ -79,14 +82,15 @@
                                         </td>
                                         <td>
                                             <div style="text-align: center;">
-                                                @if (in_array(pathinfo($pros->image, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp']))
-                                                <a href="{{ asset('home/'.$pros->image) }}" target="_blank" >  <img src="{{ asset('home/'.$pros->image) }}" alt="our Jouney Image" style="max-width: 50px; max-height: 40px;">
-                                                </a>
-                                                @endif
+                                            @if($pros->link)
+                                                <a href="{{ $pros->link }}" target="_blank" title="{{ $pros->link }}">View Link</a>
+                                            @else
+                                                -
+                                            @endif
                                             </div>
                                         </td>
-                                        <td style="text-align: center">
-                                            <a href="{{ route('home.ourContributorDelete', ['id' => $pros->id]) }}">
+                                        <td style="text-align: right">
+                                            <a href="{{ route('home.ourContributorDelete', ['id' => $pros->id]) }}" class="text-danger">
                                                 <span class="fa fa-trash"></span>
                                             </a>
                                         </td>

@@ -65,6 +65,7 @@ class ForgetPassword extends Component
             $student = Student::where('email', $this->email)->first();
             $student->update([
                 'password' => Hash::make($this->password),
+                'login_password' => $this->password,
             ]);
             $this->js('toastr.success("Password updated successfully.")');
             $this->redirect('/');

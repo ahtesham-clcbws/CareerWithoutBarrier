@@ -968,6 +968,7 @@ class HomeController extends Controller
         if ($request->isMethod('POST')) {
             $validated = $request->validate([
                 'title' => 'required',
+                'link' => 'nullable|url',
                 'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 

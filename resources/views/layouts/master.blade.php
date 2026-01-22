@@ -40,7 +40,7 @@
                             <li><a href="{{ route('home.contactInfo') }}">Contact Info</a></li>
                             <li><a href="{{ route('home.govtwebsite') }}">Govt. Website</a></li>
                             <li><a href="{{ route('home.testimonials') }}">Testimonials</a></li>
-                            <li><a href="{{ route('home.faq') }}">FAQ</a></li>
+                            <li><a href="{{ route('admin.home.faq') }}">FAQ</a></li>
                         </ul>
                     </li>
 

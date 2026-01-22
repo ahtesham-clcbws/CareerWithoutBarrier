@@ -153,7 +153,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/toggle-featured', [CourseController::class, 'toggleFeatured'])->name('toggle.featured');
         Route::post('/toggle-status', [CourseController::class, 'toggleStatus'])->name('toggle.status');
 
-        Route::get('/faq', [HomeController::class, 'faq'])->name('home.faq');
+        Route::get('/faq', [HomeController::class, 'faq'])->name('admin.home.faq');
         Route::post('/faqSave', [HomeController::class, 'faqSave'])->name('home.faqSave');
         Route::get('/faqDelete/{id}', [HomeController::class, 'faqDelete'])->name('home.faqDelete');
 

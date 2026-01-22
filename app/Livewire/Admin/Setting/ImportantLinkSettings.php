@@ -53,4 +53,18 @@ class ImportantLinkSettings extends Component
             throw $th;
         }
     }
+    public function deleteLink($id)
+    {
+        try {
+            $important_link = ImportantLink::find($id);
+            if ($important_link) {
+                $important_link->delete();
+                $this->js('toastr.success("Link deleted successfully.")');
+            } else {
+                $this->js('toastr.error("Link not found.")');
+            }
+        } catch (\Throwable $th) {
+            $this->js('toastr.error("Failed to delete link.")');
+        }
+    }
 }
