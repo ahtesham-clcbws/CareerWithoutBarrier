@@ -14,7 +14,7 @@
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
-                                <form action="{{ route('home.ourContributor') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('admin.home.ourContributor') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <p class="text-muted f-s-12">Name*</p>
@@ -90,7 +90,7 @@
                                             </div>
                                         </td>
                                         <td style="text-align: right">
-                                            <a href="{{ route('home.ourContributorDelete', ['id' => $pros->id]) }}" class="text-danger">
+                                            <a href="{{ route('admin.home.ourContributorDelete', ['id' => $pros->id]) }}" class="text-danger">
                                                 <span class="fa fa-trash"></span>
                                             </a>
                                         </td>

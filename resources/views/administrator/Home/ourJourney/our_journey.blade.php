@@ -14,7 +14,7 @@
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
-                                <form action="{{ route('home.ourJourney') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('admin.home.ourJourney') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <p class="text-muted f-s-12">Title*</p>
@@ -93,7 +93,7 @@
                                             </div>
                                         </td>
                                         <td style="text-align: center">
-                                            <a href="{{ route('home.ourJourneyDelete', ['id' => $pros->id]) }}">
+                                            <a href="{{ route('admin.home.ourJourneyDelete', ['id' => $pros->id]) }}">
                                                 <span class="fa fa-trash"></span>
                                             </a>
                                         </td>

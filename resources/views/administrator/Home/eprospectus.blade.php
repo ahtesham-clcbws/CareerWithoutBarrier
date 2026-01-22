@@ -16,7 +16,7 @@ E-prospectus
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
-                                <form action="{{ route('home.eprospectusSave') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('admin.home.eprospectusSave') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <p class="text-muted f-s-12">Title*</p>
@@ -84,7 +84,7 @@ E-prospectus
                                             </div>
                                         </td>
                                         <td style="text-align: center">
-                                            <a href="{{ route('home.eprospectusDelete', ['id' => $pros->id]) }}">
+                                            <a href="{{ route('admin.home.eprospectusDelete', ['id' => $pros->id]) }}">
                                                 <span class="fa fa-trash"></span>
                                             </a>
                                         </td>

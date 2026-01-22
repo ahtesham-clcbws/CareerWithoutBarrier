@@ -11,7 +11,7 @@ Preparation Course List
                 <div class="col-md-6 text-start">
                     <h4>Course List </h4>
                 </div>
-                <div class="col-md-6 text-end"> <a href="{{route('home.course')}}" class="btn btn-primary">Add Course </a></div>
+                <div class="col-md-6 text-end"> <a href="{{route('admin.home.course')}}" class="btn btn-primary">Add Course </a></div>
             </div>
 
         </div>
@@ -64,7 +64,7 @@ Preparation Course List
                                     
                                  </td>
                                     <td class="color-primary" style="text-align: center">
-                                        <a href="{{route('home.course',[$course->id])}}"><span class="fa fa-edit"></span> </a> | <a href="{{route('home.courseDelete',[$course->id])}}"><span class="fa fa-trash"></span></a>
+                                        <a href="{{route('admin.home.course',[$course->id])}}"><span class="fa fa-edit"></span> </a> | <a href="{{route('admin.home.courseDelete',[$course->id])}}"><span class="fa fa-trash"></span></a>
                                     </td>
                                 </tr>
                                 @endforeach

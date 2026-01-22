@@ -71,7 +71,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout',  [LoginController::class, 'logout'])->name('admin.logout');
 
-    Route::get('/', [AdminController::class, 'index'])->name('home');
+    Route::get('/', [AdminController::class, 'index'])->name('admin.home');
 
     Route::get('/instituteListNew/{id?}', [EnquiryController::class, 'instituteListNew'])->name('institute.list.new');
     Route::get('/instituteListsignup/{id?}', [EnquiryController::class, 'instituteListSignup'])->name('institute.list.signup');
@@ -138,46 +138,46 @@ Route::group(['middleware' => ['auth']], function () {
     Route::any('/student_rank_refresh', [AdminController::class, 'refreshStudentRank'])->name('admin.refreshStudentRank');
 
     Route::prefix('home')->group(function () {
-        Route::get('/slider', [HomeController::class, 'slider'])->name('home.slider');
-        Route::get('/testimonials', [HomeController::class, 'testimonials'])->name('home.testimonials');
-        Route::post('/testimonialSubmit', [HomeController::class, 'testimonialSubmit'])->name('home.testimonialSubmit');
-        Route::get('/deleteTestimonials/{id}', [HomeController::class, 'deleteTestimonials'])->name('home.deleteTestimonials');
-        Route::get('/govtwebsite', [HomeController::class, 'govtwebsite'])->name('home.govtwebsite');
-        Route::post('/savegovtwebsite', [HomeController::class, 'savegovtwebsite'])->name('home.savegovtwebsite');
-        Route::get('/deleteGovtwebsite/{id}', [HomeController::class, 'deleteGovtwebsite'])->name('home.deleteGovtwebsite');
-        Route::post('/saveSlider', [HomeController::class, 'saveSlider'])->name('home.saveSlider');
-        Route::get('/deleteSlider/{id}', [HomeController::class, 'deleteSlider'])->name('home.deleteSlider');
-        Route::any('/course/{courseDetailsModel?}', [CourseController::class, 'coursesubmit'])->name('home.course');
-        Route::any('/course_list', [CourseController::class, 'courseList'])->name('home.courseList');
-        Route::any('/course_delete/{courseDetailsModel?}', [CourseController::class, 'courseDelete'])->name('home.courseDelete');
+        Route::get('/slider', [HomeController::class, 'slider'])->name('admin.home.slider');
+        Route::get('/testimonials', [HomeController::class, 'testimonials'])->name('admin.home.testimonials');
+        Route::post('/testimonialSubmit', [HomeController::class, 'testimonialSubmit'])->name('admin.home.testimonialSubmit');
+        Route::get('/deleteTestimonials/{id}', [HomeController::class, 'deleteTestimonials'])->name('admin.home.deleteTestimonials');
+        Route::get('/govtwebsite', [HomeController::class, 'govtwebsite'])->name('admin.home.govtwebsite');
+        Route::post('/savegovtwebsite', [HomeController::class, 'savegovtwebsite'])->name('admin.home.savegovtwebsite');
+        Route::get('/deleteGovtwebsite/{id}', [HomeController::class, 'deleteGovtwebsite'])->name('admin.home.deleteGovtwebsite');
+        Route::post('/saveSlider', [HomeController::class, 'saveSlider'])->name('admin.home.saveSlider');
+        Route::get('/deleteSlider/{id}', [HomeController::class, 'deleteSlider'])->name('admin.home.deleteSlider');
+        Route::any('/course/{courseDetailsModel?}', [CourseController::class, 'coursesubmit'])->name('admin.home.course');
+        Route::any('/course_list', [CourseController::class, 'courseList'])->name('admin.home.courseList');
+        Route::any('/course_delete/{courseDetailsModel?}', [CourseController::class, 'courseDelete'])->name('admin.home.courseDelete');
         Route::post('/toggle-featured', [CourseController::class, 'toggleFeatured'])->name('toggle.featured');
         Route::post('/toggle-status', [CourseController::class, 'toggleStatus'])->name('toggle.status');
 
         Route::get('/faq', [HomeController::class, 'faq'])->name('admin.home.faq');
-        Route::post('/faqSave', [HomeController::class, 'faqSave'])->name('home.faqSave');
-        Route::get('/faqDelete/{id}', [HomeController::class, 'faqDelete'])->name('home.faqDelete');
+        Route::post('/faqSave', [HomeController::class, 'faqSave'])->name('admin.home.faqSave');
+        Route::get('/faqDelete/{id}', [HomeController::class, 'faqDelete'])->name('admin.home.faqDelete');
 
-        Route::get('/eprospectus', [HomeController::class, 'prospectus'])->name('home.eprospectus');
-        Route::post('/eprospectusSave', [HomeController::class, 'prospectusSave'])->name('home.eprospectusSave');
-        Route::get('/eprospectusDelete/{id}', [HomeController::class, 'prospectusDelete'])->name('home.eprospectusDelete');
+        Route::get('/eprospectus', [HomeController::class, 'prospectus'])->name('admin.home.eprospectus');
+        Route::post('/eprospectusSave', [HomeController::class, 'prospectusSave'])->name('admin.home.eprospectusSave');
+        Route::get('/eprospectusDelete/{id}', [HomeController::class, 'prospectusDelete'])->name('admin.home.eprospectusDelete');
         Route::post('/prospect_toggle-status', [CourseController::class, 'pospectToggleStatus'])->name('prospect_toggle.status');
-        Route::any('/our_journey', [HomeController::class, 'ourJourney'])->name('home.ourJourney');
-        Route::any('/our_journey_delete/{id}', [HomeController::class, 'ourJourneyDelete'])->name('home.ourJourneyDelete');
+        Route::any('/our_journey', [HomeController::class, 'ourJourney'])->name('admin.home.ourJourney');
+        Route::any('/our_journey_delete/{id}', [HomeController::class, 'ourJourneyDelete'])->name('admin.home.ourJourneyDelete');
 
-        Route::any('/our_contributor', [HomeController::class, 'ourContributor'])->name('home.ourContributor');
-        Route::any('/our_contributor_delete/{id}', [HomeController::class, 'ourContributorDelete'])->name('home.ourContributorDelete');
+        Route::any('/our_contributor', [HomeController::class, 'ourContributor'])->name('admin.home.ourContributor');
+        Route::any('/our_contributor_delete/{id}', [HomeController::class, 'ourContributorDelete'])->name('admin.home.ourContributorDelete');
 
-        Route::any('/benefit', [HomeController::class, 'benefits'])->name('home.benefit');
-        Route::get('/deletebenefits/{id}', [HomeController::class, 'deletebenefits'])->name('home.deletebenefits');
+        Route::any('/benefit', [HomeController::class, 'benefits'])->name('admin.home.benefit');
+        Route::get('/deletebenefits/{id}', [HomeController::class, 'deletebenefits'])->name('admin.home.deletebenefits');
 
         Route::post('/testimonial-toggle-status', [AdminController::class, 'testimonialToggleStatus'])->name('testimonial.toggle.status');
 
         Route::any('/about_us', [AdminController::class, 'aboutUs'])->name('admin.aboutus');
-        Route::any('/about_us_delete/{form_type}/{id}', [AdminController::class, 'aboutUsDelete'])->name('home.aboutUsDelete');
+        Route::any('/about_us_delete/{form_type}/{id}', [AdminController::class, 'aboutUsDelete'])->name('admin.home.aboutUsDelete');
         Route::post('/about_us_status_toggle', [AdminController::class, 'aboutUsStatusToggle'])->name('about_us.toggleStatus');
 
         Route::any('/scholarship', [AdminController::class, 'scholarship'])->name('admin.scholarship');
-        Route::any('/scholarship_delete/{form_type}/{id}', [AdminController::class, 'scholarshipDelete'])->name('home.scholarshipDelete');
+        Route::any('/scholarship_delete/{form_type}/{id}', [AdminController::class, 'scholarshipDelete'])->name('admin.home.scholarshipDelete');
         Route::post('/scholarship_status_toggle', [AdminController::class, 'scholarshipStatusToggle'])->name('scholarship.toggleStatus');
 
         Route::post('student-papers_import', [AdminController::class, 'studentPaperImport'])->name('student_papers.import');

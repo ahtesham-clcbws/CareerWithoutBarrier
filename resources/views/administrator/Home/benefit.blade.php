@@ -46,7 +46,7 @@
                                 </td>
 
                                 <td style="text-align: center">
-                                    <a href="{{ route('home.deletebenefits', ['id' => $benefits->id]) }}">
+                                    <a href="{{ route('admin.home.deletebenefits', ['id' => $benefits->id]) }}">
                                         <span class="fa fa-trash"></span>
                                     </a>
                                 </td>

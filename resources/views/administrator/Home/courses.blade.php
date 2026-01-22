@@ -21,7 +21,7 @@ $educationType = EducationType::where('is_featured', 1)->get();
     <div class="container card p-0">
         <div class="card-header">
             <div class="row">
-                <div class="col-md-12 text-end"> <a href="{{route('home.courseList')}}" class="btn btn-primary">
+                <div class="col-md-12 text-end"> <a href="{{route('admin.home.courseList')}}" class="btn btn-primary">
                         << Back Course List</a>
                 </div>
             </div>
@@ -29,7 +29,7 @@ $educationType = EducationType::where('is_featured', 1)->get();
         </div>
         <div class="card-body">
 
-            <form action="{{ route('home.course') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.home.course') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <input type="hidden" name="id" value="{{$course->id ?? ''}}" autocomplete="off">

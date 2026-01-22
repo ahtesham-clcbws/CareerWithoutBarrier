@@ -27,7 +27,7 @@ Faq List
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
-                                <form action="{{ route('home.faqSave') }}" method="POST">
+                                <form action="{{ route('admin.home.faqSave') }}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-12 col">
@@ -86,7 +86,7 @@ Faq List
                                 </td>
 
                                 <td style="text-align: center">
-                                    <a href="{{ route('home.faqDelete', ['id' => $faqs->id]) }}">
+                                    <a href="{{ route('admin.home.faqDelete', ['id' => $faqs->id]) }}">
                                         <span class="fa fa-trash"></span>
                                     </a>
                                 </td>

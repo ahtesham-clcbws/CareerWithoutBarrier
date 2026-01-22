@@ -16,7 +16,7 @@ Govt Website
                         <div class="panel-body">
                             <div class="card alert">
                                 <div class="card-body">
-                                    <form action="{{ route('home.savegovtwebsite') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('admin.home.savegovtwebsite') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6 col">
@@ -87,7 +87,7 @@ Govt Website
                                     </td>
 
                                     <td style="text-align: center">
-                                        <a href="{{ route('home.deleteGovtwebsite', ['id' => $websites->id]) }}">
+                                        <a href="{{ route('admin.home.deleteGovtwebsite', ['id' => $websites->id]) }}">
                                             <span class="fa fa-trash"></span>
                                         </a>
                                     </td>

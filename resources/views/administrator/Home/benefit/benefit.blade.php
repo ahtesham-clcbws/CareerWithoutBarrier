@@ -14,7 +14,7 @@
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
-                                <form action="{{ route('home.benefit') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('admin.home.benefit') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <p class="text-muted f-s-12">Benefit*</p>
@@ -88,7 +88,7 @@
                                         </td>
 
                                         <td style="text-align: center">
-                                            <a href="{{ route('home.deletebenefits', ['id' => $pros->id]) }}">
+                                            <a href="{{ route('admin.home.deletebenefits', ['id' => $pros->id]) }}">
                                                 <span class="fa fa-trash"></span>
                                             </a>
                                         </td>

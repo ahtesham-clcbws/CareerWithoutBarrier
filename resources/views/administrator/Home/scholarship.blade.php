@@ -135,7 +135,7 @@ Scholarship Course List
                             </td>
 
                             <td style="text-align: center">
-                                <a href="{{ route('home.scholarshipDelete', ['form_type' => 'scholarship','id' => $scholarship->id]) }}">
+                                <a href="{{ route('admin.home.scholarshipDelete', ['form_type' => 'scholarship','id' => $scholarship->id]) }}">
                                     <span class="fa fa-trash"></span>
                                 </a>
                             </td>

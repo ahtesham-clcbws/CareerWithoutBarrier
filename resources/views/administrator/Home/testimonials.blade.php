@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row">
-        <form action="{{ route('home.testimonialSubmit') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.home.testimonialSubmit') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="col-lg-6">
                 <div class="panel panel-default m-t-15">
@@ -55,7 +55,7 @@
                                     </td>
 
                                     <td style="text-align: center">
-                                        <a href="{{ route('home.deleteTestimonials', ['id' => $testimonialss->id]) }}">
+                                        <a href="{{ route('admin.home.deleteTestimonials', ['id' => $testimonialss->id]) }}">
                                             <span class="fa fa-trash"></span>
                                         </a>
                                     </td>

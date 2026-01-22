@@ -76,7 +76,7 @@ Route::prefix('')->group(function () {
     Route::post('/sendMail', [HomeController::class, 'sendMail'])->name('home.sendMail');
     Route::get('/aboutus', [HomeController::class, 'aboutus'])->name('home.aboutus');
     Route::get('/preparation', [HomeController::class, 'preparation'])->name('home.preparation');
-    Route::get('/preparation-course/{course?}', [HomeController::class, 'career'])->name('home.career');
+    Route::get('/preparation-course/{course?}', [HomeController::class, 'career'])->name('home.preparation_course');
     Route::get('/scholarship', [HomeController::class, 'scholarship'])->name('home.scholarship');
     Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
     Route::get('/', [HomeController::class, 'index'])->name('home.front');

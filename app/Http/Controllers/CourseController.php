@@ -293,7 +293,7 @@ class CourseController extends Controller
             $courseDetails->save();
 
             // Redirect back with a success message
-            return redirect()->route('home.courseList')->with('success', 'Course details submitted successfully!');
+            return redirect()->route('admin.home.courseList')->with('success', 'Course details submitted successfully!');
         }
 
         return view('administrator.Home.courses', ['course' => $courseDetailsModel]);
