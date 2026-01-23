@@ -42,7 +42,7 @@
         style="height: calc(100vh - 68px) !important; overflow-y: auto !important; margin-bottom: 0 !important; padding-bottom: 10px !important;">
         <li>
             <div class="dropdown show">
-                <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('home')}}">
+                <a class="btn btn-secondary dropdown-toggle sideBarContent" href="{{route('admin.home')}}">
                     <img src="{{asset('admin/icons/Dashboard.png')}}" alt="" class="nav_icon">
                     <p class="content">Dashboard</p>
                     <i class="bi bi-chevron-right"></i>
@@ -69,16 +69,16 @@
                 </a>
 
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" x-placement="top-start">
-                    <a class="dropdown-item" href="{{route('home.slider')}}">Slider Banner</a>
-                    <a class="dropdown-item" href="{{route('home.courseList')}}">Courses List</a>
-                    <a class="dropdown-item" href="{{route('home.govtwebsite')}}">Govt. website List</a>
+                    <a class="dropdown-item" href="{{route('admin.home.slider')}}">Slider Banner</a>
+                    <a class="dropdown-item" href="{{route('admin.home.courseList')}}">Courses List</a>
+                    <a class="dropdown-item" href="{{route('admin.home.govtwebsite')}}">Govt. website List</a>
                     <a class="dropdown-item" href="{{route('admin.home.faq')}}">Faq List</a>
                     <a class="dropdown-item" href="{{ route('news.blognews') }}">News</a>
                     <a class="dropdown-item" href="{{ route('news.notification') }}">Notification</a>
-                    <a class="dropdown-item" href="{{ route('home.eprospectus') }}">E-Prospectus</a>
-                    <a class="dropdown-item" href="{{ route('home.ourJourney') }}">Our Journey</a>
-                    <a class="dropdown-item" href="{{ route('home.ourContributor') }}">Our Contributor</a>
-                    <a class="dropdown-item" href="{{ route('home.benefit') }}">Our Benefits</a>
+                    <a class="dropdown-item" href="{{ route('admin.home.eprospectus') }}">E-Prospectus</a>
+                    <a class="dropdown-item" href="{{ route('admin.home.ourJourney') }}">Our Journey</a>
+                    <a class="dropdown-item" href="{{ route('admin.home.ourContributor') }}">Our Contributor</a>
+                    <a class="dropdown-item" href="{{ route('admin.home.benefit') }}">Our Benefits</a>
                 </div>
             </div>
         </li>

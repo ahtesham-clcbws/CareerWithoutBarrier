@@ -45,7 +45,7 @@ if ($student->state_id) {
 
             </div>
             <div class="col-md-3">
-               <a class="btn btn-info float-end Exam" href="{{route('home')}}" style="width: 6rem;
+               <a class="btn btn-info float-end Exam" href="{{route('admin.home')}}" style="width: 6rem;
     height: 2.65rem;">
                   <svg viewBox="100 0 1024 1024" fill="#ffffff" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" style="width: 2rem; height: 2rem;">
                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>

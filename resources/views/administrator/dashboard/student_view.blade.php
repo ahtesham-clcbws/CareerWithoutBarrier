@@ -11,7 +11,7 @@
 
             </div>
             <div class="col-md-3">
-                <a class="btn btn-info Exam float-end" href="{{ route('home') }}" style="width: 6rem; height: 2.65rem;">
+                <a class="btn btn-info Exam float-end" href="{{ route('admin.home') }}" style="width: 6rem; height: 2.65rem;">
                     <svg class="icon" style="width: 2rem; height: 2rem;" viewBox="100 0 1024 1024" fill="#ffffff"
                         version="1.1" xmlns="http://www.w3.org/2000/svg">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>

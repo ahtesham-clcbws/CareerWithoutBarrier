@@ -867,7 +867,7 @@
                                     </td>
 
                                     <td style="text-align: center">
-                                        <a href="{{ route('home.aboutUsDelete', ['form_type' => 'about_sectionFive','id' => $bannerSectionFive->id]) }}">
+                                        <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionFive','id' => $bannerSectionFive->id]) }}">
                                             <span class="fa fa-trash"></span>
                                         </a>
                                     </td>
@@ -1005,7 +1005,7 @@
                                     </td>
 
                                     <td style="text-align: center">
-                                        <a href="{{ route('home.aboutUsDelete', ['form_type' => 'about_sectionSix','id' => $bannerSectionSix->id]) }}">
+                                        <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionSix','id' => $bannerSectionSix->id]) }}">
                                             <span class="fa fa-trash"></span>
                                         </a>
                                     </td>

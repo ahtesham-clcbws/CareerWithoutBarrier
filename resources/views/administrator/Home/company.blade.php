@@ -4,7 +4,7 @@ Company List
 @endsection
 
 @section('content')
-<form action="{{ route('home.saveCompany') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.home.saveCompany') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-md-3">

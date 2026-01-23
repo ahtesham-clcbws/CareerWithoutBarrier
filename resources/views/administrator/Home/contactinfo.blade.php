@@ -23,7 +23,7 @@ Contact Info Page
                 <div class="panel-body">
                     <div class="card alert">
                         <div class="card-body">
-                            {{-- <form action="{{ route('home.contactSave') }}" method="POST"> --}}
+                            {{-- <form action="{{ route('admin.home.contactSave') }}" method="POST"> --}}
                             @csrf
 
                             <div class="col-md-4">

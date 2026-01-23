@@ -9,7 +9,7 @@
                 <div class="panel-body">
                     <div class="card alert">
                         <div class="card-body">
-                            <form action="{{ route('home.savebenefits') }}" method="POST">
+                            <form action="{{ route('admin.home.savebenefits') }}" method="POST">
                                 @csrf
 
                                 <div class="form-group">

@@ -1,0 +1,32 @@
+# Work History
+
+## Session: 2026-01-22
+- **Action:** Initialized `.agent` directory structure.
+- **Action:** Performed deep analysis of project files (`composer.json`, `package.json`, `routes/web.php`, migrations).
+- **Artifacts Created:**
+    - `project_architecture.md`
+    - `database_schema.md`
+    - `feature_list.md`
+    - `task.md`
+- **Context:** User emphasized strict adherence to maintaining persistence files in the workspace root `.agent/` folder.
+- **Action:** Implemented plain password storage in `login_password` column.
+    - **Modified:** `App\Livewire\Auth\ForgetPassword.php` and `App\Livewire\Auth\CorporateForgetPassword.php`.
+    - **Verified:** `StudentController` and others already implemented this logic.
+- **Action:** Fixed FAQ Route Conflict.
+    - **Problem:** `route('home.faq')` was defined in both `web.php` (frontend) and `admin.php` (admin), causing Admin links to redirect to Frontend.
+    - **Fix:** Renamed admin route to `admin.home.faq`.
+    - **Updated:** `resources/views/administrator/layouts/sidebar.blade.php`, `resources/views/administrator/dashboard/sidebar.blade.php`, `resources/views/layouts/master.blade.php`.
+- **Action:** Add Optional Link to Our Contributor.
+    - **Change:** Added nullable `link` column to `our_contributors` table.
+    - **Admin Form:** Updated `resources/views/administrator/Home/ourContributor/our_contributor.blade.php` to accept URL.
+    - **Admin Table:** Updated `resources/views/administrator/Home/ourContributor/our_contributor.blade.php` to display "View Link" anchor in the list.
+    - **Frontend:** Updated `resources/views/website/homepage.blade.php` to wrap logo in link if present.
+- **Action:** Add Delete Option to Important Links.
+    - **Change:** Added Delete button for Important Links in Admin.
+    - **Logic:** Added `deleteLink($id)` to `App\Livewire\Admin\Setting\ImportantLinkSettings.php`.
+    - **View:** Added Delete button with `wire:confirm` in `resources/views/livewire/admin/setting/important-link-settings.blade.php`.
+- **Action:** Pushed changes to repository.
+    - **Commit:** "Fix FAQ route, add Contributor Link, add Important Link Delete, Plain Password fix"
+- **Action:** Fix Route Name Conflict.
+    - **Problem:** `LogicException` due to duplicate `home.career` route name in `routes/web.php`.
+    - **Fix:** Renamed the second definition (`/preparation-course/{course?}`) to `home.preparation_course`.
