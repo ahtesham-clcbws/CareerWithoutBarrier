@@ -120,7 +120,7 @@
                         <input name="form_name" id="class_group_examFormName" class="d-none" value="exam_form">
                         <div class="card-body" style="min-height: 251px;">
                             <div class="mb-3">
-                                <label for="education_type_id" class="form-label">Scholarship Category</label>
+                                <label for="exam_education_type_id" class="form-label">Scholarship Category</label>
                                 <select class="form-select form-select-sm" id="exam_education_type_id" name="exam_education_type_id" {{ count($data['educations']) ? '' : 'disabled' }} required>
                                     <option value=""></option>
                                     @foreach ($data['educations'] as $key => $education)
@@ -129,8 +129,8 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="class_group_exam_name_id" class="form-label"> Education Type</label>
-                                <select class="form-select form-select-sm" multiple id="class_group_exam_name_id" name="name[]" required>
+                                <label for="class_group_exam_name" class="form-label"> Education Type</label>
+                                <select class="form-select form-select-sm" multiple id="class_group_exam_name" name="name[]" required>
                                     @foreach($data['class_data'] as $class)
                                     <option value="{{ $class->id }}"> {{ $class->name }}</option>
                                     @endforeach
@@ -317,7 +317,7 @@
                             Scholarship Opted For
                         </div>
                         <input type="number" name="id" class="d-none" id="otherExam_id" value="0">
-                        <input name="form_name" id="boardFormName" class="d-none" value="otherExam_form">
+                        <input name="form_name" id="otherExamFormName" class="d-none" value="otherExam_form">
                         <div class="card-body">
                             <div class="mb-3">
                                 <label for="other_exam_education_type_id" class="form-label">Scholarship Category</label>

@@ -23,10 +23,10 @@ function inititateSelect2() {
     //     placeholder: "Scholarship Category",
     //     allowClear: true,
     // });
-    $("#class_group_exam_name_id").select2({
+    $("#class_group_exam_name").select2({
         placeholder: "Education Type",
         allowClear: true,
-        
+        tags: true
     });
     $("#board_name_id").select2({
         placeholder: "Exam/Class",
@@ -64,10 +64,10 @@ function inititateSelect2() {
 }
 inititateSelect2();
 
-var value = $("#class_group_exam_name_id").html();
+var value = $("#class_group_exam_name").html();
 
 if ($('#class_group_exam_id').val() == 0) {
-    $("#class_group_exam_name_id").empty();
+    $("#class_group_exam_name").empty();
     inititateSelect2();
 }
 
@@ -99,24 +99,39 @@ function resetSubjectMappingForm() {
 
 function editForm(id, name, formName, education = 0, boards = '', subjects = '', class_exam = '') {
     $('#' + formName + '_id').val(id);
-    if (formName == 'education') {
-        $('#' + formName + '_name').val(name);
-    } else {
-        $('#' + formName + '_name').empty();
-        $('#' + formName + '_name').append("<option value='" + name + "' selected>" + name + "</option>");
+    
+    // Check if the field is an input or a select
+    var $nameField = $('#' + formName + '_name');
+    if ($nameField.is('input')) {
+        $nameField.val(name);
+    } else if ($nameField.is('select')) {
+        $nameField.empty();
+        // For multi-selects, we need to handle JSON or comma-separated strings
+        try {
+            var parsedValues = JSON.parse(name);
+            if (Array.isArray(parsedValues)) {
+                $nameField.val(parsedValues).trigger('change');
+            } else {
+                $nameField.append("<option value='" + name + "' selected>" + name + "</option>").trigger('change');
+            }
+        } catch (e) {
+            $nameField.append("<option value='" + name + "' selected>" + name + "</option>").trigger('change');
+        }
     }
-    console.log(formName);
+
     if (formName == 'class_group_exam') {
         $('#exam_education_type_id').val(education);
-        $("#class_group_exam_name_id").empty();
-        $("#class_group_exam_name_id").append(value);
+        
+        // Ensure the select is re-populated with original options from the global 'value' variable
+        var $select = $("#class_group_exam_name");
+        $select.empty().append(value);
         
         try {
             var parsedName = JSON.parse(name);
-            $('#class_group_exam_name_id').val(parsedName).trigger('change');
+            $select.val(parsedName).trigger('change');
         } catch (e) {
             console.error("Failed to parse name:", name, e);
-            $('#class_group_exam_name_id').val([]).trigger('change');
+            $select.val([]).trigger('change');
         }
         inititateSelect2();
     }
