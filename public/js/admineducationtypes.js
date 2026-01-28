@@ -19,11 +19,10 @@ function inititateSelect2() {
         allowClear: true,
         
     });
-    $("#education_name").select2({
-        placeholder: "Scholarship Category",
-        allowClear: true,
-        
-    });
+    // $("#education_name").select2({
+    //     placeholder: "Scholarship Category",
+    //     allowClear: true,
+    // });
     $("#class_group_exam_name_id").select2({
         placeholder: "Education Type",
         allowClear: true,
@@ -81,7 +80,11 @@ if ($("#otherExam_id").val() == 0) {
 
 function resetForm(formName) {
     $('#' + formName + 'Form')[0].reset();
-    $('#' + formName + '_name').empty();
+    if (formName == 'education') {
+        $('#' + formName + '_name').val('');
+    } else {
+        $('#' + formName + '_name').empty();
+    }
     $('#' + formName + 'FormName').val(formName + '_form');
     $('#' + formName + '_id').val(0);
     $('#' + formName + 'Reset').hide();
@@ -96,8 +99,12 @@ function resetSubjectMappingForm() {
 
 function editForm(id, name, formName, education = 0, boards = '', subjects = '', class_exam = '') {
     $('#' + formName + '_id').val(id);
-    $('#' + formName + '_name').empty();
-    $('#' + formName + '_name').append("<option value=" + name + " selected>" + name + "</option>");
+    if (formName == 'education') {
+        $('#' + formName + '_name').val(name);
+    } else {
+        $('#' + formName + '_name').empty();
+        $('#' + formName + '_name').append("<option value='" + name + "' selected>" + name + "</option>");
+    }
     console.log(formName);
     if (formName == 'class_group_exam') {
         $('#exam_education_type_id').val(education);
@@ -622,7 +629,3 @@ async function deleteresultSubjectMapFormClass(id) {
         console.log(data);
     });
 }
-
-
-
-

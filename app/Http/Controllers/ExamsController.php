@@ -35,6 +35,7 @@ use App\Models\TestQuestions;
 use App\Models\TestSections;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ExamsController extends Controller
@@ -247,7 +248,7 @@ class ExamsController extends Controller
                 // dd($testData->creater);
                 $testTableData[$key]['status'] = $status;
                 $testTableData[$key]['featured'] = $featured;
-                $testTableData[$key]['created_by'] = $testData['institute_name'] != NULL ? $testData['institute_name'] : auth()->user()->name;
+                $testTableData[$key]['created_by'] = $testData['institute_name'] != NULL ? $testData['institute_name'] : Auth::user()->name;
                 $testTableData[$key]['created_date'] = date('d-m-Y', strtotime($testData->created_at));
                 $testTableData[$key]['class_name'] = $testData->EducationClass != null ? $testData->EducationClass->name : '';
                 $testTableData[$key]['class_type'] = $testData->EducationType != null ? $testData->EducationType->name : '';
@@ -396,7 +397,7 @@ class ExamsController extends Controller
 
                 if (isset($inputs['id']) && $inputs['id'] > 0) {
                     // dd($inputs['id']);
-                    $this->data['auth_id']  = auth()->id();
+                    $this->data['auth_id']  = Auth::id();
                     $testId                 = $inputs['id'];
 
                     $test                       = TestModal::find($testId);
@@ -495,7 +496,7 @@ class ExamsController extends Controller
             //     dd('')
             // }
         }
-        $this->data['auth_id'] = auth()->id();
+        $this->data['auth_id'] = Auth::id();
         // $test = TestModal::find($this->data['test_id']);
 
 
@@ -591,7 +592,7 @@ class ExamsController extends Controller
     }
     public function testSections(Request $req, $test_id)
     {
-        $this->data['auth_id'] = auth()->id();
+        $this->data['auth_id'] = Auth::id();
         $test = TestModal::find($test_id);
         if ($req->isMethod('post')) {
             if ($req->input('form_name') && $req->input('form_name') == 'notify_creator') {
@@ -815,16 +816,15 @@ class ExamsController extends Controller
                 $requestType = 'education';
 
                 if ($inputs['id'] > 0) {
-                    foreach ($inputs['name'] as $key => $value) {
-                        $education_type = EducationType::find($inputs['id']);
-                        if (!empty($education_type)) {
-                            $education_type->name   = $value;
-                            $queryMd                = $education_type;
-                            $query                  = $queryMd->save();
-                        }
+                    $education_type = EducationType::find($inputs['id']);
+                    if (!empty($education_type)) {
+                        $education_type->name   = is_array($inputs['name']) ? $inputs['name'][0] : $inputs['name'];
+                        $queryMd                = $education_type;
+                        $query                  = $queryMd->save();
                     }
                 } else {
-                    foreach ($inputs['name'] as $data) {
+                    $names = is_array($inputs['name']) ? $inputs['name'] : [$inputs['name']];
+                    foreach ($names as $data) {
                         $educationMd        = new EducationType();
                         $educationMd->name  = $data;
                         $queryMd            = $educationMd;
@@ -1864,7 +1864,7 @@ class ExamsController extends Controller
     }
     public function section_questions(Request $req, $test_id, $section_id)
     {
-        $this->data['auth_id']          = auth()->id();
+        $this->data['auth_id']          = Auth::id();
         $this->data['test']             = TestModal::find($test_id);
         $thisSection                    = TestSections::find($section_id);
         $this->data['section']          = $thisSection;
@@ -2046,7 +2046,7 @@ class ExamsController extends Controller
 
                 // dd($testData);
                 $testTableData[$key]['status']          = $status;
-                $testTableData[$key]['created_by']      = $testData['institute_name'] != NULL ? $testData['institute_name'] : auth()->user()->name;
+                $testTableData[$key]['created_by']      = $testData['institute_name'] != NULL ? $testData['institute_name'] : Auth::user()->name;
                 $testTableData[$key]['created_date']    = date('d-m-Y', strtotime($testData->created_at));
                 $testTableData[$key]['class_name']      = $testData->EducationClass->name;
 
@@ -2099,7 +2099,7 @@ class ExamsController extends Controller
                     ->where('test.id', '=', $test_id)
                     ->orderBy('gn__student_test_attempts.id', 'desc')->skip($start)->take($length)->get();
                 // $testTableData = TestModal::select(['id', 'title', 'sections', 'total_questions', 'questions_submitted', 'questions_approved', 'reviewed', 'reviewed_status', 'published','created_at','education_type_child_id','published_status'])
-                //     ->where('user_id',auth()->user()->id)->orderBy('id', 'desc')
+                //     ->where('user_id',Auth::user()->id)->orderBy('id', 'desc')
                 //     ->where("title", "like", "%" . $search_value . "%")
                 //     ->orderBy('id', 'desc')->skip($start)->take($length)->get();
                 $count = Gn_StudentTestAttempt::get()->count();

@@ -46,10 +46,8 @@
                         <input name="form_name" id="educationFormName" class="d-none" value="education_form">
                         <div class="card-body" style="min-height: 199px;">
                             <div class="mb-4">
-                                <label for="class_boards" class="form-label"> Scholarship Category</label>
-                                <select class="form-select form-select-sm" multiple id="education_name" name="name[]" required>
-                                    <option value=""></option>
-                                </select>
+                                <label for="education_name" class="form-label"> Scholarship Category</label>
+                                <input type="text" class="form-control form-control-sm" id="education_name" name="name" required placeholder="Enter Scholarship Category">
                             </div>
                             <div class="btn-group btn-group-sm w-100" role="group">
                                 <button type="button" class="btn btn-danger resetbtn" id="educationReset" onclick="resetForm('education')">Reset</button>
