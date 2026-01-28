@@ -110,9 +110,14 @@ function editForm(id, name, formName, education = 0, boards = '', subjects = '',
         $('#exam_education_type_id').val(education);
         $("#class_group_exam_name_id").empty();
         $("#class_group_exam_name_id").append(value);
-        // inititateSelect2();
-        console.log(JSON.parse(name));
-        $('#class_group_exam_name_id').val(JSON.parse(name));
+        
+        try {
+            var parsedName = JSON.parse(name);
+            $('#class_group_exam_name_id').val(parsedName).trigger('change');
+        } catch (e) {
+            console.error("Failed to parse name:", name, e);
+            $('#class_group_exam_name_id').val([]).trigger('change');
+        }
         inititateSelect2();
     }
 
