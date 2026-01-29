@@ -835,11 +835,28 @@ class ExamsController extends Controller
             if ($inputs['form_name'] == 'exam_form') {
                 $requestName = "Class / Group / Exam Name";
                 $requestType = 'exam';
+
+                // Convert comma-separated string names into an array
+                $inputs['name'] = is_array($inputs['name']) ? $inputs['name'] : array_map('trim', explode(',', $inputs['name']));
+
                 if ($inputs['id'] > 0) {
-                    $all_class_id = ClassGoupExamModel::get()->pluck('id')->toArray();
+                    $all_class_id = ClassGoupExamModel::get()->pluck('id', 'name')->toArray();
                     $class_id     = Gn_AssignClassGroupExamName::where('education_type_id', $inputs['exam_education_type_id'])->get()->pluck('classes_group_exams_id')->toArray();
 
-                    $new_insert_data             = array_diff($inputs['name'], $all_class_id);
+                    // Resolve names to IDs for the update logic
+                    $resolvedIds = [];
+                    foreach ($inputs['name'] as $val) {
+                        if (empty($val)) continue;
+                        if (is_numeric($val)) {
+                            $resolvedIds[] = (int)$val;
+                        } else {
+                            $examItem = ClassGoupExamModel::firstOrCreate(['name' => $val, 'education_type_id' => $inputs['exam_education_type_id']]);
+                            $resolvedIds[] = $examItem->id;
+                        }
+                    }
+                    $inputs['name'] = $resolvedIds;
+
+                    $new_insert_data             = array_diff($inputs['name'], array_values($all_class_id));
                     $new_insert_data_diff_id     = array_diff($new_insert_data, $class_id);
                     $new_insert_data_diff_name   = array_diff($new_insert_data, $new_insert_data_diff_id);
 
@@ -1008,7 +1025,23 @@ class ExamsController extends Controller
                 $requestName = 'Board / State / Exam Agency';
                 $requestType = 'board';
 
+                // Ensure name is an array
+                $inputs['name'] = is_array($inputs['name']) ? $inputs['name'] : array_map('trim', explode(',', $inputs['name']));
+
                 if ($inputs['id'] > 0) {
+                    // Resolve names to IDs for update logic
+                    $resolvedIds = [];
+                    foreach ($inputs['name'] as $val) {
+                        if (empty($val)) continue;
+                        if (is_numeric($val)) {
+                            $resolvedIds[] = (int)$val;
+                        } else {
+                            $boardItem = BoardAgencyStateModel::firstOrCreate(['name' => $val]);
+                            $resolvedIds[] = $boardItem->id;
+                        }
+                    }
+                    $inputs['name'] = $resolvedIds;
+
                     // dd('inside Edit');
                     $boardMd        = BoardAgencyStateModel::find($inputs['id']);
                     $data1          = BoardAgencyStateModel::whereNotIn('id', $inputs['name'])->get();
@@ -1017,6 +1050,7 @@ class ExamsController extends Controller
                     if (!$data1->isEmpty()) {
                         $board_data = BoardAgencyStateModel::get()->pluck('id')->toArray();
                         $data_board = Gn_EducationClassExamAgencyBoardUniversity::where('education_type_id', $inputs['education_type_id'])->where('classes_group_exams_id', $inputs['classes_group_exams_id'])->get()->pluck('board_agency_exam_id')->toArray();
+
                         $new_insert_data = array_diff($inputs['name'], $data_board);
 
                         $new_insert_data_diff_id     = array_diff($new_insert_data, $board_data);
@@ -1038,7 +1072,7 @@ class ExamsController extends Controller
                             $board_id = json_decode($gn_display_exam->board_id);
                             $board_id = array_diff($board_id, $delete_data_diff_id);
                             $gn_display_exam->board_id = str_replace('"', '', $board_id);
-                            $gn_display_exam->save();
+                            $query = $gn_display_exam->save();
                         }
 
                         if (!empty($new_insert_data_diff_name)) {
@@ -1055,13 +1089,13 @@ class ExamsController extends Controller
                                 $board_ids = json_decode($gn_display_exam->board_id);
                                 $board_ids = array_merge($board_ids, $new_insert_data_diff_name);
                                 $gn_display_exam->board_id = str_replace('"', '', json_encode($board_ids));
-                                $gn_display_exam->save();
+                                $query = $gn_display_exam->save();
                             } else {
                                 $gn_diaplay_exam =  new Gn_DisplayExamAgencyBoardUniversity();
                                 $gn_diaplay_exam->education_type_id      = $inputs['education_type_id'];
                                 $gn_diaplay_exam->classes_group_exams_id = $inputs['classes_group_exams_id'];
                                 $gn_diaplay_exam->board_id               = str_replace('"', '', json_encode($new_insert_data_diff_name));
-                                $gn_diaplay_exam->save();
+                                $query = $gn_diaplay_exam->save();
                             }
                         }
 
@@ -1083,7 +1117,7 @@ class ExamsController extends Controller
                                 $board_ids = json_decode($gn_display_exam->board_id);
                                 $board_ids = array_merge($board_ids, $this->data['board_multipleMd_name']);
                                 $gn_display_exam->board_id = str_replace('"', '', json_encode($board_ids));
-                                $gn_display_exam->save();
+                                $query = $gn_display_exam->save();
                             } else {
                                 $gn_diaplay_exam =  new Gn_DisplayExamAgencyBoardUniversity();
                                 $gn_diaplay_exam->education_type_id      = $inputs['education_type_id'];
@@ -1114,8 +1148,7 @@ class ExamsController extends Controller
                             $gn_diaplay_exam->education_type_id      = $inputs['education_type_id'];
                             $gn_diaplay_exam->classes_group_exams_id = $inputs['classes_group_exams_id'];
                             $gn_diaplay_exam->board_id               = str_replace('"', '', json_encode($this->data['board_multipleMd_id']));
-                            $queryMd                                 = $gn_diaplay_exam;
-                            $query                                   = $queryMd->save();
+                            $query = $gn_diaplay_exam->save();
                         }
                     }
                 } else {
@@ -1251,7 +1284,27 @@ class ExamsController extends Controller
                 $requestName = 'Other Exam / Class Detail';
                 $requestType = 'otherExam';
 
+                // Ensure name is an array or normalized from string
+                $inputs['name'] = is_array($inputs['name']) ? $inputs['name'] : array_map('trim', explode(',', $inputs['name']));
+
                 if ($inputs['id'] > 0) {
+                    // Resolve names to IDs for update logic (or reuse existing if same name)
+                    $resolvedIds = [];
+                    foreach ($inputs['name'] as $val) {
+                        if (empty($val)) continue;
+                        if (is_numeric($val)) {
+                            $resolvedIds[] = (int)$val;
+                        } else {
+                            $item = Gn_OtherExamClassDetailModel::firstOrCreate([
+                                'name' => $val,
+                                'education_type_id' => $inputs['education_type_id'],
+                                'classes_group_exams_id' => $inputs['classes_group_exams_id'],
+                                'agency_board_university_id' => $inputs['agency_board_university_id']
+                            ]);
+                            $resolvedIds[] = $item->id;
+                        }
+                    }
+                    $inputs['name'] = $resolvedIds;
 
                     $all_other_exam_id = Gn_OtherExamClassDetailModel::get()->pluck('id')->toArray();
                     $other_exam_id     = Gn_OtherExamClassDetailModel::where('education_type_id', '=', $inputs['education_type_id'])->where('classes_group_exams_id', '=', $inputs['classes_group_exams_id'])->where('agency_board_university_id', '=', $inputs['agency_board_university_id'])->get()->pluck('id')->toArray();
@@ -1381,25 +1434,39 @@ class ExamsController extends Controller
                 $subjectIdJson = str_replace('"', '', json_encode($subjectIds));
                 $nameJson = str_replace('"', '', json_encode($name));
 
-                // Create a new mapping entry and save it to the database
-                $mappId = GnResultSubjectMapping::create([
-                    'education_type_id' => $educationTypeId,
-                    'classes_group_exams_id' => $classesGroupExamsId,
-                    'agency_board_university_id' => $agencyBoardUniversityId,
-                    'name' => $nameJson,
-                    'subject_id' => $subjectIdJson,
-                ])->id;
+                if ($req->input('id') > 0) {
+                    $mapping = GnResultSubjectMapping::find($req->input('id'));
+                    $mapping->update([
+                        'education_type_id' => $educationTypeId,
+                        'classes_group_exams_id' => $classesGroupExamsId,
+                        'agency_board_university_id' => $agencyBoardUniversityId,
+                        'name' => $nameJson,
+                        'subject_id' => $subjectIdJson,
+                    ]);
+                    $mappId = $mapping->id;
+                    // Delete old paper details and re-create to sync
+                    SubjectPaperDetail::where('subject_mapping_id', $mappId)->delete();
+                } else {
+                    // Create a new mapping entry and save it to the database
+                    $mappId = GnResultSubjectMapping::create([
+                        'education_type_id' => $educationTypeId,
+                        'classes_group_exams_id' => $classesGroupExamsId,
+                        'agency_board_university_id' => $agencyBoardUniversityId,
+                        'name' => $nameJson,
+                        'subject_id' => $subjectIdJson,
+                    ])->id;
+                }
 
                 foreach ($subjectIds as $sub) {
                     $subject = Subject::find($sub);
-
-                    $subPaper = new SubjectPaperDetail();
-                    $subPaper->subject_id = $subject->id;
-                    $subPaper->subject_mapping_id = $mappId;
-                    $subPaper->subject_name = $subject->name;
-                    $subPaper->save();
+                    if ($subject) {
+                        $subPaper = new SubjectPaperDetail();
+                        $subPaper->subject_id = $subject->id;
+                        $subPaper->subject_mapping_id = $mappId;
+                        $subPaper->subject_name = $subject->name;
+                        $subPaper->save();
+                    }
                 }
-
 
                 return redirect()->back()->with('success', 'Data saved successfully!');
             }

@@ -28,10 +28,10 @@ function inititateSelect2() {
         allowClear: true,
         tags: true
     });
-    $("#board_name_id").select2({
-        placeholder: "Exam/Class",
+    $("#board_name").select2({
+        placeholder: "Enter Qualification",
         allowClear: true,
-        
+        tags: true
     });
     $("#district-ids").select2({
         placeholder: "City Select",
@@ -43,10 +43,10 @@ function inititateSelect2() {
         allowClear: true,
         
     });
-    $("#other_exam_name_id_j").select2({
+    $("#other_exam_name").select2({
         placeholder: "Scholarship Opted For",
         allowClear: true,
-        
+        tags: true
     });
 
     $("#other_exam_name_sub_id").select2({
@@ -80,86 +80,117 @@ if ($("#otherExam_id").val() == 0) {
 
 function resetForm(formName) {
     $('#' + formName + 'Form')[0].reset();
-    if (formName == 'education') {
-        $('#' + formName + '_name').val('');
-    } else {
-        $('#' + formName + '_name').empty();
-    }
-    $('#' + formName + 'FormName').val(formName + '_form');
     $('#' + formName + '_id').val(0);
+    
+    // Trigger change for Select2 elements if any
+    $('#' + formName + 'Form').find('select').val('').trigger('change');
+    
+    // Hide reset button
     $('#' + formName + 'Reset').hide();
 }
 
 function resetSubjectMappingForm() {
     $('#resultSubjectMapForm')[0].reset();
-    $('#other_exam_education_type_sub_id').val(0);
-    $('#other_exam_name_sub_id').parent().find('.select2-selection__clear').trigger('click');
+    $('#resultSubjectMapForm_id').val(0);
+    $('#resultSubjectMapForm').find('select').val('').trigger('change');
     $('#resultSubjectMapFormReset').hide();
 }
 
 function editForm(id, name, formName, education = 0, boards = '', subjects = '', class_exam = '') {
     $('#' + formName + '_id').val(id);
     
-    // Check if the field is an input or a select
+    if (formName == 'class_group_exam' || formName == 'board') {
+        const $idField = $('#' + formName + '_id');
+        const $nameField = $('#' + formName + '_name');
+        
+        $idField.val(id);
+        if ($nameField.is('select') && $nameField.attr('multiple')) {
+            try {
+                // Try parsing as JSON first (for IDs)
+                var values = JSON.parse(name);
+                $nameField.val(values).trigger('change');
+            } catch (e) {
+                // Fallback to splitting by comma (for names)
+                var values = name ? name.split(',').map(s => s.trim()) : [];
+                $nameField.val(values).trigger('change');
+            }
+        } else {
+            $nameField.val(name);
+        }
+
+        if (formName == 'class_group_exam') {
+            $('#exam_education_type_id').val(education).trigger('change');
+        } else if (formName == 'board') {
+            $('#board_education_type_id').val(education).trigger('change');
+            educationTypeChange(education, class_exam).then(() => {
+                $('#board_class_group_exam').val(class_exam).trigger('change');
+            });
+        }
+        $('#' + formName + 'Reset').show();
+        return;
+    }
+
+    // Default handling for other forms
     var $nameField = $('#' + formName + '_name');
     if ($nameField.is('input')) {
         $nameField.val(name);
     } else if ($nameField.is('select')) {
-        $nameField.empty();
-        // For multi-selects, we need to handle JSON or comma-separated strings
         try {
             var parsedValues = JSON.parse(name);
-            if (Array.isArray(parsedValues)) {
-                $nameField.val(parsedValues).trigger('change');
-            } else {
-                $nameField.append("<option value='" + name + "' selected>" + name + "</option>").trigger('change');
+            $nameField.val(parsedValues).trigger('change');
+        } catch (e) {
+            $nameField.val(name).trigger('change');
+        }
+    }
+
+    if (formName == 'otherExam' || formName == 'resultSubjectMapForm') {
+        const idPrefix = formName == 'otherExam' ? 'other_exam' : 'other_exam'; // they share prefix for some fields
+        const isSub = formName == 'resultSubjectMapForm';
+        const suffix = isSub ? '_sub_id' : '_id';
+
+        $('#' + formName + '_id').val(id);
+        
+        if (!isSub) {
+            var $otherExamNameField = $('#other_exam_name');
+            try {
+                var values = JSON.parse(name);
+                $otherExamNameField.val(values).trigger('change');
+            } catch (e) {
+                var values = name ? name.split(',').map(s => s.trim()) : [];
+                $otherExamNameField.val(values).trigger('change');
             }
-        } catch (e) {
-            $nameField.append("<option value='" + name + "' selected>" + name + "</option>").trigger('change');
-        }
-    }
-
-    if (formName == 'class_group_exam') {
-        $('#exam_education_type_id').val(education);
-        
-        // Ensure the select is re-populated with original options from the global 'value' variable
-        var $select = $("#class_group_exam_name");
-        $select.empty().append(value);
-        
-        try {
-            var parsedName = JSON.parse(name);
-            $select.val(parsedName).trigger('change');
-        } catch (e) {
-            console.error("Failed to parse name:", name, e);
-            $select.val([]).trigger('change');
-        }
-        inititateSelect2();
-    }
-
-    if (formName == 'board') {
-        educationTypeChange(education, class_exam);
-        $('#board_education_type_id').val(education);
-        $('#board_class_group_exam').val(class_exam);
-        $('#board_name_id').val(JSON.parse(name));
-        $('#district-ids').val(JSON.parse(name));
-        $('#genders-filters').val(JSON.parse(name));
-        inititateSelect2();
-    }
-
-    if (formName == 'otherExam') {
-
-        other_exam_education_type_change(education).finally(() => {
-            $('#other_exam_class_group_exam_id').val(class_exam);
-            other_exam_classes_group_exams_change(class_exam).finally(() => {
-                $('#other_exam_agency_board_university_id').val(boards);
+            $('#other_exam_education_type_id').val(education).trigger('change');
+            other_exam_education_type_change(education).then(() => {
+                $('#other_exam_class_group_exam' + suffix).val(class_exam).trigger('change');
+                return other_exam_classes_group_exams_change(class_exam);
+            }).then(() => {
+                $('#other_exam_agency_board_university' + suffix).val(boards).trigger('change');
             });
-        });
-        $('#other_exam_education_type_id').val(education);
-        $("#other_exam_name_id").empty();
-        $("#other_exam_name_id").append(other_exam_name_id);
-        $('#other_exam_name_id').val(JSON.parse(name));
-        inititateSelect2();
+        } else {
+            // Result Subject Mapping Form
+            $('#other_exam_education_type_sub_id').val(education).trigger('change');
+            
+            other_exam_education_type_change(education, 'resultMapping').then(() => {
+                $('#other_exam_class_group_exam_sub_id').val(class_exam).trigger('change');
+                return other_exam_classes_group_exams_sub_change(class_exam);
+            }).then(() => {
+                $('#other_exam_agency_board_university_sub_id').val(boards).trigger('change');
+                return other_exam_classes_scholarship_opt_sub_change(boards);
+            }).then(() => {
+                try {
+                    var parsedOpted = (typeof name === 'string' && name.startsWith('[')) ? JSON.parse(name) : name;
+                    $('#other_exam_name_sub_id').val(parsedOpted).trigger('change');
+                } catch(e) { $('#other_exam_name_sub_id').val(name).trigger('change'); }
+                
+                try {
+                    var parsedSubjects = (typeof subjects === 'string' && subjects.startsWith('[')) ? JSON.parse(subjects) : subjects;
+                    $('#result_subject_mapping_id').val(parsedSubjects).trigger('change');
+                } catch(e) { $('#result_subject_mapping_id').val(subjects).trigger('change'); }
+            });
+        }
 
+        $('#' + formName + 'Reset').show();
+        return;
     }
     if (formName == 'class') {
         $('#education_type_id').val(education);

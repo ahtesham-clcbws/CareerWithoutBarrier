@@ -11,8 +11,8 @@
     }
 </style>
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXlHj5/3pQTcVb9IWJtxH8gb+G7CeGpC/1Ch5n6U3e47PPCe3pI0FepfO4Gk" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.min.js" integrity="sha384-2LR0miTWKIH7K3y5lRETXdpQ3hTxk2l7X2+67G9AkQIowmEl4aI1OVVgD9F0kQlK" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.min.js"></script>
 
 <div class="row py-5 pl-3 pr-3">
     <div class="container p-0">
@@ -167,12 +167,14 @@
                                             @endif
                                         </td>
                                         <td>
+                                            @php $examNames = []; @endphp
                                             @foreach($exam->class_exam as $class_group_exam_name)
                                             <span class="commaSeperatedSpan">{{ $class_group_exam_name->name }}</span>
+                                            @php $examNames[] = $class_group_exam_name->name; @endphp
                                             @endforeach
                                         </td>
                                         <td class="text-end">
-                                            <a href="javascript:void(0);"><i class="bi bi-pencil-square text-success me-2" onclick="editForm( {{ $exam['id'] }}, '{{ $exam['class_group_exam_name'] }}', 'class_group_exam', '{{ $exam['education_type_id'] }}')"></i></a>
+                                            <a href="javascript:void(0);"><i class="bi bi-pencil-square text-success me-2" onclick="editForm( {{ $exam['id'] }}, '{{ implode(', ', $examNames) }}', 'class_group_exam', '{{ $exam['education_type_id'] }}')"></i></a>
                                             <a href="javascript:void(0);"><i class="bi bi-trash2-fill text-danger" onclick="deleteClassGroup({{ $exam['id'] }}, {{ $exam['education_type_id'] }})"></i></a>
                                         </td>
                                     </tr>
@@ -222,10 +224,10 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="board_name_id" class="form-label">Qualification</label>
-                                <select class="form-select form-select-sm" multiple id="board_name_id" name="name[]" required>
-                                    @foreach($data['boards'] as $boards)
-                                    <option value="{{ $boards->id }}"> {{ $boards->name }}</option>
+                                <label for="board_name" class="form-label">Qualification</label>
+                                <select class="form-select form-select-sm" multiple id="board_name" name="name[]" required>
+                                    @foreach($data['boards'] as $board)
+                                    <option value="{{ $board->id }}">{{ $board->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -271,8 +273,13 @@
                                         </td>
                                         <td>
                                             @if(!empty($board['board_id']))
+                                            @php $boardNames = []; @endphp
                                             @foreach(json_decode($board['board_id']) as $board1)
-                                            <span class="commaSeperatedSpan">{{ \App\Models\BoardAgencyStateModel::find($board1)->name }}</span>
+                                            @php 
+                                                $b = \App\Models\BoardAgencyStateModel::find($board1);
+                                                if($b) $boardNames[] = $b->name;
+                                            @endphp
+                                            <span class="commaSeperatedSpan">{{ $b ? $b->name : '-' }}</span>
                                             @endforeach
                                             @else
                                             {{ '-' }}
@@ -280,11 +287,11 @@
                                         </td>
                                         <td class="text-end">
                                             <a href="javascript:void(0);">
-                                                <i class="bi bi-pencil-square text-success me-2" onclick="editForm({{ $board['id'] }}, '{{ $board['board_id'] }}', 'board','{{ $board->education_type_id }}','','','{{ $board->classes_group_exams_id }}')">
+                                                <i class="bi bi-pencil-square text-success me-2" onclick="editForm({{ $board['id'] }}, '{{ $board['board_id'] }}', 'board', '{{ $board->education_type_id }}', '', '', '{{ $board->classes_group_exams_id }}')">
                                                 </i>
                                             </a>
                                             <a href="javascript:void(0);">
-                                                <i class="bi bi-trash2-fill text-danger" onclick="deleteExamAgencyBoard({{ $board['education_type_id'] }},{{ $board['classes_group_exams_id'] }},{{ $board['board_id'] }},{{ $board['id'] }})">
+                                                <i class="bi bi-trash2-fill text-danger" onclick="deleteExamAgencyBoard({{ $board['education_type_id'] }}, '{{ $board['classes_group_exams_id'] }}', '{{ $board['board_id'] }}', '{{ $board['id'] }}')">
                                                 </i>
                                             </a>
                                         </td>
@@ -329,29 +336,22 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="education_type_id" class="form-label">Education Type</label>
-                                <select class="form-select form-select-sm" id="other_exam_class_group_exam_id" name="classes_group_exams_id" onchange="other_exam_classes_group_exams_change(this.value)" {{ count($data['educations']) ? '' : 'disabled' }} required>
+                                <label for="other_exam_class_group_exam_id" class="form-label">Education Type</label>
+                                <select class="form-select form-select-sm" id="other_exam_class_group_exam_id" name="classes_group_exams_id" onchange="other_exam_classes_group_exams_change(this.value)" disabled required>
                                     <option value=""></option>
-                                    @foreach ($data['educations'] as $key => $education)
-                                    <option value="{{ $education['id'] }}">{{ $education['name'] }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="other_exam_agency_board_university_id" class="form-label">Qualification</label>
-                                <select class="form-select form-select-sm" id="other_exam_agency_board_university_id" name="agency_board_university_id" {{ count($data['educations']) ? '' : 'disabled' }} required>
+                                <select class="form-select form-select-sm" id="other_exam_agency_board_university_id" name="agency_board_university_id" disabled required>
                                     <option value=""></option>
-                                    @foreach ($data['educations'] as $key => $education)
-                                    <option value="{{ $education['id'] }}">{{ $education['name'] }}</option>
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="other_exam_name_id" class="form-label">Scholarship Opted For</label>
-                                <select class="form-select form-select-sm" multiple id="other_exam_name_id_j" name="name[]" required>
-                                    <option value=""></option>
-                                    @foreach($data['gn_other_exam_classes']->unique('name') as $gn_other_exam_classes)
-                                    <option value="{{ $gn_other_exam_classes->name }}">{{ $gn_other_exam_classes->name }}</option>
+                                <label for="other_exam_name" class="form-label">Scholarship Opted For</label>
+                                <select class="form-select form-select-sm" multiple id="other_exam_name" name="name[]" required>
+                                    @foreach($data['gn_other_exam_classes'] as $gn_other_exam_classes)
+                                    <option value="{{ $gn_other_exam_classes->id }}">{{ $gn_other_exam_classes->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -405,8 +405,13 @@
                                         </td>
                                         <td>
                                             @if(!empty($other_exam_class['other_exam_id']))
-                                            @foreach(json_decode($other_exam_class['other_exam_id']) as $other_exam_id)
-                                            <span class="commaSeperatedSpan">{{ \App\Models\Gn_OtherExamClassDetailModel::find($other_exam_id)->name }}</span>
+                                            @php $optedNames = []; @endphp
+                                            @foreach(json_decode($other_exam_class['other_exam_id']) as $opted_id)
+                                                @php 
+                                                    $opt = \App\Models\Gn_OtherExamClassDetailModel::find($opted_id);
+                                                    if($opt) $optedNames[] = $opt->name;
+                                                @endphp
+                                                <span class="commaSeperatedSpan">{{ $opt ? $opt->name : '-' }}</span>
                                             @endforeach
                                             @endif
                                         </td>
@@ -456,19 +461,19 @@
                             </div>
                             <div class="mb-3">
                                 <label for="classes_group_exams_id" class="form-label">Education Type</label>
-                                <select class="form-select form-select-sm" id="other_exam_class_group_exam_sub_id" name="classes_group_exams_id" onchange="other_exam_classes_group_exams_sub_change(this.value)" {{ count($data['educations']) ? '' : 'disabled' }} required>
+                                <select class="form-select form-select-sm" id="other_exam_class_group_exam_sub_id" name="classes_group_exams_id" onchange="other_exam_classes_group_exams_sub_change(this.value)" disabled required>
                                     <option value=""></option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="agency_board_university_id" class="form-label">Qualification</label>
-                                <select class="form-select form-select-sm" id="other_exam_agency_board_university_sub_id" onchange="other_exam_classes_scholarship_opt_sub_change(this.value)" name="agency_board_university_id" {{ count($data['educations']) ? '' : 'disabled' }} required>
+                                <select class="form-select form-select-sm" id="other_exam_agency_board_university_sub_id" onchange="other_exam_classes_scholarship_opt_sub_change(this.value)" name="agency_board_university_id" disabled required>
                                     <option value=""></option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="other_exam_name_sub_id" class="form-label">Scholarship Opted For</label>
-                                <select class="form-select form-select-sm" multiple id="other_exam_name_sub_id" name="name[]" required>
+                                <select class="form-select form-select-sm" multiple id="other_exam_name_sub_id" name="name[]" disabled required>
                                     <option value=""></option>
                                 </select>
                             </div>
@@ -555,6 +560,9 @@
                                         </td>
 
                                         <td class="text-end">
+                                            <a href="javascript:void(0);">
+                                                <i class="bi bi-pencil-square text-success me-2" onclick="editForm({{ $resultSubjectMapping->id }}, '{{ $resultSubjectMapping->name }}', 'resultSubjectMapForm', '{{ $resultSubjectMapping->education_type_id }}', '{{ $resultSubjectMapping->agency_board_university_id }}', '{{ $resultSubjectMapping->subject_id }}', '{{ $resultSubjectMapping->classes_group_exams_id }}')"></i>
+                                            </a>
                                             <a href="javascript:void(0);"><i class="bi bi-trash2-fill text-danger" onclick="deleteresultSubjectMapFormClass({{ $resultSubjectMapping->id }})"></i></a>
                                         </td>
                                     </tr>
@@ -650,6 +658,7 @@
 </script>
 <script>
    $(document).ready(function() {
+    inititateSelect2();
     $('.save-btn-mapp').on('click', function(e) {
         e.preventDefault();
 
