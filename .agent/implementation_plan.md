@@ -7,12 +7,17 @@ The "Fill Subjects Details" modal in the administrator course education-type pag
 ### [Course Education-Type View]
 
 #### [MODIFY] [sholarship_category.blade.php](file:///i:/CareerWithoutBarrier/career-without-barrier/resources/views/administrator/courses/sholarship_category.blade.php)
-- Update modal trigger button to use Bootstrap 5 attributes:
-    - Change `data-toggle="modal"` to `data-bs-toggle="modal"`.
-    - Change `data-target="#importModal..."` to `data-bs-target="#importModal..."`.
-- Update modal markup to be compatible with Bootstrap 5:
-    - Update close button class and attributes (from `.close` + `data-dismiss` to `.btn-close` + `data-bs-dismiss`).
-    - Ensure modal structure follows BS5 standards.
+- Updated modal trigger button to use Bootstrap 5 attributes (`data-bs-toggle`, `data-bs-target`).
+- Updated modal markup and close buttons (`btn-close`, `data-bs-dismiss`).
+
+---
+
+### [Student Result View]
+
+#### [MODIFY] [student_result.blade.php](file:///i:/CareerWithoutBarrier/career-without-barrier/resources/views/administrator/dashboard/student_result.blade.php)
+- Update "Import Result" and "Generate Scholarship Claims" buttons to use BS5 attributes.
+- Standardize modal headers and close buttons to use `.btn-close` and `data-bs-dismiss`.
+- Ensure all modals use `data-bs-backdrop="static"` or standard BS5 behavior if needed.
 
 ## Verification Plan
 

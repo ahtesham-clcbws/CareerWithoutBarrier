@@ -26,11 +26,11 @@ use App\Models\StudentPaperExported;
                 <h2>Student Result and Claim Form</h2>
             </div>
             <div class="col-md-6 col text-end">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importModal">
                     Import Result
                 </button>
                 @if(auth()->user()->roles == 'admin')
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#claimLoginForm">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#claimLoginForm">
                     Generate Scholarship Claims
                 </button>
                 @endif
@@ -213,7 +213,7 @@ use App\Models\StudentPaperExported;
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Generate</button>
             </div>
         </form>
@@ -228,9 +228,7 @@ use App\Models\StudentPaperExported;
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="importModalLabel">Import Result</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="{{ route('student_papers.import') }}" method="POST" enctype="multipart/form-data">

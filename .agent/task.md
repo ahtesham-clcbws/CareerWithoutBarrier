@@ -67,3 +67,8 @@
     - [x] Update modal structure and close button for Bootstrap 5
     - [x] Verify fix
 
+- [x] Fix Administrator Student Result Modal
+    - [x] Update modal trigger attributes to Bootstrap 5
+    - [x] Update modal structures and close buttons for Bootstrap 5
+    - [x] Verify fix
+
