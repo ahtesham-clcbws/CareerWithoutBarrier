@@ -62,3 +62,8 @@
     - [x] Handle payment callback and trigger page reload/success
     - [x] Verify seamless payment flow
 
+- [x] Fix Administrator Course Education-Type Modal
+    - [x] Update modal trigger attributes to Bootstrap 5
+    - [x] Update modal structure and close button for Bootstrap 5
+    - [x] Verify fix
+

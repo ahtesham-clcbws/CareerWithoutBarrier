@@ -551,7 +551,7 @@
                                         </td>
                                         <td>
                                             <div class="col-md-6 col text-end">
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importModal{{$key+1}}">
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importModal{{$key+1}}">
                                                     Fill Subjects Details
                                                 </button>
                                             </div>
@@ -583,9 +583,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="importModalLabel">Subject Max Marks Insert</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="card-body" style="max-height: 517px; overflow-y: auto;">

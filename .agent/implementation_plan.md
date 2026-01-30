@@ -1,29 +1,23 @@
-# Integrate In-Place Razorpay Payment
+# Fix "Fill Subjects Details" Modal Visibility
 
-The user wants the Razorpay payment modal to open directly on the Student Dashboard (Livewire page) instead of redirecting to a separate route. After payment, the page should refresh to reflect the new state.
+The "Fill Subjects Details" modal in the administrator course education-type page is not visible when triggered. This is likely due to a conflict between Bootstrap 4/5 versions and the use of outdated data attributes.
 
 ## Proposed Changes
 
-### [Component Name] Payment View
-#### [MODIFY] [payment-page.blade.php](file:///i:/CareerWithoutBarrier/career-without-barrier/resources/views/livewire/student/payment-page.blade.php)
-- Include `<script src="https://checkout.razorpay.com/v1/checkout.js"></script>`.
-- Add a hidden form to handle the payment response and submit it to the backend.
-- Replace the "Pay Now" submit button with a button that triggers a JavaScript `payWithRazorpay()` function.
-- Implement `payWithRazorpay()` to open the Razorpay modal with pre-filled student data and the correct fee amount.
-- Handle the `handler` callback to submit the hidden form.
+### [Course Education-Type View]
 
-### [Component Name] Controller
-#### [MODIFY] [Razorpay.php](file:///i:/CareerWithoutBarrier/career-without-barrier/app/Http/Controllers/Razorpay.php)
-- No significant changes needed to the `store` method as it already handles the POST request and redirects back to the dashboard, fulfilling the "automatic reload" requirement.
+#### [MODIFY] [sholarship_category.blade.php](file:///i:/CareerWithoutBarrier/career-without-barrier/resources/views/administrator/courses/sholarship_category.blade.php)
+- Update modal trigger button to use Bootstrap 5 attributes:
+    - Change `data-toggle="modal"` to `data-bs-toggle="modal"`.
+    - Change `data-target="#importModal..."` to `data-bs-target="#importModal..."`.
+- Update modal markup to be compatible with Bootstrap 5:
+    - Update close button class and attributes (from `.close` + `data-dismiss` to `.btn-close` + `data-bs-dismiss`).
+    - Ensure modal structure follows BS5 standards.
 
 ## Verification Plan
 
-### Automated Verification
-- Check for the existence of the Razorpay script in the page source.
-- Verify the "Pay Now" button attributes.
-
 ### Manual Verification
-- Log in as a student.
-- Click "Review & Pay" then "Pay Now".
-- Confirm the Razorpay modal opens without a page redirect.
-- Ensure that after entering test credentials and "paying", the page reloads back to the dashboard with a success message.
+- Navigate to `/administrator/course/education-type`.
+- Click on "Fill Subjects Details" in the last table.
+- Verify the modal opens and is clearly visible.
+- Verify close button and backdrop work correctly.
