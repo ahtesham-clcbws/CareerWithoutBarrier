@@ -8,6 +8,7 @@
             width: 50% !important;
         }
     </style>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
                                                         @php
                                                             $couponDetails = getCouponDetails(
                                                                 $student?->latestStudentCode?->coupan_code ?? null,
@@ -113,7 +114,7 @@
                                             <td class="text-center" colspan="4">
                                                 <button class="bg-success btn-lg btn action-button text-white"
                                                     id="exampleModalCenterButton" type="button"
-                                                    wire:click="$toggle('modalOpened')"><b>Pay Now</b></button>
+                                                    wire:click="$toggle('modalOpened')"><b>Review & Pay</b></button>
                                             </td>
                                         </tr>
                                     @else
@@ -196,8 +197,13 @@
 
     <div class="modal fade @if ($modalOpened) show d-block @endif" id="exampleModalCenter"
         role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" tabindex="-1">
-        <form id="couponForm" action="{{ route('student.paymentCreate') }}" method="get">
+
+        <form id="razorpayForm" action="{{ route('razorpay.payment.store') }}" method="POST" style="display: none;">
             @csrf
+            <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+        </form>
+
+        <form id="couponForm" action="{{ route('student.paymentCreate') }}" method="get">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -276,7 +282,7 @@
                         @if (
                             !$student->latestStudentCode?->is_paid &&
                                 ($student->latestStudentCode?->is_coupan_code_applied ? $student->latestStudentCode?->fee_amount > 0 : true))
-                            <button class="btn btn-primary" type="submit">Pay Now</button>
+                            <button class="btn btn-primary" type="button" onclick="payWithRazorpay()">Pay Now</button>
                         @endif
                     </div>
                 </div>
@@ -287,6 +293,34 @@
     <div class="modal-backdrop fade @if ($modalOpened) show @else d-none @endif"></div>
 
     <script>
+        function payWithRazorpay() {
+            var options = {
+                "key": "{{ config('services.razorpay.key') }}",
+                "amount": "{{ ($student->latestStudentCode?->is_coupan_code_applied ? $student->latestStudentCode?->fee_amount : 750) * 100 }}",
+                "currency": "INR",
+                "name": "{{ config('app.name', 'Career Without Barrier') }}",
+                "description": "Payment for Scholarship Application",
+                "image": "{{ asset('website/assets/images/fav-icon.png') }}",
+                "handler": function(response) {
+                    document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+                    document.getElementById('razorpayForm').submit();
+                },
+                "prefill": {
+                    "name": "{{ $student->name }}",
+                    "email": "{{ $student->email }}",
+                    "contact": "{{ $student->mobile }}"
+                },
+                "theme": {
+                    "color": "#18c968"
+                }
+            };
+            var rzp = new Razorpay(options);
+            rzp.on('payment.failed', function(response) {
+                alert("Payment failed: " + response.error.description);
+            });
+            rzp.open();
+        }
+
         function printDocument() {
             let printContent = document.getElementById('prodiv').innerHTML;
             let popupWin = window.open('', '_blank', 'width=1100,height=600');

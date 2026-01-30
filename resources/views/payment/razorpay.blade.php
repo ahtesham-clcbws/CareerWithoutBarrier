@@ -29,18 +29,22 @@ $feeAmount = $studentFee->is_coupan_code_applied ? $studentFee->fee_amount : 750
                                 Do not press the back button until the payment is successful.
                             </div>
                             <div class="card-body text-center">
-                                <form action="{{route('razorpay.payment.store')}}" method="POST">
+                                <form action="{{ route('razorpay.payment.store') }}" method="POST" id="razorpay-form">
                                     @csrf
-                                    <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                        data-key="{{ env('RAZORPAY_KEY') }}" data-amount="{{$feeAmount}}00"
-                                        data-currency="INR" data-buttontext="Pay {{$feeAmount}} INR"
-                                        data-name="{{ env('APP_NNAME', 'Career Without Barrier') }}" data-description="Razorpay"
-                                        data-image="{{ asset('website/assets/images/fav-icon.png') }}"
-                                        data-prefill.name="{{ $student->name }}"
-                                        data-prefill.email="{{ $student->email }}"
-                                        data-prefill.contact="{{ $student->mobile }}" data-theme.color="#F3F3F3"></script>
+                                    <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="{{ config('services.razorpay.key') }}"
+                                        data-amount="{{ $feeAmount }}00" data-currency="INR" data-buttontext="Pay {{ $feeAmount }} INR"
+                                        data-name="{{ config('app.name', 'Career Without Barrier') }}" data-description="Razorpay"
+                                        data-image="{{ asset('website/assets/images/fav-icon.png') }}" data-prefill.name="{{ $student->name }}"
+                                        data-prefill.email="{{ $student->email }}" data-prefill.contact="{{ $student->mobile }}"
+                                        data-theme.color="#F3F3F3"></script>
                                 </form>
                             </div>
+                            <script>
+                                $(document).ready(function() {
+                                    // Auto-click the Razorpay payment button on page load
+                                    $('.razorpay-payment-button').click();
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>

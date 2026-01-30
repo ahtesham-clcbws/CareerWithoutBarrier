@@ -45,4 +45,20 @@
     - [x] Rename Admin routes (prefix `admin.`) in `routes/admin.php`
     - [ ] Compare `routes/corporate.php` and others for duplicates
     - [ ] Rename Corporate/Institute routes if necessary
-    - [ ] Global search and replace for each renamed route in `app/` and `resources/views/`
+    - [x] Resolve Vite Environment Issue
+    - [x] Run `npm install` to regenerate shims
+    - [x] Verify `vite.cmd` existence
+    - [x] Confirm `composer dev` works
+- [x] Debug Razorpay Payment Flow
+    - [x] Move Razorpay credentials to `config/services.php`
+    - [x] Update `Razorpay.php` controller to use `config()`
+    - [x] Update `razorpay.blade.php` with auto-opening modal logic
+    - [x] Remove redundant `@csrf` from `payment-page.blade.php`
+    - [x] Verify fix
+- [x] Integrate In-Place Razorpay Payment
+    - [x] Add Razorpay checkout script to `payment-page.blade.php`
+    - [x] Implement JavaScript to open Razorpay modal directly
+    - [x] Update "Pay Now" button to trigger in-place checkout
+    - [x] Handle payment callback and trigger page reload/success
+    - [x] Verify seamless payment flow
+

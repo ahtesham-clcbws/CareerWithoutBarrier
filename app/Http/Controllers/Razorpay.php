@@ -10,6 +10,7 @@ use App\Models\StudentPayment;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Razorpay\Api\Api;
 
 class Razorpay extends Controller
@@ -38,7 +39,7 @@ class Razorpay extends Controller
 
         $paymentSettings = PaymentSetting::first();
 
-        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
 
         // if($paymentSettings)
         // $api = new Api($paymentSettings->key_id, $paymentSettings->key_secret);
@@ -74,13 +75,13 @@ class Razorpay extends Controller
                 return redirect()->route('student.payment')->with(['success' => 'Paid successfully']);
             } catch (Exception $e) {
                 logger('payment save failed:', [$e]);
-                \Session::put('error', $e->getMessage());
+                Session::put('error', $e->getMessage());
              
                 return redirect()->back()->with('error', $e->getMessage());
             }
         }
    
-        \Session::put('success', 'Payment Successful');
+        Session::put('success', 'Payment Successful');
         return redirect()->back()->with('success', 'Payment Successful');
     }
 }
