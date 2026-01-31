@@ -31,3 +31,4 @@ storage/debugbar
 
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
+/public/upload
