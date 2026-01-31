@@ -48,8 +48,7 @@ use Illuminate\Support\Carbon;
                   <p class="s10" style="padding: 12pt;text-indent: 0pt;text-align: left;">Candidate’s Name</p>
                </td>
                <td style="width:129pt" class="tb1">
-                  <p class="s10" style="padding: 10pt;text-indent: 0pt;text-align: left;">Viramaditya Signh
-                     Rajvanshi</p>
+                  <p class="s10" style="padding: 10pt;text-indent: 0pt;text-align: left;">{{ucfirst($student->name)}}</p>
                </td>
                <td style="width:75pt;" class="tb1">
                   <p class="s10" style="padding: 12pt;text-indent: 0pt;text-align: left;">Roll No</p>
@@ -70,7 +69,7 @@ use Illuminate\Support\Carbon;
                      Father’s Name</p>
                </td>
                <td style="width:129pt;" class="tb1">
-                  <p class="s10" style="padding: 10pt;padding-left: 11pt;text-indent: 0pt;text-align: left;">{{ucfirst($student->name)}}</p>
+                  <p class="s10" style="padding: 10pt;padding-left: 11pt;text-indent: 0pt;text-align: left;">{{ucfirst($student->father_name)}}</p>
                </td>
                <td style="width:75pt;" class="tb1">
                   <p class="s10" style="padding: 9pt;padding-left: 11pt;text-indent: 0pt;text-align: left;">

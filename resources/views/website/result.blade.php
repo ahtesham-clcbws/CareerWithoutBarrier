@@ -253,8 +253,7 @@
                 </td>
                 <td style="width:129pt" class="tb1">
                     <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br /></p>
-                    <p class="s10" style="padding-left: 10pt;text-indent: 0pt;text-align: left;">Viramaditya Signh
-                        Rajvanshi</p>
+                    <p class="s10" style="padding-left: 10pt;text-indent: 0pt;text-align: left;">{{ucfirst($student->name)}}</p>
                 </td>
                 <td style="width:75pt;" class="tb1">
                     <p style="padding-top: 1pt;text-indent: 0pt;text-align: left;"><br /></p>
