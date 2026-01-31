@@ -318,7 +318,7 @@
             </center>
         </div>
 
-        @if ($appCode->allow_to_claim_scholarship)
+        @if ($student->scholarship_claim_generation_id)
             <div class="col-md-12 mt-2" align="center">
                 <button class="btn btn-md btn-success" data-toggle="modal" data-target="#myModal" type="button">
                     Claim Your Scholarship
