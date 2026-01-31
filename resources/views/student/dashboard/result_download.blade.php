@@ -38,7 +38,7 @@
                             <div style="margin-top: 15px;margin-bottom: 15px;text-align:center">
                                 <h3 style="color:#1015cd;font-weight: 900;font-size: large;">CAREER PREP SCHOLARSHIP EXAM
                                 </h3>
-                                <h5 style="color:#00a64b">Scholarship Test Result- 2024 (Phase-I)</h5>
+                                <h5 style="color:#00a64b">Scholarship Test Result - {{ date('Y') }} (Phase-I)</h5>
                             </div>
                         </td>
                         <td>
