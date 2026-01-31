@@ -327,7 +327,7 @@
         @endif
 
         <div class="col-md-12 mt-2" align="center">
-            <button class="btn btn-sm btn-info" data-print="modal" type="button" style="width: 6rem;height: 2.65rem;"
+            <button class="btn btn-sm btn-info" data-print="modal" type="button"
                 onclick="PrintDoc()">Print <i class="fa fa-print" style="margin-left: 7px;"></i></button>
         </div>
 
