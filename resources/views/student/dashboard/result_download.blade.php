@@ -281,25 +281,25 @@
                         </td>
                     </tr>
                     <tr style="height:26pt">
-                        <td class="tb1" style="width:268pt" colspan="3">
+                        <td class="tb1" style="width:50%" colspan="3">
                             <p class="s15"
                                 style="padding-top: 7pt;padding-left: 88pt;text-indent: 0pt;text-align: left;">
                                 All
                                 India Rank - {{ $appCode->rank }}</p>
                         </td>
-                        <td class="tb1" style="width:267pt">
+                        <td class="tb1" style="width:50%">
                             <p class="s15"
                                 style="padding-top: 7pt;padding-left: 83pt;text-indent: 0pt;text-align: left;">
                                 State Rank - {{ $appCode->state_rank }}</p>
                         </td>
                     </tr>
                     <tr style="height:26pt">
-                        <td class="tb1" style="width:268pt;" colspan="3">
+                        <td class="tb1" style="width:50%;" colspan="3">
                             <p class="s15"
                                 style="padding-top: 4pt;padding-left: 90pt;text-indent: 0pt;text-align: left;">
                                 Gender Rank - {{ $appCode->gender_rank }}</p>
                         </td>
-                        <td class="tb1" style="width:267pt;">
+                        <td class="tb1" style="width:50%;">
                             <p class="s15"
                                 style="padding-top: 5pt;padding-left: 71pt;text-indent: 0pt;text-align: left;">
                                 District - {{ $appCode->district_rank }}</p>
