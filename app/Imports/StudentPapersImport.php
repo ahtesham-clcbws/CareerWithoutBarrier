@@ -52,20 +52,13 @@ class StudentPapersImport implements ToCollection, WithHeadingRow
                             // Calculate marks per question: max_marks / total_questions
                             $perQuestionMark = $subjPaper->total_questions > 0 ? ($subjPaper->max_marks / $subjPaper->total_questions) : 0;
                             
-                            $wrongAnswers = intval($row['wrong_answers']);
-                            $rightAnswers = intval($row['right_answers']);
-                            $attemptedQuestions = $wrongAnswers + $rightAnswers;
-                            $skippedQuestions = $subjPaper->total_questions - $attemptedQuestions;
+                            $subjectRightCount = intval($row[$subjectName]);
                             
-                            $wrongDeduction = $wrongAnswers * ($subjPaper->negative_marks_wrong ?? 0);
-                            $skippedDeduction = $skippedQuestions * ($subjPaper->negative_marks_skipped ?? 0);
-                            
-                            $obtainedMarks = ($rightAnswers * $perQuestionMark) - $wrongDeduction - $skippedDeduction;
-
-                            $studPaper->obtained_marks = $obtainedMarks;
-                            $studPaper->wrong_answers = $wrongAnswers;
-                            $studPaper->right_answers = $rightAnswers;
-                            $studPaper->attempted_questions = $attemptedQuestions;
+                            // Gross marks for this subject (without penalties)
+                            $studPaper->obtained_marks = $subjectRightCount * $perQuestionMark;
+                            $studPaper->wrong_answers = intval($row['wrong_answers']);
+                            $studPaper->right_answers = intval($row['right_answers']);
+                            $studPaper->attempted_questions = intval($row['wrong_answers']) + intval($row['right_answers']);
                             $studPaper->total_questions = $subjPaper->total_questions;
                             $studPaper->is_imported = true;
                             $studPaper->save();
@@ -73,12 +66,29 @@ class StudentPapersImport implements ToCollection, WithHeadingRow
                     }
 
                     $student = Student::find($studentPapers->first()?->student_id);
-
                     $appCode = $student?->latestStudentCode;
 
+                    // Calculate total penalties using paper-wide totals from any row (they are all the same)
+                    $firstPaper = $studentPapers->first();
+                    $subjPaperDef = $firstPaper->subjectPaperDetail;
+                    
+                    $totalWrong = intval($row['wrong_answers']);
+                    $totalRight = intval($row['right_answers']);
+                    $totalQs = $studentPapers->sum('total_questions');
+                    $totalAttempted = $totalWrong + $totalRight;
+                    $totalSkipped = $totalQs - $totalAttempted;
+
+                    $wrongPenalty = $subjPaperDef ? ($subjPaperDef->negative_marks_wrong ?? 0) : 0;
+                    $skippedPenalty = $subjPaperDef ? ($subjPaperDef->negative_marks_skipped ?? 0) : 0;
+                    
+                    $totalPenalty = ($totalWrong * $wrongPenalty) + ($totalSkipped * $skippedPenalty);
+                    
+                    $grossObtainedMarks = $studentPapers->sum('obtained_marks');
+                    $netObtainedMarks = $grossObtainedMarks - $totalPenalty;
+
                     $appCode->total_max_marks = $studentPapers->sum('max_marks');
-                    $appCode->total_obtained_marks = $studentPapers->sum('obtained_marks');
-                    $appCode->percentage = (floatval($studentPapers->sum('obtained_marks')) / floatval($studentPapers->sum('max_marks'))) * 100;
+                    $appCode->total_obtained_marks = $netObtainedMarks;
+                    $appCode->percentage = ($appCode->total_max_marks > 0) ? round(($netObtainedMarks / $appCode->total_max_marks) * 100, 2) : 0;
                     $appCode->save();
                 }
             }

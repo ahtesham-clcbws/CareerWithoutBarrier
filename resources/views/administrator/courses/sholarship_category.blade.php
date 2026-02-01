@@ -579,7 +579,7 @@
 <!-- Student paper import Subject details start modal -->
 @foreach ($data['resultSubjectMappings'] as $key => $resultSubjectMapping)
 <div class="modal fade" id="importModal{{$key+1}}" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="importModalLabel">Subject Max Marks Insert</h5>

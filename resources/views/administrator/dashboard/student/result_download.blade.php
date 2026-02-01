@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 $totalMax = 0;
 $totalObtained = 0;
-$totalQuestions = 0;
+$totalQuestionsCount = 0;
 $attempted_questions = 0;
-$studentPaperDetail = null;
+$right_answers = 0;
+$wrong_answers = 0;
+$totalPenalty = 0;
 $notAttemptedQuestions = 0;
 ?>
 <div class="container pagecontentbody pt-5 pb-3">
@@ -183,80 +185,91 @@ $notAttemptedQuestions = 0;
                      {{$studentPaperDetail?->subject_name}}
                   </p>
                </td>
-               <td style="width:184pt;" class="tb1">
-                  <p class="s13" style="padding-top: 7pt;padding-left: 39pt;text-indent: 0pt;text-align: left;">
-                     <?php
-                     $subjectPaper = DB::table('subject_paper_details')
-                        ->where('subject_mapping_id', $studentPaperDetail?->subject_mapping_id)
-                        ->where('subject_id', $studentPaperDetail?->subject_id)->first();
+                <td style="width:184pt;" class="tb1">
+                   <p class="s13" style="padding-top: 7pt;padding-left: 39pt;text-indent: 0pt;text-align: left;">
+                      <?php
+                      $subjectPaper = DB::table('subject_paper_details')
+                         ->where('subject_mapping_id', $studentPaperDetail?->subject_mapping_id)
+                         ->where('subject_id', $studentPaperDetail?->subject_id)->first();
+                      
+                      $totalObtained += $studentPaperDetail?->obtained_marks; // This is now gross marks per subject
+                      $totalMax +=  $subjectPaper->max_marks;
+                      $totalQuestionsCount +=  $subjectPaper->total_questions;
+                      
+                      // Paper-wide totals are same in every row, so we just capture them
+                      $right_answers = $studentPaperDetail->right_answers;
+                      $wrong_answers = $studentPaperDetail->wrong_answers;
+                      $attempted_questions = $studentPaperDetail->attempted_questions;
 
-                     $perQuestionMark = $subjectPaper->total_questions > 0 ? ($subjectPaper->max_marks / $subjectPaper->total_questions) : 0;
-                     $wrongDeduction = $studentPaperDetail->wrong_answers * ($subjectPaper->negative_marks_wrong ?? 0);
-                     $skippedQuestions = $subjectPaper->total_questions - $studentPaperDetail->attempted_questions;
-                     $skippedDeduction = $skippedQuestions * ($subjectPaper->negative_marks_skipped ?? 0);
-                     
-                     $currentObtained = ($studentPaperDetail->right_answers * $perQuestionMark) - $wrongDeduction - $skippedDeduction;
-                     
-                     $totalObtained += $currentObtained;
-                     $totalMax +=  $subjectPaper->max_marks;
-                     $totalQuestions +=  $subjectPaper->total_questions;
-                     $attempted_questions += $studentPaperDetail->attempted_questions;
+                      echo   $subjectPaper->max_marks;
+                      ?>
 
-                     $notAttemptedQuestions = $totalQuestions - $attempted_questions;
-                     echo   $subjectPaper->max_marks;
-                     ?>
-
-                  </p>
-               </td>
+                   </p>
+                </td>
                 <td style="width:163pt;" class="tb1">
                    <p class="s13" style="padding-top: 7pt;padding-left: 32pt;text-indent: 0pt;text-align: left;">
-                      {{ number_format($currentObtained, 2) }}
+                      {{ number_format($studentPaperDetail?->obtained_marks, 2) }}
                    </p>
                 </td>
             </tr>
             @endforeach
+            <?php
+               $notAttemptedQuestions = $totalQuestionsCount - $attempted_questions;
+               
+               // Calculate penalties paper-wide
+               // We need one of the subject paper details to get the penalty rules
+               $firstDetail = $studentPaperDetails->first();
+               $rules = DB::table('subject_paper_details')
+                         ->where('subject_mapping_id', $firstDetail?->subject_mapping_id)
+                         ->first();
+               
+               $wrongPenalty = $rules->negative_marks_wrong ?? 0;
+               $skippedPenalty = $rules->negative_marks_skipped ?? 0;
+               $penaltyAmount = ($wrong_answers * $wrongPenalty) + ($notAttemptedQuestions * $skippedPenalty);
+               $netTotal = $totalObtained - $penaltyAmount;
+            ?>
             <tr style="height:26pt">
                <td style="width:188pt;" class="tb1" colspan="2">
                   <p class="s14" style="padding-top: 5pt;padding-left: 22pt;text-indent: 0pt;text-align: left;">
                      Wrong
-                     Answer-{{$studentPaperDetail?->wrong_answers}}</p>
+                     Answer-{{ $wrong_answers }}</p>
                </td>
                <td style="width:184pt" class="tb1">
                   <p class="s14" style="padding-top: 4pt;padding-left: 36pt;text-indent: 0pt;text-align: left;">
                      Right
-                     Answer-{{$studentPaperDetail?->right_answers}}</p>
+                     Answer-{{ $right_answers }}</p>
                </td>
-                <td style="width:163pt" class="tb1">
-                   <p class="s14" style="padding-top: 4pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
-                      Obtained Marks-{{ number_format($totalObtained, 2) }}</p>
-                </td>
+               <td style="width:163pt" class="tb1">
+                  <p class="s14" style="padding-top: 4pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
+                     Obtained Marks-{{ number_format($netTotal, 2) }}</p>
+               </td>
             </tr>
             <tr style="height:26pt">
                <td style="width:188pt" class="tb1" colspan="2">
                   <p class="s14" style="padding-top: 3pt;padding-left: 22pt;text-indent: 0pt;text-align: left;">
                      Total
-                     Questions-{{$totalQuestions}}</p>
+                     Questions-{{ $totalQuestionsCount }}</p>
                </td>
                <td style="width:184pt" class="tb1">
                   <p class="s14" style="padding-top: 3pt;padding-left: 21pt;text-indent: 0pt;text-align: left;">
                      Not
-                     Attempted Qs -{{$notAttemptedQuestions}}</p>
+                     Attempted Qs -{{ $notAttemptedQuestions }}</p>
                </td>
-                <td style="width:163pt;" class="tb1">
-                   <p class="s14" style="padding-top: 3pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
-                      Attempted Qs -{{ $attempted_questions }}</p>
-                </td>
+               <td style="width:163pt;" class="tb1">
+                  <p class="s14" style="padding-top: 3pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
+                     Attempted Qs -{{ $attempted_questions }}</p>
+               </td>
             </tr>
             <tr style="height:26pt">
-                <td style="width:535pt" class="tb1" colspan="4">
-                   <p class="s15" style="padding-top: 6pt;padding-left: 1pt;text-indent: 0pt;text-align: center;">
-                      Total Marks - @if($totalMax > 0 ){{ number_format($totalObtained, 2) }}/{{$totalMax}} @endif</p>
-                </td>
+               <td style="width:535pt" class="tb1" colspan="4">
+                  <p class="s15" style="padding-top: 6pt;padding-left: 1pt;text-indent: 0pt;text-align: center;">
+                     Total Marks - @if($totalMax > 0 ){{ number_format($netTotal, 2) }}/{{$totalMax}} @endif</p>
+               </td>
             </tr>
             <tr style="height:26pt">
                <td style="width:535pt" class="tb1" colspan="4">
                   <p class="s15" style="padding-top: 5pt;padding-left: 1pt;text-indent: 0pt;text-align: center;">
-                     Marks in Percentage- @if($totalMax > 0 ) {{round(($totalObtained/$totalMax)*100,2)}}% @endif</p>
+                     Marks in Percentage- @if($totalMax > 0 ) {{round(($netTotal/$totalMax)*100,2)}}% @endif</p>
                </td>
             </tr>
             <tr style="height:26pt">
