@@ -21,7 +21,7 @@ class AdminExamController extends Controller
         ]);
 
         // Step 3: Fetch all students
-        $students = Student::with('studentPaperExported')->whereHas('studentCode', function ($query) use ($minEligibilityPercentage) {
+        $students = Student::with(['studentPaperExported', 'latestStudentCode'])->whereHas('studentCode', function ($query) use ($minEligibilityPercentage) {
             // Get students with percentage >= minimum eligibility percentage
             $query->where('percentage', '>=', $minEligibilityPercentage);
         })->get();
@@ -47,17 +47,30 @@ class AdminExamController extends Controller
         $studentEligibilityData = [];
 
         foreach ($students as $student) {
-            $totalMarks = $obtainedMarks = $rightAnswers = $wrongAnswers = 0;
+            $latestCode = $student->latestStudentCode;
+            
+            if (!$latestCode) continue;
 
-            // Calculate total marks, obtained marks, right and wrong answers
+            $totalMarks = $latestCode->total_max_marks;
+            $obtainedMarks = $latestCode->total_obtained_marks;
+            $percentage = $latestCode->percentage;
+            
+            $rightAnswers = 0;
+            $wrongAnswers = 0;
+
+            // Get right/wrong answers summary from papers
             foreach ($student->studentPaperExported as $result) {
-                $totalMarks += $result->max_marks;
-                $obtainedMarks += $result->obtained_marks;
-                $rightAnswers += $result->right_answers;
-                $wrongAnswers += $result->wrong_answers;
+                // Since per-paper right/wrong answers are the paper-wide total,
+                // we just take them from the first one if available, or sum if they were split (but they aren't).
+                // Actually, our import saves the same total in every row, so we just take the first.
+            }
+            
+            $firstPaper = $student->studentPaperExported->first();
+            if ($firstPaper) {
+                $rightAnswers = $firstPaper->right_answers;
+                $wrongAnswers = $firstPaper->wrong_answers;
             }
 
-            $percentage = ($obtainedMarks / $totalMarks) * 100;
             $age = $this->calculateAge($student->dob);
 
             $studentEligibilityData[] = [
