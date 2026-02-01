@@ -1262,6 +1262,8 @@ class AdminController extends Controller
         if ($subjectPaperDetail) {
             $subjectPaperDetail->max_marks = $request->input('max_marks');
             $subjectPaperDetail->total_questions = $request->input('total_questions');
+            $subjectPaperDetail->negative_marks_wrong = $request->input('negative_marks_wrong');
+            $subjectPaperDetail->negative_marks_skipped = $request->input('negative_marks_skipped');
             $subjectPaperDetail->save();
         } else {
             return response()->json(['status' => false, 'message' => 'Data saved successfully']);

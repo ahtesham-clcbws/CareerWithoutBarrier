@@ -48,11 +48,24 @@ class StudentPapersImport implements ToCollection, WithHeadingRow
 
                         if (isset($row[$subjectName])) {
                             $subjPaper = $studPaper->subjectPaperDetail;
+                            
+                            // Calculate marks per question: max_marks / total_questions
+                            $perQuestionMark = $subjPaper->total_questions > 0 ? ($subjPaper->max_marks / $subjPaper->total_questions) : 0;
+                            
+                            $wrongAnswers = intval($row['wrong_answers']);
+                            $rightAnswers = intval($row['right_answers']);
+                            $attemptedQuestions = $wrongAnswers + $rightAnswers;
+                            $skippedQuestions = $subjPaper->total_questions - $attemptedQuestions;
+                            
+                            $wrongDeduction = $wrongAnswers * ($subjPaper->negative_marks_wrong ?? 0);
+                            $skippedDeduction = $skippedQuestions * ($subjPaper->negative_marks_skipped ?? 0);
+                            
+                            $obtainedMarks = ($rightAnswers * $perQuestionMark) - $wrongDeduction - $skippedDeduction;
 
-                            $studPaper->obtained_marks = $row[$subjectName];
-                            $studPaper->wrong_answers = $row['wrong_answers'];
-                            $studPaper->right_answers = $row['right_answers'];
-                            $studPaper->attempted_questions = $row['wrong_answers'] + $row['right_answers'];
+                            $studPaper->obtained_marks = $obtainedMarks;
+                            $studPaper->wrong_answers = $wrongAnswers;
+                            $studPaper->right_answers = $rightAnswers;
+                            $studPaper->attempted_questions = $attemptedQuestions;
                             $studPaper->total_questions = $subjPaper->total_questions;
                             $studPaper->is_imported = true;
                             $studPaper->save();
@@ -65,7 +78,7 @@ class StudentPapersImport implements ToCollection, WithHeadingRow
 
                     $appCode->total_max_marks = $studentPapers->sum('max_marks');
                     $appCode->total_obtained_marks = $studentPapers->sum('obtained_marks');
-                    $appCode->percentage = (intval($studentPapers->sum('obtained_marks')) / intval($studentPapers->sum('max_marks'))) * 100;
+                    $appCode->percentage = (floatval($studentPapers->sum('obtained_marks')) / floatval($studentPapers->sum('max_marks'))) * 100;
                     $appCode->save();
                 }
             }

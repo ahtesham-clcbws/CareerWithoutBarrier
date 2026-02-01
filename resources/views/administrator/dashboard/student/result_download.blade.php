@@ -36,7 +36,7 @@ $notAttemptedQuestions = 0;
                <td colspan="3">
                   <div style="margin-top: 15px;margin-bottom: 15px;text-align:center">
                      <h3 style="color:#1015cd;font-weight: 900;font-size: large;">{{$student->scholarShipCategory?->name}}</h3>
-                     <h5 style="color:#00a64b">Scholarship Test Result- 2024 (Phase-I)</h5>
+                     <h5 style="color:#00a64b">Scholarship Test Result - {{ date('Y') }} (Phase-I)</h5>
                   </div>
                </td>
                <td>
@@ -189,21 +189,30 @@ $notAttemptedQuestions = 0;
                      $subjectPaper = DB::table('subject_paper_details')
                         ->where('subject_mapping_id', $studentPaperDetail?->subject_mapping_id)
                         ->where('subject_id', $studentPaperDetail?->subject_id)->first();
-                     $totalObtained += $studentPaperDetail?->obtained_marks;
+
+                     $perQuestionMark = $subjectPaper->total_questions > 0 ? ($subjectPaper->max_marks / $subjectPaper->total_questions) : 0;
+                     $wrongDeduction = $studentPaperDetail->wrong_answers * ($subjectPaper->negative_marks_wrong ?? 0);
+                     $skippedQuestions = $subjectPaper->total_questions - $studentPaperDetail->attempted_questions;
+                     $skippedDeduction = $skippedQuestions * ($subjectPaper->negative_marks_skipped ?? 0);
+                     
+                     $currentObtained = ($studentPaperDetail->right_answers * $perQuestionMark) - $wrongDeduction - $skippedDeduction;
+                     
+                     $totalObtained += $currentObtained;
                      $totalMax +=  $subjectPaper->max_marks;
                      $totalQuestions +=  $subjectPaper->total_questions;
+                     $attempted_questions += $studentPaperDetail->attempted_questions;
 
-                     $notAttemptedQuestions = $totalQuestions - ($studentPaperDetail?->attempted_questions);
+                     $notAttemptedQuestions = $totalQuestions - $attempted_questions;
                      echo   $subjectPaper->max_marks;
                      ?>
 
                   </p>
                </td>
-               <td style="width:163pt;" class="tb1">
-                  <p class="s13" style="padding-top: 7pt;padding-left: 32pt;text-indent: 0pt;text-align: left;">
-                     {{$studentPaperDetail?->obtained_marks}}
-                  </p>
-               </td>
+                <td style="width:163pt;" class="tb1">
+                   <p class="s13" style="padding-top: 7pt;padding-left: 32pt;text-indent: 0pt;text-align: left;">
+                      {{ number_format($currentObtained, 2) }}
+                   </p>
+                </td>
             </tr>
             @endforeach
             <tr style="height:26pt">
@@ -217,10 +226,10 @@ $notAttemptedQuestions = 0;
                      Right
                      Answer-{{$studentPaperDetail?->right_answers}}</p>
                </td>
-               <td style="width:163pt" class="tb1">
-                  <p class="s14" style="padding-top: 4pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
-                     Obtained Marks-{{$totalObtained}}</p>
-               </td>
+                <td style="width:163pt" class="tb1">
+                   <p class="s14" style="padding-top: 4pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
+                      Obtained Marks-{{ number_format($totalObtained, 2) }}</p>
+                </td>
             </tr>
             <tr style="height:26pt">
                <td style="width:188pt" class="tb1" colspan="2">
@@ -233,16 +242,16 @@ $notAttemptedQuestions = 0;
                      Not
                      Attempted Qs -{{$notAttemptedQuestions}}</p>
                </td>
-               <td style="width:163pt;" class="tb1">
-                  <p class="s14" style="padding-top: 3pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
-                     Attempted Qs -{{$studentPaperDetail?->attempted_questions}}</p>
-               </td>
+                <td style="width:163pt;" class="tb1">
+                   <p class="s14" style="padding-top: 3pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
+                      Attempted Qs -{{ $attempted_questions }}</p>
+                </td>
             </tr>
             <tr style="height:26pt">
-               <td style="width:535pt" class="tb1" colspan="4">
-                  <p class="s15" style="padding-top: 6pt;padding-left: 1pt;text-indent: 0pt;text-align: center;">
-                     Total Marks - @if($totalMax > 0 ){{$totalObtained}}/{{$totalMax}} @endif</p>
-               </td>
+                <td style="width:535pt" class="tb1" colspan="4">
+                   <p class="s15" style="padding-top: 6pt;padding-left: 1pt;text-indent: 0pt;text-align: center;">
+                      Total Marks - @if($totalMax > 0 ){{ number_format($totalObtained, 2) }}/{{$totalMax}} @endif</p>
+                </td>
             </tr>
             <tr style="height:26pt">
                <td style="width:535pt" class="tb1" colspan="4">

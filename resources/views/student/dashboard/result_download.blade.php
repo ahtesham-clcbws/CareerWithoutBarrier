@@ -204,11 +204,20 @@
                                     style="padding-top: 7pt;padding-left: 39pt;text-indent: 0pt;text-align: left;">
                                     <?php
                                     $subjectPaper = DB::table('subject_paper_details')->where('subject_mapping_id', $studentPaperDetail?->subject_mapping_id)->where('subject_id', $studentPaperDetail?->subject_id)->first();
-                                    $totalObtained += $studentPaperDetail?->obtained_marks;
+                                    
+                                    $perQuestionMark = $subjectPaper->total_questions > 0 ? ($subjectPaper->max_marks / $subjectPaper->total_questions) : 0;
+                                    $wrongDeduction = $studentPaperDetail->wrong_answers * ($subjectPaper->negative_marks_wrong ?? 0);
+                                    $skippedQuestions = $subjectPaper->total_questions - $studentPaperDetail->attempted_questions;
+                                    $skippedDeduction = $skippedQuestions * ($subjectPaper->negative_marks_skipped ?? 0);
+                                    
+                                    $currentObtained = ($studentPaperDetail->right_answers * $perQuestionMark) - $wrongDeduction - $skippedDeduction;
+                                    
+                                    $totalObtained += $currentObtained;
                                     $totalMax += $subjectPaper->max_marks;
                                     $totalQuestions += $subjectPaper->total_questions;
+                                    $attempted_questions += $studentPaperDetail->attempted_questions;
                                     
-                                    $notAttemptedQuestions = $totalQuestions - $studentPaperDetail?->attempted_questions;
+                                    $notAttemptedQuestions = $totalQuestions - $attempted_questions;
                                     echo $subjectPaper->max_marks;
                                     ?>
 
@@ -217,7 +226,7 @@
                             <td class="tb1" style="width:163pt;">
                                 <p class="s13"
                                     style="padding-top: 7pt;padding-left: 32pt;text-indent: 0pt;text-align: left;">
-                                    {{ $studentPaperDetail?->obtained_marks }}
+                                    {{ number_format($currentObtained, 2) }}
                                 </p>
                             </td>
                         </tr>
@@ -238,7 +247,7 @@
                         <td class="tb1" style="width:163pt">
                             <p class="s14"
                                 style="padding-top: 4pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
-                                Obtained Marks-{{ $totalObtained }}</p>
+                                Obtained Marks-{{ number_format($totalObtained, 2) }}</p>
                         </td>
                     </tr>
                     <tr style="height:26pt">
@@ -257,7 +266,7 @@
                         <td class="tb1" style="width:163pt;">
                             <p class="s14"
                                 style="padding-top: 3pt;padding-left: 14pt;text-indent: 0pt;text-align: left;">
-                                Attempted Qs -{{ $studentPaperDetail?->attempted_questions }}</p>
+                                Attempted Qs -{{ $attempted_questions }}</p>
                         </td>
                     </tr>
                     <tr style="height:26pt">
@@ -265,7 +274,7 @@
                             <p class="s15"
                                 style="padding-top: 6pt;padding-left: 1pt;text-indent: 0pt;text-align: center;">
                                 Total Marks - @if ($totalMax > 0)
-                                    {{ $totalObtained }}/{{ $totalMax }}
+                                    {{ number_format($totalObtained, 2) }}/{{ $totalMax }}
                                 @endif
                             </p>
                         </td>

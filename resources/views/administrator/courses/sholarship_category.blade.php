@@ -593,7 +593,9 @@
                         <th scope="col">Sr.N.</th>
                         <th scope="col">Subject Name</th>
                         <th scope="col">Max Marks</th>
-                        <th scope="col">Total Questions</th>
+                        <th scope="col">Total Qs</th>
+                        <th scope="col">Wrong Ded.</th>
+                        <th scope="col">Skipped Ded.</th>
                         <th scope="col" class="text-end">Actions</th>
                     </tr>
                 </thead>
@@ -604,10 +606,16 @@
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $subjectPaperDetail->subject_name }}</td>
                             <td>
-                                <input style="height: 42px;width:80px;font-size: 16px;text-align: center;" type="number" class="num_digit max-marks-input" name="max_marks" value="{{ $subjectPaperDetail->max_marks }}" placeholder="Enter value">
+                                <input style="height: 42px;width:70px;font-size: 14px;text-align: center;" type="number" step="0.01" class="num_digit max-marks-input" name="max_marks" value="{{ $subjectPaperDetail->max_marks }}" placeholder="Value">
                             </td>
                             <td>
-                                <input style="height: 42px;width:80px;font-size: 16px;text-align: center;" type="number" class="num_digit total-questions-input" name="total_questions" value="{{ $subjectPaperDetail->total_questions }}" placeholder="Enter value">
+                                <input style="height: 42px;width:70px;font-size: 14px;text-align: center;" type="number" class="num_digit total-questions-input" name="total_questions" value="{{ $subjectPaperDetail->total_questions }}" placeholder="Value">
+                            </td>
+                            <td>
+                                <input style="height: 42px;width:70px;font-size: 14px;text-align: center;" type="number" step="0.01" class="num_digit negative-marks-wrong-input" name="negative_marks_wrong" value="{{ $subjectPaperDetail->negative_marks_wrong }}" placeholder="Value">
+                            </td>
+                            <td>
+                                <input style="height: 42px;width:70px;font-size: 14px;text-align: center;" type="number" step="0.01" class="num_digit negative-marks-skipped-input" name="negative_marks_skipped" value="{{ $subjectPaperDetail->negative_marks_skipped }}" placeholder="Value">
                             </td>
                             <td>
                                 <button type="button" class="btn btn-info btn-primary save-btn-mapp">Save</button>
@@ -668,12 +676,16 @@
         var subjectMappingId = form.data('subject-mapping-id');
         var maxMarks = form.find('.max-marks-input').val();
         var totalQuestions = form.find('.total-questions-input').val();
+        var negativeMarksWrong = form.find('.negative-marks-wrong-input').val();
+        var negativeMarksSkipped = form.find('.negative-marks-skipped-input').val();
 
         var formData = new FormData();
         formData.append('subject_id', subjectId);
         formData.append('subjectMapping_id', subjectMappingId);
         formData.append('max_marks', maxMarks);
         formData.append('total_questions', totalQuestions);
+        formData.append('negative_marks_wrong', negativeMarksWrong);
+        formData.append('negative_marks_skipped', negativeMarksSkipped);
 
 
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
