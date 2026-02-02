@@ -20,6 +20,7 @@
     <div class="w-100" style="margin-top:72px;background-color:#f26b3c;">
         <div class="container py-5 pb-4 text-center">
             <h2 class="text-white" style="font-size:32px">Student Registration</h2>
+            <p class="text-white mt-3" style="font-size: 18px;">Registration fee <b>&#8377; <span style="font-size: 140%;">750</span></b> will be applicable</p>
         </div>
     </div>
 
