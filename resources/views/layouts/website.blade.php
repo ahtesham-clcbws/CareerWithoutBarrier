@@ -428,7 +428,7 @@
 
         <!-- footer -->
         <section class="">
-            <div class="footer comm-p-t-b">
+            <div class="footer comm-p-t-b" style="padding-bottom: 5px !important">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-12">
@@ -476,7 +476,7 @@
                                 <p><a href="/p/terms-and-conditions">Terms &amp; Conditions</a></p>
                                 <p><a href="/p/refund-policy">Refund Policy</a></p>
                                 <p><a href="{{ URL::to('/faq') }}">Faq</a></p>
-                                <p><a href="{{ route('freeform') }}">Get 100% Free Form (Limited)</a></p>
+                                {{-- <p><a href="{{ route('freeform') }}">Get 100% Free Form (Limited)</a></p> --}}
                             </div>
                         </div>
                     </div>
