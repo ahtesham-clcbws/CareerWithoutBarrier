@@ -52,7 +52,7 @@ class StudentPapersImport implements ToCollection, WithHeadingRow
                             // Calculate marks per question: max_marks / total_questions
                             $perQuestionMark = $subjPaper->total_questions > 0 ? ($subjPaper->max_marks / $subjPaper->total_questions) : 0;
                             
-                            $subjectRightCount = intval($row[$subjectName]);
+                            $subjectRightCount = intval($row[$subjectName])/$perQuestionMark;
                             
                             // Gross marks for this subject (without penalties)
                             $studPaper->obtained_marks = $subjectRightCount * $perQuestionMark;

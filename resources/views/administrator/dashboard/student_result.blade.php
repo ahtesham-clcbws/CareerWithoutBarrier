@@ -130,7 +130,7 @@ use App\Models\StudentPaperExported;
                                             <td>{{ $student->scholarShipCategory?->name ?? 'N/A' }} <br> {{ $student->qualifications?->name }} </td>
                                             <td>{{ $student->scholarShipOptedFor?->name ?? 'N/A' }}</td>
                                             <td>{{ $student->district?->name }}</td>
-                                            <td style="text-align:center">{{decimal_Number($student->latestStudentCode?->percentage)}} %</td>
+                                            <td style="text-align:center">{{decimal_Number($studCode?->percentage)}} %</td>
                                             <td>
 
                                                 <a href="{{ route('admin.student.result.detail', $student->id) }}" class="btn btn-primary" style="text-decoration: none; text-align:center"> Result</a>

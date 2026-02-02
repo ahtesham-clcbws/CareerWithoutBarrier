@@ -11,8 +11,6 @@
                                     <table class="table-bordred table-hover table bg-white">
                                         <thead>
                                             <tr>
-                                                {{-- <th class="selectAllCl text-center">Issued AdmitCard <br> <input
-                                                        id="selectAll" type="checkbox"> </th> --}}
                                                 <th>Name</th>
                                                 <th>Admsn. #</th>
                                                 <th>Paid Amount</th>
@@ -29,17 +27,11 @@
                                             @foreach ($students as $student)
                                                 <tr>
                                                     <?php
-                                                    
-                                                    $studCode = $student->studentCode->first();
-                                                    if ($studCode && !$studCode->is_coupan_code_applied) {
-                                                        $studCode = null;
-                                                    }
+                                                        $studCode = $student->studentCode->first();
+                                                        if ($studCode && !$studCode->is_coupan_code_applied) {
+                                                            $studCode = null;
+                                                        }
                                                     ?>
-                                                    {{-- <td class="text-center" scope="row">
-                                                        <input class="rowCheckbox" data-studcode_id="{{ $studCode->id }}"
-                                                            type="checkbox" value=""
-                                                            {{ $studCode?->issued_admitcard ? 'checked' : '' }}>
-                                                    </td> --}}
                                                     <td>{{ $student->name }}</td>
                                                     <td>{{ $studCode->application_code }}</td>
                                                     <td>{{ 'Rs.' . $studCode?->fee_amount }}</td>
@@ -55,13 +47,6 @@
                                                                 data-studcode_id="{{ $studCode->id }}" data-status="0"
                                                                 href="#">Stop AdmitCard</a>
                                                         @endif
-                                                        {{-- @if ($studCode?->issued_admitcard)
-                                                            <a href="#" class="btn btn-danger changeStatus"
-                                                                data-studcode_id="{{$studCode->id}}" data-status="0">Stop AdmitCard</a>
-                                                        @elseIf(!$studCode?->issued_admitcard)
-                                                            <a href="#" class="btn btn-success changeStatus"
-                                                                data-studcode_id="{{$studCode->id}}" data-status="1">Issue AdmitCard</a>
-                                                        @endif --}}
                                                     </td>
 
                                                 </tr>
