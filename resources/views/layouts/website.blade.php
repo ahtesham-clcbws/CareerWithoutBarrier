@@ -449,7 +449,7 @@
                                 <h6>Application, Admit card & Result Related:</h6>
 
                                 <p class="mb-3">Phone No: 9336171302 <br />
-                                    Email: {{ strtolower('query@careerwithoutbarrier.com') }}</p>
+                                    Email: {{ strtolower('support@careerwithoutbarrier.com') }}</p>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-12">
