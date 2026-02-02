@@ -131,7 +131,7 @@ use App\Models\StudentPaperExported;
                                             <td>{{ $student->scholarShipOptedFor?->name ?? 'N/A' }}</td>
                                             <td>{{ $student->district?->name }}</td>
                                             <td style="text-align:center">{{$studCode?->percentage}} %
-                                                {{ json_encode($studCode) }}
+                                                {{-- {{ json_encode($studCode) }} --}}
                                             </td>
                                             <td>
 
