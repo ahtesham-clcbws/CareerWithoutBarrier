@@ -245,7 +245,7 @@ use App\Models\StudentPaperExported;
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Import</button>
+                    <button type="submit" class="btn btn-primary">Upload File</button>
                 </form>
             </div>
         </div>
