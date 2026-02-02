@@ -113,7 +113,6 @@
         </div>
     </section>
 
-
     @if (isset($educations) && count($educations) > 0)
         <section>
             <div class="travl-features">
