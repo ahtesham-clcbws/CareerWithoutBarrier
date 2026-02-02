@@ -446,13 +446,10 @@
                         <div class="col-lg-3 col-md-3 col-sm-3 col-12">
                             <div class="features-foter">
                                 <h2>Direct get in touch</h2>
-                                <h6>Application & Admit card Related:</h6>
+                                <h6>Application, Admit card & Result Related:</h6>
 
-                                <p class="mb-3">Phone No: 9335171302 <br />
-                                    Email: {{ strtolower('query@careerwithoutbarrier.com') }}</p>
-                                <h6>Results & Admit Card Related:</h6>
                                 <p class="mb-3">Phone No: 9336171302 <br />
-                                    Email: {{ strtolower('support@careerwithoutbarrier.com') }}</p>
+                                    Email: {{ strtolower('query@careerwithoutbarrier.com') }}</p>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-12">
@@ -463,10 +460,6 @@
                                     Email: webliesequations@gmail.com<br />
                                     Phone No: 9389696641
                                 </p>
-                                <h6>Test & Notes:</h6>
-                                <p class="mb-3">Website: Testandnotes.com<br />
-                                    Email: Query@testandnotes.com<br />
-                                    Phone No: 9389696641</p>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-12">
