@@ -11156,11 +11156,11 @@ form.search-courses .btn:focus {
     border-bottom: 1px solid var(--black);
 }
 
-.scolarship-leftpanel-widget .scolarship-leftpanel-img {
+/* .scolarship-leftpanel-widget .scolarship-leftpanel-img {
     max-width: 100px;
     width: 100%;
     border-right: 1px solid var(--black);
-}
+} */
 
 .scolarship-leftpanel-content h4 {
     color: #10387e;
