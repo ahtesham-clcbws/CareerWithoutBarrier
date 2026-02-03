@@ -97,6 +97,38 @@
     .customAnchor:hover * {
         text-decoration: none !important;
     }
+
+    .ban-box ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .ban-box ul li.responsive-item {
+        display: flex;
+        flex: 1 1 0px;
+    }
+
+    .ban-box-com {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+    }
+
+    .ban-box-com h4 {
+        margin-top: 15px;
+    }
+
+    .ban-box-com p {
+        flex-grow: 1;
+        margin-bottom: 20px;
+    }
 </style>
 
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -123,10 +155,15 @@
                                 @foreach ($educations as $key => $education)
                                     <li class="responsive-item">
                                         <div class="ban-box-com {{ $key == 1 ? 'act' : '' }}">
-                                            <img src="{{ asset('website/assets/images/icons/diploma.png') }}" alt="">
-                                            <h4>{{ $education->name }}</h4>
-                                            <a href="{{ route('registration') }}">Apply Now <i
-                                                    class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                            <img src="{{ $education->icon ? asset('home/aboutus/'.$education->icon) : asset('website/assets/images/icons/diploma.png') }}" alt="" style="width: 60px; height: 60px; object-fit: contain;">
+                                            <h4>{{ $education->educationType?->name }}</h4>
+                                            @if($education->subtitle)
+                                                <p style="color: white; font-size: 14px; margin-bottom: 10px;">{{ $education->subtitle }}</p>
+                                            @endif
+                                            @if($education->url)
+                                                <a href="{{ $education->url }}" target="_blank">Apply Now <i
+                                                        class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                            @endif
                                             <span class="bg-1"></span>
                                         </div>
                                     </li>

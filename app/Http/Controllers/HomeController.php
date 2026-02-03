@@ -73,7 +73,7 @@ class HomeController extends Controller
 
         $courses = CourseDetailsModel::where('status', 1)->select('id', 'title', 'course_logo')->get();
 
-        $educations = EducationType::where('is_featured', 1)->get();
+        $educations = ScholarshipHome::with('educationType')->where('is_featured', 1)->get();
 
         $ourJourneys = OurJourney::where('is_featured', 1)->get();
 

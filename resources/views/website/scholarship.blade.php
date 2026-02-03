@@ -27,6 +27,9 @@
                                 <div class="scolarship-leftpanel-content text-center">
                                     <h4>{{ $scholarShip->educationType?->name }}</h4>
                                     <p>{{ $scholarShip->remark }}</p>
+                                    @if($scholarShip->subtitle)
+                                        <h6 class="text-white">{{ $scholarShip->subtitle }}</h6>
+                                    @endif
                                 </div>
                             </div>
                         </div>

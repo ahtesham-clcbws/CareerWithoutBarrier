@@ -29,11 +29,17 @@ Scholarship Course List
                         <div class="col-md-6 col">
                             <div class="form-group">
                                 <p class="text-muted f-s-12">Add Icon Image<span class="text-danger">(60x60)*</span></p>
-                                <input required type="file" id="fileInputSection2" class="form-control input-focus" onchange="validateImage(this)" name="icon">
+                                <input type="file" id="fileInputIcon" class="form-control input-focus" onchange="validateImage(this)" name="icon">
                                 @error('icon')
                                 <div class="text-danger">{{$message}}</div>
                                 @enderror
-                                <img class="imagePreviewSection2" src="#" alt="Image Preview" style="display: none;width:100px">
+                                <img id="iconPreview" src="#" alt="Icon Preview" style="display: none;width:100px; margin-top: 10px;">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col">
+                            <div class="form-group">
+                                <p class="text-muted f-s-12">Subtitle</p>
+                                <input id="subtitle" name="subtitle" class="form-control" placeholder="Subtitle (Optional)">
                             </div>
                         </div>
                         <div class="col-md-6 col">
@@ -46,7 +52,7 @@ Scholarship Course List
                                     @endforeach
                                 </select>
                                 <input id="form_name_scholarship" type="hidden" name="form_type" value="scholarship_form" class="form-control">
-                                <input id="" type="hidden" name="scholarship_id" value="" class="form-control">
+                                <input id="scholarship_id" type="hidden" name="scholarship_id" value="" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6 col">
@@ -58,11 +64,17 @@ Scholarship Course List
                         <div class="col-md-6 col">
                             <div class="form-group">
                                 <p class="text-muted f-s-12">Add Picture<span class="text-danger">(1600x930)*</span></p>
-                                <input required type="file" id="fileInputSection2" class="form-control input-focus" onchange="validateImage(this)" name="picture">
+                                <input type="file" id="fileInputPicture" class="form-control input-focus" onchange="validateImage(this)" name="picture">
                                 @error('picture')
                                 <div class="text-danger">{{$message}}</div>
                                 @enderror
-                                <img class="imagePreviewSection2" src="#" alt="Image Preview" style="display: none;width:100px">
+                                <img id="picturePreview" src="#" alt="Picture Preview" style="display: none;width:100px; margin-top: 10px;">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col">
+                            <div class="form-group">
+                                <p class="text-muted f-s-12">URL</p>
+                                <input id="url" name="url" class="form-control" placeholder="URL (Optional)">
                             </div>
                         </div>
                         <div class="col text-center">
@@ -135,8 +147,11 @@ Scholarship Course List
                             </td>
 
                             <td style="text-align: center">
+                                <a href="javascript:void(0)" onclick="editScholarship({{ json_encode($scholarship) }})" class="mr-2">
+                                    <span class="fa fa-edit text-primary"></span>
+                                </a>
                                 <a href="{{ route('admin.home.scholarshipDelete', ['form_type' => 'scholarship','id' => $scholarship->id]) }}">
-                                    <span class="fa fa-trash"></span>
+                                    <span class="fa fa-trash text-danger"></span>
                                 </a>
                             </td>
                         </tr>
@@ -172,7 +187,7 @@ Scholarship Course List
                                     @endforeach
                                 </select>
                                 <input id="scholarship_secondForm" type="hidden" name="form_type" value="scholarship_secondForm" class="form-control">
-                                <input id="" type="hidden" name="scholarshipTwo_id" value="" class="form-control">
+                                <input id="scholarshipTwo_id" type="hidden" name="scholarshipTwo_id" value="" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-4 col">
@@ -180,19 +195,17 @@ Scholarship Course List
                                 <label for="prospectus">Attach prospectus (Max 2MB, JPG, PNG, PDF Only):<span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <div class="custom-file custom-file-prospectus">
-                                        <input type="file" name="prospectus" value="{{$scholarshipTwo?->prospectus}}" class="custom-file-input" id="prospectus" onchange="validateImage(this,'imagepdf')" {{$scholarshipTwo?->prospectus ? '' : 'required'}}>
-                                        <label class="custom-file-label" for="prospectus">Choose file</label>
+                                        <input type="file" name="prospectus" class="custom-file-input" id="prospectus" onchange="validateImage(this,'imagepdf')">
+                                        <label class="custom-file-label" id="prospectus_label" for="prospectus">Choose file</label>
                                         @error('prospectus')
                                         <div class="text-danger">{{$message}}</div>
                                         @enderror
                                     </div>
-                                    @if($scholarshipTwo?->prospectus)
-                                    <div class="input-group-append student-prospectus-img-view" style="margin-left: 10px;margin-top: -2rem;">
-                                        <a style="background: none;border: none;" target="_blank" class="btn btn-outline-secondary btn-success" href="{{  asset('upload/student/'.$scholarshipTwo?->prospectus)}}">
-                                            <img src="{{ asset('upload/student/'.$scholarshipTwo?->prospectus) }}" alt="prospectus" style="width: 7rem;height: 8rem;margin-top: -10re;">
+                                    <div class="input-group-append student-prospectus-img-view" id="prospectus_view" style="margin-left: 10px;margin-top: -2rem; display: none;">
+                                        <a style="background: none;border: none;" target="_blank" class="btn btn-outline-secondary btn-success" id="prospectus_link" href="#">
+                                            <img src="#" id="prospectus_img" alt="prospectus" style="width: 7rem;height: 8rem;margin-top: -10re;">
                                         </a>
                                     </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -201,26 +214,24 @@ Scholarship Course List
                                 <label for="guideline">Attach guideline (Max 2MB, JPG, PNG, PDF Only):<span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <div class="custom-file custom-file-guideline">
-                                        <input type="file" name="guideline" value="{{$scholarshipTwo?->guideline}}" class="custom-file-input" id="guideline" onchange="validateImage(this,'imagepdf')" {{$scholarshipTwo?->guideline ? '' : 'required'}}>
-                                        <label class="custom-file-label" for="guideline">Choose file</label>
+                                        <input type="file" name="guideline" class="custom-file-input" id="guideline" onchange="validateImage(this,'imagepdf')">
+                                        <label class="custom-file-label" id="guideline_label" for="guideline">Choose file</label>
                                         @error('guideline')
                                         <div class="text-danger">{{$message}}</div>
                                         @enderror
                                     </div>
-                                    @if($scholarshipTwo?->guideline)
-                                    <div class="input-group-append student-guideline-img-view" style="margin-left: 10px;margin-top: -2rem;">
-                                        <a style="background: none;border: none;" target="_blank" class="btn btn-outline-secondary btn-success" href="{{  asset('upload/student/'.$scholarshipTwo?->guideline)}}">
-                                            <img src="{{ asset('upload/student/'.$scholarshipTwo?->guideline) }}" alt="guideline" style="width: 7rem;height: 8rem;margin-top: -10re;">
+                                    <div class="input-group-append student-guideline-img-view" id="guideline_view" style="margin-left: 10px;margin-top: -2rem; display: none;">
+                                        <a style="background: none;border: none;" target="_blank" class="btn btn-outline-secondary btn-success" id="guideline_link" href="#">
+                                            <img src="#" id="guideline_img" alt="guideline" style="width: 7rem;height: 8rem;margin-top: -10re;">
                                         </a>
                                     </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12 col">
                             <div class="form-group">
                                 <label for="overview">Overview<span class="text-danger">*</span></label>
-                                <textarea id="IdOfCKEditorTextArea" class="ckeditor form-control w-100" value="{{ old('overview') ? $scholarshipTwo?->overview : '' }}" style="width: 100%;" name="overview" placeholder="Enter overview here"></textarea>
+                                <textarea id="overview" class="ckeditor form-control w-100" style="width: 100%;" name="overview" placeholder="Enter overview here"></textarea>
                                 @error('overview')
                                 <div class="text-danger">{{$overview}}</div>
                                 @enderror
@@ -270,8 +281,11 @@ Scholarship Course List
                             </td>
 
                             <td style="text-align: center">
+                                <a href="javascript:void(0)" onclick="editScholarshipTwo({{ json_encode($scholarship) }})" class="mr-2">
+                                    <span class="fa fa-edit text-primary"></span>
+                                </a>
                                 <a href="{{ route('admin.home.scholarshipDelete', ['form_type' => 'scholarship_secondForm','id' => $scholarship->id]) }}">
-                                    <span class="fa fa-trash"></span>
+                                    <span class="fa fa-trash text-danger"></span>
                                 </a>
                             </td>
                         </tr>
@@ -312,5 +326,72 @@ Scholarship Course List
             }
         });
     };
+
+    function editScholarship(data) {
+        $('#scholarship_id').val(data.id);
+        $('#education_type_id').val(data.education_type_id);
+        $('#subtitle').val(data.subtitle);
+        $('#remark').val(data.remark);
+        $('#url').val(data.url);
+
+        if (data.icon) {
+            $('#iconPreview').attr('src', "{{ asset('home/aboutus/') }}/" + data.icon).show();
+            $('#fileInputIcon').removeAttr('required');
+        } else {
+            $('#iconPreview').hide();
+            $('#fileInputIcon').attr('required', 'required');
+        }
+
+        if (data.picture) {
+            $('#picturePreview').attr('src', "{{ asset('home/aboutus/') }}/" + data.picture).show();
+            $('#fileInputPicture').removeAttr('required');
+        } else {
+            $('#picturePreview').hide();
+            $('#fileInputPicture').attr('required', 'required');
+        }
+
+        window.scrollTo(0, 0);
+    }
+
+    function editScholarshipTwo(data) {
+        $('#scholarshipTwo_id').val(data.id);
+        $('select[name="scholarship_course"]').val(data.scholarship_course_id);
+        
+        // Update CKEditor
+        if (CKEDITOR.instances['overview']) {
+            CKEDITOR.instances['overview'].setData(data.overview);
+        } else {
+            $('#overview').val(data.overview);
+        }
+
+        if (data.prospectus) {
+            $('#prospectus_label').text(data.prospectus);
+            $('#prospectus').removeAttr('required');
+            $('#prospectus_view').show();
+            $('#prospectus_link').attr('href', "{{ asset('home/aboutus/') }}/" + data.prospectus);
+            $('#prospectus_img').attr('src', "{{ asset('home/aboutus/') }}/" + data.prospectus);
+        } else {
+            $('#prospectus_label').text('Choose file');
+            $('#prospectus').attr('required', 'required');
+            $('#prospectus_view').hide();
+        }
+
+        if (data.guideline) {
+            $('#guideline_label').text(data.guideline);
+            $('#guideline').removeAttr('required');
+            $('#guideline_view').show();
+            $('#guideline_link').attr('href', "{{ asset('home/aboutus/') }}/" + data.guideline);
+            $('#guideline_img').attr('src', "{{ asset('home/aboutus/') }}/" + data.guideline);
+        } else {
+            $('#guideline_label').text('Choose file');
+            $('#guideline').attr('required', 'required');
+            $('#guideline_view').hide();
+        }
+
+        // Scroll to the second form
+        $('html, body').animate({
+            scrollTop: $("#scholarship_secondForm").offset().top - 100
+        }, 500);
+    }
 </script>
 @endsection

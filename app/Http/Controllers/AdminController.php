@@ -1121,10 +1121,12 @@ class AdminController extends Controller
         if ($request->isMethod('POST')) {
             if ($request->form_type == 'scholarship_form') {
                 $validated = $request->validate([
-                    'icon' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'icon' => $request->scholarship_id ? 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048' : 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                     'education_type_id' => 'required',
+                    'subtitle' => 'nullable|string',
                     'remark' => 'required|string',
-                    'picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'url' => 'nullable|string',
+                    'picture' => $request->scholarship_id ? 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048' : 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 ], [
                     'icon.required' => 'The icon image is required.',
                     'icon.image' => 'The icon must be an image.',
@@ -1133,7 +1135,6 @@ class AdminController extends Controller
                     'education_type_id.required' => 'The scholarship category is required.',
                     'remark.required' => 'The remark is required.',
                     'remark.string' => 'The remark must be a string.',
-                    'remark.max' => 'The remark must not be longer than 255 characters.',
                     'picture.required' => 'The picture is required.',
                     'picture.image' => 'The picture must be an image.',
                     'picture.mimes' => 'The picture must be a file of type: jpeg, png, jpg, gif, svg.',
@@ -1142,8 +1143,17 @@ class AdminController extends Controller
 
                 $aboutUs = $request->scholarship_id ? ScholarshipHome::find($request->scholarship_id) : new ScholarshipHome();
 
-                $validated['icon'] = moveFile($homeAboutFolder, $request->icon);
-                $validated['picture'] = moveFile($homeAboutFolder, $request->picture);
+                if ($request->hasFile('icon')) {
+                    $validated['icon'] = moveFile($homeAboutFolder, $request->icon);
+                } else if ($request->scholarship_id) {
+                    $validated['icon'] = $aboutUs->icon;
+                }
+
+                if ($request->hasFile('picture')) {
+                    $validated['picture'] = moveFile($homeAboutFolder, $request->picture);
+                } else if ($request->scholarship_id) {
+                    $validated['picture'] = $aboutUs->picture;
+                }
 
                 $aboutUs->fill($validated);
                 $aboutUs->save();
@@ -1154,16 +1164,28 @@ class AdminController extends Controller
             if ($request->form_type == 'scholarship_secondForm') {
                 $validated = $request->validate([
                     'scholarship_course' => 'required',
-                    'prospectus' => 'required|mimes:pdf,jpeg,png,jpg,gif|max:2048',
-                    'guideline' => 'required|mimes:pdf,jpeg,png,jpg,gif|max:2048',
+                    'prospectus' => $request->scholarshipTwo_id ? 'nullable|mimes:pdf,jpeg,png,jpg,gif|max:2048' : 'required|mimes:pdf,jpeg,png,jpg,gif|max:2048',
+                    'guideline' => $request->scholarshipTwo_id ? 'nullable|mimes:pdf,jpeg,png,jpg,gif|max:2048' : 'required|mimes:pdf,jpeg,png,jpg,gif|max:2048',
                     'overview' => 'required',
                 ]);
 
-                $validated['prospectus'] = moveFile($homeAboutFolder, $request->file('prospectus'));
-                $validated['guideline'] = moveFile($homeAboutFolder, $request->file('guideline'));
-
                 $aboutUsSectionOne = $request->scholarshipTwo_id ? ScholarshipHomeTwo::find($request->scholarshipTwo_id) : new ScholarshipHomeTwo();
-                $aboutUsSectionOne->fill(collect($validated)->except('scholarship_course')->toArray());
+
+                if ($request->hasFile('prospectus')) {
+                    $validated['prospectus'] = moveFile($homeAboutFolder, $request->file('prospectus'));
+                } else if ($request->scholarshipTwo_id) {
+                    $validated['prospectus'] = $aboutUsSectionOne->prospectus;
+                }
+
+                if ($request->hasFile('guideline')) {
+                    $validated['guideline'] = moveFile($homeAboutFolder, $request->file('guideline'));
+                } else if ($request->scholarshipTwo_id) {
+                    $validated['guideline'] = $aboutUsSectionOne->guideline;
+                }
+
+                $aboutUsSectionOne->fill(collect($validated)->except(['scholarship_course', 'prospectus', 'guideline'])->toArray());
+                $aboutUsSectionOne->prospectus = $validated['prospectus'];
+                $aboutUsSectionOne->guideline = $validated['guideline'];
                 $aboutUsSectionOne->scholarship_course_id = $request->scholarship_course;
                 $aboutUsSectionOne->save();
 
