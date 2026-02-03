@@ -136,8 +136,43 @@ class Registration extends Component
         }
     }
 
+
+    public bool $isRegistrationActive = true;
+    public string $registrationMessage = '';
+
+    public function mount()
+    {
+        $this->checkRegistrationStatus();
+    }
+
+    public function checkRegistrationStatus()
+    {
+        $setting = \App\Models\RegistrationSetting::first();
+        if (!$setting || !$setting->is_enabled) {
+            $this->isRegistrationActive = false;
+            $this->registrationMessage = 'Registrations are disabled for now. Please contact the administrator.';
+            return;
+        }
+
+        $now = now();
+        if ($setting->start_date && $now->lt($setting->start_date)) {
+            $this->isRegistrationActive = false;
+            $this->registrationMessage = 'Registrations will be available from ' . $setting->start_date->format('d M Y, h:i A') . '.';
+            return;
+        }
+
+        if ($setting->end_date && $now->gt($setting->end_date)) {
+            $this->isRegistrationActive = false;
+            $this->registrationMessage = 'Registrations are now closed. Please contact the administrator.';
+            return;
+        }
+
+        $this->isRegistrationActive = true;
+    }
+
     public function render()
     {
+        $this->checkRegistrationStatus();
         return view('livewire.auth.registration');
     }
 

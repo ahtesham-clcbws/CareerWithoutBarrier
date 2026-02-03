@@ -201,6 +201,7 @@
                     <a class="dropdown-item" href="{{route('admin.district-settings')}}">Districts</a>
                     <a class="dropdown-item" href="{{route('admin.scholarship-forms')}}">Scholarship Forms</a>
                     <a class="dropdown-item" href="{{route('admin.policy-pages')}}">Policy Pages</a>
+                    <a class="dropdown-item" href="{{route('settings.registration')}}">Registration Settings</a>
                     <a class="dropdown-item" href="{{route('settings.popup')}}">Popup Settings</a>
                     <a class="dropdown-item" href="{{route('settings.resetPortal')}}">Reset Portal</a>
                 </div>

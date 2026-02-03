@@ -24,6 +24,7 @@ use App\Livewire\Administrator\Settings\ContactList;
 use App\Livewire\Administrator\Settings\ContactListReply;
 use App\Livewire\Administrator\Settings\ContactRepliesList;
 use App\Livewire\Administrator\Settings\PopupSetting;
+use App\Livewire\Administrator\Settings\RegistrationSetting;
 use App\Livewire\Administrator\Settings\ResetPortal;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -223,6 +224,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::prefix('settings')->group(function () {
         Route::get('/popup', PopupSetting::class)->name('settings.popup');
+        Route::get('/registration', RegistrationSetting::class)->name('settings.registration');
         Route::get('/reset-portal', ResetPortal::class)->name('settings.resetPortal');
     });
 
