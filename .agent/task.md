@@ -72,3 +72,7 @@
     - [x] Update modal structures and close buttons for Bootstrap 5
     - [x] Verify fix
 
+- [x] Update FAQ UI and Add Edit Functionality
+    - [x] Update `faq.blade.php` to Bootstrap 5 + Bootstrap Icons
+    - [x] Implement `editFaq` JavaScript function
+    - [x] Update `HomeController@faqSave` to handle updates

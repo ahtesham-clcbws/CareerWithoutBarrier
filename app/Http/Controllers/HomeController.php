@@ -830,11 +830,18 @@ class HomeController extends Controller
         $title = str_replace(['<p>', '</p>'], ['', ''], $request->title);
         $details = str_replace(['<p>', '</p>'], ['', ''], $request->details);
 
-        $faq = new FaqModel();
+        if ($request->id && $request->id > 0) {
+            $faq = FaqModel::find($request->id);
+            $message = 'Faq updated successfully!';
+        } else {
+            $faq = new FaqModel();
+            $message = 'Faq added successfully!';
+        }
+
         $faq->title = $title;
         $faq->details = $details;
         $faq->save();
-        return redirect()->back()->with('success', 'Faq added successfully!');
+        return redirect()->back()->with('success', $message);
     }
 
     public function faqDelete($id)
