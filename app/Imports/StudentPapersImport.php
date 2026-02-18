@@ -93,20 +93,8 @@ class StudentPapersImport implements ToCollection, WithHeadingRow
                 }
             }
 
-            $students = Student::with(['latestStudentCode'])->get();
-
-            foreach ($students as $student) {
-                if ($student->percentage) {
-                    $appCode = $student?->latestStudentCode;
-                    if ($appCode) {
-                        $appCode->rank = $this->studentRankService->calculateOverallRank($student->id);
-                        $appCode->district_rank = $this->studentRankService->calculateDistrictRank($student->id);
-                        $appCode->state_rank = $this->studentRankService->calculateStateRank($student->id);
-                        $appCode->gender_rank = $this->studentRankService->calculateGenderRank($student->id);
-                        $appCode->save();
-                    }
-                }
-            }
+            // Recalculate all ranks in bulk after import
+            $this->studentRankService->recalculateAllRanks();
         } catch (\Throwable $th) {
             throw $th;
         }

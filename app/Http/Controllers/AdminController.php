@@ -1568,22 +1568,7 @@ class AdminController extends Controller
         $students = Student::with(['latestStudentCode'])->get();
 
         $this->studentRankService = new StudentRankService;
-
-        $studentCount = 0;
-        foreach ($students as $student) {
-            if ($student->percentage) {
-                $appCode = $student?->latestStudentCode;
-                if ($appCode) {
-                    $appCode->rank = $this->studentRankService->calculateOverallRank($student->id);
-                    $appCode->district_rank = $this->studentRankService->calculateDistrictRank($student->id);
-                    $appCode->state_rank = $this->studentRankService->calculateStateRank($student->id);
-                    $appCode->gender_rank = $this->studentRankService->calculateGenderRank($student->id);
-                    $appCode->save();
-
-                    $studentCount++;
-                }
-            }
-        }
+        $studentCount = $this->studentRankService->recalculateAllRanks();
 
         return back()->with('success', "$studentCount Students Rank Updated Successfully.");
     }

@@ -29,6 +29,9 @@ use App\Models\StudentPaperExported;
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#importModal">
                     Import Result
                 </button>
+                <a href="{{ route('admin.refreshStudentRank') }}" class="btn btn-warning">
+                    Recalculate Rank
+                </a>
                 @if(auth()->user()->roles == 'admin')
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#claimLoginForm">
                     Generate Scholarship Claims
@@ -95,13 +98,14 @@ use App\Models\StudentPaperExported;
                                 <table class="table table-bordered datatablecll">
                                     <thead>
                                         <tr>
-                                            <th class="selectAllCl text-center" style="padding-right: 10px;">Check_All <br> <input type="checkbox" id="selectAll"> </th>
+                                            <th class="selectAllCl text-center" style="padding-right: 10px;"><input type="checkbox" id="selectAll"> </th>
                                             <th>Student Name/ Gender</th>
                                             <th>Email/ Mobile/ App_Code</th>
 
                                             <th>Scholarship Category</th>
                                             <th>Scholarship Opted For</th>
                                             <th>City</th>
+                                            <th>All India Rank</th>
                                             <th>Percentage</th>
                                             <th>Page</th>
                                             <th>Claim form</th>
@@ -113,12 +117,9 @@ use App\Models\StudentPaperExported;
                                         <?php $studCode = $student->latestStudentCode; ?>
                                         <tr>
 
-                                            <td style="text-align: right;">
+                                            <td>
                                                 <input type="hidden" name="student_id[]" value="{{$student->id}}">
-                                                <input title="Please Tick" type="checkbox" data-row-id="{{$student->id}}" name="allow_to_claim_scholarship[]" class="form-check-input rowCheckbox" id="allow_to_claim_scholarship" value="1" <?= $studCode?->allow_to_claim_scholarship ? 'checked' : '' ?> required>
-                                                &nbsp;&nbsp;
-
-                                                {{$loop->index + 1}}.
+                                                <input title="Please Tick" type="checkbox" data-row-id="{{$student->id}}" name="allow_to_claim_scholarship[]" class="rowCheckbox" id="allow_to_claim_scholarship" value="1" <?= $studCode?->allow_to_claim_scholarship ? 'checked' : '' ?> required>
                                             </td>
                                             <td>{{ $student->name }}<br>
                                                 ({{ genderShort($student->gender) }})
@@ -130,6 +131,7 @@ use App\Models\StudentPaperExported;
                                             <td>{{ $student->scholarShipCategory?->name ?? 'N/A' }} <br> {{ $student->qualifications?->name }} </td>
                                             <td>{{ $student->scholarShipOptedFor?->name ?? 'N/A' }}</td>
                                             <td>{{ $student->district?->name }}</td>
+                                            <td style="text-align:center">{{$studCode?->rank ?? 'N/A'}}</td>
                                             <td style="text-align:center">{{$studCode?->percentage}} %
                                                 {{-- {{ json_encode($studCode) }} --}}
                                             </td>
