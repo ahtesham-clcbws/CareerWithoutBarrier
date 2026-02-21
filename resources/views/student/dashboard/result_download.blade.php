@@ -328,14 +328,17 @@
                         </td>
                     </tr>
                 </table>
-                <p class="s16" style="padding-top: 5pt;padding-left: 35pt;text-indent: 0pt;text-align: center;">
-                    Congratulations!</p>
-                <div class="">
-                    <p class="s17"
-                        style="padding-top: 4pt;text-indent: 0pt;text-align: center;background-color: #a5afb7;padding: 6pt;margin-top: 7pt;">
-                        You are Eligible for Scholarship
-                    </p>
-                </div>
+
+                @if ($student->scholarship_claim_generation_id)
+                    <p class="s16" style="padding-top: 5pt;padding-left: 35pt;text-indent: 0pt;text-align: center;">
+                        Congratulations!</p>
+                    <div class="">
+                        <p class="s17"
+                            style="padding-top: 4pt;text-indent: 0pt;text-align: center;background-color: #a5afb7;padding: 6pt;margin-top: 7pt;">
+                            You are Eligible for Scholarship
+                        </p>
+                    </div>
+                @endif
 
             </center>
         </div>
