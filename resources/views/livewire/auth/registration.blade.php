@@ -87,8 +87,8 @@
                                         wire:model.live="selectedDistrict" wire:key="{{ $selectedState }}">
                                         <option value="">Select your city...</option>
                                         @foreach (\App\Models\District::where('state_id', $selectedState)->whereHas('districtScholarshipLimits', function ($query) use ($selectedScholarship) {
-                                                    $query->forEducationType($selectedScholarship);
-                                                })->get() as $district)
+                                                $query->forEducationType($selectedScholarship);
+                                            })->get() as $district)
                                             <option value="{{ $district->id }}"
                                                 {{ intval($district->getLimit($selectedScholarship)->limit) == 0 ? 'disabled' : '' }}>
                                                 {{ $district->name }}
@@ -319,22 +319,23 @@
                             </div>
 
                         </form>
-                    @else
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body py-5 text-center">
-                                <div class="mb-4">
-                                    <span class="text-warning" style="font-size: 3rem;">
-                                        <i class="fa fa-calendar-times-o"></i>
-                                    </span>
-                                </div>
-                                <h4 class="text-secondary mb-3">{{ $registrationMessage }}</h4>
-                                <p class="text-muted mb-4">For any queries, please feel free to reach out to us on our
-                                    contact page.</p>
-                                <a class="btn btn-primary px-4 py-2" href="{{ route('home.contact') }}">
-                                    <i class="fa fa-envelope-o mr-2"></i> Contact Us
-                                </a>
+                    </div>
+                @else
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body py-5 text-center">
+                            <div class="mb-4">
+                                <span class="text-warning" style="font-size: 3rem;">
+                                    <i class="fa fa-calendar-times-o"></i>
+                                </span>
                             </div>
+                            <h4 class="text-secondary mb-3">{{ $registrationMessage }}</h4>
+                            <p class="text-muted mb-4">For any queries, please feel free to reach out to us on our
+                                contact page.</p>
+                            <a class="btn btn-primary px-4 py-2" href="{{ route('home.contact') }}">
+                                <i class="fa fa-envelope-o mr-2"></i> Contact Us
+                            </a>
                         </div>
+                    </div>
                 @endif
 
             </div>
