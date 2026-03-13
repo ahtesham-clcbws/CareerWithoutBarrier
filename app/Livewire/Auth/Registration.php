@@ -157,7 +157,7 @@ class Registration extends Component
         $now = now();
         if ($setting->start_date && $now->lt($setting->start_date)) {
             $this->isRegistrationActive = false;
-            $this->registrationMessage = 'Registrations will be available from ' . $setting->start_date->format('d M Y, h:i A') . '.';
+            $this->registrationMessage = 'Registrations will be available from <br />' . $setting->start_date->format('d M Y, h:i A') . '.';
             return;
         }
 

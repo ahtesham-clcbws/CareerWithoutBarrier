@@ -328,7 +328,7 @@
                                     <i class="fa fa-calendar-times-o"></i>
                                 </span>
                             </div>
-                            <h4 class="text-secondary mb-3">{{ $registrationMessage }}</h4>
+                            <h4 class="text-secondary mb-3">{!! $registrationMessage !!}</h4>
                             <p class="text-muted mb-4">For any queries, please feel free to reach out to us on our
                                 contact page.</p>
                             <a class="btn btn-primary px-4 py-2" href="{{ route('home.contact') }}">
