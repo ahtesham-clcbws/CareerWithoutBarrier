@@ -81,8 +81,8 @@ function institudeCodeGenerate($institudeNamte): string
 if (!function_exists('couponValueApply')) {
     function couponValueApply($valueType, $value)
     {
-        $valueAmount = $valueType == 'amount' ? $value : (750 * ($value / 100));
-        return 750 - $valueAmount;
+        $valueAmount = $valueType == 'amount' ? $value : (850 * ($value / 100));
+        return 850 - $valueAmount;
     }
 }
 
@@ -341,8 +341,90 @@ function alternateSort(Collection $students, array $fields): Collection
 
 function getCouponDetails(?string $couponCode = null)
 {
-    if(!$couponCode) {
+    if (!$couponCode) {
         return null;
     }
     return CouponCode::where('couponcode', $couponCode)->first();
+}
+
+/**
+ * Verify OTP against default OTPs or database
+ */
+if (!function_exists('verifyOtp')) {
+    function verifyOtp($otp, $mobile = null)
+    {
+        // 1. Check Default OTP from .env
+        $envDefaultOtp = env('DEFAULT_OTP');
+        if ($envDefaultOtp && (string)$otp === (string)$envDefaultOtp) {
+            return true;
+        }
+
+        // 2. Check in database if mobile/credential is provided
+        if ($mobile) {
+            $time = date('Y-m-d H:i:s', strtotime('-10 minutes'));
+            $otpVerification = \App\Models\OtpVerifications::where('credential', $mobile)
+                ->where('otp', $otp)
+                ->where('created_at', '>=', $time)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            if ($otpVerification) {
+                $otpVerification->status = 1;
+                $otpVerification->save();
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+if (!function_exists('getCitiesByState')) {
+    function getCitiesByState($stateId)
+    {
+        return \App\Models\District::where('state_id', $stateId)->get();
+    }
+}
+
+if (!function_exists('getClassesByEducation')) {
+    function getClassesByEducation($educationId)
+    {
+        return \App\Models\ClassGoupExamModel::where('education_type_id', $educationId)->get();
+    }
+}
+
+if (!function_exists('getSubjectPartLessonsBySubjectPart2')) {
+    function getSubjectPartLessonsBySubjectPart2($subjectPartId)
+    {
+        return \App\Models\Gn_SubjectPartLessionNew::where('subject_part_id', $subjectPartId)->get();
+    }
+}
+
+if (!function_exists('getBoardsbyClass')) {
+    function getBoardsbyClass($classId)
+    {
+        return \App\Models\BoardAgencyStateModel::where('class_id', $classId)->get();
+    }
+}
+
+if (!function_exists('defaultNumberCheck')) {
+    function defaultNumberCheck($mobile)
+    {
+        return in_array($mobile, ['1234567890', '9876543210']);
+    }
+}
+
+if (!function_exists('generateBranchCode')) {
+    function generateBranchCode($instituteName)
+    {
+        $prefix = strtoupper(substr(preg_replace('/[^A-Za-z0-9]/', '', $instituteName), 0, 3));
+        return $prefix . rand(1000, 9999);
+    }
+}
+
+if (!function_exists('getStates')) {
+    function getStates()
+    {
+        return \App\Models\State::all();
+    }
 }

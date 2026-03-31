@@ -381,11 +381,8 @@ class CorporateController extends Controller
 
         $student = Corporate::where('phone', $request->forget_mobile)->first();
 
-        $time = date('Y-m-d H:i:s', strtotime('-10 minutes'));
-        $otpVerification = OtpVerifications::where([['credential', '=', $request->forget_mobile], ['otp', '=', $request->forget_otp], ['status', '=', 1], ['created_at', '>=', $time]])->first();
-
-        if (is_null($otpVerification)) {
-            return response()->json(['success' => false, 'msg' => 'Otp expired.']);
+        if (!verifyOtp($request->forget_otp, $request->forget_mobile)) {
+            return response()->json(['success' => false, 'msg' => 'Otp expired or invalid.']);
         }
         if ($student) {
             $student->password = bcrypt($request->new_password);
@@ -441,12 +438,9 @@ class CorporateController extends Controller
                             return response()->json(['status' => false, 'message' => 'Please Enter OTP.', 'mobile_no' => '']);
                         }
 
-                        if (is_null($otpVerifications)) {
+                        if (!verifyOtp($otp, $mobileNumber)) {
                             return response()->json(['status' => false, 'message' => 'Invalid Otp.', 'mobile_no' => '']);
                         }
-
-                        $otpVerifications->status = 1;
-                        $otpVerifications->save();
 
                         // update phone no.
                         $getCorporateDetails->phone = $mobileNumber;

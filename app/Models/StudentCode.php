@@ -10,6 +10,9 @@ class StudentCode extends Model
 {
     use HasFactory, Notifiable;
 
+    protected $guarded = [];
+    protected $table = 'student_codes'; // explicitly providing
+
     protected $casts = [
         'exam_at' => 'datetime',
     ];

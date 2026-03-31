@@ -236,8 +236,7 @@ class RegistrationForm extends Component
                     $this->otpSendSuccess = true;
                 } else {
                     // verify otp here
-                    $checkOtpVerify = true;
-                    if (!$checkOtpVerify) {
+                    if (!verifyOtp($this->userOtp, $this->mobile)) {
                         $this->js("toastr.error('OTP doesn\'t match, try again.')");
                         return false;
                     }
@@ -349,7 +348,7 @@ class RegistrationForm extends Component
 
             $studentCode->coupan_code = $couponCode->couponcode;
             $studentCode->is_coupan_code_applied = 1;
-            $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ? 750 - $afterAppliedRemainValue : 0;
+            $studentCode->coupan_value = 850 - $afterAppliedRemainValue > 0 ? 850 - $afterAppliedRemainValue : 0;
             $studentCode->fee_amount = $afterAppliedRemainValue;
 
             if ($studentCode->fee_amount <= 0) {
@@ -365,7 +364,7 @@ class RegistrationForm extends Component
 
     public function couponValueApply($valueType, $value)
     {
-        $valueAmount = $valueType == 'amount' ? $value : (750 * ($value / 100));
-        return 750 - $valueAmount;
+        $valueAmount = $valueType == 'amount' ? $value : (850 * ($value / 100));
+        return 850 - $valueAmount;
     }
 }

@@ -54,7 +54,7 @@ $studentPayment = $student->studentPayment->last();
 
                            <tr>
                               <td colspan="2"><b>Fee Amount</b></td>
-                              <td class="information-txt" colspan="2">750 &#8377;</td>
+                              <td class="information-txt" colspan="2">850 &#8377;</td>
                            </tr>
                            @if($student->disability =='No' && $appCode->is_coupan_code_applied)
                            <tr>
@@ -160,7 +160,7 @@ $studentPayment = $student->studentPayment->last();
                </div>
                <div class="modal-body">
                   <div class="text-center fee_amount-dv">
-                     <p id="fee_amount" class="text-sucsess font-weight:20px;" style="margin-left: -45px;margin-bottom:0rem;" readonly>Fee Amount (Rs.) : {{$student->disability =='Yes' ? 0 : 750}}</p>
+                     <p id="fee_amount" class="text-sucsess font-weight:20px;" style="margin-left: -45px;margin-bottom:0rem;" readonly>Fee Amount (Rs.) : {{$student->disability =='Yes' ? 0 : 850}}</p>
                      @if($appCode?->is_coupan_code_applied)
                      <p class="text-danger fee_discount_amount" style="margin-left: -20px; margin-bottom:0rem;">Discount Amount (Rs.): -{{$appCode?->coupan_value}}</p>
                      
@@ -231,7 +231,7 @@ $studentPayment = $student->studentPayment->last();
                if (response.status) {
                   $('#applyCoupon').attr('disabled', true);
 
-                  $('.fee_amount-dv').append().html('<p id="fee_amount" class="text-sucsess font-weight:20px;" style="margin-bottom:0rem; margin-right: 38px;" readonly>Fee Amount (Rs.) : 750</p><p class="text-danger fee_discount_amount" style="margin-left: -13px; margin-bottom:0rem;">Discount Amount (Rs.): -'+response.discount_amount+'</p><p style="margin-left:20px; font-weight:700;margin-bottom:0rem;">Final Payable Amount (Rs.): '+response.amount+'</p>');
+                  $('.fee_amount-dv').append().html('<p id="fee_amount" class="text-sucsess font-weight:20px;" style="margin-bottom:0rem; margin-right: 38px;" readonly>Fee Amount (Rs.) : 850</p><p class="text-danger fee_discount_amount" style="margin-left: -13px; margin-bottom:0rem;">Discount Amount (Rs.): -'+response.discount_amount+'</p><p style="margin-left:20px; font-weight:700;margin-bottom:0rem;">Final Payable Amount (Rs.): '+response.amount+'</p>');
 
                   
                   $('#exampleModalLongTitle').html('Refferel Coupon is Applied Successfully');
@@ -289,7 +289,7 @@ $studentPayment = $student->studentPayment->last();
                $('#applyCoupon').toggle();
                $('#applyCoupon').parent().parent().prev().text('Coupon Code:')
                $('#applyCoupon').attr('disabled', false);
-               $('#fee_amount').html('Fee Amount(Rs.): 750');
+               $('#fee_amount').html('Fee Amount(Rs.): 850');
                $('#fee_amount').nextAll('p').remove();
                $('.coupon_code-input').val('');
                $('.coupon_code-input').attr('readonly', false);

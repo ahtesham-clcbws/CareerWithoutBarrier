@@ -76,7 +76,6 @@ class Registration extends Component
     public $otpSendSuccess = false;
 
     #[Validate('required', message: 'Please enter OTP')]
-    #[Validate('exists:otp_verifications,otp', message: 'OTP is invalid.')]
     public $userOtp;
 
     public $isOtpVerfied = false;
@@ -200,16 +199,13 @@ class Registration extends Component
 
     public function verifyOtp()
     {
-        $getOTP = OtpVerifications::where('type', 'mobile')->where('credential', $this->mobile)->orderBy('id', 'desc')->first();
-        if (!$getOTP) {
-            $this->addError('mobile', 'Enter correct mobile number.');
-            return false;
-        }
-        if ($getOTP->otp != $this->userOtp) {
+        if (verifyOtp($this->userOtp, $this->mobile)) {
+            $this->isOtpVerfied = true;
+        } else {
+            // $this->addError('mobile', 'Enter correct mobile number.');
             $this->addError('userOtp', 'Enter correct OTP.');
             return false;
         }
-        $this->isOtpVerfied = true;
     }
 
     public function registerVerifyCoupon()
@@ -317,35 +313,40 @@ class Registration extends Component
 
             $couponCode = CouponCode::where('couponcode', $coupon)->first();
 
-            $couponCode->is_applied = 1;
+            if ($couponCode) {
+                $couponCode->is_applied = 1;
+                $afterAppliedRemainValue = $this->couponValueApply($couponCode->valueType, $couponCode->value);
 
-            $afterAppliedRemainValue = $this->couponValueApply($couponCode->valueType, $couponCode->value);
+                $corporate = $couponCode->corporate;
+                if ($corporate) {
+                    $studentCode->corporate_id = $corporate->id;
+                    $studentCode->corporate_name = $corporate->name;
+                }
 
-            $corporate = $couponCode->corporate;
-            if ($corporate) {
-                $studentCode->corporate_id = $corporate->id;
-                $studentCode->corporate_name = $corporate->name;
+                $studentCode->coupan_code = $couponCode->couponcode;
+                $studentCode->is_coupan_code_applied = 1;
+                $studentCode->coupan_value = 850 - $afterAppliedRemainValue > 0 ? 850 - $afterAppliedRemainValue : 0;
+                $studentCode->fee_amount = $afterAppliedRemainValue;
+                $couponCode->save();
+            } else {
+                $studentCode->fee_amount = 850;
+                $studentCode->coupan_value = 0;
             }
-
-            $studentCode->coupan_code = $couponCode->couponcode;
-            $studentCode->is_coupan_code_applied = 1;
-            $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ? 750 - $afterAppliedRemainValue : 0;
-            $studentCode->fee_amount = $afterAppliedRemainValue;
 
             if ($studentCode->fee_amount <= 0) {
-                $studentCode->used_coupon = 1;
-            }
-            if ($studentCode->save()) {
-                $couponCode->save();
+                $studentCode->status = 1;
             }
         } catch (\Throwable $th) {
+            \logger($th->getMessage());
             $this->js("toastr.error('" . $th->getMessage() . "')");
         }
+
+        $studentCode->save();
     }
 
     public function couponValueApply($valueType, $value)
     {
-        $valueAmount = $valueType == 'amount' ? $value : (750 * ($value / 100));
-        return 750 - $valueAmount;
+        $valueAmount = $valueType == 'amount' ? $value : (850 * ($value / 100));
+        return 850 - $valueAmount;
     }
 }

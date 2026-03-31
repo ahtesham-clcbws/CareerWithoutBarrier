@@ -81,7 +81,7 @@ class EnquiryForm extends Component
     public $otpSendSuccess = false;
 
     #[Validate('required', message: 'Please enter OTP')]
-    #[Validate('exists:otp_verifications,otp', message: 'OTP is invalid.')]
+    #[Validate('required', message: 'OTP is required.')]
     public $userOtp;
 
     public $isOtpVerfied = false;
@@ -120,16 +120,12 @@ class EnquiryForm extends Component
 
     public function verifyOtp()
     {
-        $getOTP = OtpVerifications::where('type', 'mobile')->where('credential', $this->phone)->orderBy('id', 'desc')->first();
-        if (!$getOTP) {
-            $this->addError('phone', 'Enter correct phone number.');
-            return false;
-        }
-        if ($getOTP->otp != $this->userOtp) {
+        if (verifyOtp($this->userOtp, $this->phone)) {
+            $this->isOtpVerfied = true;
+        } else {
             $this->addError('userOtp', 'Enter correct OTP.');
             return false;
         }
-        $this->isOtpVerfied = true;
     }
 
     public function VerifyAndSubmit()

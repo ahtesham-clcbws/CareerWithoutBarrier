@@ -258,7 +258,7 @@ class ApplicationController extends Controller
             $studentCode->stud_id = $student->id;
             $studentCode->coupan_code = $couponCode->couponcode;
             $studentCode->is_coupan_code_applied = 1;
-            $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ? 750 - $afterAppliedRemainValue : 0;
+            $studentCode->coupan_value = 850 - $afterAppliedRemainValue > 0 ? 850 - $afterAppliedRemainValue : 0;
             $studentCode->fee_amount = $afterAppliedRemainValue;
 
             if ($studentCode->fee_amount <= 0) {
@@ -291,7 +291,7 @@ class ApplicationController extends Controller
             $studentCode->corporate_id = null;
             $studentCode->coupan_code = null;
             $studentCode->is_coupan_code_applied = false;
-            $studentCode->fee_amount = 750;
+            $studentCode->fee_amount = 850;
             if ($studentCode->fee_amount > 0) {
                 $studentCode->used_coupon = false;
             }

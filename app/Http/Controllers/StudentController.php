@@ -206,8 +206,8 @@ class StudentController extends Controller
         ]);
 
         try {
-            if (OtpVerifications::where([['credential', '=', $request->mobile], ['otp', '=', $request->otp], ['status', '=', 1]])->count() == 0 && !$request->otp == 239887) {
-                return response()->json(['success' => false, 'msg' => 'Otp is not verified.']);
+            if (!verifyOtp($request->otp, $request->mobile)) {
+                return response()->json(['status' => false, 'message' => 'Invalid Otp.']);
             }
             $student = new Student();
             $student->forceFill(collect($validatedData)->except('confirmpassword', 'otp')->all());
@@ -527,7 +527,7 @@ class StudentController extends Controller
             $studentCode->forceFill($validated);
             $studentCode->coupan_code = $couponCode->couponcode;
             $studentCode->is_coupan_code_applied = 1;
-            $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ? 750 - $afterAppliedRemainValue : 0;
+            $studentCode->coupan_value = 850 - $afterAppliedRemainValue > 0 ? 850 - $afterAppliedRemainValue : 0;
             $studentCode->fee_amount = $afterAppliedRemainValue;
 
             if ($studentCode->fee_amount <= 0) {
@@ -573,7 +573,7 @@ class StudentController extends Controller
             $studentCode->corporate_id = null;
             $studentCode->coupan_code = null;
             $studentCode->is_coupan_code_applied = false;
-            $studentCode->fee_amount = 750;
+            $studentCode->fee_amount = 850;
             if ($studentCode->fee_amount > 0) {
                 $studentCode->used_coupon = false;
             }

@@ -19,7 +19,7 @@ class Razorpay extends Controller
     {
         $student = Student::find(Auth::guard('student')->id());
         $studentFee = $student->latestStudentCode;
-        $feeAmount =  $studentFee->is_coupan_code_applied ? $studentFee->fee_amount : 750;
+        $feeAmount =  $studentFee->is_coupan_code_applied ? $studentFee->fee_amount : 850;
 
         if ($feeAmount <= 0) {
             return back()->withErrors('Payable Amount greater than zero.');

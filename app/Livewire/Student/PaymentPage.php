@@ -50,7 +50,7 @@ class PaymentPage extends Component
         ]);
     }
 
-    public function calculateDiscountPercentage($discountAmount, $originalAmount = 750)
+    public function calculateDiscountPercentage($discountAmount, $originalAmount = 850)
     {
         if ($originalAmount == 0) {
             return 0;
@@ -106,7 +106,7 @@ class PaymentPage extends Component
 
             $studentCode->coupan_code = $this->coupan_code;
             $studentCode->is_coupan_code_applied = 1;
-            $studentCode->coupan_value = 750 - $afterAppliedRemainValue > 0 ? 750 - $afterAppliedRemainValue : 0;
+            $studentCode->coupan_value = 850 - $afterAppliedRemainValue > 0 ? 850 - $afterAppliedRemainValue : 0;
             $studentCode->fee_amount = $afterAppliedRemainValue;
 
             if ($studentCode->fee_amount <= 0) {
@@ -145,7 +145,7 @@ class PaymentPage extends Component
             $studentCode->corporate_id = null;
             $studentCode->coupan_code = null;
             $studentCode->is_coupan_code_applied = false;
-            $studentCode->fee_amount = 750;
+            $studentCode->fee_amount = 850;
             if ($studentCode->fee_amount > 0) {
                 $studentCode->used_coupon = false;
             }

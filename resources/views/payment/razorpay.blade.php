@@ -15,7 +15,7 @@
 
 <body>
     <?php
-$feeAmount = $studentFee->is_coupan_code_applied ? $studentFee->fee_amount : 750;
+$feeAmount = $studentFee->is_coupan_code_applied ? $studentFee->fee_amount : 850;
 
     ?>
     <div id="app">

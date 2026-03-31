@@ -30,8 +30,8 @@ class RegistrationSetting extends Component
             ]);
         }
         $this->setting = $setting;
-        $this->start_date = $setting->start_date?->format('Y-m-d\TH:i');
-        $this->end_date = $setting->end_date?->format('Y-m-d\TH:i');
+        $this->start_date = $setting->start_date?->format('Y-m-d\TH:i') ?? null;
+        $this->end_date = $setting->end_date?->format('Y-m-d\TH:i') ?? null;
         $this->is_enabled = $setting->is_enabled;
     }
 

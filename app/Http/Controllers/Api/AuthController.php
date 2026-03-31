@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\OtpVerifications;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -64,18 +65,13 @@ class AuthController extends Controller
 
     public function verifyUserOTP($otp, $mobile)
     {
-        if ($otp !== '239887') {
-            $otpVerification = OtpVerifications::where([['credential', '=', $mobile], ['otp', '=', $otp], ['status', '=', 0]])->first();
-
-            if (!$otpVerification) {
-                return false;
-            }
-
-            $otpVerification->status = 1;
-            $otpVerification->save();
-            return true;
+        if (verifyOtp($otp, $mobile)) {
+            $user = User::where('mobile', $mobile)->first();
+            Auth::login($user);
+            $accessToken = Auth::user()->createToken('authToken')->accessToken;
+            return response()->json(['status' => true, 'message' => 'Login Successfully', 'user' => Auth::user(), 'access_token' => $accessToken]);
         } else {
-            return true;
+            return response()->json(['status' => false, 'message' => 'Invalid OTP'], 401);
         }
     }
 

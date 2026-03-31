@@ -59,9 +59,7 @@ class ForgetPassword extends Component
             'password_confirmation' => 'required|same:password'
         ]);
 
-        $getOtp = OtpVerifications::where('type', 'email')->where('credential', $this->email)->orderBy('id', 'desc')->first();
-
-        if ($getOtp && $getOtp->otp == $this->otp) {
+        if (verifyOtp($this->otp, $this->email)) {
             $student = Student::where('email', $this->email)->first();
             $student->update([
                 'password' => Hash::make($this->password),

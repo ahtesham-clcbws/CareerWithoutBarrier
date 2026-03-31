@@ -21,7 +21,7 @@
         <div class="container py-5 pb-4 text-center">
             <h2 class="text-white" style="font-size:32px">Student Registration</h2>
             <p class="mt-3 text-white" style="font-size: 18px;">Registration fee <b>&#8377; <span
-                        style="font-size: 140%;">750</span></b> will be applicable</p>
+                        style="font-size: 140%;">850</span></b> will be applicable</p>
         </div>
     </div>
 

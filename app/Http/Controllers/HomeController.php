@@ -39,6 +39,7 @@ use App\Models\Student;
 use App\Models\TermsCondition;
 use App\Models\TestimonialsModel;
 use App\Models\User;
+use App\Models\PasswordResetModel;
 use App\Models\UserRegistration;
 use App\Notifications\Admin\AdminOtpSent;
 use App\Notifications\MailOtp;
@@ -553,13 +554,14 @@ class HomeController extends Controller
 
         $verifiedMobile = MobileNumber::where('mobile', $mobileNumber)->where('isOtpRequired', 1)->first();
 
-        if ($verifiedMobile || $request->otp && $request->otp == '239887') {
+        if ($verifiedMobile || ($request->otp && verifyOtp($request->otp, $mobileNumber))) {
             return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.']);
         }
 
         $otpVerifications = OtpVerifications::where('credential', $mobileNumber)
             ->where('created_at', '>=', $time)
             ->first();
+
         // send once in only 10 minutes
 
         if ($request->form_name == 'otp_verify') {
@@ -568,14 +570,11 @@ class HomeController extends Controller
                 return response()->json(['status' => false, 'message' => 'Please Enter OTP.']);
             }
 
-            if (is_null($otpVerifications) || $otp != $otpVerifications->otp) {
-                return response()->json(['status' => false, 'message' => 'Invalid Otp.']);
+            if (verifyOtp($otp, $mobileNumber)) {
+                return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.']);
             }
 
-            $otpVerifications->status = 1;
-            $otpVerifications->save();
-
-            return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.']);
+            return response()->json(['status' => false, 'message' => 'Invalid Otp.']);
         }
         if ($request->form_user == 'forgetPassword') {
             $student = Student::where('mobile', $mobileNumber)->first();
@@ -605,6 +604,10 @@ class HomeController extends Controller
 
         $verifiedMobile = MobileNumber::where('mobile', $mobileNumber)->where('isOtpRequired', 1)->first();
 
+        $otpVerifications = OtpVerifications::where('credential', $mobileNumber)
+            ->where('created_at', '>=', $time)
+            ->first();
+
         if ($verifiedMobile) {
             return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.']);
         }
@@ -620,14 +623,11 @@ class HomeController extends Controller
                 return response()->json(['status' => false, 'message' => 'Please Enter OTP.']);
             }
 
-            if (is_null($otpVerifications)) {
-                return response()->json(['status' => false, 'message' => 'Invalid Otp.']);
+            if (verifyOtp($otp, $mobileNumber)) {
+                return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.']);
             }
 
-            $otpVerifications->status = 1;
-            $otpVerifications->save();
-
-            return response()->json(['status' => true, 'message' => 'Otp Verified Successfully.']);
+            return response()->json(['status' => false, 'message' => 'Invalid Otp.']);
         }
         if ($request->form_user == 'forgetPassword') {
             $student = Corporate::where('phone', $mobileNumber)->first();
@@ -705,9 +705,9 @@ class HomeController extends Controller
             'district_id' => 'required|exists:districts,id',
         ]);
         try {
-            // if (OtpVerifications::where('credential', $request->phone)->where('otp', $request->otp)->where('status', 1)->count() == 0) {
-            //     return response()->json(['success' => false, 'message' => 'Otp is not verified.']);
-            // }
+            if (!verifyOtp($request->otp, $request->phone)) {
+                return response()->json(['success' => false, 'message' => 'Otp is not verified.']);
+            }
 
             // Handle file upload
             if ($request->hasFile('attachment')) {
@@ -1065,5 +1065,23 @@ class HomeController extends Controller
         } else {
             return response()->json(['status' => false, 'message' => 'You are not registered.']);
         }
+    }
+
+    public function studentRecoverPassword($id, $reset_id)
+    {
+        $resetData = PasswordResetModel::where('id', $reset_id)->where('user_id', $id)->first();
+        if (!$resetData || $resetData->status == 1) {
+            return redirect()->route('website.homepage')->with('error', 'Invalid or expired reset link.');
+        }
+
+        $student = User::find($id);
+        if (!$student) {
+            return redirect()->route('website.homepage')->with('error', 'User not found.');
+        }
+
+        return view('auth.passwords.reset', [
+            'token' => $reset_id,
+            'email' => $student->email,
+        ]);
     }
 }

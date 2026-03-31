@@ -57,7 +57,7 @@
 
                                     <tr>
                                         <td class="half" colspan="2"><b>Fee Amount</b></td>
-                                        <td class="information-txt half" colspan="2">750 &#8377;</td>
+                                        <td class="information-txt half" colspan="2">850 &#8377;</td>
                                     </tr>
 
                                     @if ($student->latestStudentCode?->is_coupan_code_applied)
@@ -224,7 +224,7 @@
                     <div class="modal-body">
                         <div class="fee_amount-dv text-center">
                             <p class="text-sucsess font-weight:20px;" id="fee_amount"
-                                style="margin-left: -45px;margin-bottom:0rem;" readonly>Fee Amount (Rs.) : 750</p>
+                                style="margin-left: -45px;margin-bottom:0rem;" readonly>Fee Amount (Rs.) : 850</p>
                             @if ($student->latestStudentCode?->is_coupan_code_applied)
                                 <p class="text-danger fee_discount_amount"
                                     style="margin-left: -20px; margin-bottom:0rem;">Discount Amount (Rs.):
@@ -296,7 +296,7 @@
         function payWithRazorpay() {
             var options = {
                 "key": "{{ config('services.razorpay.key') }}",
-                "amount": "{{ ($student->latestStudentCode?->is_coupan_code_applied ? $student->latestStudentCode?->fee_amount : 750) * 100 }}",
+                "amount": "{{ ($student->latestStudentCode?->is_coupan_code_applied ? $student->latestStudentCode?->fee_amount : 850) * 100 }}",
                 "currency": "INR",
                 "name": "{{ config('app.name', 'Career Without Barrier') }}",
                 "description": "Payment for Scholarship Application",

@@ -7,16 +7,18 @@ use App\Mail\NotifyAdminInstituteSignup;
 use App\Mail\NotifyAdminStudentSignup;
 use App\Mail\NotifyFranchiseStudentSignup;
 use App\Mail\NotifyTestUpdate;
-use App\Models\CorporateEnquiry;
+use App\Models\Corporate;
 use App\Models\FranchiseDetails;
 use App\Models\OtpVerifications;
 use App\Models\User;
 use App\Models\UserDetails;
+use App\Models\CorporateEnquiry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\sendFranchiseEmail;
+use App\Mail\SendFranchiseEmail;
 use App\Mail\StudentResetCode;
 use App\Models\PasswordResetModel;
 use App\Models\QuestionBankModel;
@@ -67,7 +69,7 @@ class InternalRequestsController extends Controller
             ])->info('from student signup -method  post ' . $request->input('form_name'));
             if ($request->input('form_name') == 'admin_login') {
                 $userData = array('email' => $request->input('email'), 'password' => $request->input('password'), 'isAdminAllowed' => 1);
-                if (auth()->attempt($userData)) {
+                if (Auth::attempt($userData)) {
                     CorporateEnquiry::generateCounts();
                     User::generateCounts();
                     return json_encode(true);
@@ -207,24 +209,25 @@ class InternalRequestsController extends Controller
                     // $response       = Http::get($url);
 
 
-                    $message    = rawurlencode('Dear user%nYour OTP for sign up to The Gyanology portal is ' . $otp . '.%nValid for 10 minutes. Please do not share this OTP.%nRegards%nThe Gyanology Team');
-                    $sender     = urlencode("GYNLGY");
-                    $apikey     = urlencode("MzQ0YzZhMzU2ZTY2NjI0YjU4Mzc0NDMxNmU3MjYzNmM=");
-                    $url        = 'https://api.textlocal.in/send/?apikey=' . $apikey . '&numbers=' . $mobileNumber . '&sender=' . $sender . '&message=' . $message;
+                    $message    = 'Dear user%nYour OTP for sign up to The Gyanology portal is ' . $otp . '.%nValid for 10 minutes. Please do not share this OTP.%nRegards%nThe Gyanology Team';
+                    $sender     = "GYNLGY";
+                    $apikey     = "MzQ0YzZhMzU2ZTY2NjI0YjU4Mzc0NDMxNmU3MjYzNmM=";
 
-                    $ch         = curl_init($url);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    $response   = curl_exec($ch);
-                    curl_close($ch);
-                    $response   = json_decode($response);
-                    if ($response) {
+                    $response = Http::get('https://api.textlocal.in/send/', [
+                        'apikey' => $apikey,
+                        'numbers' => $mobileNumber,
+                        'sender' => $sender,
+                        'message' => $message,
+                    ]);
+
+                    if ($response->successful()) {
                         $otpVerifications               = new OtpVerifications;
                         $otpVerifications->type         = 'mobile';
                         $otpVerifications->credential   = $mobileNumber;
                         $otpVerifications->otp          = $otp;
                         $saveToDb                       = $otpVerifications->save();
 
-                        if ($saveToDb && $response->status == 'success') {
+                        if ($saveToDb) {
                             $this->returnResponse['success'] = true;
                         }
                     }
@@ -239,9 +242,8 @@ class InternalRequestsController extends Controller
                 $otp =  $request->input('otp');
                 $type =  $request->input('type');
                 $time = date('Y-m-d H:i:s', strtotime('-11 minutes'));
-                $otpData = OtpVerifications::where([['type', '=', $type], ['credential', '=', $mobile], ['otp', '=', $otp], ['created_at', '>', $time]])->first();
-                if ($otpData) {
-                    return json_encode(true);
+                if (verifyOtp($otp, $mobile)) {
+                    return response()->json(['status' => true, 'message' => 'Verified']);
                 }
                 return json_encode(false);
             }
@@ -279,18 +281,18 @@ class InternalRequestsController extends Controller
             }
             if ($request->input('form_name') == 'corporate_form') {
                 $corporateDb = new CorporateEnquiry();
-                $corporateDb->name =  filter_var($request->input('name'), FILTER_SANITIZE_STRING);
-                $corporateDb->institute_name =  filter_var($request->input('institute_name'), FILTER_SANITIZE_STRING);
+                $corporateDb->name =  htmlspecialchars($request->input('name'), FILTER_DEFAULT);
+                $corporateDb->institute_name =  htmlspecialchars($request->input('institute_name'), FILTER_DEFAULT);
                 $corporateDb->type_of_institution =  json_encode($request->input('institute_type'));
                 $corporateDb->interested_for =  json_encode($request->input('interested_for'));
-                $corporateDb->established_year =  filter_var($request->input('established_year'), FILTER_SANITIZE_NUMBER_INT);
-                $corporateDb->email =  filter_var($request->input('email'), FILTER_SANITIZE_EMAIL);
-                $corporateDb->mobile =  filter_var($request->input('contact_mobile'), FILTER_SANITIZE_NUMBER_INT);
-                $corporateDb->otp =  filter_var($request->input('mobile_corporate_otp_new'), FILTER_SANITIZE_NUMBER_INT);
-                // $corporateDb->address =  filter_var($request->input('address'), FILTER_SANITIZE_STRING);
-                $corporateDb->state_id =  filter_var($request->input('state_id'), FILTER_SANITIZE_NUMBER_INT);
-                $corporateDb->city_id =  filter_var($request->input('city_id'), FILTER_SANITIZE_NUMBER_INT);
-                $corporateDb->pincode =  filter_var($request->input('pincode'), FILTER_SANITIZE_NUMBER_INT);
+                $corporateDb->established_year =  htmlspecialchars($request->input('established_year'), FILTER_SANITIZE_NUMBER_INT);
+                $corporateDb->email =  htmlspecialchars($request->input('email'), FILTER_SANITIZE_EMAIL);
+                $corporateDb->mobile =  htmlspecialchars($request->input('contact_mobile'), FILTER_SANITIZE_NUMBER_INT);
+                $corporateDb->otp =  htmlspecialchars($request->input('mobile_corporate_otp_new'), FILTER_SANITIZE_NUMBER_INT);
+                // $corporateDb->address =  htmlspecialchars($request->input('address'), FILTER_DEFAULT);
+                $corporateDb->state_id =  htmlspecialchars($request->input('state_id'), FILTER_SANITIZE_NUMBER_INT);
+                $corporateDb->city_id =  htmlspecialchars($request->input('city_id'), FILTER_SANITIZE_NUMBER_INT);
+                $corporateDb->pincode =  htmlspecialchars($request->input('pincode'), FILTER_SANITIZE_NUMBER_INT);
                 $corporateDb->branch_code = generateBranchCode($request->input('institute_name'));
 
                 if ($request->hasFile('corporate_logo')) {
@@ -306,8 +308,7 @@ class InternalRequestsController extends Controller
                             'typeMessage' => 'Account updated.',
                             'message' => 'You are succesfully registered.'
                         ];
-                        // $mailToSend = new sendFranchiseEmail($details);
-                        $sendMail = Mail::to($request->input('email'))->send($details);
+                        $sendMail = Mail::to($request->input('email'))->send(new SendFranchiseEmail($details));
                     }
                     CorporateEnquiry::generateCounts();
                     // send email here
@@ -382,14 +383,14 @@ class InternalRequestsController extends Controller
                 // return json_encode($request->all());
                 $userDb = new User();
 
-                $userDb->name =  filter_var($request->input('full_name'), FILTER_SANITIZE_STRING);
-                $userDb->username =  filter_var($request->input('my_username'), FILTER_SANITIZE_STRING);
+                $userDb->name =  htmlspecialchars($request->input('full_name'));
+                $userDb->username =  htmlspecialchars($request->input('my_username'));
                 $userDb->roles =  'student';
                 if ($request->input('institute_code') == '') {
                     $userDb->status =  'active';
                 } else {
                     $userDb->in_franchise =  '1';
-                    $userDb->franchise_code =  filter_var($request->input('institute_code'));
+                    $userDb->franchise_code =  htmlspecialchars($request->input('institute_code'));
                 }
                 $userDb->email =  filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? $request->input('email') : null;
                 $userDb->mobile =  filter_var($request->input('mobile_number'), FILTER_SANITIZE_NUMBER_INT);
@@ -397,8 +398,9 @@ class InternalRequestsController extends Controller
                 $mail_flag = 0;
                 // return json_encode($userDb);
                 // $query = $userDb->save();
-                if ($userDb->save()) {
-                    Log::build([
+                    if ($userDb->save()) {
+
+                        Log::build([
                         'driver' => 'single',
                         'path' => storage_path('logs/custom.log'),
                     ])->info('from student signup -form_name registration_form user saved ' . $request->input('email') . ' ' . $request->input('full_name') . ' ' . $request->input('institute_code'));
@@ -454,7 +456,7 @@ class InternalRequestsController extends Controller
                                 'path' => storage_path('logs/custom.log'),
                             ])->info('student signup super admin ' . implode(" ", $emails) . ' ' . count(Mail::failures()));
 
-                            $mailToSend = new sendFranchiseEmail($details);
+                            $mailToSend = new SendFranchiseEmail($details);
                             $sendMail = Mail::to($request->input('email'))->send($mailToSend);
                             Log::build([
                                 'driver' => 'single',
@@ -472,8 +474,14 @@ class InternalRequestsController extends Controller
 
                     $userDetailsDb = new UserDetails();
                     $userDetailsDb->user_id =  $userDb->id;
+                    $userDetailsDb->state_id       = 0;
+                    $userDetailsDb->district_id    = 0;
+                    $userDetailsDb->block_id       = 0;
+                    $userDetailsDb->pincode        = 0;
+                    $userDetailsDb->is_assigned    = 1; // Mark as assigned for students
+
                     if ($request->input('institute_code')) {
-                        $userDetailsDb->institute_code =  filter_var($request->input('institute_code'));
+                        $userDetailsDb->institute_code =  htmlspecialchars($request->input('institute_code'));
                     }
                     if ($file = $request->file('user_logo')) {
                         $name = $file->hashName();
@@ -497,7 +505,7 @@ class InternalRequestsController extends Controller
                 if (filter_var($input['username'], FILTER_VALIDATE_EMAIL)) {
                     $fieldType = 'email';
                 }
-                if (filter_var($input['username'], FILTER_VALIDATE_INT) && strlen(filter_var($input['username'], FILTER_VALIDATE_INT)) == 10) {
+                if (filter_var($input['username'], FILTER_SANITIZE_NUMBER_INT) && strlen(filter_var($input['username'], FILTER_SANITIZE_NUMBER_INT)) == 10) {
                     $fieldType = 'mobile';
                 }
                 $data = [
@@ -505,8 +513,8 @@ class InternalRequestsController extends Controller
                     'password' => $input['password'],
                     'status' => 'active'
                 ];
-                // return json_encode(auth()->attempt($data));
-                if (auth()->attempt($data)) {
+                // return json_encode(Auth::attempt($data));
+                if (Auth::attempt($data)) {
                     return json_encode(true);
                 }
                 return json_encode(false);
@@ -572,6 +580,7 @@ class InternalRequestsController extends Controller
                     $userDetailsDb->enquiry_id          =  $enquiry->id;
                     $userDetailsDb->type_of_institution =  $enquiry->type_of_institution;
                     // $userDetailsDb->franchise_types =  $enquiry['id'];
+                    $userDetailsDb->is_assigned         =  0; 
                     $userDetailsDb->save();
 
                     $enquiry->status = 'converted';
@@ -622,16 +631,16 @@ class InternalRequestsController extends Controller
                 $questionBankDb->subject_part               = $request->input('subject_part') ? filter_var($request->input('subject_part'), FILTER_SANITIZE_NUMBER_INT) : NULL;
                 $questionBankDb->subject_lesson_chapter     = $request->input('subject_lesson_chapter') ? filter_var($request->input('subject_lesson_chapter'), FILTER_SANITIZE_NUMBER_INT) : NULL;
                 $questionBankDb->question_type              = $request->input('question_type') ? filter_var($request->input('question_type'), FILTER_SANITIZE_NUMBER_INT) : NULL;
-                $questionBankDb->mcq_answer                 = $request->input('mcq_answer') ? filter_var($request->input('mcq_answer')) : NULL;
+                $questionBankDb->mcq_answer                 = $request->input('mcq_answer') ? htmlspecialchars($request->input('mcq_answer')) : NULL;
                 $questionBankDb->mcq_options                = $request->input('mcq_options') ? filter_var($request->input('mcq_options'), FILTER_SANITIZE_NUMBER_INT) : NULL;
-                $questionBankDb->question                   = $request->input('question') ? filter_var($request->input('question')) : NULL;
-                $questionBankDb->solution                   = $request->input('solution') ? filter_var($request->input('solution')) : NULL;
-                $questionBankDb->explanation                = $request->input('explanation') ? filter_var($request->input('explanation')) : NULL;
-                $questionBankDb->ans_1                      = $request->input('ans_1') ? filter_var($request->input('ans_1')) : NULL;
-                $questionBankDb->ans_2                      = $request->input('ans_2') ? filter_var($request->input('ans_2')) : NULL;
-                $questionBankDb->ans_3                      = $request->input('ans_3') ? filter_var($request->input('ans_3')) : NULL;
-                $questionBankDb->ans_4                      = $request->input('ans_4') ? filter_var($request->input('ans_4')) : NULL;
-                $questionBankDb->ans_5                      = $request->input('ans_5') ? filter_var($request->input('ans_5')) : NULL;
+                $questionBankDb->question                   = $request->input('question') ? htmlspecialchars($request->input('question')) : NULL;
+                $questionBankDb->solution                   = $request->input('solution') ? htmlspecialchars($request->input('solution')) : NULL;
+                $questionBankDb->explanation                = $request->input('explanation') ? htmlspecialchars($request->input('explanation')) : NULL;
+                $questionBankDb->ans_1                      = $request->input('ans_1') ? htmlspecialchars($request->input('ans_1')) : NULL;
+                $questionBankDb->ans_2                      = $request->input('ans_2') ? htmlspecialchars($request->input('ans_2')) : NULL;
+                $questionBankDb->ans_3                      = $request->input('ans_3') ? htmlspecialchars($request->input('ans_3')) : NULL;
+                $questionBankDb->ans_4                      = $request->input('ans_4') ? htmlspecialchars($request->input('ans_4')) : NULL;
+                $questionBankDb->ans_5                      = $request->input('ans_5') ? htmlspecialchars($request->input('ans_5')) : NULL;
                 $questionBankDb->alloted_for_check_id       = $request->input('alloted_for_check_id') ? filter_var($request->input('alloted_for_check_id'), FILTER_SANITIZE_NUMBER_INT) : NULL;
                 $questionBankDb->creator_id                 = $request->input('creator_id') ? filter_var($request->input('creator_id'), FILTER_SANITIZE_NUMBER_INT) : NULL;
                 if ($questionBankDb->save()) {
@@ -768,21 +777,21 @@ class InternalRequestsController extends Controller
                 }
                 $userDb = new User();
 
-                $userDb->name =  filter_var($request->input('name'), FILTER_SANITIZE_STRING);
-                // $userDb->username =  filter_var($request->input('my_username'), FILTER_SANITIZE_STRING);
+                $userDb->name =  htmlspecialchars($request->input('name'), FILTER_DEFAULT);
+                // $userDb->username =  htmlspecialchars($request->input('my_username'), FILTER_DEFAULT);
                 $userDb->roles =  'student';
-                $userDb->device_type =  filter_var($request->input('device_type'), FILTER_SANITIZE_STRING);
-                $userDb->device_id =  filter_var($request->input('device_id'), FILTER_SANITIZE_STRING);
+                $userDb->device_type =  htmlspecialchars($request->input('device_type'), FILTER_DEFAULT);
+                $userDb->device_id =  htmlspecialchars($request->input('device_id'), FILTER_DEFAULT);
                 if ($request->input('institute_code') == '') {
                     $userDb->status =  'active';
                 } else {
                     $userDb->in_franchise =  1;
-                    $userDb->franchise_code =  filter_var($request->input('institute_code'));
+                    $userDb->franchise_code =  htmlspecialchars($request->input('institute_code'));
                 }
                 if ($request->input('email') != "") {
-                    $userDb->email =  filter_var($request->input('email'), FILTER_VALIDATE_EMAIL);
+                    $userDb->email =  htmlspecialchars($request->input('email'), FILTER_VALIDATE_EMAIL);
                 }
-                $userDb->mobile =  filter_var($request->input('mobile'), FILTER_SANITIZE_NUMBER_INT);
+                $userDb->mobile =  htmlspecialchars($request->input('mobile'), FILTER_SANITIZE_NUMBER_INT);
                 $userDb->password =  Hash::make($request->input('password'));
 
                 // return json_encode($userDb);
@@ -791,7 +800,7 @@ class InternalRequestsController extends Controller
                     $userDetailsDb = new UserDetails();
                     $userDetailsDb->user_id =  $userDb->id;
                     if ($request->input('institute_code')) {
-                        $userDetailsDb->institute_code =  filter_var($request->input('institute_code'));
+                        $userDetailsDb->institute_code =  htmlspecialchars($request->input('institute_code'));
                     }
                     $userDetailsDb->save();
                     $this->returnResponse['success'] = true;
@@ -808,9 +817,9 @@ class InternalRequestsController extends Controller
             if ($request->input('form_name') == 'app_login') {
                 $input = request()->all();
                 $remember = true;
-                if (filter_var($input['username'], FILTER_VALIDATE_EMAIL)) {
+                if (htmlspecialchars($input['username'], FILTER_VALIDATE_EMAIL)) {
                     $fieldType = 'email';
-                } elseif (filter_var($input['username'], FILTER_VALIDATE_INT) && strlen(filter_var($input['username'], FILTER_VALIDATE_INT)) == 10) {
+                } elseif (htmlspecialchars($input['username'], FILTER_VALIDATE_INT) && strlen(htmlspecialchars($input['username'], FILTER_VALIDATE_INT)) == 10) {
                     $fieldType = 'mobile';
                 } else {
                     $fieldType = 'username';
@@ -831,10 +840,10 @@ class InternalRequestsController extends Controller
                         $data['is_staff'] = 0;
                         $data['isAdminAllowed'] = 0;
                         $data['status'] = 'active';
-                        // return json_encode(auth()->attempt($data, $remember));
-                        if (auth()->attempt($data, $remember)) {
+                        // return json_encode(Auth::attempt($data, $remember));
+                        if (Auth::attempt($data, $remember)) {
                             $returnResponse['success'] = true;
-                            $userData = auth()->user();
+                            $userData = Auth::user();
                             $userData['user_details'] = UserDetails::where('user_id', $userData->id)->first();
                             $returnResponse['message'] = $userData;
                         } else {
@@ -1321,14 +1330,4 @@ class InternalRequestsController extends Controller
         return json_encode(getStates());
     }
     
-    public function demoemail(Request $request){
-        $details = [
-            'fullname' => 'bhargav',
-            'typeMessage' => 'Account updated.',
-            'message' => 'You are succesfully registered.'
-        ];
-        // $mailToSend = new sendFranchiseEmail($details);
-        // $sendMail = \Mail::to('bhargavchovatiya6842@gmail.com')->send($details);
-         \Mail::to('bhargavchovatiya27@gmail.com')->send(new \App\Mail\sendFranchiseEmail($details));
-    }
 }

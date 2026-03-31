@@ -49,6 +49,7 @@ Route::post('/', [InternalRequestsController::class, 'index']);
 Route::post('/otp_verification', [HomeController::class, 'sendVerificationOtp']);
 Route::post('/corporate_otp_verification', [HomeController::class, 'CorporateSendVerificationOtp']);
 Route::post('/forget_password', [HomeController::class, 'forgetPassword'])->name('student.forgetPassword');
+Route::get('/student_recover_password/{id}/{reset_id}', [HomeController::class, 'studentRecoverPassword'])->name('student_recover_password');
 Route::post('/reset_forget_password', [HomeController::class, 'resetForgotPassword'])->name('corporate.resetforgetPassword');
 
 
