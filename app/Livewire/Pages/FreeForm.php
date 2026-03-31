@@ -70,8 +70,8 @@ class FreeForm extends Component
                 'district' => (object) [
                     'name' => 'Uttar Pradesh'
                 ],
-                'attachment' => '/img/avatar-1.webp',
-                'name' => 'Shamendra Sharma',
+                'attachment' => '/logos/logo-square-2.png',
+                'name' => 'SQS Foundation',
                 'institute_name' => 'SQS Foundation',
                 'phone' => '9336171302 (WhatsApp Only)',
                 'message' => 'Monday - Friday (10:00 am - 10:00 pm)',
