@@ -29,7 +29,7 @@ html { height: 100%;}
 }
 
 #wrapper.toggled {
-    padding-left: 250px;
+    padding-left: 280px;
 }
 
 #sidebar-wrapper {
@@ -37,7 +37,7 @@ html { height: 100%;}
     left: 0;
     width: 0;
     height: 100%;
-    margin-left: -250px;
+    margin-left: -280px;
     /* overflow-x: hidden; */
     background: #ffffff;
     -webkit-transition: all 0.5s ease;
@@ -53,7 +53,7 @@ html { height: 100%;}
 }
 
 #wrapper.toggled #sidebar-wrapper {
-    width: 250px;
+    width: 280px;
 }
 
 #page-content-wrapper {
@@ -63,13 +63,13 @@ html { height: 100%;}
 
 #wrapper.toggled #page-content-wrapper {
     position: absolute;
-    margin-right: -250px;
+    margin-right: -280px;
 }
 
 .dropdown-menu.show {
     position:absolute;
     top: 0;
-    margin-left: 250px;
+    margin-left: 280px;
     z-index: 999;
 }
 /*-------------------------------*/
@@ -89,7 +89,7 @@ html { height: 100%;}
 
 .sidebar-nav {
     top: 0;
-    width: 250px;
+    width: 280px;
     margin: 0;
     padding-bottom: 80px;
     margin-top: -10px;
@@ -228,7 +228,7 @@ color: #18c968;
 }
 .dropdown-menu.show {
     top: 0;
-    margin-left: 220px;
+    margin-left: 280px;
     border: 1px solid black;
 }
 /*Fontawesome icons*/

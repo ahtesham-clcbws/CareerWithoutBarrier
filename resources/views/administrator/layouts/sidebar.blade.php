@@ -3,6 +3,7 @@
         background: #ffffff !important;
         border-right: 1px solid #e3e6f0;
         box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 120, 0.15);
+        transition: width 0.3s ease;
     }
 
     .sidebar-brand {
@@ -97,19 +98,29 @@
         overflow-y: auto;
     }
 
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    .sidebar-nav-container::-webkit-scrollbar {
-        display: none;
+    .sidebar-nav-container {
+        height: calc(100vh - 100px);
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #4e73df #f8f9fc;
     }
 
-    /* Hide scrollbar for IE, Edge and Firefox */
-    .sidebar-nav-container {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+    /* Custom scrollbar for Chrome, Safari and Opera */
+    .sidebar-nav-container::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .sidebar-nav-container::-webkit-scrollbar-thumb {
+        background-color: #4e73df;
+        border-radius: 10px;
+    }
+
+    .sidebar-nav-container::-webkit-scrollbar-track {
+        background-color: #f8f9fc;
     }
 </style>
 <!-- Sidebar -->
-<nav class="sidebar fixed-top elevation-4" id="sidebar-wrapper" role="navigation" style="overflow-y: hidden;">
+<nav class="sidebar fixed-top elevation-4" id="sidebar-wrapper" role="navigation">
     <div class="sidebar-brand">
         <div class="d-flex align-items-center">
             <img src="{{asset('website/assets/images/fav-icon.png')}}" style="width:35px; height: 35px;" alt="Logo">

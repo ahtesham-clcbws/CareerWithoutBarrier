@@ -11,7 +11,7 @@ $(document).ready(function () {
        overlay.show();
           // trigger.removeClass('is-closed');
           // trigger.addClass('is-open');
-          menu.css("left", "250px");
+          menu.css("left", "280px");
 
             
       
@@ -44,7 +44,7 @@ $(document).ready(function () {
           overlay.show();
           // trigger.removeClass('is-closed');
           // trigger.addClass('is-open');
-          menu.css("left", "250px");
+          menu.css("left", "280px");
           isClosed = false;
         } else {   
           overlay.hide();
