@@ -84,7 +84,7 @@ class Registration extends Component
     public function couponVerify()
     {
         $this->resetValidation(['couponcode']);
-        // if ($this->remainingForms <= 400 && $this->couponcode) {
+        // if ($this->remainingForms <= 725 && $this->couponcode) {
         if (empty(trim($this->couponcode))) {
             $this->isCouponVerify = false;
             return $this->addError('couponcode', 'Referrence code is required');
@@ -246,7 +246,7 @@ class Registration extends Component
         //     $this->resetValidation(['couponcode']);
         // }
 
-        if ($this->remainingForms <= 400 && !$this->isCouponVerify) {
+        if ($this->remainingForms <= 725 && !$this->isCouponVerify) {
             $couponVerify = $this->couponVerify();
             if (!$couponVerify) {
                 return false;
@@ -287,7 +287,7 @@ class Registration extends Component
             $student->login_password = $this->password;
             $student->save();
 
-            if ($this->remainingForms <= 400) {
+            if ($this->remainingForms <= 725) {
                 $this->applyCoupon($student->id, $this->couponcode);
             }
 
