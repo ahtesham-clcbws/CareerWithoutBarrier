@@ -100,7 +100,7 @@
                                     @enderror
                                 </div>
 
-                                @if ($remainingForms <= 400)
+                                @if ($remainingForms <= 725)
                                     <div class="col-12">
                                         <label class="form-label mb-0">Referrence Code</label>
                                         <div class="input-group input-group-sm">
@@ -132,7 +132,7 @@
                                 @enderror
 
                                 <div class="col-12 text-center">
-                                    @if ($selectedState && $selectedDistrict && $remainingForms <= 400)
+                                    @if ($selectedState && $selectedDistrict && $remainingForms <= 725)
                                         <hr />
                                         <span class="text-danger">Only <b>{{ $remainingForms }}</b> Forms are remain
                                             for
