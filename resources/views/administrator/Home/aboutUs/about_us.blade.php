@@ -10,7 +10,6 @@
 <div class="row py-2 pl-3 pr-3">
     <div class="container ">
 
-    
         <!-- Section1 Start  -->
         <div class="row section_one">
             <div class="col-lg-6">
@@ -21,13 +20,13 @@
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
-                                <form action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
+                                <form id="form_about_banner" action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <p class="text-muted f-s-12">Title<span class="text-danger">*</span></p>
-                                        <input id="title" name="title" class="form-control">
-                                        <input id="form_name_title" type="hidden" name="form_type" value="about_banner" class="form-control">
-                                        <input id="" type="hidden" name="banner_id" value="" class="form-control">
+                                        <input id="banner_title" name="title" class="form-control">
+                                        <input type="hidden" name="form_type" value="about_banner" class="form-control">
+                                        <input id="banner_id" type="hidden" name="banner_id" value="" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <p class="text-muted f-s-12">Add Banner Image<span class="text-danger">(Size:3000x700)*</span></p>
@@ -86,8 +85,11 @@
                                 </td>
 
                                 <td style="text-align: center">
-                                    <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_banner','id' => $banner->id]) }}">
-                                        <span class="fa fa-trash"></span>
+                                    <a href="javascript:void(0)" onclick="editBanner({{ json_encode($banner) }})" class="mr-2">
+                                        <span class="fa fa-edit text-primary"></span>
+                                    </a>
+                                    <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_banner','id' => $banner->id]) }}" onclick="return confirm('Are you sure?')">
+                                        <span class="fa fa-trash text-danger"></span>
                                     </a>
                                 </td>
                             </tr>
@@ -110,35 +112,35 @@
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
-                                <form action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
+                                <form id="form_about_founder" action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Title<span class="text-danger">*</span></p>
-                                                <input id="title" name="title" class="form-control" required placeholder="Enter title here">
-                                                <input id="form_name_founder" type="hidden" name="form_type" value="about_founder" class="form-control">
-                                                <input id="" type="hidden" name="banner_id" value="" class="form-control">
+                                                <input id="founder_title" name="title" class="form-control" required placeholder="Enter title here">
+                                                <input type="hidden" name="form_type" value="about_founder" class="form-control">
+                                                <input id="founder_id" type="hidden" name="founder_id" value="" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Add Icon Image<span class="text-danger">(60x60)*</span></p>
-                                                <input required type="file" id="fileInputSection2" class="form-control input-focus" onchange="validateImage(this)" name="icon">
+                                                <input type="file" id="founder_icon" class="form-control input-focus" onchange="validateImage(this)" name="icon">
                                                 @error('icon')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <img class="imagePreviewSection2" src="#" alt="Image Preview" style="display: none;width:100px">
+                                                <img id="founder_icon_preview" src="#" alt="Image Preview" style="display: none;width:100px">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Add Picture<span class="text-danger">(256x256)*</span></p>
-                                                <input required type="file" id="fileInputSection2" class="form-control input-focus" onchange="validateImage(this)" name="picture">
+                                                <input type="file" id="founder_picture" class="form-control input-focus" onchange="validateImage(this)" name="picture">
                                                 @error('picture')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <img class="imagePreviewSection2" src="#" alt="Image Preview" style="display: none;width:100px">
+                                                <img id="founder_picture_preview" src="#" alt="Image Preview" style="display: none;width:100px">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col">
@@ -150,7 +152,7 @@
                                         <div class="col-md-12 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">message<span class="text-danger">*</span></p>
-                                                <textarea  class="editor form-control w-100 ckeditor" style="width: 100%;" name="message" placeholder="Enter message here"></textarea>
+                                                <textarea id="founder_message" class="editor form-control w-100 ckeditor" style="width: 100%;" name="message" placeholder="Enter message here"></textarea>
                                                 @error('message')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -229,8 +231,11 @@
                                 </td>
 
                                 <td style="text-align: center">
-                                    <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_founder','id' => $founder->id]) }}">
-                                        <span class="fa fa-trash"></span>
+                                    <a href="javascript:void(0)" onclick="editFounder({{ json_encode($founder) }})" class="mr-2">
+                                        <span class="fa fa-edit text-primary"></span>
+                                    </a>
+                                    <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_founder','id' => $founder->id]) }}" onclick="return confirm('Are you sure?')">
+                                        <span class="fa fa-trash text-danger"></span>
                                     </a>
                                 </td>
                             </tr>
@@ -253,35 +258,35 @@
                     </div>
                     <div class="">
                         <div class="">
-                            <form id="aboutUsSectionOne" action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
+                            <form id="form_about_section2" action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card alert">
                                     <div class="row card-body">
                                         <div class="col-md-3 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Title<span class="text-danger">*</span></p>
-                                                <input id="title" name="title" class="form-control" required placeholder="Enter title here">
+                                                <input id="section2_title" name="title" class="form-control" required placeholder="Enter title here">
                                                 @error('title')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <input id="about_section2" type="hidden" name="form_type" value="about_section2" class="form-control">
-                                                <input id="" type="hidden" name="section_two_id" value="" class="form-control">
+                                                <input type="hidden" name="form_type" value="about_section2" class="form-control">
+                                                <input id="section_two_id" type="hidden" name="section_two_id" value="" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-3 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Add Icon Image<span class="text-danger">(60x60)*</span></p>
-                                                <input required type="file" id="fileInputSection2" class="form-control input-focus" onchange="validateImage(this)" name="banner">
+                                                <input type="file" id="section2_banner" class="form-control input-focus" onchange="validateImage(this)" name="banner">
                                                 @error('banner')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <img id="imagePreviewSection2" src="#" alt="Image Preview" style="display: none;width:100px">
+                                                <img id="section2_banner_preview" src="#" alt="Image Preview" style="display: none;width:100px">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Description<span class="text-danger">(min character:20)*</span></p>
-                                                <textarea required class="editor form-control ckeditor" name="description" placeholder="Enter description here"></textarea>
+                                                <textarea id="section2_description" required class="editor form-control ckeditor" name="description" placeholder="Enter description here"></textarea>
                                                 @error('description')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -303,17 +308,17 @@
                                         <div class="col-md-3 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Add Image<span class="text-danger">(60x60)*</span></p>
-                                                <input required type="file" id="servicea_image" class="form-control input-focus" onchange="validateImage(this)" name="service_a_image">
+                                                <input type="file" id="servicea_image" class="form-control input-focus" onchange="validateImage(this)" name="service_a_image">
                                                 @error('service_a_image')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <img id="imagePreviewserviceAImage" src="#" alt="Image Preview" style="display: none;width:50px">
+                                                <img id="servicea_image_preview" src="#" alt="Image Preview" style="display: none;width:50px">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Heading A Description<span class="text-danger">(min character:20)*</span></p>
-                                                <textarea required class="editor form-control ckeditor" name="service_a_description" placeholder="Enter Service A description here"></textarea>
+                                                <textarea id="section2_service_a_description" required class="editor form-control ckeditor" name="service_a_description" placeholder="Enter Service A description here"></textarea>
                                                 @error('service_a_description')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -331,17 +336,17 @@
                                         <div class="col-md-3 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Add Image<span class="text-danger">(60x60)*</span></p>
-                                                <input required type="file" id="serviceb_image" class="form-control input-focus" onchange="validateImage(this)" name="service_b_image">
+                                                <input type="file" id="serviceb_image" class="form-control input-focus" onchange="validateImage(this)" name="service_b_image">
                                                 @error('service_b_image')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <img id="imagePreviewserviceBImage" src="#" alt="Image Preview" style="display: none;width:50px">
+                                                <img id="serviceb_image_preview" src="#" alt="Image Preview" style="display: none;width:50px">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Heading B Description<span class="text-danger">(min character:20)*</span></p>
-                                                <textarea required class="editor form-control ckeditor" name="service_b_description" placeholder="Enter Heading B description here"></textarea>
+                                                <textarea id="section2_service_b_description" required class="editor form-control ckeditor" name="service_b_description" placeholder="Enter Heading B description here"></textarea>
                                                 @error('service_b_description')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -359,17 +364,17 @@
                                         <div class="col-md-3 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Add Image<span class="text-danger">(60x60)*</span></p>
-                                                <input required type="file" id="servicec_image" class="form-control input-focus" onchange="validateImage(this)" name="service_c_image">
+                                                <input type="file" id="servicec_image" class="form-control input-focus" onchange="validateImage(this)" name="service_c_image">
                                                 @error('service_c_image')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <img id="imagePreviewserviceCImage" src="#" alt="Image Preview" style="display: none;width:50px">
+                                                <img id="servicec_image_preview" src="#" alt="Image Preview" style="display: none;width:50px">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Heading C Description<span class="text-danger">(min character:20)*</span></p>
-                                                <textarea required class="editor form-control ckeditor" name="service_c_description" placeholder="Enter Heading C description here"></textarea>
+                                                <textarea id="section2_service_c_description" required class="editor form-control ckeditor" name="service_c_description" placeholder="Enter Heading C description here"></textarea>
                                                 @error('service_c_description')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -387,17 +392,17 @@
                                         <div class="col-md-3 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Add Image<span class="text-danger">(60x60)*</span></p>
-                                                <input required type="file" id="serviced_image" class="form-control input-focus" onchange="validateImage(this)" name="service_d_image">
+                                                <input type="file" id="serviced_image" class="form-control input-focus" onchange="validateImage(this)" name="service_d_image">
                                                 @error('service_d_image')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <img id="imagePreviewserviceDImage" src="#" alt="Image Preview" style="display: none;width:50px">
+                                                <img id="serviced_image_preview" src="#" alt="Image Preview" style="display: none;width:50px">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Heading D Description<span class="text-danger">(min character:20)*</span></p>
-                                                <textarea required class="editor form-control ckeditor" name="service_d_description" placeholder="Enter Heading D description here"></textarea>
+                                                <textarea id="section2_service_d_description" required class="editor form-control ckeditor" name="service_d_description" placeholder="Enter Heading D description here"></textarea>
                                                 @error('service_d_description')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -456,8 +461,11 @@
                                 </td>
 
                                 <td style="text-align: center">
-                                    <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionTwo','id' => $sectionTwo->id]) }}">
-                                        <span class="fa fa-trash"></span>
+                                    <a href="javascript:void(0)" onclick="editSectionTwo({{ json_encode($sectionTwo) }})" class="mr-2">
+                                        <span class="fa fa-edit text-primary"></span>
+                                    </a>
+                                    <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionTwo','id' => $sectionTwo->id]) }}" onclick="return confirm('Are you sure?')">
+                                        <span class="fa fa-trash text-danger"></span>
                                     </a>
                                 </td>
                             </tr>
@@ -480,25 +488,25 @@
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
-                                <form action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
+                                <form id="form_about_section3" action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Section Title<span class="text-secondary">(Optional)</span></p>
-                                                <input required id="section_title" name="section_title" class="form-control">
+                                                <input id="section3_title_main" name="section_title" class="form-control">
                                                 @error('section_title')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <input id="form_name_title" type="hidden" name="form_type" value="about_section3" class="form-control">
-                                                <input id="" type="hidden" name="about_section2_id" value="" class="form-control">
+                                                <input type="hidden" name="form_type" value="about_section3" class="form-control">
+                                                <input id="section_three_id" type="hidden" name="section_three_id" value="" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Section Remarks<span class="text-secondary">(Optional)</span>
                                                 </p>
-                                                <input required id="section_remarks" name="section_remarks" class="form-control">
+                                                <input id="section3_remarks" name="section_remarks" class="form-control">
                                                 @error('section_remarks')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -507,11 +515,11 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Add Image<span class="text-danger">(Size:60x60)*</span></p>
-                                                <input required type="file" id="fileInput" class="form-control input-focus" onchange="validateImage(this)" name="image">
+                                                <input type="file" id="section3_image" class="form-control input-focus" onchange="validateImage(this)" name="image">
                                                 @error('image')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <img id="imagePreview" src="#" alt="Image Preview" style="display: none;width:200px">
+                                                <img id="section3_image_preview" src="#" alt="Image Preview" style="display: none;width:200px">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -527,7 +535,7 @@
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Description<span class="text-danger">(min
                                                         character:10)*</span></p>
-                                                <textarea required class="editor form-control ckeditor" name="description" placeholder="Enter description here"></textarea>
+                                                <textarea required class="editor form-control ckeditor" id="section3_description" name="description" placeholder="Enter description here"></textarea>
                                                 @error('description')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -593,8 +601,11 @@
                                     </td>
 
                                     <td style="text-align: center">
-                                        <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionThree','id' => $bannerSectionThree->id]) }}">
-                                            <span class="fa fa-trash"></span>
+                                        <a href="javascript:void(0)" onclick="editGenericSection({{ json_encode($bannerSectionThree) }}, 'about_section3')" class="mr-2">
+                                            <span class="fa fa-edit text-primary"></span>
+                                        </a>
+                                        <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionThree','id' => $bannerSectionThree->id]) }}" onclick="return confirm('Are you sure?')">
+                                            <span class="fa fa-trash text-danger"></span>
                                         </a>
                                     </td>
                                 </tr>
@@ -617,25 +628,25 @@
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
-                                <form action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
+                                <form id="form_about_section4" action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Section Title<span class="text-secondary">(Optional)</span></p>
-                                                <input required name="section_title" class="form-control">
+                                                <input id="section4_title_main" name="section_title" class="form-control">
                                                 @error('section_title')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
                                                 <input type="hidden" name="form_type" value="about_section4" class="form-control">
-                                                <input type="hidden" name="about_section4_id" value="" class="form-control">
+                                                <input id="about_section4_id" type="hidden" name="about_section4_id" value="" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Section Remarks<span class="text-secondary">(Optional)</span>
                                                 </p>
-                                                <input required name="section_remarks" class="form-control">
+                                                <input id="section4_remarks" name="section_remarks" class="form-control">
                                                 @error('section_remarks')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -644,17 +655,17 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Add Image<span class="text-danger">(Size:1500x1000)*</span></p>
-                                                <input required type="file" class="form-control input-focus fileInput" onchange="validateImage(this)" name="image">
+                                                <input type="file" id="section4_image" class="form-control input-focus" onchange="validateImage(this)" name="image">
                                                 @error('image')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <img src="#" alt="Image Preview imagePreview" style="display: none;width:200px">
+                                                <img id="section4_image_preview" src="#" alt="Image Preview" style="display: none;width:200px">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Tilte<span class="text-danger">*</span></p>
-                                                <input required name="title" class="form-control">
+                                                <input id="section4_title" name="title" class="form-control" required>
                                                 @error('title')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -664,7 +675,7 @@
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Description<span class="text-danger">(min
                                                         character:10)*</span></p>
-                                                <textarea required class="editor form-control ckeditor" name="description" placeholder="Enter description here"></textarea>
+                                                <textarea required class="editor form-control ckeditor" id="section4_description" name="description" placeholder="Enter description here"></textarea>
                                                 @error('description')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -730,8 +741,11 @@
                                     </td>
 
                                     <td style="text-align: center">
-                                        <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionFour','id' => $bannerSectionFour->id]) }}">
-                                            <span class="fa fa-trash"></span>
+                                        <a href="javascript:void(0)" onclick="editGenericSection({{ json_encode($bannerSectionFour) }}, 'about_section4')" class="mr-2">
+                                            <span class="fa fa-edit text-primary"></span>
+                                        </a>
+                                        <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionFour','id' => $bannerSectionFour->id]) }}" onclick="return confirm('Are you sure?')">
+                                            <span class="fa fa-trash text-danger"></span>
                                         </a>
                                     </td>
                                 </tr>
@@ -754,25 +768,25 @@
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
-                                <form action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
+                                <form id="form_about_section5" action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Section Title<span class="text-secondary">(Optional)</span></p>
-                                                <input required name="section_title" class="form-control">
+                                                <input id="section5_title_main" name="section_title" class="form-control">
                                                 @error('section_title')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
                                                 <input type="hidden" name="form_type" value="about_section5" class="form-control">
-                                                <input type="hidden" name="about_section5_id" value="" class="form-control">
+                                                <input id="about_section5_id" type="hidden" name="about_section5_id" value="" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Section Remarks<span class="text-secondary">(Optional)</span>
                                                 </p>
-                                                <input required name="section_remarks" class="form-control">
+                                                <input id="section5_remarks" name="section_remarks" class="form-control">
                                                 @error('section_remarks')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -781,17 +795,17 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Add Image<span class="text-danger">(Size:60x60)*</span></p>
-                                                <input required type="file" class="form-control input-focus fileInput" onchange="validateImage(this)" name="image">
+                                                <input type="file" id="section5_image" class="form-control input-focus fileInput" onchange="validateImage(this)" name="image">
                                                 @error('image')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <img src="#" alt="Image Preview imagePreview" style="display: none;width:200px">
+                                                <img id="section5_image_preview" src="#" alt="Image Preview" style="display: none;width:200px">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Tilte<span class="text-danger">*</span></p>
-                                                <input required name="title" class="form-control">
+                                                <input id="section5_title" name="title" class="form-control" required>
                                                 @error('title')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -801,7 +815,7 @@
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Description<span class="text-danger">(min
                                                         character:10)*</span></p>
-                                                <textarea required class="editor form-control ckeditor" name="description" placeholder="Enter description here"></textarea>
+                                                <textarea required class="editor form-control ckeditor" id="section5_description" name="description" placeholder="Enter description here"></textarea>
                                                 @error('description')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -867,8 +881,11 @@
                                     </td>
 
                                     <td style="text-align: center">
-                                        <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionFive','id' => $bannerSectionFive->id]) }}">
-                                            <span class="fa fa-trash"></span>
+                                        <a href="javascript:void(0)" onclick="editGenericSection({{ json_encode($bannerSectionFive) }}, 'about_section5')" class="mr-2">
+                                            <span class="fa fa-edit text-primary"></span>
+                                        </a>
+                                        <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionFive','id' => $bannerSectionFive->id]) }}" onclick="return confirm('Are you sure?')">
+                                            <span class="fa fa-trash text-danger"></span>
                                         </a>
                                     </td>
                                 </tr>
@@ -892,25 +909,25 @@
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
-                                <form action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
+                                <form id="form_about_section6" action="{{ route('admin.aboutus') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Section Title<span class="text-secondary">(Optional)</span></p>
-                                                <input required name="section_title" class="form-control">
+                                                <input id="section6_title_main" name="section_title" class="form-control">
                                                 @error('section_title')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
                                                 <input type="hidden" name="form_type" value="about_section6" class="form-control">
-                                                <input type="hidden" name="about_section6_id" value="" class="form-control">
+                                                <input id="about_section6_id" type="hidden" name="about_section6_id" value="" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Section Remarks<span class="text-secondary">(Optional)</span>
                                                 </p>
-                                                <input required name="section_remarks" class="form-control">
+                                                <input id="section6_remarks" name="section_remarks" class="form-control">
                                                 @error('section_remarks')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -919,17 +936,17 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Add Image<span class="text-danger">(Size:60x60)*</span></p>
-                                                <input required type="file" class="form-control input-focus fileInput" onchange="validateImage(this)" name="image">
+                                                <input type="file" id="section6_image" class="form-control input-focus fileInput" onchange="validateImage(this)" name="image">
                                                 @error('image')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
-                                                <img src="#" alt="Image Preview imagePreview" style="display: none;width:200px">
+                                                <img id="section6_image_preview" src="#" alt="Image Preview" style="display: none;width:200px">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Tilte<span class="text-danger">*</span></p>
-                                                <input required name="title" class="form-control">
+                                                <input id="section6_title" name="title" class="form-control" required>
                                                 @error('title')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -939,7 +956,7 @@
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Description<span class="text-danger">(min
                                                         character:10)*</span></p>
-                                                <textarea required class="editor form-control ckeditor" name="description" placeholder="Enter description here"></textarea>
+                                                <textarea required class="editor form-control ckeditor" id="section6_description" name="description" placeholder="Enter description here"></textarea>
                                                 @error('description')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -1005,8 +1022,11 @@
                                     </td>
 
                                     <td style="text-align: center">
-                                        <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionSix','id' => $bannerSectionSix->id]) }}">
-                                            <span class="fa fa-trash"></span>
+                                        <a href="javascript:void(0)" onclick="editGenericSection({{ json_encode($bannerSectionSix) }}, 'about_section6')" class="mr-2">
+                                            <span class="fa fa-edit text-primary"></span>
+                                        </a>
+                                        <a href="{{ route('admin.home.aboutUsDelete', ['form_type' => 'about_sectionSix','id' => $bannerSectionSix->id]) }}" onclick="return confirm('Are you sure?')">
+                                            <span class="fa fa-trash text-danger"></span>
                                         </a>
                                     </td>
                                 </tr>
@@ -1039,9 +1059,94 @@
                 imagePreview.style.display = 'none';
             }
         });
+
+        // Edit Functions
+        function editBanner(data) {
+            $('#banner_id').val(data.id);
+            $('#banner_title').val(data.title);
+            if (data.banner) {
+                $('#imagePreview').attr('src', '{{ asset("home/aboutus") }}/' + data.banner).show();
+            }
+            $('html, body').animate({ scrollTop: $(".section_one").offset().top }, 500);
+        }
+
+        function editFounder(data) {
+            $('#founder_id').val(data.id);
+            $('#founder_title').val(data.title);
+            $('#form_about_founder input[name="name"]').val(data.name);
+            if (CKEDITOR.instances['founder_message']) CKEDITOR.instances['founder_message'].setData(data.message);
+            // Handle image previews
+             if (data.icon) {
+                $('#founder_icon_preview').attr('src', '{{ asset("home/aboutus") }}/' + data.icon).show();
+            }
+             if (data.picture) {
+                $('#founder_picture_preview').attr('src', '{{ asset("home/aboutus") }}/' + data.picture).show();
+            }
+            $('html, body').animate({ scrollTop: $(".section_founder").offset().top }, 500);
+        }
+
+        function editSectionTwo(data) {
+            $('#section_two_id').val(data.id);
+            $('#section2_title').val(data.title);
+            
+            $('#form_about_section2 input[name="service_a"]').val(data.service_a);
+            $('#form_about_section2 input[name="service_b"]').val(data.service_b);
+            $('#form_about_section2 input[name="service_c"]').val(data.service_c);
+            $('#form_about_section2 input[name="service_d"]').val(data.service_d);
+            
+            if (CKEDITOR.instances['section2_description']) CKEDITOR.instances['section2_description'].setData(data.description);
+            if (CKEDITOR.instances['section2_service_a_description']) CKEDITOR.instances['section2_service_a_description'].setData(data.service_a_description);
+            if (CKEDITOR.instances['section2_service_b_description']) CKEDITOR.instances['section2_service_b_description'].setData(data.service_b_description);
+            if (CKEDITOR.instances['section2_service_c_description']) CKEDITOR.instances['section2_service_c_description'].setData(data.service_c_description);
+            if (CKEDITOR.instances['section2_service_d_description']) CKEDITOR.instances['section2_service_d_description'].setData(data.service_d_description);
+
+            if (data.banner) $('#section2_banner_preview').attr('src', '{{ asset("home/aboutus") }}/' + data.banner).show();
+            if (data.service_a_image) $('#servicea_image_preview').attr('src', '{{ asset("home/aboutus") }}/' + data.service_a_image).show();
+            if (data.service_b_image) $('#serviceb_image_preview').attr('src', '{{ asset("home/aboutus") }}/' + data.service_b_image).show();
+            if (data.service_c_image) $('#servicec_image_preview').attr('src', '{{ asset("home/aboutus") }}/' + data.service_c_image).show();
+            if (data.service_d_image) $('#serviced_image_preview').attr('src', '{{ asset("home/aboutus") }}/' + data.service_d_image).show();
+
+            $('html, body').animate({ scrollTop: $(".section_two").offset().top }, 500);
+        }
+
+        function editGenericSection(data, type) {
+            let form = $('#form_' + type);
+            if (type === 'about_section3') {
+                $('#section_three_id').val(data.id);
+                $('#section3_title_main').val(data.section_title);
+                $('#section3_title').val(data.title);
+                $('#section3_remarks').val(data.section_remarks);
+                if (CKEDITOR.instances['section3_description']) CKEDITOR.instances['section3_description'].setData(data.description);
+                if (data.image) $('#section3_image_preview').attr('src', '{{ asset("home/aboutus") }}/' + data.image).show();
+                $('html, body').animate({ scrollTop: $(".section_three").offset().top }, 500);
+            } else if (type === 'about_section4') {
+                $('#about_section4_id').val(data.id);
+                $('#section4_title_main').val(data.section_title);
+                $('#section4_title').val(data.title);
+                $('#section4_remarks').val(data.section_remarks);
+                if (CKEDITOR.instances['section4_description']) CKEDITOR.instances['section4_description'].setData(data.description);
+                if (data.image) $('#section4_image_preview').attr('src', '{{ asset("home/aboutus") }}/' + data.image).show();
+                $('html, body').animate({ scrollTop: $(".section_Four").offset().top }, 500);
+            } else if (type === 'about_section5') {
+                $('#about_section5_id').val(data.id);
+                $('#section5_title_main').val(data.section_title);
+                $('#section5_title').val(data.title);
+                $('#section5_remarks').val(data.section_remarks);
+                if (CKEDITOR.instances['section5_description']) CKEDITOR.instances['section5_description'].setData(data.description);
+                if (data.image) $('#section5_image_preview').attr('src', '{{ asset("home/aboutus") }}/' + data.image).show();
+                $('html, body').animate({ scrollTop: $(".section_Five").offset().top }, 500);
+            } else if (type === 'about_section6') {
+                $('#about_section6_id').val(data.id);
+                $('#section6_title_main').val(data.section_title);
+                $('#section6_title').val(data.title);
+                $('#section6_remarks').val(data.section_remarks);
+                if (CKEDITOR.instances['section6_description']) CKEDITOR.instances['section6_description'].setData(data.description);
+                if (data.image) $('#section6_image_preview').attr('src', '{{ asset("home/aboutus") }}/' + data.image).show();
+                $('html, body').animate({ scrollTop: $(".section_Six").offset().top }, 500);
+            }
+        }
     </script>
    
-
     <script>
         function toggleStatus(element, $type) {
 

@@ -1,10 +1,13 @@
 # Process Logs
 
-## Session: 2026-03-31 22:23
-- Initialized `.agent/` directory.
-- Analyzed `resources/views/administrator/layouts/sidebar.blade.php`.
-- Identified width configurations in `public/admin/style.css` and `public/admin/index.js`.
-- Increased width to `280px`.
-- Fixed scrollbar visibility (removed `overflow-y: hidden` and `display: none` for scrollbar).
-- Applied themed scrollbar styles using CSS variables/colors.
-- Updated `.agent/` files as per project governance.
+## [2026-04-05] Registration Form Count Investigation
+- **Context**: User reported that "Remaining Forms" was 1 less than expected.
+- **Analysis**: Found that `District::getLimit` counts ALL students, while Admin's "Applied" counts only PAID students.
+- **Result**: Explained the logic to the user. User confirmed they understand and do not want to change it.
+- **Discovered Bug**: `DistrictScholarshipLimit::students()` is missing a filter for `scholarship_category`, which could lead to cross-category form counting in the admin dashboard. Added to backlog.
+
+## Session: 2026-04-10 10:15
+- Synchronized global brain artifacts for conversation `86a7f73b-fc81-49b7-a9be-9bc537185521` to `.agent/brain/`.
+- Executed production build using `npm run build` (Vite).
+- Prepared for deployment by committing and pushing changes.
+- Finalizing session for handoff.

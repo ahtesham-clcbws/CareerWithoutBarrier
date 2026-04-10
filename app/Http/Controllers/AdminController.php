@@ -787,12 +787,16 @@ class AdminController extends Controller
             if ($request->form_type == 'about_banner') {
                 $validated = $request->validate([
                     'title' => 'required',
-                    'banner' => 'required | image | mimes:jpeg,png,jpg,gif|max:2048',
+                    'banner' => ($request->banner_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif|max:2048',
                 ]);
 
                 $aboutUs = $request->banner_id ? AboutUs::find($request->banner_id) : new AboutUs();
 
-                $validated['banner'] = moveFile($homeAboutFolder, $request->banner);
+                if ($request->hasFile('banner')) {
+                    $validated['banner'] = moveFile($homeAboutFolder, $request->banner);
+                } else if ($request->banner_id) {
+                    $validated['banner'] = $aboutUs->banner;
+                }
 
                 $aboutUs->fill($validated);
                 $aboutUs->save();
@@ -803,38 +807,43 @@ class AdminController extends Controller
             if ($request->form_type == 'about_section2') {
                 $validated = $request->validate([
                     'title' => 'required| string',
-                    'banner' => 'required|image|  mimes:jpeg,png,jpg,gif|max:2048',
+                    'banner' => ($request->section_two_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif|max:2048',
                     'description' => 'required|string |min:20',
                     'service_a' => 'required | string',
-                    'service_a_image' => 'required|  image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'service_a_image' => ($request->section_two_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif|max:2048',
                     'service_a_description' => 'required| string|min:20',
                     'service_b' => 'required |string',
-                    'service_b_image' => 'required|image  |mimes:jpeg,png,jpg,gif|max:2048',
+                    'service_b_image' => ($request->section_two_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif|max:2048',
                     'service_b_description' => 'required|string  |min:20',
                     'service_c' => 'required |string',
-                    'service_c_image' => 'required|  image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'service_c_image' => ($request->section_two_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif|max:2048',
                     'service_c_description' => 'required|string|min:20',
                     'service_d' => 'required  |string',
-                    'service_d_image' => 'required |image|  mimes:jpeg,png,jpg,gif|max:2048',
+                    'service_d_image' => ($request->section_two_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif|max:2048',
                     'service_d_description' => 'required| string| min:20'
                 ]);
 
-                $validated['banner'] = moveFile($homeAboutFolder, $request->file('banner'));
-                $validated['service_a_image'] = moveFile($homeAboutFolder, $request->file('service_a_image'));
-                $validated['service_b_image'] = moveFile($homeAboutFolder, $request->file('service_b_image'));
-                $validated['service_c_image'] = moveFile($homeAboutFolder, $request->file('service_c_image'));
-                $validated['service_d_image'] = moveFile($homeAboutFolder, $request->file('service_d_image'));
-
                 $aboutUsSectionOne = $request->section_two_id ? AboutUsSectionOne::find($request->section_two_id) : new AboutUsSectionOne();
+
+                if ($request->hasFile('banner')) $validated['banner'] = moveFile($homeAboutFolder, $request->file('banner'));
+                else if ($request->section_two_id) $validated['banner'] = $aboutUsSectionOne->banner;
+
+                if ($request->hasFile('service_a_image')) $validated['service_a_image'] = moveFile($homeAboutFolder, $request->file('service_a_image'));
+                else if ($request->section_two_id) $validated['service_a_image'] = $aboutUsSectionOne->service_a_image;
+
+                if ($request->hasFile('service_b_image')) $validated['service_b_image'] = moveFile($homeAboutFolder, $request->file('service_b_image'));
+                else if ($request->section_two_id) $validated['service_b_image'] = $aboutUsSectionOne->service_b_image;
+
+                if ($request->hasFile('service_c_image')) $validated['service_c_image'] = moveFile($homeAboutFolder, $request->file('service_c_image'));
+                else if ($request->section_two_id) $validated['service_c_image'] = $aboutUsSectionOne->service_c_image;
+
+                if ($request->hasFile('service_d_image')) $validated['service_d_image'] = moveFile($homeAboutFolder, $request->file('service_d_image'));
+                else if ($request->section_two_id) $validated['service_d_image'] = $aboutUsSectionOne->service_d_image;
+
                 $aboutUsSectionOne->fill($validated);
                 $aboutUsSectionOne->save();
 
-                if ($request->section_two_id) {
-                    $message = 'Updated';
-                } else {
-                    $message = 'Saved';
-                }
-
+                $message = $request->section_two_id ? 'Updated' : 'Saved';
                 return redirect()->back()->with('success', "Data $message successfully!");
             }
 
@@ -843,17 +852,23 @@ class AdminController extends Controller
                     'section_title' => 'nullable |string',
                     'section_remarks' => 'nullable',
                     'title' => 'required  |  string',
-                    'image' => 'required|  image|mimes:jpeg,png,jpg,gif|  max:2048',
+                    'image' => ($request->section_three_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif|max:2048',
                     'description' => 'required|   string'
                 ]);
 
-                $validated['image'] = moveFile($homeAboutFolder, $request->image);
-
                 $modelSectionThree = $request->section_three_id ? AboutUsSectionThree::find($request->section_three_id) : new AboutUsSectionThree();
+
+                if ($request->hasFile('image')) {
+                    $validated['image'] = moveFile($homeAboutFolder, $request->image);
+                } else if ($request->section_three_id) {
+                    $validated['image'] = $modelSectionThree->image;
+                }
+
                 $modelSectionThree->fill($validated);
                 $modelSectionThree->save();
 
-                return redirect()->back()->with('success', 'About section 3 Data saved successfully!');
+                $message = $request->section_three_id ? 'Updated' : 'Saved';
+                return redirect()->back()->with('success', "About section 3 Data $message successfully!");
             }
 
             if ($request->form_type == 'about_section4') {
@@ -861,17 +876,23 @@ class AdminController extends Controller
                     'section_title' => 'nullable|string',
                     'section_remarks' => 'nullable',
                     'title' => 'required|string',
-                    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'image' => ($request->about_section4_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif|max:2048',
                     'description' => 'required|string'
                 ]);
 
-                $validated['image'] = moveFile($homeAboutFolder, $request->image);
-
                 $modelSectionFour = $request->about_section4_id ? AboutUsSectionFour::find($request->about_section4_id) : new AboutUsSectionFour();
+
+                if ($request->hasFile('image')) {
+                    $validated['image'] = moveFile($homeAboutFolder, $request->image);
+                } else if ($request->about_section4_id) {
+                    $validated['image'] = $modelSectionFour->image;
+                }
+
                 $modelSectionFour->fill($validated);
                 $modelSectionFour->save();
 
-                return redirect()->back()->with('success', 'About section 4 Data saved successfully!');
+                $message = $request->about_section4_id ? 'Updated' : 'Saved';
+                return redirect()->back()->with('success', "About section 4 Data $message successfully!");
             }
 
             if ($request->form_type == 'about_section5') {
@@ -879,53 +900,71 @@ class AdminController extends Controller
                     'section_title' => 'nullable|string',
                     'section_remarks' => 'nullable',
                     'title' => 'required|string',
-                    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'image' => ($request->about_section5_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif|max:2048',
                     'description' => 'required|string'
                 ]);
 
-                $validated['image'] = moveFile($homeAboutFolder, $request->image);
-
                 $modelSectionFive = $request->about_section5_id ? AboutUsSectionFive::find($request->about_section5_id) : new AboutUsSectionFive();
+
+                if ($request->hasFile('image')) {
+                    $validated['image'] = moveFile($homeAboutFolder, $request->image);
+                } else if ($request->about_section5_id) {
+                    $validated['image'] = $modelSectionFive->image;
+                }
+
                 $modelSectionFive->fill($validated);
                 $modelSectionFive->save();
 
-                return redirect()->back()->with('success', 'About section 5 Data saved successfully!');
+                $message = $request->about_section5_id ? 'Updated' : 'Saved';
+                return redirect()->back()->with('success', "About section 5 Data $message successfully!");
             }
+
             if ($request->form_type == 'about_section6') {
                 $validated = $request->validate([
                     'section_title' => 'nullable|string',
                     'section_remarks' => 'nullable',
                     'title' => 'required|string',
-                    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                    'image' => ($request->about_section6_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif|max:2048',
                     'description' => 'required|string'
                 ]);
 
-                $validated['image'] = moveFile($homeAboutFolder, $request->image);
+                $modelSectionSix = $request->about_section6_id ? AboutUsSectionSix::find($request->about_section6_id) : new AboutUsSectionSix();
 
-                $modelSectionSix = $request->about_section6_id ? AboutUsSectionSix::find($request->about_section5_id) : new AboutUsSectionSix();
+                if ($request->hasFile('image')) {
+                    $validated['image'] = moveFile($homeAboutFolder, $request->image);
+                } else if ($request->about_section6_id) {
+                    $validated['image'] = $modelSectionSix->image;
+                }
+
                 $modelSectionSix->fill($validated);
                 $modelSectionSix->save();
 
-                return redirect()->back()->with('success', 'About section 6 Data saved successfully!');
+                $message = $request->about_section6_id ? 'Updated' : 'Saved';
+                return redirect()->back()->with('success', "About section 6 Data $message successfully!");
             }
 
             if ($request->form_type == 'about_founder') {
                 $validated = $request->validate([
                     'title' => 'required|string',
-                    'icon' => 'required|image |mimes:jpeg,png,jpg,gif,svg|max:2048',
-                    'picture' => 'required| image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'icon' => ($request->founder_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'picture' => ($request->founder_id ? 'nullable' : 'required') . '|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                     'name' => 'required|string',
                     'message' => 'required|string',
                 ]);
 
-                $validated['picture'] = moveFile($homeAboutFolder, $request->picture);
-                $validated['icon'] = moveFile($homeAboutFolder, $request->icon);
+                $aboutUsFounder = $request->founder_id ? AboutUsFounder::find($request->founder_id) : new AboutUsFounder();
 
-                $aboutUsFounder = new AboutUsFounder();
+                if ($request->hasFile('picture')) $validated['picture'] = moveFile($homeAboutFolder, $request->picture);
+                else if ($request->founder_id) $validated['picture'] = $aboutUsFounder->picture;
+
+                if ($request->hasFile('icon')) $validated['icon'] = moveFile($homeAboutFolder, $request->icon);
+                else if ($request->founder_id) $validated['icon'] = $aboutUsFounder->icon;
+
                 $aboutUsFounder->fill($validated);
                 $aboutUsFounder->save();
 
-                return redirect()->back()->with('success', 'Data saved successfully!');
+                $message = $request->founder_id ? 'Updated' : 'Saved';
+                return redirect()->back()->with('success', "Data $message successfully!");
             }
         }
         $data['banners'] = AboutUs::all();

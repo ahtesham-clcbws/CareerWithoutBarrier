@@ -8,10 +8,14 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    public function blognews()
+    public function blognews($id = null)
     {
         $blog = BlognewsModel::all();
-        return view('administrator.Home.blognews', ['blog' => $blog]);
+        $editBlog = null;
+        if ($id) {
+            $editBlog = BlognewsModel::find($id);
+        }
+        return view('administrator.Home.blognews', ['blog' => $blog, 'editBlog' => $editBlog]);
     }
 
     public function notification()
@@ -50,22 +54,24 @@ class NewsController extends Controller
     public function blogSave(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => $request->id ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' : 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $imagePath  = null;
-        // Save the image file
-        if ($request->has('image'))
+        $blog = $request->id ? BlognewsModel::find($request->id) : new BlognewsModel();
+        
+        $imagePath = $blog->image;
+        // Save the image file if uploaded
+        if ($request->hasFile('image')) {
             $imagePath = moveFile('news', $request->file('image'));
+        }
 
-        // Create a new Category instance
-        $blog = new BlognewsModel();
         $blog->title = $request->title;
         $blog->details = $request->details;
-        $blog->image = $imagePath; // Save the image path to the database
+        $blog->image = $imagePath;
         $blog->save();
 
-        return redirect()->back()->with('success', 'Category added successfully!');
+        $message = $request->id ? 'Blog updated successfully!' : 'Blog added successfully!';
+        return redirect()->route('news.blognews')->with('success', $message);
     }
 
     public function blogDelete($id)

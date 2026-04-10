@@ -96,7 +96,8 @@ Route::prefix('')->group(function () {
     Route::get('/logout', [HomeController::class, 'logout'])->name('home.logout');
 
     // ahtesham create those routes
-    Route::get('/free-form', FreeForm::class)->name('freeform');
+    Route::redirect('/authentication-code', '/free-form', 302);
+    Route::get('/authentication-code', FreeForm::class)->name('freeform');
     Route::get('/important-links', ImportantLinksWebsitePage::class)->name('home.important-links');
 
     Route::get('registration', Registration::class)->name('registration');

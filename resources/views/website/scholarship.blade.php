@@ -199,28 +199,32 @@
                 <div class="career-overview-header d-flex align-items-center mb-5 flex-wrap">
                     <h2 class="mb-0 mr-auto">{{ $scholarShip->educationType?->name }}</h2>
                     <div class="e-prospectus d-flex align-items-center">
-                        @if (in_array($prospectusExtension, $imageExtensions))
-                            <a class="d-flex align-items-center e-prospectus-link mr-3" href="#">
-                                <img class="mr-2" src="{{ asset($prospectusPath) }}" alt="icon">
-                                <span>E-prospectus</span>
-                            </a>
-                        @else
-                            <a class="d-flex align-items-center e-prospectus-link mr-3" href="{{ asset($prospectusPath) }}"
-                                target="_blank">
-                                <span>E-prospectus (PDF)</span>
-                            </a>
+                        @if ($scholarOverview?->prospectus)
+                            @if (in_array($prospectusExtension, $imageExtensions))
+                                <a class="d-flex align-items-center e-prospectus-link mr-3" href="#">
+                                    <img class="mr-2" src="{{ asset($prospectusPath) }}" alt="icon">
+                                    <span>E-prospectus</span>
+                                </a>
+                            @else
+                                <a class="d-flex align-items-center e-prospectus-link mr-3" href="{{ asset($prospectusPath) }}"
+                                    target="_blank">
+                                    <span>E-prospectus (PDF)</span>
+                                </a>
+                            @endif
                         @endif
 
-                        @if (in_array($guidelineExtension, $imageExtensions))
-                            <a class="d-flex align-items-center e-prospectus-link" href="#">
-                                <img class="mr-2" src="{{ asset($guidelinePath) }}" alt="icon">
-                                <span>Guidelines</span>
-                            </a>
-                        @else
-                            <a class="d-flex align-items-center e-prospectus-link" href="{{ asset($guidelinePath) }}"
-                                target="_blank">
-                                <span>Guidelines (PDF)</span>
-                            </a>
+                        @if ($scholarOverview?->guideline)
+                            @if (in_array($guidelineExtension, $imageExtensions))
+                                <a class="d-flex align-items-center e-prospectus-link" href="#">
+                                    <img class="mr-2" src="{{ asset($guidelinePath) }}" alt="icon">
+                                    <span>Guidelines</span>
+                                </a>
+                            @else
+                                <a class="d-flex align-items-center e-prospectus-link" href="{{ asset($guidelinePath) }}"
+                                    target="_blank">
+                                    <span>Guidelines (PDF)</span>
+                                </a>
+                            @endif
                         @endif
                     </div>
                 </div>

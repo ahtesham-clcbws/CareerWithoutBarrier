@@ -68,7 +68,7 @@ class Registration extends Component
     #[Validate('required', message: 'Please accept our term & conditions before proceed further')]
     public $terms = null;
 
-    public $remainingForms = 1000;
+    public $remainingForms = 725;
     public ?string $couponcode = null;
     public bool $isCouponVerify = false;
     public $customErrors = null;
@@ -84,7 +84,6 @@ class Registration extends Component
     public function couponVerify()
     {
         $this->resetValidation(['couponcode']);
-        // if ($this->remainingForms <= 725 && $this->couponcode) {
         if (empty(trim($this->couponcode))) {
             $this->isCouponVerify = false;
             return $this->addError('couponcode', 'Referrence code is required');
@@ -105,7 +104,6 @@ class Registration extends Component
             $this->isCouponVerify = true;
             return true;
         }
-        // }
         $this->isCouponVerify = false;
         return false;
     }

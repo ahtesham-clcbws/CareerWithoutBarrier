@@ -217,7 +217,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/notificationSave', [NewsController::class, 'notificationSave'])->name('news.notificationSave');
         Route::get('/notificationDelete/{id}', [NewsController::class, 'notificationDelete'])->name('news.notificationDelete');
 
-        Route::get('/blognews', [NewsController::class, 'blognews'])->name('news.blognews');
+        Route::get('/blognews/{id?}', [NewsController::class, 'blognews'])->name('news.blognews');
         Route::post('/blogSave', [NewsController::class, 'blogSave'])->name('news.blogSave');
         Route::get('/blogDelete/{id}', [NewsController::class, 'blogDelete'])->name('news.blogDelete');
     });

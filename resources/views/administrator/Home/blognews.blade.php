@@ -11,29 +11,39 @@ Blog News List
             <div class="col-lg-6">
                 <div class="panel panel-default m-t-15">
                     <div class="card-header">
-                        <h3> Add Blog</h3>
+                        <h3> {{ isset($editBlog) ? 'Edit Blog' : 'Add Blog' }}</h3>
                     </div>
                     <div class="panel-body">
                         <div class="card alert">
                             <div class="card-body">
                                 <form action="{{ route('news.blogSave') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
+                                    @if(isset($editBlog))
+                                        <input type="hidden" name="id" value="{{ $editBlog->id }}">
+                                    @endif
                                     <div class="form-group">
                                         <p class="text-muted f-s-12">Title</p>
-                                        <textarea class="ckeditor" id="editor" name="title"></textarea>
+                                        <input type="text" class="form-control" name="title" value="{{ isset($editBlog) ? $editBlog->title : '' }}" required>
                                     </div>
 
                                     <div class="form-group">
-                                        <p class="text-muted f-s-12">Details(max Character:)
-                                        <textarea class="ckeditor" id="editor1" name="details"></textarea>
+                                        <p class="text-muted f-s-12">Details</p>
+                                        <textarea class="ckeditor" id="editor1" name="details">{{ isset($editBlog) ? $editBlog->details : '' }}</textarea>
                                     </div>
                                     <div class="form-group">
-                                        <p class="text-muted f-s-12">Add Image</p>
+                                        <p class="text-muted f-s-12">Add Image {{ isset($editBlog) ? '(Leave empty to keep current)' : '' }}</p>
                                         <input type="file" id="fileInput" class="form-control input-focus" name="image">
-                                        <img id="imagePreview" src="#" alt="Image Preview" style="display: none;width:200px">
+                                        @if(isset($editBlog) && $editBlog->image)
+                                            <img id="imagePreview" src="{{ asset('news/' . $editBlog->image) }}" alt="Image Preview" style="display: block;width:200px">
+                                        @else
+                                            <img id="imagePreview" src="#" alt="Image Preview" style="display: none;width:200px">
+                                        @endif
                                     </div>
 
-                                    <input type="submit" class="btn btn-warning btn-flat m-b-10 m-l-5" value="Submit">
+                                    <input type="submit" class="btn btn-warning btn-flat m-b-10 m-l-5" value="{{ isset($editBlog) ? 'Update' : 'Submit' }}">
+                                    @if(isset($editBlog))
+                                        <a href="{{ route('news.blognews') }}" class="btn btn-default btn-flat m-b-10 m-l-5">Cancel</a>
+                                    @endif
                                 </form>
                             </div>
                         </div>
@@ -75,8 +85,11 @@ Blog News List
                                         </td> 
 
                                         <td style="text-align: center">
-                                            <a href="{{ route('news.blogDelete', ['id' => $blogs->id]) }}">
-                                                <span class="fa fa-trash"></span>
+                                            <a href="{{ route('news.blognews', ['id' => $blogs->id]) }}" class="mr-2">
+                                                <span class="fa fa-edit text-primary"></span>
+                                            </a>
+                                            <a href="{{ route('news.blogDelete', ['id' => $blogs->id]) }}" onclick="return confirm('Are you sure you want to delete this?')">
+                                                <span class="fa fa-trash text-danger"></span>
                                             </a>
                                         </td>
                                     </tr>
