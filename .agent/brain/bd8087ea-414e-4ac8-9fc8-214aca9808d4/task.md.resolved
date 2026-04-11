@@ -1,6 +1,5 @@
-- [ ] Migrate files from `public/` to `storage/app/public/`
-- [ ] Update `moveFile` helper in `app/Helper/helpers.php`
-- [ ] Add `storage_url()` helper
-- [ ] Update Blade views (Global search & replace)
-- [ ] Update `images` table URLs in database
-- [ ] Final verification
+- [x] Fix Course Edit Data Loss
+    - [x] Update `CourseController::coursesubmit` to preserve existing files
+    - [x] Fix `courses.blade.php` textarea population
+    - [x] Fix `courses.blade.php` category dropdown selection
+    - [x] Add current file previews to `courses.blade.php`

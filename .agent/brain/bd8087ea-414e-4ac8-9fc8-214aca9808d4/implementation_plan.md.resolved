@@ -1,43 +1,35 @@
-# Implementation Plan: Targeted Scholarship Link Fix (Local Only)
+# Implementation Plan: Fix Course Edit Data Loss
 
-Fixing the prospectus and guideline links specifically by implementing `Storage` logic directly in the affected controller and views, avoiding any global helper modifications.
+This plan addresses the issue where editing a course causes the Overview, Other Details, Categories, and uploaded Files to be deleted or reset automatically.
 
 ## User Review Required
 
 > [!IMPORTANT]
-> - Existing files will remain in the `public/` directory.
-> - New files will be uploaded to `storage/app/public/`.
-> - A smart helper `storage_url()` will be used to resolve the correct URL by checking both locations.
-> - IDE lint errors and warnings regarding path resolution will be fixed.
-> - Views will dynamically check both the standard `storage/` directory and the legacy `public/` directory to ensure all files (old and new) load correctly.
+> - This fix strictly targets the data loss bug.
+> - I will preserve existing files in the `public/home/course/` directory unless you upload a new one.
+> - I will add small "Preview" links to the edit form so you can see current files before overwriting them.
 
 ## Proposed Changes
 
-### [Component] Admin Controller
+### [Admin] Course Management
 
-#### [MODIFY] [AdminController.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/app/Http/Controllers/AdminController.php)
-- Update the `scholarship` method for `scholarship_secondForm`:
-  - Use `home/eprospectus` as the base folder.
-  - Implement `Storage::disk('public')->putFileAs()` directly for `prospectus` and `guideline` fields.
-  - Manually update/create `Image` model records to maintain consistency with the rest of the app's media tracking.
+#### [MODIFY] [CourseController.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/app/Http/Controllers/CourseController.php)
+- Update the `coursesubmit` method to:
+    - Retain old file paths (`notification_file_path`, `exam_details_file_path`, `prospectus`, `course_logo`, `featured_image`) if no new file is uploaded during an edit.
+    - Ensure the `id` from the request is used correctly to find the existing model.
 
-### [Component] Views (Frontend & Admin)
+#### [MODIFY] [courses.blade.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/resources/views/administrator/Home/courses.blade.php)
+- **Fix Textareas**: Move the `value` attribute content into the inner tag `{{ ... }}` for the CKEditor fields (`overview` and `otherdetails`).
+- **Fix Dropdown**: Add `@selected($edu->id == $course->scholarship_category)` to the category loop.
+- **Add Previews**: Add small links/images next to file inputs to show the current file stored in the system.
 
-#### [MODIFY] [scholarship.blade.php (Frontend)](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/resources/views/website/scholarship.blade.php)
-- Update the PDF path generation to use `home/eprospectus/`.
-- Wrap the output URL in a check:
-  ```php
-  \Illuminate\Support\Facades\Storage::disk('public')->exists($path) 
-  ? \Illuminate\Support\Facades\Storage::disk('public')->url($path) 
-  : asset($path)
-  ```
+## Open Questions
 
-#### [MODIFY] [scholarship.blade.php (Admin)](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/resources/views/administrator/Home/scholarship.blade.php)
-- Update code to handle dual path resolution for previews.
-- Fix "Asset not found" warnings by correcting `asset()` directory syntax.
+- None at this stage. The bugs are technical errors in the HTML/PHP logic.
 
 ## Verification Plan
 
 ### Manual Verification
-- Re-upload a prospectus in the admin panel and verify it is saved to `storage/app/public/home/eprospectus/`.
-- Verify the link on the frontend works for BOTH the newly uploaded file and any existing files in `public/home/eprospectus/`.
+- **Test 1**: Open an existing course for editing. Verify that the Overview and Other Details are no longer empty in the CKEditor.
+- **Test 2**: Change only the title of a course and save. Verify that the previously uploaded files do NOT disappear.
+- **Test 3**: Verify the Category dropdown correctly shows the assigned category on page load.

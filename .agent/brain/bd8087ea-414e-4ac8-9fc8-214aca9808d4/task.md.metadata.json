@@ -1,5 +1,6 @@
 {
   "artifactType":  "ARTIFACT_TYPE_TASK",
-  "summary":  "Task list for migrating to Laravel Storage.",
-  "updatedAt":  "2026-04-11T05:26:49.000283037Z"
+  "summary":  "Completed task list for course edit data loss fix.",
+  "updatedAt":  "2026-04-11T06:32:54.535374939Z",
+  "version":  "2"
 }
