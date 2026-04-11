@@ -299,7 +299,7 @@
                                         <div class="col-md-3 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Heading A <span class="text-danger">*</span></p>
-                                                <input required id="service1" name="service_a" class="form-control" placeholder="Enter Heading A here">
+                                                <input required id="service_a_id" name="service_a" class="form-control" placeholder="Enter Heading A here">
                                                 @error('service_a')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -327,7 +327,7 @@
                                         <div class="col-md-3 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Heading B<span class="text-danger">*</span></p>
-                                                <input required id="service1" name="service_b" class="form-control" placeholder="Enter Heading B here">
+                                                <input required id="service_b_id" name="service_b" class="form-control" placeholder="Enter Heading B here">
                                                 @error('service_b')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -355,7 +355,7 @@
                                         <div class="col-md-3 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Heading C<span class="text-danger">*</span></p>
-                                                <input required id="service1" name="service_c" class="form-control" placeholder="Enter Heading C here">
+                                                <input required id="service_c_id" name="service_c" class="form-control" placeholder="Enter Heading C here">
                                                 @error('service_c')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -383,7 +383,7 @@
                                         <div class="col-md-3 col">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Heading D<span class="text-danger">*</span></p>
-                                                <input required id="service1" name="service_d" class="form-control" placeholder="Enter Heading D here">
+                                                <input required id="service_d_id" name="service_d" class="form-control" placeholder="Enter Heading D here">
                                                 @error('service_d')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
@@ -525,7 +525,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <p class="text-muted f-s-12">Tilte<span class="text-danger">*</span></p>
-                                                <input required name="title" class="form-control">
+                                                <input required id="section3_title" name="title" class="form-control">
                                                 @error('title')
                                                 <div class="text-danger">{{$message}}</div>
                                                 @enderror
