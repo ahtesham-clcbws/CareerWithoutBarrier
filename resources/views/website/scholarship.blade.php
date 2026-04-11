@@ -147,7 +147,7 @@
                             @foreach ($scholarShips as $key => $scholarShip)
                                 <div class="scolarship-leftpanel-widget {{ $key == 0 ? 'active' : '' }}" data-target="content{{ $key + 1 }}">
                                     <div class="scolarship-leftpanel-img">
-                                        <img class="img-fluid" src="{{ getFileUrl($scholarShip->icon, 'home/aboutus') }}"
+                                        <img class="img-fluid" src="{{ asset('home/aboutus/' . $scholarShip->icon) }}"
                                             alt="icon">
                                     </div>
                                     <div class="scolarship-leftpanel-content">
@@ -166,7 +166,7 @@
                             @foreach ($scholarShips as $key => $scholarShip)
                                 <div class="scolarship-rightpanel-content content{{ $key + 1 }}"
                                     style="<?= $key == 0 ? '' : 'display:none' ?>">
-                                    <img class="img-fluid" src="{{ getFileUrl($scholarShip->picture, 'home/aboutus') }}"
+                                    <img class="img-fluid" src="{{ asset('home/aboutus/' . $scholarShip->picture) }}"
                                         alt="{{ $scholarShip->educationType?->name }}">
                                 </div>
                             @endforeach
