@@ -31,6 +31,10 @@ use App\Models\GnResultSubjectMapping;
 use App\Models\GovtwebsiteModel;
 use App\Models\MobileNumber;
 use App\Models\NotificationModel;
+use App\Models\Image;
+use App\Models\OurContributor;
+use App\Models\OurJourney;
+use App\Models\PasswordResetModel;
 use App\Models\PaymentSetting;
 use App\Models\PrivacyPolicy;
 use App\Models\RollNumber;
@@ -1156,6 +1160,7 @@ class AdminController extends Controller
         $data = [];
 
         $homeAboutFolder = 'home/aboutus';
+        $homeEprospectusFolder = 'home/eprospectus';
 
         if ($request->isMethod('POST')) {
             if ($request->form_type == 'scholarship_form') {
@@ -1211,13 +1216,47 @@ class AdminController extends Controller
                 $aboutUsSectionOne = $request->scholarshipTwo_id ? ScholarshipHomeTwo::find($request->scholarshipTwo_id) : new ScholarshipHomeTwo();
 
                 if ($request->hasFile('prospectus')) {
-                    $validated['prospectus'] = moveFile($homeAboutFolder, $request->file('prospectus'));
+                    $file = $request->file('prospectus');
+                    $hasUrl = hash_file('sha256', $file->getRealPath());
+                    $image = Image::where('has_url', $hasUrl)->first();
+                    $name = $image?->image_name;
+                    if (is_null($image)) {
+                        $name = rand(10000, 99999) . '-' . date('His') . preg_replace('/[^\w\-\.]/', '', $file->getClientOriginalName());
+                        \Illuminate\Support\Facades\Storage::disk('public')->putFileAs($homeEprospectusFolder, $file, $name);
+                        $imageUrl = asset('storage/' . $homeEprospectusFolder . '/' . $name);
+                        $image = new Image();
+                        $image->url = $imageUrl;
+                        $image->has_url = $hasUrl;
+                        $image->image_name = $name;
+                        $image->image_path = $homeEprospectusFolder;
+                        $image->save();
+                        $image->url = $imageUrl . '?' . $image->id;
+                        $image->save();
+                    }
+                    $validated['prospectus'] = $name;
                 } else if ($request->scholarshipTwo_id) {
                     $validated['prospectus'] = $aboutUsSectionOne->prospectus;
                 }
 
                 if ($request->hasFile('guideline')) {
-                    $validated['guideline'] = moveFile($homeAboutFolder, $request->file('guideline'));
+                    $file = $request->file('guideline');
+                    $hasUrl = hash_file('sha256', $file->getRealPath());
+                    $image = Image::where('has_url', $hasUrl)->first();
+                    $name = $image?->image_name;
+                    if (is_null($image)) {
+                        $name = rand(10000, 99999) . '-' . date('His') . preg_replace('/[^\w\-\.]/', '', $file->getClientOriginalName());
+                        \Illuminate\Support\Facades\Storage::disk('public')->putFileAs($homeEprospectusFolder, $file, $name);
+                        $imageUrl = asset('storage/' . $homeEprospectusFolder . '/' . $name);
+                        $image = new Image();
+                        $image->url = $imageUrl;
+                        $image->has_url = $hasUrl;
+                        $image->image_name = $name;
+                        $image->image_path = $homeEprospectusFolder;
+                        $image->save();
+                        $image->url = $imageUrl . '?' . $image->id;
+                        $image->save();
+                    }
+                    $validated['guideline'] = $name;
                 } else if ($request->scholarshipTwo_id) {
                     $validated['guideline'] = $aboutUsSectionOne->guideline;
                 }

@@ -1,4 +1,5 @@
 # Session Sync - 2026-04-10
+# Session Sync - 2026-04-11
 
 ## Handoff Summary
 - **Production Build**: Successfully built Vite assets and pushed to master.
@@ -7,9 +8,10 @@
 - **Dependency Sync**: Synchronized production vendor environment and performed Laravel optimizations (`optimize:clear`, `optimize`).
 - **Persistence**: Mirrored all brain artifacts to `.agent/brain/`.
 
-## Active Task
-- [x] Production Build
-- [x] Brain Mirroring
+## Current Task
+- **Objective**: Fix 404 errors on scholarship prospectus and guideline links.
+- **Findings**: Mismatch between upload directory (`home/eprospectus`) and code requirements (`home/aboutus`). The file `37091-182855E-Prospectus.pdf` exists in `public/home/eprospectus/` but the code hardcodes `home/aboutus/`.
+- **Status**: Research completed. Implementation plan created and awaiting user approval.
 - [x] Git Push
 - [x] Resolve Production Conflict
 - [x] Fix Debugbar Hardcoding

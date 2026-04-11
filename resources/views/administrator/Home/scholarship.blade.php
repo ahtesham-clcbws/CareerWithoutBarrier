@@ -264,6 +264,18 @@ Scholarship Course List
                     <tbody>
                         @isset($data['scholarshipTwos'])
                         @foreach ($data['scholarshipTwos'] as $scholarship)
+                        @php
+                            $pPath = 'home/eprospectus/' . $scholarship->prospectus;
+                            $gPath = 'home/eprospectus/' . $scholarship->guideline;
+                            
+                            $scholarship->prospectus_url = \Illuminate\Support\Facades\Storage::disk('public')->exists($pPath) 
+                                ? \Illuminate\Support\Facades\Storage::disk('public')->url($pPath) 
+                                : asset($pPath);
+                                
+                            $scholarship->guideline_url = \Illuminate\Support\Facades\Storage::disk('public')->exists($gPath) 
+                                ? \Illuminate\Support\Facades\Storage::disk('public')->url($gPath) 
+                                : asset($gPath);
+                        @endphp
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $scholarship->scholarshipType?->educationType?->name ?? '' }}</td>
@@ -335,7 +347,7 @@ Scholarship Course List
         $('#url').val(data.url);
 
         if (data.icon) {
-            $('#iconPreview').attr('src', "{{ asset('home/aboutus/') }}/" + data.icon).show();
+            $('#iconPreview').attr('src', "{{ asset('home/aboutus') }}/" + data.icon).show();
             $('#fileInputIcon').removeAttr('required');
         } else {
             $('#iconPreview').hide();
@@ -343,7 +355,7 @@ Scholarship Course List
         }
 
         if (data.picture) {
-            $('#picturePreview').attr('src', "{{ asset('home/aboutus/') }}/" + data.picture).show();
+            $('#picturePreview').attr('src', "{{ asset('home/aboutus') }}/" + data.picture).show();
             $('#fileInputPicture').removeAttr('required');
         } else {
             $('#picturePreview').hide();
@@ -368,8 +380,8 @@ Scholarship Course List
             $('#prospectus_label').text(data.prospectus);
             $('#prospectus').removeAttr('required');
             $('#prospectus_view').show();
-            $('#prospectus_link').attr('href', "{{ asset('home/aboutus/') }}/" + data.prospectus);
-            $('#prospectus_img').attr('src', "{{ asset('home/aboutus/') }}/" + data.prospectus);
+            $('#prospectus_link').attr('href', data.prospectus_url);
+            $('#prospectus_img').attr('src', data.prospectus_url);
         } else {
             $('#prospectus_label').text('Choose file');
             $('#prospectus').attr('required', 'required');
@@ -380,8 +392,8 @@ Scholarship Course List
             $('#guideline_label').text(data.guideline);
             $('#guideline').removeAttr('required');
             $('#guideline_view').show();
-            $('#guideline_link').attr('href', "{{ asset('home/aboutus/') }}/" + data.guideline);
-            $('#guideline_img').attr('src', "{{ asset('home/aboutus/') }}/" + data.guideline);
+            $('#guideline_link').attr('href', data.guideline_url);
+            $('#guideline_img').attr('src', data.guideline_url);
         } else {
             $('#guideline_label').text('Choose file');
             $('#guideline').attr('required', 'required');

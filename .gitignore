@@ -25,10 +25,13 @@
 /storage
 /public/storage
 /public/home
+/public/upload
+/public/student
+/public/news
+/public/uploads
 storage/framework
 storage/logs
 storage/debugbar
 
 #Ignore vscode AI rules
 .github/instructions/codacy.instructions.md
-/public/upload

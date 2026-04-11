@@ -147,7 +147,7 @@
                             @foreach ($scholarShips as $key => $scholarShip)
                                 <div class="scolarship-leftpanel-widget {{ $key == 0 ? 'active' : '' }}" data-target="content{{ $key + 1 }}">
                                     <div class="scolarship-leftpanel-img">
-                                        <img class="img-fluid" src="{{ asset('home/aboutus/' . $scholarShip->icon) }}"
+                                        <img class="img-fluid" src="{{ getFileUrl($scholarShip->icon, 'home/aboutus') }}"
                                             alt="icon">
                                     </div>
                                     <div class="scolarship-leftpanel-content">
@@ -166,7 +166,7 @@
                             @foreach ($scholarShips as $key => $scholarShip)
                                 <div class="scolarship-rightpanel-content content{{ $key + 1 }}"
                                     style="<?= $key == 0 ? '' : 'display:none' ?>">
-                                    <img class="img-fluid" src="{{ asset('home/aboutus/' . $scholarShip->picture) }}"
+                                    <img class="img-fluid" src="{{ getFileUrl($scholarShip->picture, 'home/aboutus') }}"
                                         alt="{{ $scholarShip->educationType?->name }}">
                                 </div>
                             @endforeach
@@ -179,17 +179,26 @@
     @foreach ($scholarShips as $key => $scholarShip)
         <?php
         $imageExtensions = ['jpeg', 'jpg', 'png', 'jpeg', 'gif'];
-        $prospectusPath = null;
-        $guidelinePath = null;
+        $scholarOverview = $scholarShip->overview;
+        $prospectusUrl = null;
+        $guidelineUrl = null;
         $prospectusExtension = null;
         $guidelineExtension = null;
-        
-        $scholarOverview = $scholarShip->overview;
+
         if ($scholarOverview) {
-            $prospectusPath = 'home/aboutus/' . $scholarOverview->prospectus;
-            $guidelinePath = 'home/aboutus/' . $scholarOverview->guideline;
-            $prospectusExtension = pathinfo($prospectusPath, PATHINFO_EXTENSION);
-            $guidelineExtension = pathinfo($guidelinePath, PATHINFO_EXTENSION);
+            $pPath = 'home/eprospectus/' . $scholarOverview->prospectus;
+            $gPath = 'home/eprospectus/' . $scholarOverview->guideline;
+
+            $prospectusUrl = \Illuminate\Support\Facades\Storage::disk('public')->exists($pPath) 
+                ? \Illuminate\Support\Facades\Storage::disk('public')->url($pPath) 
+                : asset($pPath);
+
+            $guidelineUrl = \Illuminate\Support\Facades\Storage::disk('public')->exists($gPath) 
+                ? \Illuminate\Support\Facades\Storage::disk('public')->url($gPath) 
+                : asset($gPath);
+
+            $prospectusExtension = pathinfo($scholarOverview->prospectus, PATHINFO_EXTENSION);
+            $guidelineExtension = pathinfo($scholarOverview->guideline, PATHINFO_EXTENSION);
         }
         ?>
 
@@ -202,11 +211,11 @@
                         @if ($scholarOverview?->prospectus)
                             @if (in_array($prospectusExtension, $imageExtensions))
                                 <a class="d-flex align-items-center e-prospectus-link mr-3" href="#">
-                                    <img class="mr-2" src="{{ asset($prospectusPath) }}" alt="icon">
+                                    <img class="mr-2" src="{{ $prospectusUrl }}" alt="icon">
                                     <span>E-prospectus</span>
                                 </a>
                             @else
-                                <a class="d-flex align-items-center e-prospectus-link mr-3" href="{{ asset($prospectusPath) }}"
+                                <a class="d-flex align-items-center e-prospectus-link mr-3" href="{{ $prospectusUrl }}"
                                     target="_blank">
                                     <span>E-prospectus (PDF)</span>
                                 </a>
@@ -216,11 +225,11 @@
                         @if ($scholarOverview?->guideline)
                             @if (in_array($guidelineExtension, $imageExtensions))
                                 <a class="d-flex align-items-center e-prospectus-link" href="#">
-                                    <img class="mr-2" src="{{ asset($guidelinePath) }}" alt="icon">
+                                    <img class="mr-2" src="{{ $guidelineUrl }}" alt="icon">
                                     <span>Guidelines</span>
                                 </a>
                             @else
-                                <a class="d-flex align-items-center e-prospectus-link" href="{{ asset($guidelinePath) }}"
+                                <a class="d-flex align-items-center e-prospectus-link" href="{{ $guidelineUrl }}"
                                     target="_blank">
                                     <span>Guidelines (PDF)</span>
                                 </a>
