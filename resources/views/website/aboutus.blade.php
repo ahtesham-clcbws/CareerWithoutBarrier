@@ -98,7 +98,7 @@
 
                                             <div class="custom-tooltip-list-content">
                                                 <h6>{{$sectionTwo->service_a}}</h6>
-                                                <p>{ !!sectionTwo->service_a_description!!}
+                                                <p>{!! $sectionTwo->service_a_description !!}
                                                 </p>
                                             </div>
                                         </div>
@@ -111,7 +111,7 @@
 
                                             <div class="custom-tooltip-list-content">
                                                 <h6>{{$sectionTwo->service_b}}</h6>
-                                                {!! $sectionTwo->service_b_descriptio !!}
+                                                {!! $sectionTwo->service_b_description !!}
 
                                             </div>
                                         </div>
@@ -124,7 +124,7 @@
 
                                             <div class="custom-tooltip-list-content">
                                                 <h6>{{$sectionTwo->service_c}}</h6>
-                                                {!! $sectionTwo->service_c_descriptio !!}
+                                                {!! $sectionTwo->service_c_description !!}
 
                                             </div>
                                         </div>
@@ -137,7 +137,7 @@
 
                                             <div class="custom-tooltip-list-content">
                                                 <h6>{{$sectionTwo->service_d}}</h6>
-                                                {!!$sectionTwo->service_d_descriptio !!}
+                                                {!! $sectionTwo->service_d_description !!}
                                             </div>
                                         </div>
                                     </div>
