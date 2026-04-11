@@ -243,31 +243,34 @@ class CourseController extends Controller
             ]);
 
             // Handle file uploads
-            $notificationFilePath = null;
+            $courseDetails = $request->id ? CourseDetailsModel::find($request->id) : new CourseDetailsModel;
+
+            $notificationFilePath = $courseDetails->notification_file_path;
             if ($request->hasFile('notification_file')) {
                 $notificationFilePath = moveFile('home/course', $request->file('notification_file'));
             }
 
-            $examDetailsFilePath = null;
+            $examDetailsFilePath = $courseDetails->exam_details_file_path;
             if ($request->hasFile('exam_details_file')) {
                 $examDetailsFilePath = moveFile('home/course', $request->file('exam_details_file'));
             }
 
-            $prospectusFilePath = null;
+            $prospectusFilePath = $courseDetails->prospectus;
             if ($request->hasFile('prospectus')) {
                 $prospectusFilePath = moveFile('home/course', $request->file('prospectus'));
             }
 
-            $courseLogo = null;
+            $courseLogo = $courseDetails->course_logo;
             if ($request->hasFile('course_logo')) {
                 $courseLogo = moveFile('home/course', $request->file('course_logo'));
             }
-            $featureImage = null;
+
+            $featureImage = $courseDetails->featured_image;
             if ($request->hasFile('featured_image')) {
                 $featureImage = moveFile('home/course', $request->file('featured_image'));
             }
             // Create a new CourseDetails instance
-            $courseDetails = $request->id ? CourseDetailsModel::find($request->id) : new CourseDetailsModel;
+            // (Already fetched above to preserve files)
             $courseDetails->overview = $request->input('overview');
             $courseDetails->scholarship_category = $request->input('scholarship_category');
             $courseDetails->title = $request->input('course_name');

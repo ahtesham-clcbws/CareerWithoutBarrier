@@ -39,7 +39,7 @@ $educationType = EducationType::where('is_featured', 1)->get();
                             <select name="scholarship_category" class="form-control input-focus">
                                 <option value=''>--Select Scholarship Category--</option>
                                 @foreach($educationType as $edu)
-                                <option value="{{$edu->id}}">{{$edu->name}}</option>
+                                <option value="{{$edu->id}}" @selected($edu->id == ($course->scholarship_category ?? ''))>{{$edu->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -60,13 +60,19 @@ $educationType = EducationType::where('is_featured', 1)->get();
                     <div class="col-md-3 col-lg-3">
                         <div class="form-group">
                             <p>Course Logo</p>
-                            <input type="file" class="form-control input-focus" value="{{old('course_logo', $course->course_logo ?? '')}}" onchange="validateImage(this)" name="course_logo">
+                            <input type="file" class="form-control input-focus" onchange="validateImage(this)" name="course_logo">
+                            @if($course->course_logo)
+                                <small class="text-muted">Current: <a href="{{ asset('home/course/' . $course->course_logo) }}" target="_blank">{{ $course->course_logo }}</a></small>
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-3 col-lg-3">
                         <div class="form-group">
                             <p> featured image</p>
-                            <input type="file" class="form-control input-focus" value="{{old('featured_image', $course->featured_image ?? '')}}" onchange="validateImage(this)" name="featured_image">
+                            <input type="file" class="form-control input-focus" onchange="validateImage(this)" name="featured_image">
+                            @if($course->featured_image)
+                                <small class="text-muted">Current: <a href="{{ asset('home/course/' . $course->featured_image) }}" target="_blank">{{ $course->featured_image }}</a></small>
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-3 col-lg-3">
@@ -139,33 +145,42 @@ $educationType = EducationType::where('is_featured', 1)->get();
                     <div class="col-md-3 col-lg-3">
                         <div class="form-group">
                             <p>Notification File</p>
-                            <input type="file" onchange="validateImage(this,'imagepdf')" class="form-control input-focus" value="{{old('notification_file', $course->notification_file ?? '')}}" name="notification_file">
+                            <input type="file" onchange="validateImage(this,'imagepdf')" class="form-control input-focus" name="notification_file">
+                            @if($course->notification_file_path)
+                                <small class="text-muted">Current: <a href="{{ asset('home/course/' . $course->notification_file_path) }}" target="_blank">{{ $course->notification_file_path }}</a></small>
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-3 col-lg-3">
                         <div class="form-group">
                             <p>Exam Details</p>
-                            <input type="file" onchange="validateImage(this,'imagepdf')" class="form-control input-focus" value="{{old('exam_details_file', $course->exam_details_file ?? '')}}" name="exam_details_file">
+                            <input type="file" onchange="validateImage(this,'imagepdf')" class="form-control input-focus" name="exam_details_file">
+                            @if($course->exam_details_file_path)
+                                <small class="text-muted">Current: <a href="{{ asset('home/course/' . $course->exam_details_file_path) }}" target="_blank">{{ $course->exam_details_file_path }}</a></small>
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-3 col-lg-3">
                         <div class="form-group">
                             <p>E-Prospectus</p>
-                            <input type="file" onchange="validateImage(this,'imagepdf')" class="form-control input-focus" value="{{old('prospectus', $course->prospectus ?? '')}}" name="prospectus">
+                            <input type="file" onchange="validateImage(this,'imagepdf')" class="form-control input-focus" name="prospectus">
+                            @if($course->prospectus)
+                                <small class="text-muted">Current: <a href="{{ asset('home/course/' . $course->prospectus) }}" target="_blank">{{ $course->prospectus }}</a></small>
+                            @endif
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <p>Course Overview</p>
-                                <textarea class="ckeditor" id="editor" value="{{old('overview', $course->overview ?? '')}}" name="overview"></textarea>
+                                <textarea class="ckeditor" id="editor" name="overview">{{old('overview', $course->overview ?? '')}}</textarea>
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <p>Other Details</p>
-                                <textarea class="ckeditor" id="editor1" value="{{old('otherdetails', $course->otherdetails ?? '')}}" name="otherdetails"></textarea>
+                                <textarea class="ckeditor" id="editor1" name="otherdetails">{{old('otherdetails', $course->otherdetails ?? '')}}</textarea>
                             </div>
                         </div>
                     </div>
