@@ -1,0 +1,6 @@
+- [ ] Migrate files from `public/` to `storage/app/public/`
+- [ ] Update `moveFile` helper in `app/Helper/helpers.php`
+- [ ] Add `storage_url()` helper
+- [ ] Update Blade views (Global search & replace)
+- [ ] Update `images` table URLs in database
+- [ ] Final verification

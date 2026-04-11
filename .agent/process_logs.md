@@ -14,3 +14,12 @@
 - Resolved production `git pull` conflict via `git reset --hard HEAD` and `git pull --rebase`.
 - Successfully synced production dependencies using `composer install --no-dev`.
 - Finalized production environment with `php artisan optimize`.
+
+## Session: 2026-04-11 10:55 (Scholarship Storage Fix)
+- **Problem**: 404 errors on scholarship prospectus/guideline PDF links.
+- **Root Cause**: Inconsistent path handling between Admin (eprospectus folder) and Frontend (aboutus folder), combined with manual `public_path()` file movements.
+- **Architectural Shift**: Transferred scholarship document handling to standard Laravel `Storage::disk('public')` while maintaining legacy file support via a smart path resolver in views.
+- **Logic Guard**: Implemented local `Storage` logic in `AdminController.php` specifically for the scholarship section to avoid modifying global helpers as per user request.
+- **IDE Fixes**: Resolved 4 lint errors/warnings in `AdminController.php` and `scholarship.blade.php`.
+- **Infrastructure**: Verified `php artisan storage:link` and synced `public/` folder tracking in Git (resolved `.gitignore` tracking issues via `git rm --cached`).
+- **Deployment**: Executed `npm run build` and pushed all changes to `master`.

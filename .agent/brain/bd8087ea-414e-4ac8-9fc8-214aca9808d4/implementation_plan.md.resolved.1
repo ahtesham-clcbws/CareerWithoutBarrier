@@ -1,0 +1,59 @@
+# Implementation Plan: Standardize File Handling with Laravel Storage
+
+Standardizing the application to use Laravel's `Storage` facade instead of manual file movements to the `public/` directory. This improves maintainability and allows for easier swapping of storage drivers (e.g., S3).
+
+## User Review Required
+
+> [!IMPORTANT]
+> This change involves moving files from `public/` to `storage/app/public/`.
+> - Existing direct links to files (if bookmarked or hardcoded outside the app) might break unless redirected.
+> - `php artisan storage:link` must be executed successfully to maintain public access.
+
+## Proposed Changes
+
+### [Component] Helper & Infrastructure
+
+#### [MODIFY] [helpers.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/app/Helper/helpers.php)
+- Refactor `moveFile($path, $files)`:
+  - Replace `$files->move(public_path($path), $name)` with `Storage::disk('public')->putFileAs($path, $files, $name)`.
+  - Update `$image->url` generation to use `Storage::disk('public')->url($path . '/' . $name)`.
+- Add `storage_url($path)` helper function as a wrapper for `Storage::disk('public')->url($path)`.
+
+#### [EXECUTE] Migration Script
+- Create a temporary script to move existing upload directories:
+  - `home`
+  - `upload`
+  - `upload2`
+  - `logos`
+  - `slider`
+  - `news` (if used for uploads)
+- Run `php artisan storage:link`.
+
+### [Component] Controllers
+
+#### [MODIFY] [AdminController.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/app/Http/Controllers/AdminController.php)
+- Update `scholarship` method and any other methods using `moveFile` to ensure they provide relative paths (without leading slashes).
+
+### [Component] Views (Frontend & Admin)
+
+#### [MODIFY] All Blade Files
+- Perform a global replacement of hardcoded `asset()` paths for uploads:
+  - `asset('home/` -> `asset('storage/home/`
+  - `asset('upload/` -> `asset('storage/upload/`
+  - `asset('logos/` -> `asset('storage/logos/`
+  - (Better) Replace with `storage_url('home/...')` using the new helper.
+
+## Open Questions
+
+- Are there any other directories in `public/` that were used for user uploads besides the ones identified (`home`, `images`, `logos`, `news`, `student`, `upload`, `uploads`)?
+- Should I update the existing `url` column in the `images` table during the migration to reflect the new paths? Highly recommended.
+
+## Verification Plan
+
+### Automated Tests
+- Run `ls -l public/storage` to verify the symlink.
+- Check `storage/app/public` to verify files were moved correctly.
+
+### Manual Verification
+- Upload a new scholarship prospectus and verify it's stored in `storage/app/public` and viewable in the browser.
+- Check existing scholarship images and icons on both frontend and admin panel to ensure they still load.

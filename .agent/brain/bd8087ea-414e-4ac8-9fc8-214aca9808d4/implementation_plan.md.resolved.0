@@ -1,0 +1,29 @@
+# Implementation Plan: Fix Scholarship Prospectus & Guidelines Links
+
+The user reported that the prospectus and guideline links in the scholarship section are returning 404 errors. Investigation revealed that the files are stored in `public/home/eprospectus/` but the code expects them in `public/home/aboutus/`.
+
+## Proposed Changes
+
+### [Component] Admin Controller
+
+#### [MODIFY] [AdminController.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/app/Http/Controllers/AdminController.php)
+- Update the `scholarship` method to use `home/eprospectus` as the folder for `scholarship_secondForm` uploads (Prospectus and Guidelines).
+- Keep `home/aboutus` for the main scholarship form (Icons and Pictures).
+
+### [Component] Frontend Views
+
+#### [MODIFY] [scholarship.blade.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/resources/views/website/scholarship.blade.php)
+- Update the lines where `prospectusPath` and `guidelinePath` are generated to use `home/eprospectus/` instead of `home/aboutus/`.
+
+### [Component] Admin Views
+
+#### [MODIFY] [scholarship.blade.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/resources/views/administrator/Home/scholarship.blade.php)
+- Update the `editScholarshipTwo` JavaScript function to use `home/eprospectus/` for the preview links and images.
+- (Optional but recommended) Update the list table to show the uploaded files.
+
+## Verification Plan
+
+### Manual Verification
+- Upload a new prospectus/guideline in the admin panel and verify it is saved to `public/home/eprospectus/`.
+- Check the frontend scholarship page and click the "E-prospectus (PDF)" and "Guidelines (PDF)" links to ensure they open correctly.
+- Check the admin panel "Edit" functionality for scholarship details and verify the previews show up.

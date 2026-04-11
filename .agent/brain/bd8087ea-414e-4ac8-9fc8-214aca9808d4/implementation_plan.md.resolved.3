@@ -1,0 +1,41 @@
+# Implementation Plan: Targeted Scholarship Link Fix (Local Only)
+
+Fixing the prospectus and guideline links specifically by implementing `Storage` logic directly in the affected controller and views, avoiding any global helper modifications.
+
+## User Review Required
+
+> [!IMPORTANT]
+> - Global `moveFile()` helper will remain unchanged.
+> - New uploads for scholarship prospectus/guidelines will use Laravel's standard `Storage::disk('public')`.
+> - Views will dynamically check both the standard `storage/` directory and the legacy `public/` directory to ensure all files (old and new) load correctly.
+
+## Proposed Changes
+
+### [Component] Admin Controller
+
+#### [MODIFY] [AdminController.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/app/Http/Controllers/AdminController.php)
+- Update the `scholarship` method for `scholarship_secondForm`:
+  - Use `home/eprospectus` as the base folder.
+  - Implement `Storage::disk('public')->putFileAs()` directly for `prospectus` and `guideline` fields.
+  - Manually update/create `Image` model records to maintain consistency with the rest of the app's media tracking.
+
+### [Component] Views (Frontend & Admin)
+
+#### [MODIFY] [scholarship.blade.php (Frontend)](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/resources/views/website/scholarship.blade.php)
+- Update the PDF path generation to use `home/eprospectus/`.
+- Wrap the output URL in a check:
+  ```php
+  \Illuminate\Support\Facades\Storage::disk('public')->exists($path) 
+  ? \Illuminate\Support\Facades\Storage::disk('public')->url($path) 
+  : asset($path)
+  ```
+
+#### [MODIFY] [scholarship.blade.php (Admin)](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/resources/views/administrator/Home/scholarship.blade.php)
+- Update the `editScholarshipTwo` JavaScript function to handle the preview links correctly.
+- Add logic to the table and form to support both storage and legacy public paths.
+
+## Verification Plan
+
+### Manual Verification
+- Re-upload a prospectus in the admin panel and verify it is saved to `storage/app/public/home/eprospectus/`.
+- Verify the link on the frontend works for BOTH the newly uploaded file and any existing files in `public/home/eprospectus/`.
