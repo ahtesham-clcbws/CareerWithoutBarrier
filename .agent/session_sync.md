@@ -2,22 +2,23 @@
 
 ## Handoff Summary
 - **Scholarship Fix**: Resolved 404 errors on prospectus and guideline links by migrating to standard Laravel `Storage::disk('public')`.
-- **Infrastructure**: Enforced Laravel Storage best practices without breaking legacy public path compatibility.
-- **Git Hygiene**: Untracked `public/home` and other upload folders to keep the repository clean while preserving local files.
-- **IDE Cleanliness**: Resolved all lint errors in `AdminController.php` and warnings in `scholarship.blade.php`.
-- **Deployment**: Executed `npm run build` and pushed all changes to `master`.
+- **Course Edit Fix**: Resolved a critical bug where editing a course caused files, overview content, and category selections to be lost/deleted from the database.
+- **Git Hygiene**: Untracked `vendor/`, `public/home`, and other upload folders to resolve production deployment conflicts permanently.
+- **IDE Cleanliness**: Resolved all lint errors in `AdminController.php`, `CourseController.php`, and associated Blade views.
+- **Deployment**: Executed multiple `git push` operations to synchronize master with all fixes.
 
 ## Current Task
 - **Objective**: Maintain overall project stability and continue with backlog items.
-- **Status**: Scholarship fix fully DEPLOYED and VERIFIED.
+- **Status**: All critical data-loss and access bugs resolved.
 - [x] Storage Migration (Scholarship targeted)
+- [x] Fix Course Edit Data Loss
+- [x] Git Untracked Vendor & Home folders
 - [x] Lint Resolution
-- [x] NPM Build
-- [x] Git Push
+- [x] Git Push (Final)
 
 ## Unresolved Questions / Next Steps
-- **Bulk Migration**: Keep an eye on other sections using `moveFile` (icons, images) for future migration to standard Storage.
-- **Verification**: User should verify that re-uploaded prospectus PDFs work as expected on the frontend.
+- **Production Pull**: User must run `git reset --hard HEAD` and `git pull` followed by `composer install` on the production server.
+- **Verification**: User should verify the Course Edit page now retains data as expected.
 
 ## Brain Mirroring
 - Current Session artifacts mirrored to `.agent/brain/bd8087ea-414e-4ac8-9fc8-214aca9808d4/`

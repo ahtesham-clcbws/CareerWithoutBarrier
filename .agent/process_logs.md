@@ -23,4 +23,5 @@
 - **IDE Fixes**: Resolved 4 lint errors/warnings in `AdminController.php` and `scholarship.blade.php`.
 - **Infrastructure**: Verified `php artisan storage:link` and synced `public/` folder tracking in Git (resolved `.gitignore` tracking issues via `git rm --cached`).
 - **Regression Fix**: Resolved `Call to undefined function getFileUrl()` in the scholarship view (introduced by a partial helper revert).
-- **Deployment**: Executed `npm run build` and pushed all changes to `master`.
+- **Course Fix**: Resolved data loss bug on course edit page (fixed textareas, category selection, and file preservation logic).
+- **Deployment**: Executed multiple `git push` operations to synchronize master with all fixes.
