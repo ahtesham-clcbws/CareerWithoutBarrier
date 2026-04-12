@@ -326,6 +326,11 @@
             </div>
         </section>
     @endif
+    <style>
+        .counter-section-widget {
+            padding: 30px 10px !important;
+        }
+    </style>
 
     <div class="counter-section">
         <div class="container">
@@ -337,8 +342,8 @@
                                 alt="img">
                         </div>
                         <h6>100% Scholarship for</h6>
-                        <h2><span class="counter" data-count-start="990" data-count-end="1000"
-                                data-speed="70">1000</span><span class="plus-icon"></span></h2>
+                        <h2><span class="counter" data-count-start="800" data-count-end="900"
+                                data-speed="70">900</span><span class="plus-icon"></span></h2>
                         <h6>Applicants</h6>
                     </div>
                 </div>
@@ -349,7 +354,7 @@
                                 alt="img">
                         </div>
                         <h6>Offered Institutes</h6>
-                        <h2><span class="counter" data-count-start="240" data-count-end="250" data-speed="70">250</span>
+                        <h2><span class="counter" data-count-start="140" data-count-end="150" data-speed="70">150</span>+
                         </h2>
                         <h6>Institutes (Approx)</h6>
                     </div>
@@ -361,8 +366,8 @@
                                 alt="img">
                         </div>
                         <h6>Zero Form Fee For</h6>
-                        <h2><span class="counter" data-count-start="4990" data-count-end="5000"
-                                data-speed="70">5000</span>
+                        <h2><span class="counter" data-count-start="9990" data-count-end="10000"
+                                data-speed="70">10000</span>
                         </h2>
                         <h6>Applicants</h6>
                     </div>
@@ -378,8 +383,8 @@
                                             <h6>For All</h6> -->
 
                         <h6>Free online education for</h6>
-                        <h2><span class="counter" data-count-start="9990" data-count-end="10000"
-                                data-speed="70">10000</span><span class="plus-icon"></span></h2>
+                        <h2><span class="counter" data-count-start="99990" data-count-end="100000"
+                                data-speed="70">100000</span><span class="plus-icon"></span></h2>
                         <h6>Students</h6>
                     </div>
                 </div>
@@ -439,8 +444,8 @@
         <!-- SECTION: BRANDS -->
     @endif
 
-    @if ($corporateTestimonials->count())
         <!-- SECTION: Institute TESTIMONIALS-->
+    {{-- @if ($corporateTestimonials->count())
         <section>
             <div class="container mt-5">
                 <div class="heading text-center">
@@ -486,7 +491,7 @@
 
             </div>
         </section>
-    @endif
+    @endif --}}
 
     @if ($ourJourneys->count())
         <!-- SECTION: BRANDS -->

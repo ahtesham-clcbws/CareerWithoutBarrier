@@ -72,7 +72,7 @@ class HomeController extends Controller
 
         $notifications = NotificationModel::where('status', 1)->get();
 
-        $courses = CourseDetailsModel::where('status', 1)->select('id', 'title', 'course_logo')->get();
+        $courses = CourseDetailsModel::where('status', 1)->where('is_featured', 1)->select('id', 'title', 'course_logo')->get();
 
         $educations = ScholarshipHome::with('educationType')->where('is_featured', 1)->get();
 
@@ -495,7 +495,7 @@ class HomeController extends Controller
         $featuredCourses = CourseDetailsModel::with(['scholarshipCategory'])
             ->where('status', 1)
             ->select('id', 'scholarship_category', 'title', 'featured_image', 'is_featured', 'course_full_name', 'vacancies')
-            ->where('is_featured', 1)
+            // ->where('is_featured', 1)
             ->get();
 
         return view('website.preparation', compact('featuredCourses'));

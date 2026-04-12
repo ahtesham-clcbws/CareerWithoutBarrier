@@ -157,11 +157,12 @@
     </div>
 </div>
 
+<!--SECOND SECTION-->
 <div class="maximize-value">
     <section>
         <div class="subscribe-off comm-p-t-b">
             <div class="container">
-                <div class="comm-tit-ani tit ani-tit text-left pb-2">
+                <div class="comm-tit-ani tit ani-tit pb-2">
                     <p>{{$bannerSectionThreeHeader?->section_remarks}}</p>
                     @if($bannerSectionThreeHeader?->section_title)
                     <h2>{!! wrapHalfTitleInSpan($bannerSectionThreeHeader?->section_title) !!}<br></h2><span class="line"></span>
@@ -179,9 +180,6 @@
                         </div>
                     </div>
                     @endforeach
-
-                    <!--SUBSCRIBE OFFER CONTENT-->
-
                 </div>
             </div>
         </div>
