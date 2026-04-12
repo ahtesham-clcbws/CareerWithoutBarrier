@@ -342,7 +342,7 @@
                                 alt="img">
                         </div>
                         <h6>100% Scholarship for</h6>
-                        <h2><span class="counter" data-count-start="800" data-count-end="900"
+                        <h2><span class="counter" data-count-start="890" data-count-end="900"
                                 data-speed="70">900</span><span class="plus-icon"></span></h2>
                         <h6>Applicants</h6>
                     </div>
