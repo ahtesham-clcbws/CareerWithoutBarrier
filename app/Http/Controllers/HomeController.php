@@ -802,22 +802,36 @@ class HomeController extends Controller
     {
         // Validate the request data
         $request->validate([
+            'id' => 'nullable|exists:govtwebsite,id',
             'website_link' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Adjust file types and size as needed
+            'image' => $request->id ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' : 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Save the image file
-        $imagePath = moveFile('home/courses', $request->image);
-        $website_link = $request->website_link;
-        // Create a new Category instance
-        $govtWebsite = new GovtwebsiteModel();
-        $govtWebsite->image = $imagePath;
+        if ($request->id) {
+            $govtWebsite = GovtwebsiteModel::find($request->id);
+            $message = 'Website updated successfully!';
+        } else {
+            $govtWebsite = new GovtwebsiteModel();
+            $message = 'Website added successfully!';
+        }
+
+        // Handle image upload using Laravel Storage
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists and is in storage
+            if ($govtWebsite->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($govtWebsite->image)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($govtWebsite->image);
+            }
+            
+            $imagePath = $request->file('image')->store('govt_websites', 'public');
+            $govtWebsite->image = $imagePath;
+        }
+
+        $govtWebsite->website_link = $request->website_link;
         $govtWebsite->remark = $request->remark;
-        $govtWebsite->website_link = $website_link;  // Save the image path to the database
         $govtWebsite->save();
 
         // Redirect back or return a response
-        return redirect()->back()->with('success', 'Website added successfully!');
+        return redirect()->back()->with('success', $message);
     }
 
     public function faqSave(Request $request)

@@ -13,9 +13,12 @@
 - [x] Git Untracked `vendor/`, `public/home` and other upload folders.
 - [x] Resolved IDE lint errors/warnings.
 
-## Active Sprint (April 11, 2026)
-- [x] Deployment of Scholarship & Course Fixes
-- [x] Final Verification & Pushing
+## Active Sprint (April 16, 2026)
+- [/] Enhance Govt Websites Section & Admin Form [4831551a]
+  - [/] Improve homepage UI (Premium Aesthetics)
+  - [ ] Refactor Admin management form
+  - [ ] Add missing database migration for `remark`
+  - [ ] Migrate storage path to `home/govt_websites`
 
 ## Future / Recommended
 - [ ] Migrate all other media uploads (icons, blog images) to standard Storage.

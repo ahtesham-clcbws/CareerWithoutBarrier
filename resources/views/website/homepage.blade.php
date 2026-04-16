@@ -306,13 +306,18 @@
                     <div class='marquee' style="outline: none; background-color: transparent; box-shadow: none;">
                         <div class="row flex-nowrap">
                             @foreach ($govtwebsites as $govtwebsite)
+                                @php
+                                    $imageUrl = str_starts_with($govtwebsite->image, 'govt_websites/') 
+                                        ? Storage::url($govtwebsite->image) 
+                                        : asset('home/courses/' . $govtwebsite->image);
+                                @endphp
                                 <div class="col-lg-2 col-md-2 col-sm-2 col-2 govt-web-col"
                                     style="align-content: space-around;">
                                     <div class="govt-web-logo">
                                         <div class="d-flex align-items-center justify-content-center">
                                             <a href="{{ $govtwebsite->website_link }}" target="_blank">
                                                 <img class=""
-                                                    src="{{ asset('home/courses/' . $govtwebsite->image) }}" alt="img"
+                                                    src="{{ $imageUrl }}" alt="img"
                                                     style="width: 100px; height: 100px;">
                                             </a>
                                             <a href="{{ $govtwebsite->website_link }}" target="_blank" class="remark" style="color: #212529 !important;">{{ $govtwebsite->remark }}</a>
@@ -342,8 +347,8 @@
                                 alt="img">
                         </div>
                         <h6>100% Scholarship for</h6>
-                        <h2><span class="counter" data-count-start="890" data-count-end="900"
-                                data-speed="70">900</span><span class="plus-icon"></span></h2>
+                        <h2><span class="counter" data-count-start="1490" data-count-end="1500"
+                                data-speed="70">1500</span><span class="plus-icon"></span></h2>
                         <h6>Applicants</h6>
                     </div>
                 </div>
@@ -354,7 +359,7 @@
                                 alt="img">
                         </div>
                         <h6>Offered Institutes</h6>
-                        <h2><span class="counter" data-count-start="140" data-count-end="150" data-speed="70">150</span>+
+                        <h2><span class="counter" data-count-start="240" data-count-end="250" data-speed="70">250</span>+
                         </h2>
                         <h6>Institutes (Approx)</h6>
                     </div>
@@ -366,8 +371,8 @@
                                 alt="img">
                         </div>
                         <h6>Zero Form Fee For</h6>
-                        <h2><span class="counter" data-count-start="9990" data-count-end="10000"
-                                data-speed="70">10000</span>
+                        <h2><span class="counter" data-count-start="19990" data-count-end="20000"
+                                data-speed="70">20000</span>
                         </h2>
                         <h6>Applicants</h6>
                     </div>
@@ -392,8 +397,8 @@
         </div>
     </div>
 
+    <!-- SECTION: TESTIMONIALS-->
     @if ($studentTestimonials->count())
-        <!-- SECTION: TESTIMONIALS-->
         <section>
             <div class="container mt-5">
                 <div class="heading text-center">
@@ -444,7 +449,7 @@
         <!-- SECTION: BRANDS -->
     @endif
 
-        <!-- SECTION: Institute TESTIMONIALS-->
+    <!-- SECTION: Institute TESTIMONIALS-->
     {{-- @if ($corporateTestimonials->count())
         <section>
             <div class="container mt-5">
@@ -499,8 +504,7 @@
             <div class="ani-eql country-wise never-ending-journey">
                 <!--COUNTRY WISE TRAVEL TITTLE-->
                 <h2>NEVER ENDING JOURNEYS</h2>
-                <p>Lorem ipsum dolor sit amet, pri in persius oporteat, usu ex erat aperiam nusquam. His liber verear <br>
-                    ornatus eu. Nobis regione patrioque pri te.</p>
+                <p>Our journey didn't end when we reached the first thousand students; it simply gained the momentum to reach the next hundred thousand.</p>
 
                 <!--COUNTRY WISE TRAVEL MAP AND LINE-->
                 <div class="tim-lin">

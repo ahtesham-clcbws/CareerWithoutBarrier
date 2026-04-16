@@ -5,6 +5,12 @@
 
 
 @section('content')
+<style>
+    .carrier-glance .nav-tabs {
+        z-index: -1 !important;
+        position: relative;
+    }
+</style>
 <div class="perpration-page-banner common-banner" style="    margin-bottom: 55px; margin-top: 72px;">
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
         @foreach($banners as $banner)
@@ -242,6 +248,7 @@
 </div>
 
 <!-- SECTION: TESTIMONIALS-->
+@if($corporateTestimonials->count())
 <section>
     <div class="testimonails-head what-client-say">
         <div class="testimonails">
@@ -282,64 +289,11 @@
                         </ul>
                     </div>
                 </div>
-                {{-- <div class="row">
-                    <div class="testimonails-inner">
-                        <div class="testi1" style="width: 100% !important;">
-                            <div class="testi2" style="width: 100% !important;">
-                                <div id="demo" class="carousel slide" data-ride="carousel" style="width: 100% !important;">
-                                    @foreach($corporateTestimonials->chunk(3) as $chunks)
-                                    <div class="carousel-inner">
-                                        @foreach($chunks as $key=>$corporateTestimonial)
-                                        <div class="carousel-item {{$key==0 ? 'active' : ''}}">
-                                            <div class="col-lg-4 col-md-4 testi-slider">
-                                                <div class="testi-lhs">
-                                                    <div class="str-rating">
-                                                        <div class="commas">
-                                                            "
-                                                        </div>
-                                                        {!! $corporateTestimonial->message !!}
-                                                        <div class="testimonials-user">
-                                                            <img 
-                                                            src="{{ $corporateTestimonial->image ? asset('/storage/' . $corporateTestimonial->image) : '/website/assets/images/placeholder.webp' }}"
-                                                             alt="{{ $corporateTestimonial->name }}">
-                                                        </div>
-                                                        <h5 class="mb-0">{{$corporateTestimonial?->corporate?->name}}</h5>
-                                                        <h6 class="mb-0">{{$corporateTestimonial?->corporate?->type_institution}}</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--TESTIMONIALS SLIDER 1 IMG AND RATING -->
-                                        </div>
-                                        @endforeach
-                                        <!--TESTIMONIALS SLIDER 1 END-->
-                                    </div>
-                                    @endforeach
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="testimo-header">
-                            <ul class="carousel-indicators">
-
-                                <li>
-                                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                                        <i class="fa fa-long-arrow-left carousel-control-prev-icon" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="carousel-control-next" href="#demo" data-slide="next">
-                                        <i class="fa fa-long-arrow-right carousel-control-next-icon" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
         </div>
     </div>
 </section>
+@endif
 <!-- SECTION: BRANDS -->
 
 <div class="our-values strategy-consult">
