@@ -26,6 +26,7 @@ use App\Livewire\Administrator\Settings\ContactRepliesList;
 use App\Livewire\Administrator\Settings\PopupSetting;
 use App\Livewire\Administrator\Settings\RegistrationSetting;
 use App\Livewire\Administrator\Settings\ResetPortal;
+use App\Livewire\Administrator\Dashboard\CreateCoupon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
@@ -238,8 +239,7 @@ Route::prefix('coupon')->group(function () {
         Route::any('/lists', CouponList::class)->name('coupon.lists');
         Route::any('/filter', [CouponCodeController::class, 'filter'])->name('coupon.filter');
         Route::get('/manage', [CouponCodeController::class, 'manage'])->name('coupon.manage');
-        Route::get('/createCoupon', [CouponCodeController::class, 'createCoupon'])->name('coupon.createCoupon');
-        Route::post('/saveCoupon', [CouponCodeController::class, 'saveCoupon'])->name('coupon.saveCoupon');
+        Route::any('/createCoupon', CreateCoupon::class)->name('coupon.createCoupon');
     });
 
     Route::any('/change_password', [AdminController::class, 'changePassword'])->name('admin.changePassword');

@@ -25,3 +25,18 @@
 - **Regression Fix**: Resolved `Call to undefined function getFileUrl()` in the scholarship view (introduced by a partial helper revert).
 - **Course Fix**: Resolved data loss bug on course edit page (fixed textareas, category selection, and file preservation logic).
 - **Deployment**: Executed multiple `git push` operations to synchronize master with all fixes.
+
+## [2026-04-18 01:05] - Coupon Create Conversion
+- **Action:** Converted `createCoupon` form to Livewire.
+- **Components:** Created `App\Livewire\Administrator\Dashboard\CreateCoupon` and its view.
+- **Logic:** Ported validation and code generation logic.
+- **Routes:** Updated `routes/admin.php` to use the Livewire component and eliminated the redundant POST route.
+- **Decision:** Used `wire:model` and `wire:submit` for state management. Kept original randomness logic for coupon codes.
+
+## [2026-04-18 01:25] - Coupon Auto-fill & Prefixes
+- **Action:** Added auto-fill functionality to `CreateCoupon` Livewire component.
+- **Features:** 
+    - Fetches unique prefixes and their associated data on mount.
+    - Implemented `updatedPrefix` hook to automatically populate form fields when an existing prefix is entered/selected.
+    - Added HTML5 `<datalist>` to the prefix input for easy selection of existing prefixes.
+    - Removed `unique` validation requirements for `prefix` and `name` to allow adding coupons to existing batches.
