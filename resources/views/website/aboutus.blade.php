@@ -6,12 +6,29 @@
 
 @section('content')
 <style>
+    /* Ensure the fixed header is always on top of the tabs during scroll */
+    .menu-head.fix-menu {
+        z-index: 1050 !important;
+    }
+
+    /* Clear the absolute header on page load */
+    .perpration-page-banner.common-banner {
+        margin-top: 110px !important;
+    }
+
+    /* Prevent tabs from creating a higher stacking context than the header */
     .carrier-glance .nav-tabs {
-        z-index: -1 !important;
         position: relative;
+        z-index: 10;
+    }
+
+    @media (max-width: 991px) {
+        .perpration-page-banner.common-banner {
+            margin-top: 80px !important;
+        }
     }
 </style>
-<div class="perpration-page-banner common-banner" style="    margin-bottom: 55px; margin-top: 72px;">
+<div class="perpration-page-banner common-banner" style="    margin-bottom: 55px;">
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
         @foreach($banners as $banner)
         <div class="carousel-inner">

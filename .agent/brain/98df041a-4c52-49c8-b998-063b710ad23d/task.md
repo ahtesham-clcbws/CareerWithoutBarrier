@@ -1,0 +1,2 @@
+- [ ] Add custom CSS to `aboutus.blade.php` to clear fixed header [ ]
+- [ ] Verify the fix [ ]
