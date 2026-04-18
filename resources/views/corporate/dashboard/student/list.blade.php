@@ -7,6 +7,16 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="card-title">Student List</h5>
+                                    <div class="d-flex align-items-center">
+                                        <label class="me-2 mb-0">Show:</label>
+                                        <select class="form-select form-select-sm w-auto" id="studentTypeFilter">
+                                            <option value="" {{ request('type') != 'new' ? 'selected' : '' }}>All Students</option>
+                                            <option value="new" {{ request('type') == 'new' ? 'selected' : '' }}>New Students</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table-bordred table-hover table bg-white">
                                         <thead>
@@ -32,7 +42,12 @@
                                                             $studCode = null;
                                                         }
                                                     ?>
-                                                    <td>{{ $student->name }}</td>
+                                                    <td>
+                                                        {{ $student->name }}
+                                                        @if ($student->isNew)
+                                                            <span class="badge bg-success">New</span>
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $studCode->application_code }}</td>
                                                     <td>{{ 'Rs.' . $studCode?->fee_amount }}</td>
                                                     <td>{{ 'Rs.' . $studCode?->coupan_value }}</td>
@@ -117,6 +132,17 @@
                     return;
                 }
                 updateAdmitCardStatus(studcodeIds, 0);
+            });
+
+            $('#studentTypeFilter').change(function() {
+                var type = $(this).val();
+                var url = new URL(window.location.href);
+                if (type) {
+                    url.searchParams.set('type', type);
+                } else {
+                    url.searchParams.delete('type');
+                }
+                window.location.href = url.toString();
             });
 
             function updateAdmitCardStatus(studcodeIds, status) {

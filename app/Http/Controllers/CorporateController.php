@@ -56,9 +56,10 @@ class CorporateController extends Controller
             }])
             ->count();
 
+        $totalStudents = $students + $newStudents;
         $coupons = CouponCode::where('corporate_id', $corporateId)->where('status', 1)->count();
 
-        return view('corporate.dashboard.dashboard', compact('corporate', 'students', 'newStudents', 'coupons'));
+        return view('corporate.dashboard.dashboard', compact('corporate', 'students', 'newStudents', 'totalStudents', 'coupons'));
     }
 
     public function login(Request $request)
@@ -140,15 +141,27 @@ class CorporateController extends Controller
     {
         $corporate = Auth::guard('corporate')->user();
 
-        $students = Student::whereHas('studentCode', function ($query) use ($corporate) {
+        $query = Student::whereHas('studentCode', function ($query) use ($corporate) {
             $query
                 ->where('corporate_id', $corporate->id)
                 ->where('is_coupan_code_applied', 1);
-        })->with(['studentCode' => function ($query) use ($corporate) {
+        });
+
+        if ($request->type == 'new') {
+            $query->where('isNew', 1);
+        }
+
+        $students = $query->with(['studentCode' => function ($query) use ($corporate) {
             $query
                 ->where('corporate_id', $corporate->id)
                 ->where('is_coupan_code_applied', 1);
         }, 'studentCode.voucher', 'scholarShipCategory', 'scholarShipOptedFor'])->get();
+
+        // Mark as seen
+        $newStudentIds = $students->where('isNew', true)->pluck('id');
+        if ($newStudentIds->isNotEmpty()) {
+            Student::whereIn('id', $newStudentIds)->update(['isNew' => false]);
+        }
 
         // if ($student) {
         //     $student = $students->where('id', $student)->first();

@@ -19,6 +19,7 @@ class CreateCoupon extends Component
     public $number_of_coupons;
     public $description;
     public $existingPrefixes = [];
+    public $existingCouponsCount = 0;
 
     protected $rules = [
         'prefix' => 'required|alpha_num',
@@ -32,10 +33,18 @@ class CreateCoupon extends Component
 
     public function mount()
     {
+        $counts = CouponCode::select('prefix', DB::raw('count(*) as aggregate'))
+            ->groupBy('prefix')
+            ->pluck('aggregate', 'prefix');
+
         $this->existingPrefixes = CouponCode::orderByDesc('id')
             ->get(['prefix', 'name', 'coupon_type', 'valueType', 'value', 'description'])
             ->unique('prefix')
             ->whereNotNull('prefix')
+            ->map(function ($item) use ($counts) {
+                $item->count = $counts[$item->prefix] ?? 0;
+                return $item;
+            })
             ->keyBy('prefix')
             ->toArray();
     }
@@ -51,13 +60,16 @@ class CreateCoupon extends Component
 
         if (isset($this->existingPrefixes[$value])) {
             $data = $this->existingPrefixes[$value];
-            
+
             // Explicitly cast and handle nulls to ensure Livewire tracking
             $this->name = (string) ($data['name'] ?? '');
             $this->coupon_type = (string) ($data['coupon_type'] ?? '');
             $this->discount_type = (string) ($data['valueType'] ?? '');
             $this->discount_value = $data['value'] ?? 0;
             $this->description = (string) ($data['description'] ?? '');
+            $this->existingCouponsCount = $data['count'] ?? 0;
+        } else {
+            $this->existingCouponsCount = 0;
         }
     }
 

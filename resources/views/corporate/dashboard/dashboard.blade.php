@@ -10,16 +10,16 @@
 
                 <div class="col-xl-3 col-sm-6 col-12 d-flex">
                     <div class="card bg-comman w-100">
-                        <a href="/institute/student_list" class="card-body">
+                        <a href="/institute/student_list?type=new" class="card-body">
                             <div class="db-widgets d-flex justify-content-between align-items-center">
                                 <div class="db-info">
                                     <h6>New Students</h6>
                                     <h3>
-                                        <p class="text-black">{{ $students }}</p>
+                                        <p class="text-black">{{ $newStudents }}</p>
                                     </h3>
                                 </div>
                                 <div class="db-icon">
-                                    <img src="{{asset('admin/icons/Students.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                    <img src="{{asset('admin/icons/SignUp.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                                 </div>
                             </div>
                         </a>
@@ -30,13 +30,13 @@
                         <a href="/institute/student_list" class="card-body">
                             <div class="db-widgets d-flex justify-content-between align-items-center">
                                 <div class="db-info">
-                                    <h6>Students</h6>
+                                    <h6>Total Students</h6>
                                     <h3>
-                                        <p class="text-black">{{ $newStudents }}</p>
+                                        <p class="text-black">{{ $totalStudents }}</p>
                                     </h3>
                                 </div>
                                 <div class="db-icon">
-                                    <img src="{{asset('admin/icons/SignUp.png')}}" alt="Dashboard Icon" height="100px" width="100px">
+                                    <img src="{{asset('admin/icons/Students.png')}}" alt="Dashboard Icon" height="100px" width="100px">
                                 </div>
                             </div>
                         </a>

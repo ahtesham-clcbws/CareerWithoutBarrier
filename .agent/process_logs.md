@@ -1,5 +1,5 @@
 ## process_logs.md
-- Found 'Unknown column status' error in logs.
-- Removed status assignment from Registration.php.
-- Added null checks in RegistrationForm.php.
+- Updated dashboard.blade.php to use ?type=new link.
+- Modified CorporateController.php to handle the type parameter.
+- Added dropdown and JavaScript filter logic to list.blade.php.
 

@@ -16,6 +16,9 @@
                                         <div class="form-group">
                                             <p class="text-dark m-b-15 f-s-12">Prefix<span class="text-danger">*</span></p>
                                             <input type="text" wire:model.live="prefix" list="prefix-list" class="form-control input-focus" placeholder="Add Prefix">
+                                            @if($existingCouponsCount > 0)
+                                                <small class="text-success">Already created: <b>{{ $existingCouponsCount }}</b> coupons</small>
+                                            @endif
                                             <datalist id="prefix-list">
                                                 @foreach($existingPrefixes as $p => $data)
                                                     <option value="{{ $p }}">
