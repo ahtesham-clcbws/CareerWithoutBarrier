@@ -333,6 +333,8 @@ class Registration extends Component
 
             if ($studentCode->fee_amount <= 0) {
                 $studentCode->status = 1;
+                $studentCode->used_coupon = 1;
+                $studentCode->is_paid = 1;
             }
         } catch (\Throwable $th) {
             \logger($th->getMessage());

@@ -279,10 +279,12 @@
                                     : '' !!}
                             </div>
                         @endif
-                        @if (
-                            !$student->latestStudentCode?->is_paid &&
-                                ($student->latestStudentCode?->is_coupan_code_applied ? $student->latestStudentCode?->fee_amount > 0 : true))
-                            <button class="btn btn-primary" type="button" onclick="payWithRazorpay()">Pay Now</button>
+                        @if (!$student->latestStudentCode?->is_paid)
+                            @if ($student->latestStudentCode?->is_coupan_code_applied && $student->latestStudentCode?->fee_amount <= 0)
+                                <button class="btn btn-success" type="button" wire:click="completeFreeRegistration">Complete Registration</button>
+                            @else
+                                <button class="btn btn-primary" type="button" onclick="payWithRazorpay()">Pay Now</button>
+                            @endif
                         @endif
                     </div>
                 </div>

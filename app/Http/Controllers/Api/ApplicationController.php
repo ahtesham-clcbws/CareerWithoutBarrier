@@ -263,6 +263,7 @@ class ApplicationController extends Controller
 
             if ($studentCode->fee_amount <= 0) {
                 $studentCode->used_coupon = 1;
+                $studentCode->is_paid = true;
             }
             $studentCode->save();
 

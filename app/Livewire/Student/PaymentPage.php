@@ -111,6 +111,7 @@ class PaymentPage extends Component
 
             if ($studentCode->fee_amount <= 0) {
                 $studentCode->used_coupon = 1;
+                $studentCode->is_paid = 1;
             }
             $studentCode->save();
 
@@ -181,6 +182,24 @@ class PaymentPage extends Component
     }
 
     // SQS AKGEFCNZInP7227
+
+    public function completeFreeRegistration()
+    {
+        $this->student = Auth::guard('student')->user();
+        $studentCode = $this->student->latestStudentCode;
+
+        if ($studentCode && $studentCode->fee_amount <= 0) {
+            $studentCode->is_paid = true;
+            $studentCode->used_coupon = true;
+            $studentCode->save();
+
+            $this->js("success('Registration Completed Successfully.')");
+            return $this->redirect('/students/studentDashboard');
+        } else {
+            $this->js("error('Unable to complete registration. Please pay the remaining fee.')");
+            return false;
+        }
+    }
 
     public function formSubmit() {}
 

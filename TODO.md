@@ -26,7 +26,7 @@ ssh -p 65002 u829699752@82.25.120.120
 # SSH: project path
 cd domains/careerwithoutbarrier.com/public_html
 
-php artisan optimize:clear; php artisan clear-compiled; php artisan cache:clear; php artisan config:clear;php artisan optimize;
+php artisan optimize:clear; php artisan clear-compiled; php artisan cache:clear;php artisan optimize;php artisan config:clear;
 # check for migration
 php artisan migrate;
 # for storage:link

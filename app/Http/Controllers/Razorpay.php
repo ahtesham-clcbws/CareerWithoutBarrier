@@ -18,11 +18,13 @@ class Razorpay extends Controller
     public function index()
     {
         $student = Student::find(Auth::guard('student')->id());
-        $studentFee = $student->latestStudentCode;
-        $feeAmount =  $studentFee->is_coupan_code_applied ? $studentFee->fee_amount : 850;
+        $studentCode = $student->latestStudentCode;
+        $feeAmount =  $studentCode->is_coupan_code_applied ? $studentCode->fee_amount : 850;
 
         if ($feeAmount <= 0) {
-            return back()->withErrors('Payable Amount greater than zero.');
+            $studentCode->is_paid = true;
+            $studentCode->save();
+            return redirect()->route('student.payment')->with(['success' => 'Registration Completed successfully']);
         }
         
         return view('payment.razorpay', compact('studentFee', 'student'));

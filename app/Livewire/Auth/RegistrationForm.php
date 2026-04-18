@@ -265,7 +265,7 @@ class RegistrationForm extends Component
                         $student->login_password = $this->password;
                         $student->save();
 
-                        if ($this->$this->needReferrenceCode) {
+                        if ($this->needReferrenceCode) {
                             $this->applyCoupon($student->id, $this->referrenceCode);
                         }
 
@@ -353,6 +353,7 @@ class RegistrationForm extends Component
 
             if ($studentCode->fee_amount <= 0) {
                 $studentCode->used_coupon = 1;
+                $studentCode->is_paid = 1;
             }
             if ($studentCode->save()) {
                 $couponCode->save();
