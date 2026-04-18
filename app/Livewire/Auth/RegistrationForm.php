@@ -335,10 +335,10 @@ class RegistrationForm extends Component
             }
 
             $couponCode = CouponCode::where('couponcode', $coupon)->first();
+            if ($couponCode) {
+                $couponCode->is_applied = 1;
 
-            $couponCode->is_applied = 1;
-
-            $afterAppliedRemainValue = $this->couponValueApply($couponCode->valueType, $couponCode->value);
+                $afterAppliedRemainValue = $this->couponValueApply($couponCode->valueType, $couponCode->value);
 
             $corporate = $couponCode->corporate;
             if ($corporate) {
@@ -355,8 +355,13 @@ class RegistrationForm extends Component
                 $studentCode->used_coupon = 1;
                 $studentCode->is_paid = 1;
             }
-            if ($studentCode->save()) {
-                $couponCode->save();
+                if ($studentCode->save()) {
+                    $couponCode->save();
+                }
+            } else {
+                $studentCode->fee_amount = 850;
+                $studentCode->coupan_value = 0;
+                $studentCode->save();
             }
         } catch (\Throwable $th) {
             $this->js("toastr.error('" . $th->getMessage() . "')");

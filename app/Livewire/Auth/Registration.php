@@ -332,16 +332,14 @@ class Registration extends Component
             }
 
             if ($studentCode->fee_amount <= 0) {
-                $studentCode->status = 1;
                 $studentCode->used_coupon = 1;
                 $studentCode->is_paid = 1;
             }
+            $studentCode->save();
         } catch (\Throwable $th) {
-            \logger($th->getMessage());
+            \logger('Apply Coupon Error: ' . $th->getMessage());
             $this->js("toastr.error('" . $th->getMessage() . "')");
         }
-
-        $studentCode->save();
     }
 
     public function couponValueApply($valueType, $value)
