@@ -9,6 +9,7 @@ use App\Models\EducationType;
 use App\Models\State;
 use App\Models\Student;
 use App\Models\StudentCode;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -157,45 +158,80 @@ class StudentRollList extends Component
 
     public function generateRollNumbers()
     {
-        if (DistrictScholarshipLimit::where('start_from', 0)->count() > 1) {
-            setFormsStartEndSerial();
+        /*
+        |--------------------------------------------------------------------------
+        | SIMPLIFIED ROLL NUMBER GENERATION (Added by Antigravity)
+        |--------------------------------------------------------------------------
+        | Logic:
+        | 1. Filter students who are final submitted and have no roll number.
+        | 2. Join with districts to sort by City Name, then Student Name.
+        | 3. Assign roll numbers sequentially starting from 100001 or current max + 1.
+        */
+
+        $query = Student::query()
+            ->with('latestStudentCode')
+            ->where('is_final_submitted', 1)
+            ->whereHas('latestStudentCode', function ($q) {
+                $q->whereNull('roll_no');
+            });
+
+        // Apply filters
+        if ($this->district_id) {
+            $query->where('district_id', $this->district_id);
         }
 
-        if ($this->district_id && !empty($this->scholarhips) && !empty($this->classes) && !empty($this->genders)) {
-            $studentsQuery = Student::select('id', 'district_id', 'scholarship_category', 'qualification', 'gender', 'is_final_submitted');
-            $studentsQuery->where('district_id', $this->district_id);
-            $studentsQuery->whereIn('scholarship_category', $this->scholarhips);
-            $studentsQuery->whereIn('qualification', $this->classes);
-            $studentsQuery->whereIn('gender', $this->genders);
-            $studentsQuery->where('is_final_submitted', 1);
-            $studentsQuery
-                ->with('latestStudentCode:student_codes.id,student_codes.roll_no,student_codes.stud_id,student_codes.created_at')
-                ->whereHas('latestStudentCode', function ($q) {
-                    $q->whereNull('roll_no');
-                });
-            $studentsQuery->orderBy('id', 'desc');
-            $allStudents = $studentsQuery->get();
-            // logger('students: ', [$students->toArray()]);
-            // $fields = ['scholarship_category', 'qualification', 'gender'];
-            $fields = ['qualification', 'gender'];
+        if (!empty($this->scholarhips)) {
+            $query->whereIn('scholarship_category', $this->scholarhips);
+        }
 
-            foreach ($this->scholarhips as $key => $scholarhip) {
-                $students = $allStudents->where('scholarship_category', $scholarhip);
-                $sortedStudents = alternateSort($students, $fields);
+        if (!empty($this->classes)) {
+            $query->whereIn('qualification', $this->classes);
+        }
 
-                $rollNumbers = getRollNumbers($this->district_id, $scholarhip, $sortedStudents->count());
-                if ($rollNumbers['success']) {
-                    $roll_numbers = $rollNumbers['roll_numbers'];
-                    foreach ($sortedStudents as $key => $student) {
-                        $student->latestStudentCode->roll_no = isset($roll_numbers[$key]) ? $roll_numbers[$key] : null;
-                        $student->latestStudentCode->save();
-                    }
-                } else {
-                    $this->js('alert("' . $rollNumbers['message'] . '")');
+        if (!empty($this->genders)) {
+            $query->whereIn('gender', $this->genders);
+        }
+
+        // Sort by City Name and Student Name
+        $query->join('districts', 'students.district_id', '=', 'districts.id')
+            ->select('students.*')
+            ->orderBy('districts.name')
+            ->orderBy('students.name');
+
+        $studentsToAssign = $query->get();
+
+        if ($studentsToAssign->isEmpty()) {
+            return $this->js('alert("No students found matching the filters without a roll number.")');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            // Get the current highest roll number
+            $maxRollNo = StudentCode::max('roll_no');
+            $nextRollNo = max(100000, (int)$maxRollNo) + 1;
+
+            foreach ($studentsToAssign as $student) {
+                if ($student->latestStudentCode) {
+                    $student->latestStudentCode->roll_no = (string)$nextRollNo;
+                    $student->latestStudentCode->save();
+                    $nextRollNo++;
                 }
             }
-        } else {
-            return $this->js('alert("Please select: District, Scholarship Type, Class/Exam and Gender.")');
+
+            DB::commit();
+            return $this->js('alert("Roll numbers generated successfully for ' . $studentsToAssign->count() . ' students starting from ' . (max(100000, (int)$maxRollNo) + 1) . '.")');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            logger('Roll number generation error: ' . $e->getMessage());
+            return $this->js('alert("Error generating roll numbers: ' . $e->getMessage() . '")');
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | END OF SIMPLIFIED ROLL NUMBER GENERATION
+        |--------------------------------------------------------------------------
+        */
     }
 }
