@@ -57,8 +57,12 @@
                                                     <td> {{ $student->scholarShipOptedFor?->name ?? 'N/A' }}</td>
                                                     <td>{{ $student->dob ?? '-' }}</td>
                                                     <td>
-                                                        @if (!$studCode?->issued_admitcard)
-                                                            <a class="btn btn-danger changeStatus"
+                                                        @if ($studCode?->corporate_stop_admitcard)
+                                                            <a class="btn btn-success btn-sm changeStatus"
+                                                                data-studcode_id="{{ $studCode->id }}" data-status="1"
+                                                                href="#">Activate AdmitCard</a>
+                                                        @else
+                                                            <a class="btn btn-danger btn-sm changeStatus"
                                                                 data-studcode_id="{{ $studCode->id }}" data-status="0"
                                                                 href="#">Stop AdmitCard</a>
                                                         @endif

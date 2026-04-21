@@ -30,6 +30,9 @@
   - [ ] Add missing database migration for `remark`
   - [ ] Migrate storage path to `home/govt_websites`
 
-## Future / Recommended
-- [ ] Migrate all other media uploads (icons, blog images) to standard Storage.
-- [ ] Implement a global `file_url()` or `storage_url()` helper to unify path resolution.
+- [ ] [FUTURE] Implement MSG91 OTP Service [3b405455]
+  - [ ] Create `Msg91Service` class.
+  - [ ] Add `.env` variables for Auth Key, Sender ID, and Template IDs.
+  - [ ] Update `AppServiceProvider` to register the service.
+  - [ ] Refactor `HomeController` and `CorporateController` to use the new service.
+  - [ ] Map approved DLT templates once available.
