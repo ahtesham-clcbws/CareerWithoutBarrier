@@ -10,6 +10,10 @@
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="card-title">Student List</h5>
                                     <div class="d-flex align-items-center">
+                                        <div class="btn-group btn-group-sm me-3">
+                                            <button type="button" class="btn btn-outline-success updateAdmitCardStatusAll">Release All Selected</button>
+                                            <button type="button" class="btn btn-outline-danger StopAdmitCardStatusAll">Stop All Selected</button>
+                                        </div>
                                         <label class="me-2 mb-0">Show:</label>
                                         <select class="form-select form-select-sm w-auto" id="studentTypeFilter">
                                             <option value="" {{ request('type') != 'new' ? 'selected' : '' }}>All Students</option>
@@ -21,6 +25,7 @@
                                     <table class="table-bordred table-hover table bg-white">
                                         <thead>
                                             <tr>
+                                                <th><input type="checkbox" id="selectAll" class="form-check-input"></th>
                                                 <th>Name</th>
                                                 <th>Admsn. #</th>
                                                 <th>Paid Amount</th>
@@ -42,6 +47,11 @@
                                                             $studCode = null;
                                                         }
                                                     ?>
+                                                    <td>
+                                                        @if($studCode)
+                                                            <input type="checkbox" class="rowCheckbox form-check-input" data-studcode_id="{{ $studCode->id }}">
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         {{ $student->name }}
                                                         @if ($student->isNew)

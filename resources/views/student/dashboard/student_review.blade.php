@@ -78,7 +78,7 @@
                                                             style="width: 50px; height: auto; position: absolute; top: 0px; left: 20px;" />
                                                         <h1
                                                             style="text-align: center; font-size: 20pt; margin: 0px 0px 0px 0px; padding: 0px 0 0; color: #383838; font-weight: bold;">
-                                                            The Gyanology
+                                                            Career without Barrier
                                                         </h1>
                                                         <h2
                                                             style="text-align: center; margin:0px 0px 0px 0px; font-size:14pt; padding: 0px; color:#383838; font-weight: bold;">

@@ -181,7 +181,7 @@ class CorporateController extends Controller
         $corporateStatus = $status == 0 ? 1 : 0;
         $count = 0;
         if (is_array($studCodeIds)) {
-            $count = StudentCode::whereIn('id', $studCodeIds)->where('is_paid', 0)->update(['issued_admitcard' => $status, 'corporate_stop_admitcard' => $corporateStatus]);
+            $count = StudentCode::whereIn('id', $studCodeIds)->update(['issued_admitcard' => $status, 'corporate_stop_admitcard' => $corporateStatus]);
         } else {
             $studentCode = StudentCode::find($studCodeIds);
             if ($studentCode) {

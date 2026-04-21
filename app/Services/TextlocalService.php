@@ -20,7 +20,7 @@ class TextlocalService
     {
         $client = new Client();
 
-        $message = rawurlencode('Dear user%nYour OTP for sign up to The Gyanology portal is ' . $otp . '.%nValid for 10 minutes. Please do not share this OTP.%nRegards%nThe Gyanology Team');
+        $message = rawurlencode('Dear user%nYour OTP for sign up to Career without Barrier portal is ' . $otp . '.%nValid for 10 minutes. Please do not share this OTP.%nRegards%nCareer without Barrier Team');
 
         $data = [
             'apikey' => $this->apiKey,

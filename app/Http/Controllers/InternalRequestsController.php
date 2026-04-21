@@ -203,13 +203,13 @@ class InternalRequestsController extends Controller
                         return json_encode($this->returnResponse);
                     }
                     $otp            = mt_rand(100000, 999999);
-                    // $mobileMessage  = 'Dear user, Your OTP for sign up to The Gyanology portal is ' . $otp . '. Valid for 10 minutes. Please do not share this OTP. Regards, The Gyanology Team';
+                    // $mobileMessage  = 'Dear user, Your OTP for sign up to Career without Barrier portal is ' . $otp . '. Valid for 10 minutes. Please do not share this OTP. Regards, Career without Barrier Team';
                     // $templateId     = 1207163026060776390;
                     // $url            = 'http://198.24.149.4/API/pushsms.aspx?loginID=rajji1&password=kanpureduup78&mobile=' . $mobileNumber . '&text=' . $mobileMessage . '&senderid=GYNLGY&route_id=2&Unicode=0&Template_id=' . $templateId;
                     // $response       = Http::get($url);
 
 
-                    $message    = 'Dear user%nYour OTP for sign up to The Gyanology portal is ' . $otp . '.%nValid for 10 minutes. Please do not share this OTP.%nRegards%nThe Gyanology Team';
+                    $message    = 'Dear user%nYour OTP for sign up to Career without Barrier portal is ' . $otp . '.%nValid for 10 minutes. Please do not share this OTP.%nRegards%nCareer without Barrier Team';
                     $sender     = "GYNLGY";
                     $apikey     = "MzQ0YzZhMzU2ZTY2NjI0YjU4Mzc0NDMxNmU3MjYzNmM=";
 
