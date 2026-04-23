@@ -160,7 +160,7 @@
 
                     <div class="mb-3 col-12 {{ $this->otpSendSuccess && $this->otpRequestId ? '' : 'd-none' }} ">
                         <label class="form-label mb-0 text-center d-block"><b>Enter OTP, you recieved on Mobile number!</b></label>
-                        <input type="number" wire:model="userOtp" class="form-control form-control-lg text-center @error('userOtp') is-invalid @enderror" placeholder="_ _ _ _ _ _" min="100000" max="999999" minlength="6" maxlength="6">
+                        <input type="number" wire:model="userOtp" id="student_otp_form" class="form-control form-control-lg text-center @error('userOtp') is-invalid @enderror" placeholder="_ _ _ _ _ _" min="100000" max="999999" minlength="6" maxlength="6">
                         @error('userOtp')
                             <div class="invalid-feedback text-center">{{ $message }}</div>
                         @enderror

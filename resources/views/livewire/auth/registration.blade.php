@@ -196,7 +196,7 @@
                                             <div class="input-group">
                                                 <input
                                                     class="form-control form-control-sm @error('userOtp') is-invalid @enderror @if ($isOtpVerfied) is-valid @endif"
-                                                    type="number" wire:model.live="userOtp"
+                                                    type="number" wire:model.live="userOtp" id="student_otp_reg"
                                                     placeholder="Enter 6 Digits OTP" min="100000" max="999999"
                                                     minlength="6" maxlength="6"
                                                     @if (!$otpSendSuccess) disabled @endif

@@ -413,7 +413,7 @@
     }
 
     .logo img {
-        width: 100px;
+        width: 250px;
         transition: all 1s ease;
         left: 10px;
     }
@@ -1192,11 +1192,49 @@
         padding-bottom: 35px;
     }
 
-
+    
     .fav-pack-deta {
         width: 100%;
         padding: 40px 40px 80px 40px;
         border: 0px;
+    }
+
+    /* Registration form: keep all fields in a single horizontal row on mobile */
+    .register-form .row {
+        display: flex;
+        flex-wrap: nowrap; /* prevent wrapping – all fields stay on one line */
+        gap: 0.5rem;
+        align-items: center;
+    }
+    /* Ensure columns shrink to content size rather than stretching full width */
+    .register-form .row .col-12,
+    .register-form .row .col-md-4,
+    .register-form .row .col-md-6 {
+        flex: 0 0 auto;
+        max-width: none;
+    }
+    .register-form .row .btn-primary {
+        flex: 0 0 auto;
+        margin-left: 0.5rem;
+    }
+
+    /* Login modal mobile inline layout (unchanged) */
+    #loginForm ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    #loginForm li.full {
+        flex: 1 1 auto;
+        margin-bottom: 0;
+    }
+    #loginForm li.full input {
+        width: 100% !important;
+    }
+    #loginForm li.full button,
+    #loginForm li.full input[type=submit] {
+        width: auto !important;
     }
 
 

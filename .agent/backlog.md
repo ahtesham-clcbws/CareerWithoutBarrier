@@ -1,21 +1,14 @@
-# Project Backlog
+# Mobile Responsiveness Improvements
 
-## Completed Tasks
-- [x] Admin OTP login implementation (both OTP and password).
-- [x] Enforce 10-digit mobile number rule for admin OTP.
-- [x] Centralize TRAI-approved OTP template in `Msg91Service`.
-- [x] Resolve Student OTP saving issue in `Msg91Service`.
-- [x] Sanitize mobile numbers globally (exactly 10 digits) for OTP storage and verification.
-- [x] Fix non-existent `errors()` calls in `verifyregister.js`.
-- [x] Correct unique validation rules in admin profile update.
-- [x] Migrated SMS Infrastructure Integration (Conversation 3b405455).
-- [x] Bulk Student Creation Form (Conversation 0f79c8ed).
+- Review and enhance **homepage.blade.php** for better mobile layout.
+- Refactor **register.blade.php** to use responsive Bootstrap grid and improve form usability on small screens.
+- Update **dashboard.blade.php** with a responsive container and appropriate spacing.
+- Add necessary CSS media queries to `public/website/assets/css/style.css` for navigation, sliders, and sections.
+- Ensure all changes follow project standards and keep file sizes under limits.
 
-## Active Tasks
-- [ ] Monitor OTP delivery success rates with the new template.
-- [ ] Add rate limiting to "Get OTP" button to prevent abuse.
-- [ ] Implement master toggle for OTP login in settings.
-
-## Future Enhancements
-- [ ] Audit logs for admin logins.
-- [ ] Two-factor authentication (2FA) via email as fallback.
+## Acceptance Criteria
+- Pages render correctly on devices < 768px width.
+- No horizontal scroll.
+- Form inputs are full width on mobile.
+- Navigation collapses into a hamburger menu.
+- All changes are documented in `.agent/` directory.

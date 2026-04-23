@@ -125,6 +125,15 @@ function sendOtp(userType, type) {
                 verifyBtn.removeClass('bg-dark');
                 verifyBtn.addClass('bg-success');
             }
+            if (type == 'otp_send') {
+                if (otpField) {
+                    otpField.prop('readonly', false);
+                    otpField.focus();
+                }
+                if (verifyBtn) {
+                    verifyBtn.prop('disabled', false);
+                }
+            }
             console.log(userType == 'forgetPassword' && type == 'otp_verify');
             console.log(userType + ' ' + type);
             if (userType == 'forgetPassword' && type == 'otp_verify') {

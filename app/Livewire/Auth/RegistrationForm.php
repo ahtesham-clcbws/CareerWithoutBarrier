@@ -240,6 +240,7 @@ class RegistrationForm extends Component
                         $this->otpRequestId = $otpCreated ? $otpCreated->id : 'sent';
                         $this->otpSendSuccess = true;
                         $this->js("toastr.success('OTP sent successfully, please check your phone.')");
+                        $this->js('setTimeout(() => { document.getElementById("student_otp_form")?.focus(); }, 100)');
                     } else {
                         $this->js("toastr.error('Failed to send OTP. Please try again.')");
                         return false;

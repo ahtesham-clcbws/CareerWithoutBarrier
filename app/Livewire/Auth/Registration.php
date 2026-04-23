@@ -189,6 +189,7 @@ class Registration extends Component
                     $this->otpSendSuccess = true;
                 }
                 $this->js('toastr.success("OTP send successfully, please check your phone.")');
+                $this->js('setTimeout(() => { document.getElementById("student_otp_reg")?.focus(); }, 100)');
             } else {
                 $this->js('toastr.error("Failed to send OTP. Please try again.")');
             }

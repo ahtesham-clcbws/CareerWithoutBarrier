@@ -11399,3 +11399,53 @@ form.search-courses .btn:focus {
 label {
     display: flex;
 }
+/*-------------------------------------------------
+   Mobile Responsive Adjustments
+-------------------------------------------------*/
+@media (max-width: 767px) {
+    /* Navigation adjustments */
+    .nav {
+        padding: 10px 0;
+        background: #000;
+    }
+    .nav-lhs, .nav-rhs {
+        float: none;
+        width: 100%;
+        text-align: center;
+    }
+    .nav-lhs li, .nav-rhs li {
+        display: inline-block;
+        margin: 0 5px;
+    }
+    .nav-rhs a {
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+    .nav-rhs .book-btn {
+        margin-top: 8px;
+    }
+    /* Slider height reduction */
+    .sliderBackgroundImage, .slider.u-slick {
+        min-height: 250px !important;
+    }
+    /* Form layout adjustments */
+    .form-control {
+        width: 100% !important;
+    }
+    .col-md-4, .col-md-6 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+    .col-md-4 {
+        margin-bottom: 5px;
+    }
+    .card-header, .card-body {
+        padding: 15px;
+    }
+    .container.pagecontentbody {
+        padding: 10px;
+    }
+    .menu-head.fix-menu {
+        padding: 15px 0;
+    }
+}
