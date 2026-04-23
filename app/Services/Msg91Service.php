@@ -16,7 +16,7 @@ class Msg91Service
      * Centralized TRAI Approved Template
      * The only thing we change is the OTP, everything else is a traced copy of the approved message.
      */
-    const OTP_TEMPLATE = "Dear user OTP for sign up to www.careerwithoutbarrier.com is {otp}. valid for 10 minutes. Do not share this OTP Regards CAREER without BARRIER Management";
+    const OTP_TEMPLATE = "Dear user OTP for sign up to www.careerwithoutbarrier.com is ##var##. valid for 10 minutes. Do not share this OTP Regards CAREER without BARRIER Management";
 
     public function __construct($authKey = null, $senderId = null, $templateId = null)
     {
@@ -30,7 +30,7 @@ class Msg91Service
      */
     public function getFormattedMessage($otp)
     {
-        return str_replace('{otp}', $otp, self::OTP_TEMPLATE);
+        return str_replace('##var##', $otp, self::OTP_TEMPLATE);
     }
 
     /**
@@ -70,7 +70,7 @@ class Msg91Service
                     'recipients' => [
                         [
                             'mobiles' => $apiNumber,
-                            'otp' => (string)$otp, // Variable name must match MSG91 template variable
+                            'var' => (string)$otp, // Matches ##var## in template
                         ]
                     ]
                 ];
