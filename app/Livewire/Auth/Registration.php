@@ -6,6 +6,7 @@ use App\Models\Corporate;
 use App\Models\CouponCode;
 use App\Models\District;
 use App\Models\OtpVerifications;
+use App\Services\Msg91Service;
 use App\Models\PolicyPage;
 use App\Models\Student;
 use App\Models\StudentCode;
@@ -177,19 +178,20 @@ class Registration extends Component
     {
         $validated = $this->validateOnly('mobile');
         if ($validated) {
-            $otp = rand(123456, 998989);
-            // $otp = 123456;
-            $otpCreated = OtpVerifications::create([
-                'type' => 'mobile',
-                'credential' => $this->mobile,
-                'otp' => $otp,
-            ]);
-            if ($otpCreated) {
-                $this->otpRequestId = $otpCreated->id;
-                $this->otpSendSuccess = true;
-            }
+            $otp = rand(100000, 999999);
+            $smsSent = app(Msg91Service::class)->sendSms($this->mobile, $otp);
 
-            $this->js('toastr.success("OTP send successfully, please check your phone.")');
+            if ($smsSent) {
+                // The service already saves to OtpVerifications, but we need the record for otpRequestId
+                $otpCreated = OtpVerifications::where('credential', $this->mobile)->where('otp', $otp)->latest()->first();
+                if ($otpCreated) {
+                    $this->otpRequestId = $otpCreated->id;
+                    $this->otpSendSuccess = true;
+                }
+                $this->js('toastr.success("OTP send successfully, please check your phone.")');
+            } else {
+                $this->js('toastr.error("Failed to send OTP. Please try again.")');
+            }
         } else {
             $this->js('toastr.error("Mobile number, id not valid.")');
         }

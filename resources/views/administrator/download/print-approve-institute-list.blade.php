@@ -60,7 +60,7 @@ body{
             <img src="data:image/png;base64,{{ base64_encode(file_get_contents(asset('/upload/corporate/'.$institutes->attachment))) }}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
 
         @else
-            <img src="data:image/jpg;base64,{{ base64_encode(file_get_contents(asset('upload/no_image_available.jpg'))) }}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
+            <img src="data:image/jpg;base64,{{ base64_encode(file_get_contents(asset('no_image_available.jpg'))) }}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
         @endif
         </td>
         <td>{{ $institutes->name }}</td>

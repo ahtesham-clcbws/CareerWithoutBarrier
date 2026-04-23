@@ -11,7 +11,7 @@ use App\Models\OtpVerifications;
 use App\Models\Student;
 use App\Models\StudentCode;
 use App\Models\TestimonialsModel;
-use App\Services\TextlocalService;
+use App\Services\Msg91Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,11 +19,11 @@ use Illuminate\Support\Facades\Mail;
 
 class CorporateController extends Controller
 {
-    protected $textlocalService;
+    protected $smsService;
 
-    public function __construct(TextlocalService $textlocalService)
+    public function __construct(Msg91Service $smsService)
     {
-        $this->textlocalService = $textlocalService;
+        $this->smsService = $smsService;
     }
 
     public function index()
@@ -410,7 +410,7 @@ class CorporateController extends Controller
 
     public function CorporateSendVerificationOtpMobileNoChange(Request $request)
     {
-        $textlocal = new TextlocalService;
+        $smsService = $this->smsService;
 
         $mobileNumber = $request->mobile;
 
@@ -467,7 +467,7 @@ class CorporateController extends Controller
                     if (is_null($otpVerifications)) {
                         // $corporateEmail = $getCorporateDetails->email;
                         $otp = mt_rand(100000, 999999);
-                        $textlocal->sendSms($mobileNumber, $otp);
+                        $smsService->sendSms($mobileNumber, $otp);
 
                         // Mail::to($corporateEmail)->send(new OTPCorporateMail($otp));
 

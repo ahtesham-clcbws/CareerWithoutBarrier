@@ -56,6 +56,19 @@ Student Dashboard Result -> [DONE]
 
 If discount is above 60% then discount line is removed, Final online Paid Amount, Text Letter Capitalize -> [DONE]
 
+## April-22 (MSG91 Migration)
+- MSG91 SMS Gateway Integration -> [DONE]
+- Msg91Service Implementation (Singleton) -> [DONE]
+- Registration OTP (Livewire) -> [DONE]
+- Student Profile Mobile Change OTP (Livewire) -> [DONE]
+- Corporate Profile Mobile Change OTP (Livewire) -> [DONE]
+- Corporate Collaboration Enquiry OTP (Livewire) -> [DONE]
+- HomeController SMS Endpoints (Admin/Corporate/ForgetPassword) -> [DONE]
+- CorporateController Constructor Injection -> [DONE]
+- Api/AuthController Mobile Verify OTP -> [DONE]
+- Removal of Hardcoded 123456 OTP placeholders -> [DONE]
+- Decommissioning TextlocalService -> [DONE]
+
 ## DEC-18
 in website -> register student -> Institute code live verify -> [SKIP]
 New corporate enquiry (interested for more than one) -> [DONE]

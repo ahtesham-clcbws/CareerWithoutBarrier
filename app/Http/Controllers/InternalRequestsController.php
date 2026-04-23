@@ -13,6 +13,7 @@ use App\Models\OtpVerifications;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Models\CorporateEnquiry;
+use App\Services\Msg91Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -202,34 +203,11 @@ class InternalRequestsController extends Controller
                         $this->returnResponse['message'] = 'You already request an OTP in last 10 minutes. please wait for another attempt.';
                         return json_encode($this->returnResponse);
                     }
-                    $otp            = mt_rand(100000, 999999);
-                    // $mobileMessage  = 'Dear user, Your OTP for sign up to Career without Barrier portal is ' . $otp . '. Valid for 10 minutes. Please do not share this OTP. Regards, Career without Barrier Team';
-                    // $templateId     = 1207163026060776390;
-                    // $url            = 'http://198.24.149.4/API/pushsms.aspx?loginID=rajji1&password=kanpureduup78&mobile=' . $mobileNumber . '&text=' . $mobileMessage . '&senderid=GYNLGY&route_id=2&Unicode=0&Template_id=' . $templateId;
-                    // $response       = Http::get($url);
+                    $otp = mt_rand(100000, 999999);
+                    $smsSent = app(Msg91Service::class)->sendSms($mobileNumber, $otp);
 
-
-                    $message    = 'Dear user%nYour OTP for sign up to Career without Barrier portal is ' . $otp . '.%nValid for 10 minutes. Please do not share this OTP.%nRegards%nCareer without Barrier Team';
-                    $sender     = "GYNLGY";
-                    $apikey     = "MzQ0YzZhMzU2ZTY2NjI0YjU4Mzc0NDMxNmU3MjYzNmM=";
-
-                    $response = Http::get('https://api.textlocal.in/send/', [
-                        'apikey' => $apikey,
-                        'numbers' => $mobileNumber,
-                        'sender' => $sender,
-                        'message' => $message,
-                    ]);
-
-                    if ($response->successful()) {
-                        $otpVerifications               = new OtpVerifications;
-                        $otpVerifications->type         = 'mobile';
-                        $otpVerifications->credential   = $mobileNumber;
-                        $otpVerifications->otp          = $otp;
-                        $saveToDb                       = $otpVerifications->save();
-
-                        if ($saveToDb) {
-                            $this->returnResponse['success'] = true;
-                        }
+                    if ($smsSent) {
+                        $this->returnResponse['success'] = true;
                     }
                 }
                 return json_encode($this->returnResponse);

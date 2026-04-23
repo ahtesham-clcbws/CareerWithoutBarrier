@@ -232,8 +232,18 @@ class RegistrationForm extends Component
                 }
                 if (!$this->otpSendSuccess || !$this->otpRequestId) {
                     // continue to send otp to the user mobile
-                    $this->otpRequestId = 'someRequestIdAfterOTP';
-                    $this->otpSendSuccess = true;
+                    $otp = rand(100000, 999999);
+                    $smsSent = app(\App\Services\Msg91Service::class)->sendSms($this->mobile, $otp);
+
+                    if ($smsSent) {
+                        $otpCreated = \App\Models\OtpVerifications::where('credential', $this->mobile)->where('otp', $otp)->latest()->first();
+                        $this->otpRequestId = $otpCreated ? $otpCreated->id : 'sent';
+                        $this->otpSendSuccess = true;
+                        $this->js("toastr.success('OTP sent successfully, please check your phone.')");
+                    } else {
+                        $this->js("toastr.error('Failed to send OTP. Please try again.')");
+                        return false;
+                    }
                 } else {
                     // verify otp here
                     if (!verifyOtp($this->userOtp, $this->mobile)) {

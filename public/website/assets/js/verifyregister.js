@@ -61,7 +61,7 @@ function sendOtp(userType, type) {
             formData.append('otp', otp);
         }
     } else {
-        errors('Invalid user type.');        
+        error('Invalid user type.');        
         sendBtn.prop('disabled', false);
         mobileField.prop('readonly', false);
         verifyBtn.prop('disabled', false);
@@ -71,7 +71,7 @@ function sendOtp(userType, type) {
 
     var mobile = mobileField.val();
     if (!mobile) {
-        errors('Please input a valid mobile number.');
+        error('Please input a valid mobile number.');
         sendBtn.prop('disabled', false);
         verifyBtn.prop('disabled', false);
         return;
@@ -79,7 +79,7 @@ function sendOtp(userType, type) {
 
     var mobileNumber = parseInt(mobile);
     if (isNaN(mobileNumber) || mobileNumber.toString().length !== 10) {
-        errors('10 digit mobile number is required.');
+        error('10 digit mobile number is required.');
         sendBtn.prop('disabled', false);
         verifyBtn.prop('disabled', false);
         return;
@@ -123,14 +123,14 @@ function sendOtp(userType, type) {
                 $('.forgetmobiledn').hide();
             }
         } else {
-            errors(data.message);
+            error(data.message);
             sendBtn.prop('disabled', false);
             mobileField.prop('readonly', false);
             verifyBtn.prop('disabled', false);
             otpField.prop('readonly', false);
         }
     }).fail(function () {
-        errors('Server error, please try again later.');
+        error('Server error, please try again later.');
         sendBtn.prop('disabled', false);
         verifyBtn.prop('disabled', false);
     });

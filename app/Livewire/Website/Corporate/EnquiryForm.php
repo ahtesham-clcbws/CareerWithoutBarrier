@@ -5,6 +5,7 @@ namespace App\Livewire\Website\Corporate;
 use App\Mail\InstituteRequestForCollaboration;
 use App\Models\Corporate;
 use App\Models\OtpVerifications;
+use App\Services\Msg91Service;
 use App\Models\TermsCondition;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Validate;
@@ -100,19 +101,20 @@ class EnquiryForm extends Component
     {
         $validated = $this->validateOnly('phone');
         if ($validated) {
-            $otp = rand(1253489, 9865324);
-            $otp = 123456;
-            $otpCreated = OtpVerifications::create([
-                'type' => 'mobile',
-                'credential' => $this->phone,
-                'otp' => $otp,
-            ]);
-            if ($otpCreated) {
-                $this->otpRequestId = $otpCreated->id;
-                $this->otpSendSuccess = true;
-            }
+            $otp = rand(100000, 999999);
+            $smsSent = app(Msg91Service::class)->sendSms($this->phone, $otp);
 
-            $this->js('toastr.success("OTP send successfully, please check your phone.")');
+            if ($smsSent) {
+                // The service already saves to OtpVerifications, but we need the record for otpRequestId
+                $otpCreated = OtpVerifications::where('credential', $this->phone)->where('otp', $otp)->latest()->first();
+                if ($otpCreated) {
+                    $this->otpRequestId = $otpCreated->id;
+                    $this->otpSendSuccess = true;
+                }
+                $this->js('toastr.success("OTP send successfully, please check your phone.")');
+            } else {
+                $this->js('toastr.error("Failed to send OTP. Please try again.")');
+            }
         } else {
             $this->js('toastr.error("Phone number, id not valid.")');
         }

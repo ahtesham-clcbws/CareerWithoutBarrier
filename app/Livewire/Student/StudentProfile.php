@@ -3,6 +3,7 @@
 namespace App\Livewire\Student;
 
 use App\Models\Student;
+use App\Services\Msg91Service;
 use App\Notifications\AnyUserEmailVerify;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -154,14 +155,20 @@ class StudentProfile extends Component
             'new_mobile' => 'required|numeric|digits:10'
         ]);
 
-        $this->student->otp = 123456;
-        $this->student->is_otp_verified = false;
-        $this->student->new_mobile = $this->new_mobile;
-        $this->student->save();
+        $otp = rand(100000, 999999);
+        $smsSent = app(Msg91Service::class)->sendSms($this->new_mobile, $otp);
 
-        $this->toggleMobileChange();
+        if ($smsSent) {
+            $this->student->otp = $otp;
+            $this->student->is_otp_verified = false;
+            $this->student->new_mobile = $this->new_mobile;
+            $this->student->save();
 
-        $this->js('success("Mobile number updated successfully")');
+            $this->toggleMobileChange();
+            $this->js('success("OTP sent to your new mobile number. Please verify.")');
+        } else {
+            $this->js('error("Failed to send OTP. Please try again.")');
+        }
     }
     public function keepOldMobile()
     {

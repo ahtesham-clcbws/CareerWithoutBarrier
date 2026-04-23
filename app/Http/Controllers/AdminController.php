@@ -1472,8 +1472,8 @@ class AdminController extends Controller
 
             $validatedData = $request->validate([
                 'name' => 'required|string',
-                'email' => 'required|string|lowercase|email|unique:users,id,' . $user->id,
-                'mobile' => 'required|digits:10|unique:users,id,' . $user->id,
+                'email' => 'required|string|lowercase|email|unique:users,email,' . $user->id,
+                'mobile' => 'required|digits:10|unique:users,mobile,' . $user->id,
                 'gender' => 'required',
                 'photograph' => "$photographRequired",
             ]);

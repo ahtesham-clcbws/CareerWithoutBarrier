@@ -55,6 +55,23 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
+        // Custom OTP Validation for Admins
+        $user = \App\Models\User::where('email', $request->email)->first();
+        if ($user && $user->roles === 'admin' && !empty($user->mobile)) {
+            $mobileNumber = preg_replace('/[^0-9]/', '', $user->mobile);
+            
+            if (strlen($mobileNumber) === 10) {
+                $request->validate([
+                    'otp' => 'required',
+                ], [
+                    'otp.required' => 'OTP is required for admin login.'
+                ]);
+
+                if (!verifyOtp($request->otp, $mobileNumber)) {
+                    return back()->withInput()->withErrors(['otp' => 'Invalid OTP.']);
+                }
+            }
+        }
 
         if ($this->attemptLogin($request)) {
             if ($request->hasSession()) {

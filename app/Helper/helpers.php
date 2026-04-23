@@ -323,8 +323,12 @@ if (!function_exists('verifyOtp')) {
 
         // 2. Check in database if mobile/credential is provided
         if ($mobile) {
+            // Clean number to 10 digits to match database storage
+            $rawMobile = preg_replace('/[^0-9]/', '', $mobile);
+            $cleanMobile = (strlen($rawMobile) > 10) ? substr($rawMobile, -10) : $rawMobile;
+
             $time = date('Y-m-d H:i:s', strtotime('-10 minutes'));
-            $otpVerification = \App\Models\OtpVerifications::where('credential', $mobile)
+            $otpVerification = \App\Models\OtpVerifications::where('credential', $cleanMobile)
                 ->where('otp', $otp)
                 ->where('created_at', '>=', $time)
                 ->orderBy('id', 'desc')

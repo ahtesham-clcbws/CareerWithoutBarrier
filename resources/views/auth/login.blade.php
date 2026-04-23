@@ -42,23 +42,23 @@
                                 @enderror
                             </div>
                         </div>
-                        {{--<div class="row mb-3">
+                        <div class="row mb-3" id="otp_row" style="display: none;">
                             <label for="otp" class="col-md-4 col-form-label text-md-end">{{ __('Enter OTP') }}</label>
 
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <input type="text" name="otp" placeholder="Enter OTP" id="admin_otp" title="Please enter valid otp" class="form-control" required>
+                                    <input type="text" name="otp" placeholder="Enter OTP" id="admin_otp" title="Please enter valid otp" class="form-control" autocomplete="off">
                                     <button class="btn bg-dark text-white append admin_otp_sent_btn" onclick="sendOtp('admin','otp_send')" type="button" style="border-bottom-left-radius: 0;font-size: 14px;padding: 7px;border-top-left-radius: 0; ">
                                         Get Otp
                                     </button>
                                 </div>
                                 @error('otp')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback d-block" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
                             </div>
-                        </div>--}}
+                        </div>
 
                         <div class="row mb-3 d-none">
                             <div class="col-md-6 offset-md-4">
@@ -91,6 +91,36 @@
         </div>
     </div>
 </div>
+
+@push('custom-scripts')
+<script>
+    $(document).ready(function() {
+        // Show OTP field if there's an OTP error or if it was previously shown
+        @if($errors->has('otp'))
+            $('#otp_row').show();
+            $('#admin_otp').attr('required', true);
+        @endif
+
+        $('#email').on('blur', function() {
+            let email = $(this).val();
+            if (email) {
+                // We could potentially check if this email belongs to an admin here via AJAX
+                // But for now, let's just show the OTP field if it's an admin path
+                if (window.location.pathname.includes('/administrator')) {
+                    $('#otp_row').show();
+                    $('#admin_otp').attr('required', true);
+                }
+            }
+        });
+        
+        // If we are on the administrator login page, show the OTP field
+        if (window.location.pathname.includes('/administrator')) {
+            $('#otp_row').show();
+            $('#admin_otp').attr('required', true);
+        }
+    });
+</script>
+@endpush
 
 
 @endsection

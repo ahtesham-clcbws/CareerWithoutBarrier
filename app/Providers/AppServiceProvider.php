@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Services\TextlocalService;
+
+use App\Services\Msg91Service;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -24,8 +25,9 @@ class AppServiceProvider extends ServiceProvider
         $loader->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
         */
 
-        $this->app->singleton(TextlocalService::class, function ($app) {
-            return new TextlocalService('MzQ0YzZhMzU2ZTY2NjI0YjU4Mzc0NDMxNmU3MjYzNmM=', 'GYNLGY');
+
+        $this->app->singleton(Msg91Service::class, function ($app) {
+            return new Msg91Service();
         });
         \Illuminate\Http\Request::macro('hasValidSignature', function ($absolute = true) {
             if ('livewire/upload-file' || 'livewire/preview-file' == request()->path()) {

@@ -3,6 +3,7 @@
 namespace App\Livewire\Corporate;
 
 use App\Models\Corporate;
+use App\Services\Msg91Service;
 use App\Notifications\AnyUserEmailVerify;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -113,14 +114,20 @@ class Profile extends Component
             'new_phone' => 'required|numeric|digits:10'
         ]);
 
-        $this->corporate->otp = 123456;
-        $this->corporate->is_otp_verified = false;
-        $this->corporate->new_phone = $this->new_phone;
-        $this->corporate->save();
+        $otp = rand(100000, 999999);
+        $smsSent = app(Msg91Service::class)->sendSms($this->new_phone, $otp);
 
-        $this->togglePhoneChange();
+        if ($smsSent) {
+            $this->corporate->otp = $otp;
+            $this->corporate->is_otp_verified = false;
+            $this->corporate->new_phone = $this->new_phone;
+            $this->corporate->save();
 
-        $this->js('success("Phone number updated successfully")');
+            $this->togglePhoneChange();
+            $this->js('success("OTP sent to your new phone number. Please verify.")');
+        } else {
+            $this->js('error("Failed to send OTP. Please try again.")');
+        }
     }
     public function keepOldPhone()
     {

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Services\Msg91Service;
 
 class AuthController extends Controller
 {
@@ -48,12 +49,15 @@ class AuthController extends Controller
             }
 
             // Generate and save OTP
-            $otpVerification = new OtpVerifications;
             $otp = mt_rand(100000, 999999);
+            $otpVerification = new OtpVerifications;
             $otpVerification->credential = $request->mobile;
             $otpVerification->otp = $otp;
             $otpVerification->type = 'mobile';
             $otpVerification->save();
+
+            // Send SMS via MSG91
+            app(Msg91Service::class)->sendSms($request->mobile, $otp);
 
             // Return success response
             return response()->json(['success' => true, 'message' => 'OTP Sent Successfully'], 200);

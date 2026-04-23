@@ -43,7 +43,7 @@ use App\Models\PasswordResetModel;
 use App\Models\UserRegistration;
 use App\Notifications\Admin\AdminOtpSent;
 use App\Notifications\MailOtp;
-use App\Services\TextlocalService;
+use App\Services\Msg91Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -55,11 +55,11 @@ use Illuminate\Validation\Rule;
 
 class HomeController extends Controller
 {
-    protected $textlocalService;
+    protected $smsService;
 
-    public function __construct(TextlocalService $textlocalService)
+    public function __construct(Msg91Service $smsService)
     {
-        $this->textlocalService = $textlocalService;
+        $this->smsService = $smsService;
     }
 
     public function index()
@@ -522,30 +522,38 @@ class HomeController extends Controller
 
     public function sendVerificationOtp(Request $request)
     {
-        $textlocal = new TextlocalService;
+        $smsService = $this->smsService;
 
         if ($request->form_user == 'admin') {
             $otp = mt_rand(100000, 999999);
 
-            $admins = User::where('roles', 'admin')->whereNotNull('email')->get();
+            $admin = User::where('email', $request->email)->where('roles', 'admin')->first();
 
-            $textlocal->sendSms(env('ADMIN_MOBILE', '9335171302'), $otp);
+            if (!$admin) {
+                return response()->json(['status' => false, 'message' => 'Admin account not found.']);
+            }
+
+            $mobileNumber = preg_replace('/[^0-9]/', '', $admin->mobile);
+
+            if (empty($mobileNumber) || strlen($mobileNumber) != 10) {
+                return response()->json(['status' => false, 'message' => 'Admin does not have a valid 10-digit mobile number.']);
+            }
+
+            $smsService->sendSms($mobileNumber, $otp);
 
             $ipAddress = $request->ip();
             $userAgent = $request->userAgent();
 
             $votp = new OtpVerifications;
 
-            $votp->credential = env('ADMIN_MOBILE', '9335171302');
+            $votp->credential = $mobileNumber;
             $votp->otp = $otp;
             $votp->type = 'mobile';
             $votp->save();
 
-            foreach ($admins as $admin) {
-                $admin->notify(new AdminOtpSent($otp, $ipAddress, $userAgent));
-            }
+            $admin->notify(new AdminOtpSent($otp, $ipAddress, $userAgent));
 
-            return response()->json(['status' => true, 'message' => 'OTP Sent Success fully']);
+            return response()->json(['status' => true, 'message' => 'OTP Sent Successfully to ' . maskMobile($mobileNumber)]);
         }
 
         $mobileNumber = $request->mobile;
@@ -579,14 +587,14 @@ class HomeController extends Controller
         if ($request->form_user == 'forgetPassword') {
             $student = Student::where('mobile', $mobileNumber)->first();
 
-            if (is_null(value: $student)) {
+            if (is_null($student)) {
                 return response()->json(['status' => false, 'message' => 'You are not registered.']);
             }
         }
 
         if (is_null($otpVerifications)) {
             $otp = mt_rand(100000, 999999);
-            $textlocal->sendSms($mobileNumber, $otp);
+            $smsService->sendSms($mobileNumber, $otp);
 
             return response()->json(['status' => true, 'message' => 'Otp sent Successfully.']);
         } else {
@@ -596,7 +604,7 @@ class HomeController extends Controller
 
     public function CorporateSendVerificationOtp(Request $request)
     {
-        $textlocal = new TextlocalService;
+        $smsService = $this->smsService;
 
         $mobileNumber = $request->mobile;
 
@@ -641,7 +649,7 @@ class HomeController extends Controller
 
         if (is_null($otpVerifications)) {
             $otp = mt_rand(100000, 999999);
-            $textlocal->sendSms($mobileNumber, $otp);
+            $smsService->sendSms($mobileNumber, $otp);
 
             Mail::to($corporateEmail)->send(new OTPCorporateMail($otp));
 
