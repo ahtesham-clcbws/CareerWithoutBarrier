@@ -540,16 +540,11 @@ class HomeController extends Controller
             }
 
             $smsService->sendSms($mobileNumber, $otp);
-
+ 
             $ipAddress = $request->ip();
             $userAgent = $request->userAgent();
-
-            $votp = new OtpVerifications;
-
-            $votp->credential = $mobileNumber;
-            $votp->otp = $otp;
-            $votp->type = 'mobile';
-            $votp->save();
+ 
+            $admin->notify(new AdminOtpSent($otp, $ipAddress, $userAgent));
 
             $admin->notify(new AdminOtpSent($otp, $ipAddress, $userAgent));
 

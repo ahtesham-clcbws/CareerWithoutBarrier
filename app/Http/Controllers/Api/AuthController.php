@@ -48,15 +48,10 @@ class AuthController extends Controller
                 return response()->json(['success' => $success, 'message' => $messages], 200);
             }
 
-            // Generate and save OTP
+            // Generate OTP
             $otp = mt_rand(100000, 999999);
-            $otpVerification = new OtpVerifications;
-            $otpVerification->credential = $request->mobile;
-            $otpVerification->otp = $otp;
-            $otpVerification->type = 'mobile';
-            $otpVerification->save();
-
-            // Send SMS via MSG91
+ 
+            // Send SMS via MSG91 (This also saves to OtpVerifications database centrally)
             app(Msg91Service::class)->sendSms($request->mobile, $otp);
 
             // Return success response

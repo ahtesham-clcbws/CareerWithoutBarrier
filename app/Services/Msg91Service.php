@@ -11,28 +11,28 @@ class Msg91Service
     protected $authKey;
     protected $senderId;
     protected $templateId;
-
+ 
     /**
      * Centralized TRAI Approved Template
      * The only thing we change is the OTP, everything else is a traced copy of the approved message.
      */
-    const OTP_TEMPLATE = "Dear user OTP for sign up to www.careerwithoutbarrier.com is ##var##. valid for 10 minutes. Do not share this OTP Regards CAREER without BARRIER Management";
-
+    const OTP_TEMPLATE = "Dear user OTP for sign up to www.careerwithoutbarrier.com is {#var#}. valid for 10 minutes. Do not share this OTP Regards CAREER without BARRIER Management";
+ 
     public function __construct($authKey = null, $senderId = null, $templateId = null)
     {
         $this->authKey = $authKey ?: env('MSG91_AUTH_KEY');
-        $this->senderId = $senderId ?: env('MSG91_SENDER_ID', 'GYNLGY');
+        $this->senderId = $senderId ?: env('MSG91_SENDER_ID', 'SQSCWB');
         $this->templateId = $templateId ?: env('MSG91_OTP_TEMPLATE_ID');
     }
-
+ 
     /**
      * Get the formatted OTP message based on the approved TRAI template.
      */
     public function getFormattedMessage($otp)
     {
-        return str_replace('##var##', $otp, self::OTP_TEMPLATE);
+        return str_replace('{#var#}', $otp, self::OTP_TEMPLATE);
     }
-
+ 
     /**
      * Send OTP via MSG91 Flow API
      * 
@@ -47,68 +47,77 @@ class Msg91Service
             Log::error('MSG91 Auth Key is missing in .env');
             return false;
         }
-
+ 
         $activeTemplateId = $templateId ?: $this->templateId;
         $numberList = is_array($numbers) ? $numbers : explode(',', $numbers);
-
+ 
         foreach ($numberList as $number) {
             // Clean number to exactly 10 digits for database and internal matching
             $rawNumber = preg_replace('/[^0-9]/', '', $number);
             $tenDigitNumber = (strlen($rawNumber) > 10) ? substr($rawNumber, -10) : $rawNumber;
             
+            // Save to database using the strictly 10-digit number
+            $this->saveOtpToDatabase($tenDigitNumber, $otp);
+
             // Add country code for MSG91 API call
             $apiNumber = '91' . $tenDigitNumber;
 
-            // Save to database BEFORE attempting to send, so we have a record even if API fails
-            $this->saveOtpToDatabase($tenDigitNumber, $otp);
-
-            // Using MSG91 Flow API (Recommended)
-            if (!empty($activeTemplateId)) {
-                $payload = [
-                    'template_id' => $activeTemplateId,
-                    'short_url' => '1',
-                    'recipients' => [
-                        [
-                            'mobiles' => $apiNumber,
-                            'var' => (string)$otp, // Matches ##var## in template
-                        ]
+            // Using RAW PHP cURL to match your working terminal test EXACTLY
+            $payload = json_encode([
+                'template_id' => (string)$activeTemplateId,
+                'short_url' => '0',
+                'short_url_expiry' => '300',
+                'realTimeResponse' => '1',
+                'recipients' => [
+                    [
+                        'mobiles' => (string)$apiNumber,
+                        'var' => (string)$otp,
                     ]
-                ];
+                ]
+            ]);
 
-                $response = Http::withHeaders([
-                    'authkey' => $this->authKey,
-                    'accept' => 'application/json',
-                    'content-type' => 'application/json',
-                ])->post('https://control.msg91.com/api/v5/flow/', $payload);
-            } 
-            else {
-                // Fallback to MSG91 OTP API if no template is provided
-                // Note: DLT might reject this if not configured on MSG91 panel
-                $otpPayload = [
-                    'authkey' => $this->authKey,
-                    'mobile' => $apiNumber,
-                    'otp' => $otp,
-                    'sender' => $this->senderId,
-                    'message' => $this->getFormattedMessage($otp),
-                ];
+            $ch = curl_init();
+            curl_setopt_array($ch, [
+                CURLOPT_URL => "https://control.msg91.com/api/v5/flow",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => $payload,
+                CURLOPT_HTTPHEADER => [
+                    "accept: application/json",
+                    "authkey: " . $this->authKey,
+                    "content-type: application/json"
+                ],
+            ]);
 
-                if (!empty($activeTemplateId)) {
-                    $otpPayload['template_id'] = $activeTemplateId;
-                }
+            $responseBody = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlError = curl_error($ch);
+            curl_close($ch);
 
-                $response = Http::get('https://control.msg91.com/api/v5/otp', $otpPayload);
-            } 
-
-            if (!$response->successful()) {
-                Log::error('MSG91 API Error', [
-                    'status' => $response->status(),
-                    'body' => $response->body(),
-                    'number' => $apiNumber
-                ]);
+            if ($curlError) {
+                Log::error('MSG91 cURL Error', ['error' => $curlError, 'number' => $apiNumber]);
+                echo "cURL Error: " . $curlError . "\n";
                 return false;
             }
-        }
 
+            $body = json_decode($responseBody, true);
+            $isError = ($httpCode >= 400) || 
+                       (isset($body['type']) && $body['type'] === 'error') || 
+                       (isset($body['status']) && $body['status'] === 'fail');
+
+            if ($isError) {
+                Log::error('MSG91 API Error', [
+                    'status' => $httpCode,
+                    'body' => $responseBody,
+                    'number' => $apiNumber
+                ]);
+                echo "API Error: " . $responseBody . "\n";
+                return false;
+            } else {
+                echo "API Response: " . $responseBody . "\n";
+            }
+        }
+ 
         return true;
     }
 
