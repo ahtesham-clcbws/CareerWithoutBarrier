@@ -111,10 +111,10 @@ class Msg91Service
                     'body' => $responseBody,
                     'number' => $apiNumber
                 ]);
-                echo "API Error: " . $responseBody . "\n";
+                // Log::error("API Error: " . $responseBody);
                 return false;
             } else {
-                echo "API Response: " . $responseBody . "\n";
+                // Log::info("API Response: " . $responseBody);
             }
         }
  
@@ -129,8 +129,9 @@ class Msg91Service
         try {
             $otpVerifications               = new OtpVerifications();
             $otpVerifications->type         = 'mobile';
-            $otpVerifications->credential   = $number;
-            $otpVerifications->otp          = $otp;
+            $otpVerifications->credential   = (string)$number;
+            $otpVerifications->otp          = (string)$otp;
+            $otpVerifications->status       = 0;
             $otpVerifications->save();
         } catch (\Throwable $th) {
             Log::error('Failed to save OTP to database', [

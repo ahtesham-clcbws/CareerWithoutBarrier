@@ -108,7 +108,7 @@
 
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="{{ asset('student/index.js') }}"></script>
-            <script href="{{ asset('js/js_latest_toastr.min.js') }}" rel="stylesheet"></script>
+            <script src="{{ asset('js/js_latest_toastr.min.js') }}"></script>
 
             <script>
                 function success(msg) {

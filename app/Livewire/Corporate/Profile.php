@@ -118,12 +118,13 @@ class Profile extends Component
         $smsSent = app(Msg91Service::class)->sendSms($this->new_phone, $otp);
 
         if ($smsSent) {
-            $this->corporate->otp = $otp;
-            $this->corporate->is_otp_verified = false;
             $this->corporate->new_phone = $this->new_phone;
+            $this->corporate->is_otp_verified = false;
             $this->corporate->save();
 
-            $this->togglePhoneChange();
+            $this->otpVerifyModalInputOpen = true;
+            $this->changePhoneNumber = false;
+
             $this->js('success("OTP sent to your new phone number. Please verify.")');
         } else {
             $this->js('error("Failed to send OTP. Please try again.")');
@@ -138,13 +139,13 @@ class Profile extends Component
     public $otpVerifyModalInputOpen = false;
     public function verifyPhone()
     {
-        if ($this->user_otp == $this->corporate->otp) {
+        if (verifyOtp($this->user_otp, $this->corporate->new_phone)) {
             $this->corporate->phone = $this->corporate->new_phone;
+            $this->corporate->new_phone = null;
             $this->corporate->is_otp_verified = true;
             $this->corporate->save();
 
             $this->new_phone = $this->corporate->phone;
-
             $this->otpVerifyModalInputOpen = false;
 
             $this->js('success("Phone number verified successfully")');

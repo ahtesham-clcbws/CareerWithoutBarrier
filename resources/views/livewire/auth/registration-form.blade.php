@@ -73,61 +73,61 @@
                         
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Name</label>
-                            <input type="text" wire:model="name" placeholder="Full Name" class="form-control form-control-sm <?= !$nameError ?? 'is-invalid' ?>" required>
-                            @if($nameError)<div class="invalid-feedback">{{$nameError}}</div>@endif
+                            <input type="text" wire:model="name" placeholder="Full Name" class="form-control form-control-sm @error('name') is-invalid @enderror" required>
+                            @error('name')<div class="invalid-feedback">{{$message}}</div>@enderror
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Gender</label>
-                            <select wire:model="gender" class="form-control <?= !$genderError ?? 'is-invalid' ?>" required>
+                            <select wire:model="gender" class="form-control @error('gender') is-invalid @enderror" required>
                                 <option value="">Select Gender</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">FeMale</option>
                                 <option value="Transgender">Transgender</option>
                             </select>
-                            @if($genderError)<div class="invalid-feedback">{{$genderError}}</div>@endif
+                            @error('gender')<div class="invalid-feedback">{{$message}}</div>@enderror
                         </div>
 
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Mobile</label>
-                            <input type="number" pattern="[6-9]{1}[0-9]{9}" wire:model.live="mobile" placeholder="Valid mobile number" class="form-control form-control-sm <?= !$mobileError ?? 'is-invalid' ?>" required min="6000000000" max="9999999990" minlength="10" maxlength="10">
-                            @if($mobileError)<div class="invalid-feedback">{{$mobileError}}</div>@endif
+                            <input type="number" pattern="[6-9]{1}[0-9]{9}" wire:model.live="mobile" placeholder="Valid mobile number" class="form-control form-control-sm @error('mobile') is-invalid @enderror" required min="6000000000" max="9999999990" minlength="10" maxlength="10">
+                            @error('mobile')<div class="invalid-feedback">{{$message}}</div>@enderror
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Email</label>
-                            <input type="email" wire:model.live="email" placeholder="Valid email address" class="form-control form-control-sm <?= !$emailError && $isEmailValid ?? 'is-invalid' ?> <?= $isEmailValid ? 'is-valid' : 'is-invalid' ?>" required>
-                            @if($emailError)<div class="invalid-feedback">{{$emailError}}</div>@endif
+                            <input type="email" wire:model.live="email" placeholder="Valid email address" class="form-control form-control-sm @error('email') is-invalid @enderror" required>
+                            @error('email')<div class="invalid-feedback">{{$message}}</div>@enderror
                         </div>
 
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Password</label>
                             <div class="input-group">
-                                <input type="{{ $showPassword ? 'text' : 'password' }}" wire:model="password" placeholder="Password *" class="form-control form-control-sm <?= !$passwordError ?? 'is-invalid' ?>" required minlength="8" maxlength="8">
+                                <input type="{{ $showPassword ? 'text' : 'password' }}" wire:model="password" placeholder="Password *" class="form-control form-control-sm @error('password') is-invalid @enderror" required minlength="8">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary btn-sm" type="button" wire:click="$toggle('showPassword')">
                                         <i class="fa fa-fw {{ $showPassword ? 'fa-eye' : 'fa-eye-slash' }}"></i>
                                     </button>
                                 </div>
                             </div>
-                            @if($passwordError)<div class="invalid-feedback">{{$passwordError}}</div>@endif
+                            @error('password')<div class="invalid-feedback">{{$message}}</div>@enderror
                         </div>
                         <div class="mb-3 col-md-6">
                             <label class="form-label mb-0">Confirm Password</label>
                             <div class="input-group">
-                                <input type="{{ $showPassword ? 'text' : 'password' }}" wire:model="confirmPassword" placeholder="Confirm Password *" class="form-control form-control-sm <?= !$confirmPasswordError ?? 'is-invalid' ?>" required minlength="8" maxlength="8">
+                                <input type="{{ $showPassword ? 'text' : 'password' }}" wire:model="confirmPassword" placeholder="Confirm Password *" class="form-control form-control-sm @error('confirmPassword') is-invalid @enderror" required minlength="8">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary btn-sm" type="button" wire:click="$toggle('showPassword')">
                                         <i class="fa fa-fw {{ $showPassword ? 'fa-eye' : 'fa-eye-slash' }}"></i>
                                     </button>
                                 </div>
                             </div>
-                            @if($confirmPasswordError)<div class="invalid-feedback">{{$confirmPasswordError}}</div>@endif
+                            @error('confirmPassword')<div class="invalid-feedback">{{$message}}</div>@enderror
                         </div>
 
                         @if ($needReferrenceCode)
                         <div class="mb-3 col-12">
                             <label class="form-label mb-0">Referrence Code</label>
-                            <input type="text" wire:model.live="referrenceCode" placeholder="Reference code by Institute" class="form-control form-control-sm <?= $referrenceCodeError && !$referrenceCodeValidated ? 'is-invalid' : '' ?> <?= !$referrenceCodeError && $referrenceCodeValidated ? 'is-valid' : '' ?>" required>
-                            @if($referrenceCodeError)<div class="invalid-feedback">{{$referrenceCodeError}}</div>@endif
+                            <input type="text" wire:model.live="referrenceCode" placeholder="Reference code by Institute" class="form-control form-control-sm @error('referrenceCode') is-invalid @enderror {{ !$referrenceCodeError && $referrenceCodeValidated ? 'is-valid' : '' }}" required>
+                            @error('referrenceCode')<div class="invalid-feedback">{{$message}}</div>@enderror
                         </div>
                         @endif
 
@@ -153,21 +153,26 @@
                                     I accept the &nbsp;<a style="text-decoration: underline;" href="{{ asset('home/'.$institudeTermsCondition) }}" target="_blank"> Terms & Conditions </a>&nbsp; of Career without barrier.
                                 </label>
                             </div>
-                            @if($termsError)<div class="invalid-feedback">{{$termsError}}</div>@endif
+                            @error('terms')<div class="invalid-feedback">{{$message}}</div>@enderror
                         </div>
                         @endif
                     </div>
 
                     <div class="mb-3 col-12 {{ $this->otpSendSuccess && $this->otpRequestId ? '' : 'd-none' }} ">
                         <label class="form-label mb-0 text-center d-block"><b>Enter OTP, you recieved on Mobile number!</b></label>
-                        <input type="number" wire:model="userOtp" class="form-control form-control-lg text-center <?= !$userOtpError ?? 'is-invalid' ?>" min="100000" max="999999" minlength="6" maxlength="6">
-                        @if($mobileError)<div class="invalid-feedback">{{$userOtpError}}</div>@endif
+                        <input type="number" wire:model="userOtp" class="form-control form-control-lg text-center @error('userOtp') is-invalid @enderror" placeholder="_ _ _ _ _ _" min="100000" max="999999" minlength="6" maxlength="6">
+                        @error('userOtp')
+                            <div class="invalid-feedback text-center">{{ $message }}</div>
+                        @enderror
+                        <div class="text-center mt-2">
+                            <button type="button" class="btn btn-link btn-sm text-secondary" wire:click="$set('otpSendSuccess', false)">Change mobile number?</button>
+                        </div>
                     </div>
 
                     <div class="mb-3 col-12">
-                        <button type="submit" class="btn-custom w-100 d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn-custom w-100 d-flex justify-content-center align-items-center" style="background-color: #f73f05; border-color: #f73f05; color: white; padding: 12px; border-radius: 8px;">
                             <span class="spinner-border spinner-border-sm mr-3" wire:loading wire:target="register" role="status" aria-hidden="true"></span>
-                            {{ $this->otpSendSuccess && $this->otpRequestId ? 'Verify OTP' : 'Register' }}
+                            {{ $this->otpSendSuccess && $this->otpRequestId ? 'Verify & Register' : 'Send OTP' }}
                         </button>
                     </div>
                 </form>

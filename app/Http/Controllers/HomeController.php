@@ -526,26 +526,40 @@ class HomeController extends Controller
 
         if ($request->form_user == 'admin') {
             $otp = mt_rand(100000, 999999);
+            $user = User::where('email', trim($request->email))->first();
+            
+            $isAdmin = false;
+            if ($user) {
+                $attrs = $user->getAttributes();
+                $isAdmin = (isset($attrs['roles']) && in_array($attrs['roles'], ['admin', 'superadmin', 'sub_admin', 'administrator'])) 
+                        || (isset($attrs['isAdminAllowed']) && $attrs['isAdminAllowed'] == 1);
+            }
 
-            $admin = User::where('email', $request->email)->where('roles', 'admin')->first();
-
-            if (!$admin) {
+            if (!$user || !$isAdmin) {
+                \Log::warning('Admin Login: Account not found or not authorized for email ' . $request->email);
                 return response()->json(['status' => false, 'message' => 'Admin account not found.']);
             }
 
+            $admin = $user;
+
             $mobileNumber = preg_replace('/[^0-9]/', '', $admin->mobile);
+            
+            // Normalize to 10 digits if it has a country code (like 91...)
+            if (strlen($mobileNumber) > 10) {
+                $mobileNumber = substr($mobileNumber, -10);
+            }
 
             if (empty($mobileNumber) || strlen($mobileNumber) != 10) {
+                \Log::error('Admin Login: Invalid mobile number for email ' . $request->email . ' - Processed Number: ' . $mobileNumber);
                 return response()->json(['status' => false, 'message' => 'Admin does not have a valid 10-digit mobile number.']);
             }
 
+            \Log::info('Admin Login: Attempting to send OTP to ' . $mobileNumber . ' for email ' . $request->email);
             $smsService->sendSms($mobileNumber, $otp);
  
             $ipAddress = $request->ip();
             $userAgent = $request->userAgent();
  
-            $admin->notify(new AdminOtpSent($otp, $ipAddress, $userAgent));
-
             $admin->notify(new AdminOtpSent($otp, $ipAddress, $userAgent));
 
             return response()->json(['status' => true, 'message' => 'OTP Sent Successfully to ' . maskMobile($mobileNumber)]);

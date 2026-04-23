@@ -327,18 +327,41 @@ if (!function_exists('verifyOtp')) {
             $rawMobile = preg_replace('/[^0-9]/', '', $mobile);
             $cleanMobile = (strlen($rawMobile) > 10) ? substr($rawMobile, -10) : $rawMobile;
 
-            $time = date('Y-m-d H:i:s', strtotime('-10 minutes'));
-            $otpVerification = \App\Models\OtpVerifications::where('credential', $cleanMobile)
-                ->where('otp', $otp)
-                ->where('created_at', '>=', $time)
-                ->orderBy('id', 'desc')
+            // Use now() to handle timezone-aware comparisons correctly
+            $timeLimit = now()->subMinutes(15); // Increased to 15 mins for buffer
+
+            $otpVerification = \App\Models\OtpVerifications::where('credential', (string)$cleanMobile)
+                ->where('otp', (string)$otp)
+                ->where('created_at', '>=', $timeLimit)
+                ->where('status', 0) // Only unused OTPs
+                ->orderBy('created_at', 'desc')
                 ->first();
 
+            // If not found with status 0, check if it was recently verified (status 1)
+            // This prevents "double-click" failures where the first call marks it as used
+            if (!$otpVerification) {
+                $otpVerification = \App\Models\OtpVerifications::where('credential', (string)$cleanMobile)
+                    ->where('otp', (string)$otp)
+                    ->where('created_at', '>=', $timeLimit)
+                    ->where('status', 1)
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+            }
+
             if ($otpVerification) {
-                $otpVerification->status = 1;
-                $otpVerification->save();
+                if ($otpVerification->status == 0) {
+                    $otpVerification->status = 1;
+                    $otpVerification->save();
+                }
                 return true;
             }
+
+            \Illuminate\Support\Facades\Log::warning('OTP Verification Failed', [
+                'mobile' => $cleanMobile,
+                'otp' => $otp,
+                'time_limit' => $timeLimit->toDateTimeString(),
+                'exists_in_db' => \App\Models\OtpVerifications::where('credential', (string)$cleanMobile)->exists()
+            ]);
         }
 
         return false;

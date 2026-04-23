@@ -57,16 +57,21 @@ class LoginController extends Controller
 
         // Custom OTP Validation for Admins
         $user = \App\Models\User::where('email', $request->email)->first();
-        if ($user && $user->roles === 'admin' && !empty($user->mobile)) {
+        if ($user && in_array($user->roles, ['admin', 'superadmin', 'sub_admin', 'administrator']) && !empty($user->mobile)) {
             $mobileNumber = preg_replace('/[^0-9]/', '', $user->mobile);
             
+            // Normalize to 10 digits if it has a country code (like 91...)
+            if (strlen($mobileNumber) > 10) {
+                $mobileNumber = substr($mobileNumber, -10);
+            }
+
             if (strlen($mobileNumber) === 10) {
                 $request->validate([
                     'otp' => 'required',
                 ], [
                     'otp.required' => 'OTP is required for admin login.'
                 ]);
-
+ 
                 if (!verifyOtp($request->otp, $mobileNumber)) {
                     return back()->withInput()->withErrors(['otp' => 'Invalid OTP.']);
                 }

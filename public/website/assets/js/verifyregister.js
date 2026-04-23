@@ -25,10 +25,19 @@ function sendOtp(userType, type) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
-                success(response.message);
+                if (response.status) {
+                    success(response.message);
+                } else {
+                    error(response.message);
+                    sendBtn.prop('disabled', false);
+                }
             },
-            error: function (response) {
-                error(response.xhr.message);
+            error: function (jqXHR) {
+                let msg = 'Server error, please try again later.';
+                if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+                    msg = jqXHR.responseJSON.message;
+                }
+                error(msg);
                 sendBtn.prop('disabled', false);
             }
         });
@@ -129,8 +138,12 @@ function sendOtp(userType, type) {
             verifyBtn.prop('disabled', false);
             otpField.prop('readonly', false);
         }
-    }).fail(function () {
-        error('Server error, please try again later.');
+    }).fail(function (jqXHR) {
+        let msg = 'Server error, please try again later.';
+        if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+            msg = jqXHR.responseJSON.message;
+        }
+        error(msg);
         sendBtn.prop('disabled', false);
         verifyBtn.prop('disabled', false);
     });
