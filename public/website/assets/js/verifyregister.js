@@ -27,6 +27,14 @@ function sendOtp(userType, type) {
             success: function (response) {
                 if (response.status) {
                     success(response.message);
+                    // Add success message below the input group
+                    let otpInput = $('#admin_otp');
+                    let successMsgId = 'admin_otp_success_msg';
+                    if ($('#' + successMsgId).length === 0) {
+                        otpInput.parent().after('<small id="' + successMsgId + '" class="text-success small d-block">OTP successfully sent.</small>');
+                    } else {
+                        $('#' + successMsgId).text('OTP successfully sent.').show();
+                    }
                 } else {
                     error(response.message);
                     sendBtn.prop('disabled', false);
@@ -124,11 +132,25 @@ function sendOtp(userType, type) {
                 verifyBtn.text('Verified');
                 verifyBtn.removeClass('bg-dark');
                 verifyBtn.addClass('bg-success');
+
+                // Hide success message once verified
+                if (otpField) {
+                    let successMsgId = otpField.attr('id') + '_success_msg';
+                    $('#' + successMsgId).hide();
+                }
             }
             if (type == 'otp_send') {
                 if (otpField) {
                     otpField.prop('readonly', false);
                     otpField.focus();
+
+                    // Add success message below the input group
+                    let successMsgId = otpField.attr('id') + '_success_msg';
+                    if ($('#' + successMsgId).length === 0) {
+                        otpField.parent().after('<small id="' + successMsgId + '" class="text-success small d-block">OTP successfully sent.</small>');
+                    } else {
+                        $('#' + successMsgId).text('OTP successfully sent.').show();
+                    }
                 }
                 if (verifyBtn) {
                     verifyBtn.prop('disabled', false);

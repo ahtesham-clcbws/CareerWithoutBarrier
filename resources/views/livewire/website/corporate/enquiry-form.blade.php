@@ -129,10 +129,13 @@
                                             </button>
                                         </div>
                                     </div>
-                                    @error('userOtp')
-                                    <small class="text-danger small">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                                        @if ($otpSendSuccess && !$isOtpVerfied)
+                                            <small class="text-success small">OTP successfully sent.</small>
+                                        @endif
+                                        @error('userOtp')
+                                        <small class="text-danger small">{{ $message }}</small>
+                                        @enderror
+                                    </div>
                             </div>
                         </div>
                             

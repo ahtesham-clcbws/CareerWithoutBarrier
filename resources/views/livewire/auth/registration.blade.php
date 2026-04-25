@@ -210,6 +210,9 @@
                                                     </button>
                                                 </div>
                                             </div>
+                                            @if ($otpSendSuccess && !$isOtpVerfied)
+                                                <small class="text-success small">OTP successfully sent.</small>
+                                            @endif
                                             @error('userOtp')
                                                 <small class="text-danger small">{{ $message }}</small>
                                             @enderror

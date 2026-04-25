@@ -81,8 +81,8 @@ class FreeForm extends Component
                 'district' => (object) [
                     'name' => 'Uttar Pradesh'
                 ],
-                'attachment' => '/img/avatar-2.png',
-                'name' => 'Ashutosh Pathak',
+                'attachment' => '/weblies-logo.png',
+                'name' => 'Weblies Equations',
                 'institute_name' => 'Weblies Equations PVT. LTD',
                 'phone' => '9389696641 (WhatsApp Only)',
                 'message' => 'Monday - Friday (10:00 am - 07:00 pm)',

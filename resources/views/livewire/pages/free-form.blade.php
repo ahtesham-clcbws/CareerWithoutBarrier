@@ -90,6 +90,8 @@
                                 <small class="text-danger font-weight-bold">Limited Forms</small>
                             </td>
                             <td>
+                                <span class="badge badge-primary px-3 py-2">Upto 60% <i class="fa fa-check"></i></span><br />
+                                <small class="text-danger font-weight-bold">Available</small>
                             </td>
                         </tr>
                     @endforeach

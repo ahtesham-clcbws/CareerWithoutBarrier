@@ -12,3 +12,6 @@
 - Form inputs are full width on mobile.
 - Navigation collapses into a hamburger menu.
 - All changes are documented in `.agent/` directory.
+
+## Completed Tasks
+- [x] **OTP Success Feedback**: Implemented "OTP successfully sent" message below input fields in student registration, corporate enquiry, and global AJAX flows.
