@@ -1,7 +1,14 @@
 ## process_logs.md
-- Updated dashboard.blade.php to use ?type=new link.
-- Modified CorporateController.php to handle the type parameter.
-- Added dropdown and JavaScript filter logic to list.blade.php.
-- Implemented OTP success message in student and corporate registration forms.
-- Updated verifyregister.js to show success message globally for AJAX OTP requests.
-
+- Updated AdminController.php to eager load corporate relationship on student codes.
+- Modified administrator.dashboard.studentlist.blade.php to show institute_name.
+- Updated StudentController, Api/ApplicationController, and Livewire components to save institute_name in corporate_name.
+- Updated EnquiryController.php to handle institute display toggle.
+- Added Enable/Disable buttons to institude_list.blade.php.
+- Updated FreeForm.php to filter institutes by status.
+- Strictly restricted Student Testimonial to image upload only.
+- Permanently removed message input and display from student dashboard.
+- Added accept="image/*" to restrict file picker.
+- Updated AddTestimonial.php (Student) logic to make message nullable.
+- Fixed PDF image loading errors by replacing asset() with public_path() in all administrator/download views.
+- Fixed Course Name display on Payment Page by adding relationship and correcting saving logic.
+- Updated session_sync.md and implementation_plan.md.

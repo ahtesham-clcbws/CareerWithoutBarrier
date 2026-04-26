@@ -91,7 +91,7 @@ class AdminController extends Controller
 
         $query = Student::query()->with([
             'choiceCenterA',
-            'latestStudentCode',
+            'latestStudentCode.corporate',
             'studentPayment',
             'district',
             'qualifications',
@@ -157,7 +157,7 @@ class AdminController extends Controller
 
         $query = Student::query()->with([
             'choiceCenterA',
-            'latestStudentCode',
+            'latestStudentCode.corporate',
             'studentPayment',
             'district',
             'qualifications',

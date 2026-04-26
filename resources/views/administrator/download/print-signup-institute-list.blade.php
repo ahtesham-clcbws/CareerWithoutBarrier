@@ -35,7 +35,7 @@
         <tr>
             <td style="width:25%;float:left;">Signup Institute <br>List</td>
             <td style="width:50%">
-                <center><img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(asset('/upload/main-logo.jpeg'))) }}" style="width:250px;"></center>
+                <center><img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('/upload/main-logo.jpeg'))) }}" style="width:250px;"></center>
             </td>
             <td style="width:20%;float:right;"><span style="color:red">Printed on <br> {{date('d/m/Y h:i:s A')}}</span></td>
         </tr>
@@ -62,10 +62,10 @@
             <td>
                 @if(file_exists(public_path('upload/corporate/'.$institutes->attachment)))
 
-                <img src="data:image/png;base64,{{ base64_encode(file_get_contents(asset('/upload/corporate/'.$institutes->attachment))) }}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
+                <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('/upload/corporate/'.$institutes->attachment))) }}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
 
                 @else
-                <img src="data:image/jpg;base64,{{ base64_encode(file_get_contents(asset('no_image_available.jpg'))) }}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
+                <img src="data:image/jpg;base64,{{ base64_encode(file_get_contents(public_path('no_image_available.jpg'))) }}" style="width:50px;height:50px;border:1px solid #c2c2c2;border-radius:5px;">
                 @endif
             </td>
             <td>{{ $institutes->name }}</td>

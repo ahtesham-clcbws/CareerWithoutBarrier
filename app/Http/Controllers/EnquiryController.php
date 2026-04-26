@@ -162,6 +162,7 @@ class EnquiryController extends Controller
         } else if ($corporate && $request->type == 'signup-approve') {
             $corporate->message = $request->message;
             $corporate->signup_approved = true;
+            $corporate->status = true;
             $corporate->save();
 
             $corporate->notify(new InstitudeSignApproveMail($corporate));
@@ -170,6 +171,14 @@ class EnquiryController extends Controller
                 'success' => true,
                 'message' => 'Corporate SignUp Approved successfully.',
                 'code' => $corporate->institude_code,
+            ]);
+        } else if ($corporate && $request->type == 'toggle-display') {
+            $corporate->status = $request->status;
+            $corporate->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Institute display status updated successfully.',
             ]);
         } else {
             // Return a failure response

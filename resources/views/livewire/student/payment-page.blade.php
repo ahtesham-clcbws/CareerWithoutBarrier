@@ -155,13 +155,7 @@
                                                     <tr>
                                                         <td class="half" colspan="2"><b>Course</b></td>
                                                         <td class="information-txt half" colspan="2">
-                                                            {{ $studentPayment->course_id }}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="half" colspan="2"><b>Institute</b></td>
-                                                        <td class="information-txt half" colspan="2">
-                                                            {{ $studentPayment->institute?->institute_name }}
+                                                            {{ $studentPayment->course?->name ?? $studentPayment->student?->scholarShipOptedFor?->name }}
                                                         </td>
                                                     </tr>
                                                     <tr>

@@ -24,7 +24,7 @@ class FreeForm extends Component
 
     public function mount()
     {
-        $districts = Corporate::select('district_id')->where('signup_approved', 1)->whereNotNull('signup_at')->groupBy('district_id')->pluck('district_id');
+        $districts = Corporate::select('district_id')->where('signup_approved', 1)->whereNotNull('signup_at')->where('status', 1)->groupBy('district_id')->pluck('district_id');
         $this->districts = District::whereIn('id', $districts)->get();
     }
 
@@ -41,6 +41,7 @@ class FreeForm extends Component
             ->where('is_approved', 1)
             ->where('signup_approved', 1)
             ->whereNotNull('signup_at')
+            ->where('status', 1)
             ->orderBy(function ($query) {
                 $query->select('name')
                     ->from('districts')
@@ -75,7 +76,8 @@ class FreeForm extends Component
                 'institute_name' => 'SQS Foundation',
                 'phone' => '9336171302 (WhatsApp Only)',
                 'message' => 'Monday - Friday (10:00 am - 10:00 pm)',
-                'address' => 'Kanpur Nagar, Uttar Pradesh'
+                'address' => 'Kanpur Nagar, Uttar Pradesh',
+                'available_button' => false
             ],
             (object) [
                 'district' => (object) [
@@ -86,7 +88,8 @@ class FreeForm extends Component
                 'institute_name' => 'Weblies Equations PVT. LTD',
                 'phone' => '9389696641 (WhatsApp Only)',
                 'message' => 'Monday - Friday (10:00 am - 07:00 pm)',
-                'address' => 'Kanpur Nagar, Uttar Pradesh'
+                'address' => 'Kanpur Nagar, Uttar Pradesh',
+                'available_button' => true
             ]
         ];
 

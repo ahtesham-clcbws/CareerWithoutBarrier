@@ -63,7 +63,7 @@ Student List
                                         ₹ {{ $student->studentPayment && count($student->studentPayment) && !empty($student->studentPayment[0]) && $student->studentPayment[0]->payment_amount ? $student->studentPayment[0]->payment_amount : 0}}
                                         <br />
                                         {{ $student->latestStudentCode?->coupan_code ? $student->latestStudentCode?->coupan_code : '' }}
-                                        {!! $student->latestStudentCode?->coupan_code ? '<br />'.($student->latestStudentCode?->corporate_name ? $student->latestStudentCode?->corporate_name : 'SQS Foundation, Kanpur') : '' !!}
+                                        {!! $student->latestStudentCode?->coupan_code ? '<br />'.($student->latestStudentCode?->corporate?->institute_name ? $student->latestStudentCode->corporate->institute_name : ($student->latestStudentCode?->corporate_name ? $student->latestStudentCode?->corporate_name : 'SQS Foundation, Kanpur')) : '' !!}
                                     </td>
                                     <td>{{ $student->qualifications?->name }}</td>
                                     <td>{{ $student->scholarShipCategory?->name ?? 'N/A' }}</td>

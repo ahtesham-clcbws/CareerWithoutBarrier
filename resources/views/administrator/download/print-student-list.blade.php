@@ -35,7 +35,7 @@
         <tr>
             <td style="width:25%;float:left;">Student List</td>
             <td style="width:50%">
-                <center><img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(asset('/upload/main-logo.jpeg'))) }}" style="width:250px;"></center>
+                <center><img src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('/upload/main-logo.jpeg'))) }}" style="width:250px;"></center>
             </td>
             <td style="width:20%;float:right;"><span style="color:red">Printed on <br> {{date('d/m/Y h:i:s A')}}</span></td>
         </tr>

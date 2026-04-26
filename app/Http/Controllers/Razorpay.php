@@ -63,9 +63,9 @@ class Razorpay extends Controller
                 ]);
                 $studentPayment = new StudentPayment();
                 $studentPayment->student_id = auth()->guard('student')->id();
-                $studentPayment->course_type = $student->scholarShipOptedFor->name; // Set the course type as per your application
-                $studentPayment->course_id = auth()->guard('student')->id(); // Assuming you pass course_id in the request
-                $studentPayment->institute_id = auth()->guard('student')->id(); // Assuming you pass institute_id in the request
+                $studentPayment->course_type = $student->scholarShipCategory?->name; 
+                $studentPayment->course_id = $student->scholarship_opted_for; 
+                $studentPayment->institute_id = $studentCode->corporate_id; 
                 $studentPayment->payment_amount = $response['amount'] / 100; // Convert amount to currency unit (e.g., rupees)
                 $studentPayment->payment_order_id = $response['id'];
                 $studentPayment->payment_status = 'success';

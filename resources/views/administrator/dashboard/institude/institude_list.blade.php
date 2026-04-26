@@ -44,8 +44,17 @@
                                         <td class="color-primary">{{ $institutes->established_year }}</td>
                                         <td class="text-end">
                                             <div style="display:flex">
+                                                @if($institutes->status == 1)
+                                                <button class="btn btn-warning toggle-display" data-id="{{$institutes->id}}" data-phone="{{$institutes->phone}}" data-status="0">
+                                                    <i class="bi bi-eye-slash-fill"></i> Disable
+                                                </button>
+                                                @else
+                                                <button class="btn btn-info toggle-display" data-id="{{$institutes->id}}" data-phone="{{$institutes->phone}}" data-status="1">
+                                                    <i class="bi bi-eye-fill"></i> Enable
+                                                </button>
+                                                @endif
 
-                                                <a _target="blank" href="{{route('institute.view',[$institutes])}}" class="btn btn-success">
+                                                <a _target="blank" href="{{route('institute.view',[$institutes])}}" class="btn btn-success ms-1">
                                                     <i class="bi bi-eye-fill"></i>
                                                 </a>
                                                 <a _target="blank" href="#" class="deletebutton ms-1 btn btn-danger">
@@ -65,6 +74,37 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('.toggle-display').click(function() {
+            var id = $(this).data('id');
+            var phone = $(this).data('phone');
+            var status = $(this).data('status');
+            var btn = $(this);
+
+            $.ajax({
+                url: "{{ route('institute.institute_status') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: id,
+                    phone: phone,
+                    status: status,
+                    type: 'toggle-display'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                        location.reload();
+                    } else {
+                        toastr.error(response.message);
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 <!-- /#page-content-wrapper -->
 @endsection('content')

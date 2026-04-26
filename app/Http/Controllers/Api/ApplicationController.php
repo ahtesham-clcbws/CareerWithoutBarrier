@@ -252,7 +252,7 @@ class ApplicationController extends Controller
             $corporate = $couponCode?->corporate;
             if ($corporate) {
                 $studentCode->corporate_id = $corporate->id;
-                $studentCode->corporate_name = $corporate?->name;
+                $studentCode->corporate_name = $corporate->institute_name ?? $corporate->name;
             }
             $studentCode->forceFill($validated);
             $studentCode->stud_id = $student->id;
@@ -343,9 +343,9 @@ class ApplicationController extends Controller
             ]);
             $studentPayment = new StudentPayment();
             $studentPayment->student_id = $student->id;
-            $studentPayment->course_type = $student->scholarShipOptedFor->name; // Set the course type as per your application
-            $studentPayment->course_id = $student->id; // Assuming you pass course_id in the request
-            $studentPayment->institute_id = $student->id; // Assuming you pass institute_id in the request
+            $studentPayment->course_type = $student->scholarShipCategory?->name; 
+            $studentPayment->course_id = $student->scholarship_opted_for; 
+            $studentPayment->institute_id = $studentCode->corporate_id; 
             $studentPayment->payment_amount = $amount / 100; // Convert amount to currency unit (e.g., rupees)
             $studentPayment->payment_order_id = $paymentId;
             $studentPayment->payment_status = 'success';

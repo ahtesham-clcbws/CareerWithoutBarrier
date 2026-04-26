@@ -12,13 +12,6 @@
                                 <div class="card-body">
                                     <form wire:submit="save">
                                         @csrf
-                                        <div class="form-group">
-                                            <label class="text-muted f-s-12">Write Review</label>
-                                            <textarea id="editor" style="width: 100%;" wire:model.live="message"></textarea>
-                                            @error('message')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </div>
 
                                         <div class="form-group">
                                             <label class="text-muted f-s-12">Add screenshot/image</label>
@@ -27,7 +20,7 @@
                                                     alt="Image Preview" style="width:200px">
                                             @endif
                                             <input class="form-control input-focus" type="file"
-                                                wire:model.live="image">
+                                                wire:model.live="image" accept="image/*">
                                             @error('image')
                                                 <small class="text-danger">{{ $message }}</small>
                                             @enderror
@@ -62,7 +55,6 @@
                                 <div class="row">
                                     <div class="col-md-7 col">
                                         <h5 class="card-title"><b>Name: </b>{{ $student->testimonial->name }}</h5>
-                                        <p class="card-text"><b>Message: </b>{!! $student->testimonial->message !!}</p>
                                     </div>
                                     <div class="col-md-5 col">
                                         @if ($student->testimonial->image)

@@ -43,7 +43,7 @@
                 <td style="width:25%;float:left;">Registration Details</td>
                 <td style="width:50%">
                     <center><img
-                            src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(asset('/upload/main-logo.jpeg'))) }}"
+                            src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('/upload/main-logo.jpeg'))) }}"
                             style="width:250px;"></center>
                 </td>
                 <td style="width:20%;float:right;"><span style="color:red">Printed on <br>
@@ -60,7 +60,7 @@
                 <td class="information-txt" colspan="3">{{ $student->name }}</td>
                 <td>
                     <img class="img-fluid"
-                        src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(asset('/storage/' . $student->photograph))) }}"
+                        src="data:image/jpeg;base64,{{ base64_encode(file_get_contents(public_path('/storage/' . $student->photograph))) }}"
                         style="width: 100px;border: 1px double #dee2e6;padding: 4px;height: 100px;">
                 </td>
 

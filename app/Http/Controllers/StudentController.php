@@ -522,7 +522,7 @@ class StudentController extends Controller
             $corporate = $couponCode->corporate;
             if ($corporate) {
                 $studentCode->corporate_id = $corporate->id;
-                $studentCode->corporate_name = $corporate->name;
+                $studentCode->corporate_name = $corporate->institute_name ?? $corporate->name;
             }
             $studentCode->forceFill($validated);
             $studentCode->coupan_code = $couponCode->couponcode;

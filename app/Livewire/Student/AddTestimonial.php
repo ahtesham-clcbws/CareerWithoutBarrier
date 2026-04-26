@@ -20,9 +20,9 @@ class AddTestimonial extends Component
     public $name;
     public $type_id;
     public $type = 'student';
-    #[Validate('required', message: 'Review is required.')]
-    public $message;
     #[Validate('nullable')]
+    public $message;
+    #[Validate('required', message: 'The screenshot is required.')]
     #[Validate('image', message: 'The screenshot must be an image file.')]
     #[Validate('mimes:jpeg,png', message: 'The screenshot must be a JPEG or PNG image.')]
     #[Validate('max:2048', message: 'Screenshot size must not exceed 2MB.')]
@@ -51,7 +51,7 @@ class AddTestimonial extends Component
             $testimonial->type_id = $this->type_id;
             $testimonial->type = $this->type;
 
-            $testimonial->message = $this->message;
+            $testimonial->message = $this->message ?? 'Student review screenshot';
 
             if ($this->image) {
                 $testimonial->image = $this->image->store('testimonial/students', 'public');

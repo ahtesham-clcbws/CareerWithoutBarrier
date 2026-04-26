@@ -1,32 +1,36 @@
-# Implementation Plan - Convert Create Coupon to Livewire
+# Implementation Plan - Institute Name Display Correction
 
-The objective is to refactor the current "Create Coupon" feature from a traditional Laravel Controller/Blade setup to a Livewire component for better interactivity and consistency with the rest of the administrator dashboard.
+The user wants to display the institute name instead of the person's name in the "payment & voucher" column of the administrator student list.
 
 ## Proposed Changes
 
-### 1. Livewire Component Creation
-- [x] Create `App\Livewire\Administrator\Dashboard\CreateCoupon`.
-- [x] Define properties for all form fields: `prefix`, `name`, `coupon_type`, `discount_type`, `discount_value`, `number_of_coupons`, `description`.
-- [x] Implement a `save` method that:
-    - [x] Validates input (including uniqueness of `prefix` and `name`).
-    - [x] Generates and inserts coupon codes using the logic from `CouponCodeController`.
-    - [x] Redirects to the coupon list with a success message.
+### 1. Controllers (Eager Loading)
+- **File**: `app/Http/Controllers/AdminController.php`
+- **Change**: Update `studentList` and `studentRollList` methods to eager load `latestStudentCode.corporate`.
 
-### 2. View Refactoring
-- [x] Create `resources/views/livewire/administrator/dashboard/create-coupon.blade.php`.
-- [x] Port the HTML from `resources/views/administrator/dashboard/geenrate_coupon_code.blade.php`.
-- [x] Update form to use Livewire `wire:model` and `wire:submit`.
-- [x] Add loading indicators and real-time validation if appropriate.
+### 2. Blade Views (Display Logic)
+- **File**: `resources/views/administrator/dashboard/studentlist.blade.php`
+- **Change**: Update the "Payment & Voucher" column to show `latestStudentCode->corporate->institute_name` if available, falling back to `corporate_name` or the default value.
 
-### 3. Route Update
-- [x] Modify `routes/admin.php` to point `/administrator/coupon/createCoupon` to the new Livewire component.
+### 3. Data Persistence (Moving Forward)
+Update the following files to save `institute_name` into `corporate_name` (or prefer it) when a coupon is applied:
+- `app/Http/Controllers/StudentController.php`
+- `app/Http/Controllers/Api/ApplicationController.php`
+- `app/Livewire/Auth/Registration.php`
+- `app/Livewire/Auth/RegistrationForm.php`
+- `app/Livewire/Student/PaymentPage.php`
 
-### 4. Cleanup
-- [ ] Remove unused methods from `CouponCodeController` if no longer needed.
-- [x] Remove the old blade file `geenrate_coupon_code.blade.php`.
+## Detailed Steps
+
+### Step 1: Update AdminController
+Update eager loading to include `latestStudentCode.corporate`.
+
+### Step 2: Update Student List View
+Modify the display logic in the blade file.
+
+### Step 3: Update Controller/Livewire Save Logic
+Ensure future registrations use the institute name.
 
 ## Verification Plan
-- Access the "Create Coupon" page.
-- Test validation by submitting empty or duplicate values.
-- Fill the form and verify that the specified number of coupons are generated with the correct prefix and attributes.
-- Ensure redirection and flash messages work.
+- Access `/administrator/student_list` and verify the institute name is displayed for students who used a corporate voucher.
+- Test applying a coupon as a student and verify the `corporate_name` is stored correctly.
