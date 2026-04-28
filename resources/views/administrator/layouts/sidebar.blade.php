@@ -218,7 +218,7 @@
 
             <!-- Student Section -->
             @php
-                $studentPages = ['admin.studentListRegistered', 'admin.studentList', 'admin.student-roll-list', 'admin.studentExamCenter', 'admin.student.result'];
+                $studentPages = ['admin.studentListRegistered', 'admin.studentList', 'admin.studentClaimList', 'admin.student-roll-list', 'admin.studentExamCenter', 'admin.student.result'];
                 $isStudentActive = Route::is($studentPages);
             @endphp
             <a class="side-nav-item {{ $isStudentActive ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#studentMenu" href="javascript:void(0)" role="button" aria-expanded="{{ $isStudentActive ? 'true' : 'false' }}" aria-controls="studentMenu">
@@ -233,6 +233,7 @@
                     <a class="sub-menu-item {{ Route::is('admin.student-roll-list') ? 'active' : '' }}" href="{{route('admin.student-roll-list')}}">Student Roll No</a>
                     <a class="sub-menu-item {{ Route::is('admin.studentExamCenter') ? 'active' : '' }}" href="{{route('admin.studentExamCenter')}}">Allot Exam Center</a>
                     <a class="sub-menu-item {{ Route::is('admin.student.result') ? 'active' : '' }}" href="{{route('admin.student.result')}}">Student Result</a>
+                    <a class="sub-menu-item {{ Route::is('admin.studentClaimList') ? 'active' : '' }}" href="{{route('admin.studentClaimList')}}">Claim Forms</a>
                 </div>
             </div>
 

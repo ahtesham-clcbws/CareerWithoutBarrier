@@ -48,7 +48,7 @@
                                                         }
                                                     ?>
                                                     <td>
-                                                        @if($studCode)
+                                                        @if($studCode && !$studCode->issued_admitcard)
                                                             <input type="checkbox" class="rowCheckbox form-check-input" data-studcode_id="{{ $studCode->id }}">
                                                         @endif
                                                     </td>
@@ -67,14 +67,18 @@
                                                     <td> {{ $student->scholarShipOptedFor?->name ?? 'N/A' }}</td>
                                                     <td>{{ $student->dob ?? '-' }}</td>
                                                     <td>
-                                                        @if ($studCode?->corporate_stop_admitcard)
-                                                            <a class="btn btn-success btn-sm changeStatus"
-                                                                data-studcode_id="{{ $studCode->id }}" data-status="1"
-                                                                href="#">Activate AdmitCard</a>
+                                                        @if ($studCode?->issued_admitcard)
+                                                            <span class="badge bg-primary">Admit Card Issued</span>
                                                         @else
-                                                            <a class="btn btn-danger btn-sm changeStatus"
-                                                                data-studcode_id="{{ $studCode->id }}" data-status="0"
-                                                                href="#">Stop AdmitCard</a>
+                                                            @if ($studCode?->corporate_stop_admitcard)
+                                                                <a class="btn btn-success btn-sm changeStatus"
+                                                                    data-studcode_id="{{ $studCode->id }}" data-status="1"
+                                                                    href="#">Activate AdmitCard</a>
+                                                            @else
+                                                                <a class="btn btn-danger btn-sm changeStatus"
+                                                                    data-studcode_id="{{ $studCode->id }}" data-status="0"
+                                                                    href="#">Stop AdmitCard</a>
+                                                            @endif
                                                         @endif
                                                     </td>
 

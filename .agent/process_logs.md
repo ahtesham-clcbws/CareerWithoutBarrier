@@ -12,3 +12,6 @@
 - Fixed PDF image loading errors by replacing asset() with public_path() in all administrator/download views.
 - Fixed Course Name display on Payment Page by adding relationship and correcting saving logic.
 - Updated session_sync.md and implementation_plan.md.
+- Restricted Corporate dashboard from blocking admit cards once they are issued by admin.
+- Modified resources/views/corporate/dashboard/student/list.blade.php to hide toggle buttons and checkboxes for issued admit cards.
+- Updated CorporateController.php to enforce issued_admitcard protection in the backend.

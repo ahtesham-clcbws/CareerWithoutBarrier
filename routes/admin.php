@@ -99,6 +99,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::any('/student_list', [AdminController::class, 'studentList'])->name('admin.studentList');
     Route::any('/registered-students', [AdminController::class, 'studentListRegistered'])->name('admin.studentListRegistered');
+    Route::any('/claimed-students', [AdminController::class, 'studentClaimList'])->name('admin.studentClaimList');
 
     Route::any('/studentRollList', [AdminController::class, 'studentRollList'])->name('admin.studentRollList');
     Route::any('/student-roll-list', StudentRollList::class)->name('admin.student-roll-list');

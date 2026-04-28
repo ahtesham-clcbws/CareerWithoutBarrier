@@ -77,6 +77,7 @@ class AdminController extends Controller
             'newTestimonials' => TestimonialsModel::where('isNew', true)->count(),
             'newContactEnquiries' => ContactInfo::where('isNew', true)->count(),
             'newCouponRequests' => CorporateCouponRequest::where('status', 'pending')->count(),
+            'claimedStudents' => StudentClaimForm::count(),
         ];
         return view('administrator.dashboard.home')->with($data);
     }
@@ -124,6 +125,47 @@ class AdminController extends Controller
         // return print_r($students->toArray());
 
         return view('administrator.dashboard.studentlist', [
+            'students' => $students,
+            'cities' => $cities,
+            'scholarshipTypes' => $scholarshipTypes,
+            'classes' => $classes
+        ]);
+    }
+
+    public function studentClaimList(Request $request)
+    {
+        $scholarshipTypes = EducationType::get();
+        $cities = District::get();
+        
+        $query = Student::query()->whereHas('studentClaimForm')->with([
+            'choiceCenterA',
+            'latestStudentCode.corporate',
+            'studentPayment',
+            'district',
+            'qualifications',
+            'scholarShipCategory',
+            'scholarShipOptedFor',
+            'studentClaimForm'
+        ]);
+
+        $classes = collect();
+
+        if (!empty($request->district_id)) {
+            $query->whereIn('district_id', $request->district_id);
+        }
+
+        if (!empty($request->gender)) {
+            $query->whereIn('gender', $request->gender);
+        }
+
+        if (!empty($request->class)) {
+            $query->whereIn('qualification', $request->class);
+            $classes = BoardAgencyStateModel::whereIn('id', $request->class)->select('id', 'name')->get();
+        }
+
+        $students = $query->orderBy('id', 'desc')->get();
+
+        return view('administrator.dashboard.student_claim_list', [
             'students' => $students,
             'cities' => $cities,
             'scholarshipTypes' => $scholarshipTypes,

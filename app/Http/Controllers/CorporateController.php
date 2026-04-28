@@ -181,15 +181,18 @@ class CorporateController extends Controller
         $corporateStatus = $status == 0 ? 1 : 0;
         $count = 0;
         if (is_array($studCodeIds)) {
-            $count = StudentCode::whereIn('id', $studCodeIds)->update(['issued_admitcard' => $status, 'corporate_stop_admitcard' => $corporateStatus]);
+            // Only update students whose admit card is NOT issued yet
+            $count = StudentCode::whereIn('id', $studCodeIds)
+                ->where('issued_admitcard', 0)
+                ->update(['issued_admitcard' => $status, 'corporate_stop_admitcard' => $corporateStatus]);
         } else {
             $studentCode = StudentCode::find($studCodeIds);
-            if ($studentCode) {
+            if ($studentCode && $studentCode->issued_admitcard == 0) {
                 $studentCode->issued_admitcard = $status;
                 $studentCode->corporate_stop_admitcard = $corporateStatus;
                 $studentCode->save();
+                $count = 1;
             }
-            $count = 1;
         }
 
         return response()->json(['status' => true, 'message' => "$count AdmitCard Status Updated Successfully."]);

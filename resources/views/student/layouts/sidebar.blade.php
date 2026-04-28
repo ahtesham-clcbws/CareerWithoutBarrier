@@ -157,18 +157,13 @@ if ($studCode) {
                     </div>
                 @endif
             @endif
-            @if (
-                $studCode &&
-                    $student->scholarship_claim_generation_id &&
-                    $studCode?->issued_admitcard &&
-                    $isResultAvailable &&
-                    App\Models\StudentClaimForm::where('student_id', $student->id)->first())
-                <!-- <div class="dropdown show">
-                <a class="btn btn-secondary" href="{{ route('students.claimScholarshipForm') }}">
-                    <img class="nav_icon" src="{{ asset('student/images/12.png') }}" alt="">
-                    <p style="color:#18c968">Student Claim Form</p>
-                </a>
-            </div> -->
+            @if ($student->scholarship_claim_generation_id)
+                <div class="dropdown show">
+                    <a class="btn btn-secondary" href="{{ route('students.claimScholarshipForm') }}">
+                        <img class="nav_icon" src="{{ asset('student/images/12.png') }}" alt="">
+                        <p style="color:#18c968">Student Claim Form</p>
+                    </a>
+                </div>
             @endif
             @if (
                 $student->name_checked &&

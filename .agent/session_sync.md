@@ -6,6 +6,8 @@
 - **Strict Image-Only Testimonial**: Modified the student dashboard's "Say About Us" feature to strictly allow ONLY image uploads. The review textarea has been permanently removed, and the file picker is restricted to image files only. All text-related fields have been hidden from both input and display.
 - **PDF Image Loading Fix**: Resolved `file_get_contents` HTTP errors in PDF generation by replacing `asset()` URLs with `public_path()` file paths. This prevents the server from attempting to fetch its own assets via HTTP, which frequently fails in local or restricted network environments.
 - **Payment Page Course Name Fix**: Resolved an issue where the student's ID was displayed as the course ID on the payment page. Added a `course` relationship to `StudentPayment` and updated the view to display the course name. Also corrected the saving logic in `Razorpay` and `ApplicationController`.
+9: - **Corporate Admit Card Restrictions**: Restricted the Institute (Corporate) dashboard from blocking or stopping admit cards once they have been issued from the admin panel. The "Stop AdmitCard" button and checkbox are now hidden for issued students, and the backend prevents status changes for these records.
+
 
 ## Handoff Summary (2026-04-26)
 - **Admin Student List**: Modified `administrator.dashboard.studentlist` to prioritize `corporate->institute_name`.
