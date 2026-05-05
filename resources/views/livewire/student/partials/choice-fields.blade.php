@@ -19,13 +19,16 @@
     <div class="col-md-12 col mb-2">
         <label class="form-label">Institute/ Contact Details<span
                 class="text-danger">{{ in_array($index, [1, 2]) ? '*' : '' }}</span></label>
-        <div class="input-group">
-            <input class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important"
-                placeholder="Enter Mobile No" wire:model="institude_mobile{{ $index }}" />
-        </div>
+        <input class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important"
+            placeholder="Enter Mobile No" wire:model="institude_mobile{{ $index }}" />
         @error('institude_mobile' . $index)
             <div class="text-danger small">{{ $message }}</div>
         @enderror
+    </div>
+    <div class="col-md-12 col mb-2">
+        <label class="form-label">Whatsapp Contact</label>
+        <input class="form-control" style="height:calc(2rem + 2px) !important; padding:0 0 0 3px !important"
+            placeholder="Enter Whatsapp No" wire:model="whatsapp_no{{ $index }}" />
     </div>
     <div class="col-md-12 col mb-2">
         <label class="form-label">Institute E-mail Id</label>

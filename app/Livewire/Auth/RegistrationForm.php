@@ -63,7 +63,6 @@ class RegistrationForm extends Component
     public string $confirmPassword;
     public $confirmPasswordError = null;
 
-    #[Validate('required')]
     public $referrenceCode = '';
     public $referrenceCodeError = null;
     public $referrenceCodeValidated = false;
@@ -92,6 +91,20 @@ class RegistrationForm extends Component
             $this->institudeTermsCondition = null;
             $this->terms = true;
         }
+    }
+
+    public function rules()
+    {
+        return [
+            'referrenceCode' => $this->needReferrenceCode ? 'required' : 'nullable',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'referrenceCode.required' => 'Referrence code is required',
+        ];
     }
 
     public function render()
@@ -313,8 +326,8 @@ class RegistrationForm extends Component
                     ->first();
                 if ($couponCode) {
                     if ($couponCode->corporate && $couponCode->corporate->district_id != $this->selectedDistrict) {
-                        $this->referrenceCodeError = 'Reference code is not valid';
-                        $this->js("toastr.error('Referral code is not valid for this city/district')");
+                        $this->referrenceCodeError = 'Referrence code is not valid';
+                        $this->js("toastr.error('Referrence code is not valid for this city/district')");
                         $this->referrenceCodeValidated = false;
                         return false;
                     } else {
@@ -323,8 +336,8 @@ class RegistrationForm extends Component
                         return true;
                     }
                 } else {
-                    $this->referrenceCodeError = 'Reference code not found.';
-                    $this->js("toastr.error('Reference code not found.')");
+                    $this->referrenceCodeError = 'Referrence code not found.';
+                    $this->js("toastr.error('Referrence code not found.')");
                     $this->referrenceCodeValidated = false;
                     return false;
                 }

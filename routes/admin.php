@@ -130,6 +130,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/student_result_claim_scholarship', [AdminController::class, 'studentResultClaimScholarship'])->name('admin.student.result.allow_claim');
     Route::any('/student_result_admin_card/{student}', [AdminController::class, 'studentAdminCard'])->name('admin.student.adminCard');
     Route::any('/student_claim_form/{student}', [AdminController::class, 'studentClaimScholarship'])->name('admin.student.claim_form');
+    Route::post('/student_claim_status_update/{claimForm}', [AdminController::class, 'studentClaimStatusUpdate'])->name('admin.student.claim_status_update');
 
     Route::get('/get_admin_scholarship_category/{id?}/{type?}', [AdminController::class, 'getScholarshipCategory']);
     Route::get('/get_admin_scholarship_opted_for/{id?}/{qualificationId?}', [AdminController::class, 'getScholarshipCategoryOptedFor']);

@@ -6,10 +6,15 @@
 - **Strict Image-Only Testimonial**: Modified the student dashboard's "Say About Us" feature to strictly allow ONLY image uploads. The review textarea has been permanently removed, and the file picker is restricted to image files only. All text-related fields have been hidden from both input and display.
 - **PDF Image Loading Fix**: Resolved `file_get_contents` HTTP errors in PDF generation by replacing `asset()` URLs with `public_path()` file paths. This prevents the server from attempting to fetch its own assets via HTTP, which frequently fails in local or restricted network environments.
 - **Payment Page Course Name Fix**: Resolved an issue where the student's ID was displayed as the course ID on the payment page. Added a `course` relationship to `StudentPayment` and updated the view to display the course name. Also corrected the saving logic in `Razorpay` and `ApplicationController`.
-9: - **Corporate Admit Card Restrictions**: Restricted the Institute (Corporate) dashboard from blocking or stopping admit cards once they have been issued from the admin panel. The "Stop AdmitCard" button and checkbox are now hidden for issued students, and the backend prevents status changes for these records.
+- **Corporate Admit Card Restrictions**: Restricted the Institute (Corporate) dashboard from blocking or stopping admit cards once they have been issued from the admin panel. The "Stop AdmitCard" button and checkbox are now hidden for issued students, and the backend prevents status changes for these records.
+- **Registration Page Validation**: Made the Referrence Code required on the registration page when the "balance forms" are low (remainingForms <= 725). Standardized on the terminology "Referrence Code" for error messages and views.
 
 
-## Handoff Summary (2026-04-26)
+## Handoff Summary (2026-05-05)
+- **Registration Validation**:
+    - Updated `Registration.php` and `RegistrationForm.php` with dynamic `rules()` to make `couponcode`/`referrenceCode` required when shown.
+    - Standardized terminology to "Referrence Code" in all error messages and toastr alerts.
+    - Updated `registration.blade.php` and `registration-form.blade.php` labels and placeholders to use "Referrence Code".
 - **Admin Student List**: Modified `administrator.dashboard.studentlist` to prioritize `corporate->institute_name`.
 - **Eager Loading**: Updated `AdminController::studentList` and `AdminController::studentRollList` with `.corporate` eager loading.
 - **Save Logic**: Updated `StudentController`, `Api/ApplicationController`, `Registration`, `RegistrationForm`, and `PaymentPage` to save `institute_name` into `corporate_name`.
@@ -33,3 +38,6 @@
 - Should we add a cooldown period for "Get OTP" requests to prevent SMS cost spikes?
 - Do we need a fallback channel (Email) if SMS delivery fails?
 - Should the "OTP successfully sent" message include the masked mobile number it was sent to?
+- **Claim Form Prospectus Fix**: Resolved an issue where the Institute Prospectus (optional image/PDF) was not easily accessible by the admin. Removed any potential previews and implemented 'View File' links that open in a new window for both students and administrators.
+- **Student Claim Form Stability**: Resolved validation errors where filled fields were reported as missing. Fixed the file upload validation to support existing files (strings) and new uploads (objects). Added DOM keys for better Livewire state management.
+- **Claim Form Status System**: Fully implemented status tracking for scholarship claims. Students can see their eligibility and submission status (Pending-Processing, Rejected, Confirmed) directly on their dashboard. Admins can manage these statuses from the claim review page.

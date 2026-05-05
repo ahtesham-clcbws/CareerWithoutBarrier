@@ -13,10 +13,34 @@ Student Claim Form
 <div class="container pagecontentbody">
     <div class="tab-content">
         <div class="row pt-3">
-            <div class="col">
+            <div class="col-md-6">
                 <h5>
                     Claim Form
                 </h5>
+            </div>
+            <div class="col-md-6">
+                @if($claimForm)
+                <div class="card bg-light border-info mb-3">
+                    <div class="card-body py-2">
+                        <form action="{{ route('admin.student.claim_status_update', $claimForm->id) }}" method="POST" class="row align-items-center">
+                            @csrf
+                            <div class="col-auto">
+                                <label class="mb-0"><strong>Status:</strong></label>
+                            </div>
+                            <div class="col-auto">
+                                <select name="status" class="form-select form-select-sm">
+                                    <option value="pending-processing" {{ $claimForm->status == 'pending-processing' ? 'selected' : '' }}>Pending-Processing</option>
+                                    <option value="confirmed" {{ $claimForm->status == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+                                    <option value="rejected" {{ $claimForm->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-sm btn-info">Update Status</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
         <div class="pagebody  pt-2">
@@ -75,7 +99,13 @@ Student Claim Form
                             <th>Course Duration</th>
                             <td style="width: 210px;" >{{$claimForm?->course_duration1}}</td>
                             <th>Institute Prospectus</th>
-                            <td style="width: 210px;" >{{$claimForm?->institude_prospectus1}}</td>
+                            <td style="width: 210px;" >
+                                @if($claimForm?->institude_prospectus1)
+                                    <a href="{{ asset('upload/' . $claimForm->institude_prospectus1) }}" target="_blank">View File</a>
+                                @else
+                                    N/A
+                                @endif
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -121,7 +151,13 @@ Student Claim Form
                             <th>Course Duration</th>
                             <td style="width: 210px;" >{{$claimForm?->course_duration2}}</td>
                             <th>Institute Prospectus</th>
-                            <td style="width: 210px;" >{{$claimForm?->institude_prospectus2}}</td>
+                            <td style="width: 210px;" >
+                                @if($claimForm?->institude_prospectus2)
+                                    <a href="{{ asset('upload/' . $claimForm->institude_prospectus2) }}" target="_blank">View File</a>
+                                @else
+                                    N/A
+                                @endif
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -170,7 +206,13 @@ Student Claim Form
                             <th>Course Duration</th>
                             <td style="width: 210px;" >{{$claimForm?->course_duration3}}</td>
                             <th>Institute Prospectus</th>
-                            <td style="width: 210px;" >{{$claimForm?->institude_prospectus3}}</td>
+                            <td style="width: 210px;" >
+                                @if($claimForm?->institude_prospectus3)
+                                    <a href="{{ asset('upload/' . $claimForm->institude_prospectus3) }}" target="_blank">View File</a>
+                                @else
+                                    N/A
+                                @endif
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -215,7 +257,13 @@ Student Claim Form
                             <th>Course Duration</th>
                             <td style="width: 210px;" >{{$claimForm?->course_duration4}}</td>
                             <th>Institute Prospectus</th>
-                            <td style="width: 210px;" >{{$claimForm?->institude_prospectus4}}</td>
+                            <td style="width: 210px;" >
+                                @if($claimForm?->institude_prospectus4)
+                                    <a href="{{ asset('upload/' . $claimForm->institude_prospectus4) }}" target="_blank">View File</a>
+                                @else
+                                    N/A
+                                @endif
+                            </td>
                         </tr>
                     </tbody>
                 </table>

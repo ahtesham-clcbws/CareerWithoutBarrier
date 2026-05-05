@@ -1683,6 +1683,18 @@ class AdminController extends Controller
         return view('administrator.dashboard.student.claim_scholarship', compact('cities', 'student', 'claimForm'));
     }
 
+    public function studentClaimStatusUpdate(Request $request, StudentClaimForm $claimForm)
+    {
+        $request->validate([
+            'status' => 'required|in:pending-processing,rejected,confirmed',
+        ]);
+
+        $claimForm->update(['status' => $request->status]);
+
+        return back()->with('success', 'Claim Status Updated Successfully.');
+    }
+
+
     public function refreshStudentRank()
     {
         $students = Student::with(['latestStudentCode'])->get();

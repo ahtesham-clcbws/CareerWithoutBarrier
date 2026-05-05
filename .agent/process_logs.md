@@ -15,3 +15,24 @@
 - Restricted Corporate dashboard from blocking admit cards once they are issued by admin.
 - Modified resources/views/corporate/dashboard/student/list.blade.php to hide toggle buttons and checkboxes for issued admit cards.
 - Updated CorporateController.php to enforce issued_admitcard protection in the backend.
+- Updated Registration.php and RegistrationForm.php to make Institute Code required when balance forms are low.
+- Renamed 'Referrence Code' to 'Institute Code' across Registration components, views, and error messages.
+- Standardized validation error messages and toastr alerts to use 'Institute Code'.
+- Reverted terminology from 'Institute Code' back to 'Referrence Code' as per user request.
+- Maintained the dynamic validation logic making Referrence Code required when balance forms are low.
+- Resolved issue with Institute Prospectus in Claim Form:
+    - Updated admin claim scholarship view to display the prospectus as a clickable link ('View File') instead of plain text.
+    - Ensured no preview (image/PDF) is shown directly on the page, satisfying the 'dont make it preview anywhere' requirement.
+    - Maintained the link logic in the student dashboard for consistency.
+    - Verified that both images and PDFs are supported via validation and correctly linked.
+- Resolved validation and file upload issues in Student Claim Form:
+    - Fixed validation rules to handle existing prospectus files (strings) correctly, preventing the 'must be a file' error from blocking form submission.
+    - Added conditional validation for Choices 3 and 4, ensuring they are only required if partially filled.
+    - Added wire:key to all choice sections in the view to prevent DOM syncing issues during Livewire updates.
+    - Verified that Choices 1 and 2 remain mandatory to satisfy the 'minimum 2' requirement.
+- Implemented Status System for Scholarship Claim Form:
+    - Added 'status' column to 'student_claim_forms' table (default: 'pending-processing').
+    - Updated Admin View with a status management interface (Dropdown: Pending-Processing, Confirmed, Rejected).
+    - Added studentClaimStatusUpdate logic to AdminController and registered the route.
+    - Enhanced Student Dashboard Home with clear eligibility and claim status indicators.
+    - Added status banner to student Claim Form view and locked the form once confirmed.

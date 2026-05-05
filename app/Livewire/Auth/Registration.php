@@ -168,6 +168,20 @@ class Registration extends Component
         $this->isRegistrationActive = true;
     }
 
+    public function rules()
+    {
+        return [
+            'couponcode' => $this->remainingForms <= 725 ? 'required' : 'nullable',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'couponcode.required' => 'Referrence code is required',
+        ];
+    }
+
     public function render()
     {
         $this->checkRegistrationStatus();
