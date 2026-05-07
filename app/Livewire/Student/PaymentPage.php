@@ -116,7 +116,12 @@ class PaymentPage extends Component
             $studentCode->save();
 
             DB::commit();
-            $this->js("success('Coupon Code Applied.')");
+
+            if ($studentCode->fee_amount <= 0) {
+                $this->js("window.location.reload()");
+            } else {
+                $this->js("success('Coupon Code Applied.')");
+            }
         } catch (\Throwable $th) {
             DB::rollBack();
             logger('Failed:', [$th]);

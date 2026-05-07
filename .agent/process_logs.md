@@ -36,3 +36,5 @@
     - Added studentClaimStatusUpdate logic to AdminController and registered the route.
     - Enhanced Student Dashboard Home with clear eligibility and claim status indicators.
     - Added status banner to student Claim Form view and locked the form once confirmed.
+- Implemented immediate page refresh when a 100% discount coupon is applied in PaymentPage.php.
+- This ensures the modal closes and the page reflects the "Paid" status immediately for free registrations.
