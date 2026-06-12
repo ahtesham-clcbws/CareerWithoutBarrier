@@ -130,6 +130,34 @@
                             <option value="100">100 Results</option>
                         </select>
                     </div>
+                    @if($totalFiltered > 0)
+                        @if($maxBatches > 1)
+                            <div class="flex-fill d-flex align-items-center gap-1">
+                                <label for="selectedBatch" class="text-nowrap mb-0" style="font-size: 11px;">Batch:</label>
+                                <select class="form-select form-select-sm" id="selectedBatch" wire:model.live="selectedBatch" style="min-width: 140px; height: 38px;">
+                                    @for($i = 1; $i <= $maxBatches; $i++)
+                                        <option value="{{ $i }}">
+                                            Batch {{ $i }} ({{ ($i - 1) * 500 + 1 }} - {{ min($i * 500, $totalFiltered) }})
+                                        </option>
+                                    @endfor
+                                </select>
+                            </div>
+                        @endif
+                        <div class="flex-fill">
+                            <a href="{{ route('coupon.print', [
+                                'prefix' => $selectedPrefix,
+                                'value' => $selectedValue,
+                                'corporate_id' => $selectedInstitute,
+                                'valueType' => $selectedValueType,
+                                'status' => $selectedStatus,
+                                'issued' => $selectedIssued,
+                                'search' => $couponCodeSearch,
+                                'batch' => $selectedBatch
+                            ]) }}" target="_blank" class="btn btn-primary">
+                                Export PDF {{ $maxBatches > 1 ? "(B" . $selectedBatch . ")" : "" }}
+                            </a>
+                        </div>
+                    @endif
                 </div>
                 <div>
                     <div class="flex-fill">

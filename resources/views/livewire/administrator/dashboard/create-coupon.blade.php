@@ -85,6 +85,19 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <p class="text-dark m-b-15 f-s-12">Coupon Length<span class="text-danger">*</span></p>
+                                            <select wire:model="coupon_length" class="form-control">
+                                                <option value="12">12 Characters (e.g., D5FH-Y676-GHT7)</option>
+                                                <option value="16">16 Characters (e.g., D5FH-Y676-GHT7-HFT7)</option>
+                                            </select>
+                                            @error('coupon_length')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
                                     <div class="col-12">
                                         <div class="form-group">
                                             <p class="text-dark m-b-15 f-s-12">Description</p>

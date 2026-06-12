@@ -1,44 +1,20 @@
-## Decisions & "Why" (Last updated: 2026-04-26)
-- **Institute Name in Student List**: Updated the administrator student list to display the Institute Name instead of the Director/Person's name for students using corporate vouchers. This provides better clarity for administrators to identify which institution a student belongs to.
-- **Eager Loading for Performance**: Added eager loading for the `corporate` relationship on `latestStudentCode` in `AdminController` to avoid N+1 query issues when displaying institute names.
-- **Data Consistency**: Updated all coupon application points (API, StudentController, Livewire) to store `institute_name` into `corporate_name` by default, ensuring future consistency while maintaining backward compatibility in the view.
-- **Institute Display Toggle**: Added a toggle button in the administrator institute list to enable/disable the display of institutes on the `/authentication-code` (Free Form) page. This allows administrators to temporarily hide institutes without unapproving them.
-- **Strict Image-Only Testimonial**: Modified the student dashboard's "Say About Us" feature to strictly allow ONLY image uploads. The review textarea has been permanently removed, and the file picker is restricted to image files only. All text-related fields have been hidden from both input and display.
-- **PDF Image Loading Fix**: Resolved `file_get_contents` HTTP errors in PDF generation by replacing `asset()` URLs with `public_path()` file paths. This prevents the server from attempting to fetch its own assets via HTTP, which frequently fails in local or restricted network environments.
-- **Payment Page Course Name Fix**: Resolved an issue where the student's ID was displayed as the course ID on the payment page. Added a `course` relationship to `StudentPayment` and updated the view to display the course name. Also corrected the saving logic in `Razorpay` and `ApplicationController`.
-- **Corporate Admit Card Restrictions**: Restricted the Institute (Corporate) dashboard from blocking or stopping admit cards once they have been issued from the admin panel. The "Stop AdmitCard" button and checkbox are now hidden for issued students, and the backend prevents status changes for these records.
-- **Registration Page Validation**: Made the Referrence Code required on the registration page when the "balance forms" are low (remainingForms <= 725). Standardized on the terminology "Referrence Code" for error messages and views.
+## Decisions & "Why" (Last updated: 2026-06-12)
+- **Coupon Code Format Refactoring**: Updated coupon code generation to produce clean, formatted, uppercase alphanumeric strings without prefix prefixing (e.g., `D5FH-Y676-GHT7` instead of `$prefix . $randomString . $randomNumber`). The prefix is still stored in the database's `prefix` field to support grouping and filtering.
+- **Batch Duplicacy Verification**: Used a single-query batch check (`whereIn`) to look up generated coupons against the database and regenerate duplicates in-memory, avoiding slow N-query loops.
+- **Admin Length Selector**: Added an option to allow administrators to choose between 12-character and 16-character coupons, defaulting to the highly memorable 12-character format.
+- **Database Unique Constraint**: Created a migration adding a unique constraint to `couponcode` in the `coupon_codes` table to ensure database-level data integrity.
+- **Simple side-by-side PDF listing**: Built a clean, simple, two-column layout table for exporting coupons to PDF. This allows admins to print active and unused codes in a landscape/portrait optimized structure with zero layout clutter.
+- **PDF Export Limit Protection & Filter Sync**: Synchronized the PDF export route to respect all frontend filters (status/applied, issued, search). Implemented 500-result batch partitioning: when results are larger than 500, a select dropdown lets the administrator choose a batch of 500 to print, preventing PHP memory exhaustion and timeouts.
+- **Row-by-Row PDF Side-by-Side Fix**: Refactored the PDF table to render left and right columns row-by-row inside a single table block. This ensures DomPDF page breaks on table rows beautifully, solving the empty left columns or blocks being pushed down.
+- **Fixed Batch Selection Reset**: Modified the Livewire lifecycle hook `updated` to ignore `selectedBatch` property updates when resetting. This keeps the user's selected batch choice active on selection.
 
-
-## Handoff Summary (2026-05-05)
-- **Registration Validation**:
-    - Updated `Registration.php` and `RegistrationForm.php` with dynamic `rules()` to make `couponcode`/`referrenceCode` required when shown.
-    - Standardized terminology to "Referrence Code" in all error messages and toastr alerts.
-    - Updated `registration.blade.php` and `registration-form.blade.php` labels and placeholders to use "Referrence Code".
-- **Admin Student List**: Modified `administrator.dashboard.studentlist` to prioritize `corporate->institute_name`.
-- **Eager Loading**: Updated `AdminController::studentList` and `AdminController::studentRollList` with `.corporate` eager loading.
-- **Save Logic**: Updated `StudentController`, `Api/ApplicationController`, `Registration`, `RegistrationForm`, and `PaymentPage` to save `institute_name` into `corporate_name`.
-- **Institute Display Toggle**:
-    - Updated `EnquiryController::instituteStatus` to handle `toggle-display` type.
-    - Added AJAX-powered "Enable/Disable" buttons to `administrator.dashboard.institude.institude_list`.
-    - Updated `FreeForm` Livewire component to filter by `status == 1`.
-    - Modified `EnquiryController` to automatically set `status = 1` when a new institute is approved.
-- **Strict Image-Only Testimonial**:
-    - Permanently removed `message` textarea from `livewire.student.add-testimonial`.
-    - Added `accept="image/*"` to the file input to strictly restrict the browser file picker to image files.
-    - Updated `AddTestimonial.php` (Student) to make `image` required and `message` nullable.
-    - Removed message display from the student dashboard view.
-- **PDF Generation**: Fixed image loading in all PDF download views (`print-approve-institute-list`, `new-institute-enquiry`, `print-signup-institute-list`, `print-student-list`, `print-student-details`) by using `public_path()` instead of `asset()`.
-- **Payment Page Course Name Fix**:
-    - Added `course()` relationship to `StudentPayment` model.
-    - Updated `Razorpay` and `ApplicationController` to store actual `scholarship_opted_for` ID in `course_id`.
-    - Updated `payment-page.blade.php` to display course name instead of ID.
+## Handoff Summary (2026-06-12)
+- **Livewire Component**: Updated `CreateCoupon.php` with `$coupon_length` property, validated against allowable options, and batch generation logic with database checks. Updated `CouponList.php` to calculate and expose the count of filtered items and the selected batch property. Fixed batch reset loop on update.
+- **Admin Interface**: Added the `coupon_length` select dropdown input in `create-coupon.blade.php`. Added the dynamic Batch select dropdown and integrated it with the "Export PDF" button in `coupon-list.blade.php`.
+- **Legacy Controller**: Updated `CouponCodeController.php`'s `saveCoupon` method to match the new generation logic, and added the `printCoupons` method.
+- **Database Schema**: Created and ran migration `2026_06_12_000334_make_coupon_code_unique_in_coupon_codes_table.php` to add the unique index.
+- **PDF Export view**: Implemented the simple two-column `print-coupons.blade.php` view.
+- **Verification**: Format checks verified successfully with local execution, validating the uppercase hyphen-separated alphanumeric codes. Checked and confirmed there were no pre-existing duplicates in the database, and verified compilation/rendering of the new PDF export view.
 
 ## Unresolved Questions
-- Should we add a cooldown period for "Get OTP" requests to prevent SMS cost spikes?
-- Do we need a fallback channel (Email) if SMS delivery fails?
-- Should the "OTP successfully sent" message include the masked mobile number it was sent to?
-- **Claim Form Prospectus Fix**: Resolved an issue where the Institute Prospectus (optional image/PDF) was not easily accessible by the admin. Removed any potential previews and implemented 'View File' links that open in a new window for both students and administrators.
-- **Student Claim Form Stability**: Resolved validation errors where filled fields were reported as missing. Fixed the file upload validation to support existing files (strings) and new uploads (objects). Added DOM keys for better Livewire state management.
-- **Claim Form Status System**: Fully implemented status tracking for scholarship claims. Students can see their eligibility and submission status (Pending-Processing, Rejected, Confirmed) directly on their dashboard. Admins can manage these statuses from the claim review page.
-- **100% Discount Refresh Logic**: Implemented immediate page refresh in the student payment dashboard when a 100% discount coupon is applied. This automatically closes the payment modal and reflects the completed registration status on the main page, eliminating the need for manual modal closure or additional "Complete Registration" clicks.
+- None.

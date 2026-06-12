@@ -38,6 +38,8 @@ class CouponList extends Component
 
     public $couponCodeSearch = '';
 
+    public $selectedBatch = 1;
+
     public bool $selectAll = false;
 
     public $selectedCupons = [];
@@ -72,6 +74,9 @@ class CouponList extends Component
             $this->selectedCupons = $this->selectAll ? $this->couponslist : [];
         }
         $this->resetPage();
+        if ($property !== 'selectedBatch' && $property !== 'selectAll') {
+            $this->selectedBatch = 1;
+        }
     }
 
     public function render()
@@ -94,7 +99,7 @@ class CouponList extends Component
         if (!empty(trim($this->selectedIssued))) {
             if ($this->selectedIssued == 'issued') {
                 $query->whereNotNull('corporate_id');
-            } else if ($this->selectedStatus == 'not-issued') {
+            } else if ($this->selectedIssued == 'not-issued') {
                 $query->whereNull('corporate_id');
             }
         }
@@ -117,11 +122,18 @@ class CouponList extends Component
 
         $query->orderBy($this->sortType, $this->sortDirection);
         $coupons = $query->paginate($this->perPage);
-        // $this->couponslist = $coupons->pluck('id');
         $this->couponslist = $coupons->pluck('id');
 
+        $totalFiltered = $coupons->total();
+        $maxBatches = max(1, (int)ceil($totalFiltered / 500));
+        if ($this->selectedBatch > $maxBatches) {
+            $this->selectedBatch = 1;
+        }
+
         return view('livewire.administrator.dashboard.coupon-list', [
-            'coupons' => $coupons
+            'coupons' => $coupons,
+            'totalFiltered' => $totalFiltered,
+            'maxBatches' => $maxBatches
         ]);
     }
 

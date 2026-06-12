@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use App\Models\CouponCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CouponCodeController extends Controller
 {
@@ -96,42 +97,81 @@ class CouponCodeController extends Controller
             'discount_value' => 'required|numeric|min:0',
             'coupon_type' => 'nullable',
             'description' => 'nullable',
+            'coupon_length' => 'nullable|integer|in:12,16',
         ]);
         // Generate coupon codes
         $prefix = $request->input('prefix');
         $coupon_type = $request->input('coupon_type') ?? null;
         $description = $request->input('description') ?? null;
-        $digit = 8; // The length of the random string
+        $length = $request->input('coupon_length') ? (int)$request->input('coupon_length') : 12;
         $value = $request->input('discount_value');
         $valueType = $request->input('discount_type');
         $name = $request->input('name');
         $numberOfCoupons = $request->input('number_of_coupons') ?? 1;
 
         $coupons = [];
-        for ($i = 0; $i < $numberOfCoupons; $i++) {
-            // Generate a random coupon code
-            $randomString = Str::random($digit);
-            $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
-            $couponCode = $prefix . $randomString . $randomNumber;
+        $generatedCodes = [];
+        $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Readable alphanumeric (excl I, O, 0, 1)
 
-            // Check if the coupon code already exists in the database
-            while (DB::table('coupon_codes')->where('couponcode', $couponCode)->exists()) {
-                $randomString = Str::random($digit);
-                $randomNumber = mt_rand(1000, 9999); // Generate a random 4-digit number
-                $couponCode = $prefix . '-' . $randomString . $randomNumber;
+        $generateCode = function() use ($chars, $length) {
+            $code = '';
+            for ($j = 0; $j < $length; $j++) {
+                if ($j > 0 && $j % 4 === 0) {
+                    $code .= '-';
+                }
+                $code .= $chars[random_int(0, strlen($chars) - 1)];
+            }
+            return $code;
+        };
+
+        // Generate in-memory unique list
+        while (count($generatedCodes) < $numberOfCoupons) {
+            $code = $generateCode();
+            $generatedCodes[$code] = true;
+        }
+
+        $codesList = array_keys($generatedCodes);
+
+        // Check duplicacy against DB in batch
+        $existing = DB::table('coupon_codes')
+            ->whereIn('couponcode', $codesList)
+            ->pluck('couponcode')
+            ->toArray();
+
+        while (!empty($existing)) {
+            $existingMap = array_flip($existing);
+            $codesList = array_filter($codesList, function($code) use ($existingMap) {
+                return !isset($existingMap[$code]);
+            });
+
+            $needed = $numberOfCoupons - count($codesList);
+            $newGenerated = [];
+            while (count($newGenerated) < $needed) {
+                $code = $generateCode();
+                if (!in_array($code, $codesList) && !isset($newGenerated[$code])) {
+                    $newGenerated[$code] = true;
+                }
             }
 
-            // Store coupon details in an array
+            $codesList = array_merge($codesList, array_keys($newGenerated));
+
+            $existing = DB::table('coupon_codes')
+                ->whereIn('couponcode', array_keys($newGenerated))
+                ->pluck('couponcode')
+                ->toArray();
+        }
+
+        foreach ($codesList as $couponCode) {
             $coupons[] = [
                 'name' => $name,
                 'couponcode' => $couponCode,
                 'coupon_type' => $coupon_type,
                 'description' => $description,
                 'prefix' => $prefix,
-                'digit' => $digit,
+                'digit' => $length,
                 'value' => $value,
                 'valueType' => $valueType,
-                'status' => 1, // Assuming the default status is active
+                'status' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -141,7 +181,6 @@ class CouponCodeController extends Controller
         DB::table('coupon_codes')->insert($coupons);
 
         return redirect()->route('coupon.lists')->with('success', 'Coupons added successfully.');
-        // Return a response or redirect as needed
     }
 
 
@@ -192,5 +231,74 @@ class CouponCodeController extends Controller
     public function destroy(CouponCode $couponCode)
     {
         //
+    }
+
+    public function printCoupons(Request $request)
+    {
+        $query = CouponCode::orderByDesc('created_at');
+
+        if ($prefix = $request->input('prefix')) {
+            $query->where('prefix', $prefix);
+        }
+        
+        if ($status = $request->input('status')) {
+            if ($status == 'active') {
+                $query->where('status', 1)->where('is_applied', 0);
+            } else if ($status == 'inactive') {
+                $query->where('status', 0)->where('is_applied', 0);
+            } else if ($status == 'applied') {
+                $query->where('is_applied', 1);
+            }
+        }
+        
+        if ($issued = $request->input('issued')) {
+            if ($issued == 'issued') {
+                $query->whereNotNull('corporate_id');
+            } else if ($issued == 'not-issued') {
+                $query->whereNull('corporate_id');
+            }
+        }
+        
+        if ($value = $request->input('value')) {
+            $query->where('value', $value);
+        }
+        
+        if ($corporateId = $request->input('corporate_id')) {
+            if ($corporateId == 'admin-only') {
+                $query->whereNull('corporate_id');
+            } else {
+                $query->where('corporate_id', $corporateId);
+            }
+        }
+        
+        if ($valueType = $request->input('valueType')) {
+            $query->where('valueType', $valueType);
+        }
+        
+        if ($search = $request->input('search')) {
+            $query->where('couponcode', 'LIKE', '%' . $search . '%');
+        }
+
+        $totalCount = $query->count();
+        
+        $batch = (int)$request->input('batch', 1);
+        $perBatch = 500;
+        
+        if ($totalCount > $perBatch) {
+            $query->skip(($batch - 1) * $perBatch)->take($perBatch);
+            $isLimited = true;
+        } else {
+            $isLimited = false;
+        }
+
+        $coupons = $query->get();
+
+        $half = (int)ceil($coupons->count() / 2);
+        $leftCoupons = $coupons->slice(0, $half)->values();
+        $rightCoupons = $coupons->slice($half)->values();
+
+        $pdf = Pdf::loadView('administrator.download.print-coupons', compact('leftCoupons', 'rightCoupons', 'isLimited', 'totalCount', 'batch', 'perBatch', 'half'));
+        
+        return $pdf->stream('Coupons List on ' . date('d-m-Y His A') . '.pdf');
     }
 }

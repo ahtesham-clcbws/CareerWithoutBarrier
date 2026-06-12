@@ -15,3 +15,8 @@
 
 ## Completed Tasks
 - [x] **OTP Success Feedback**: Implemented "OTP successfully sent" message below input fields in student registration, corporate enquiry, and global AJAX flows.
+- [x] **Coupon System Updates**:
+  - Refactored coupon generator in Livewire component and secondary controller to exclude prefix from coupon code strings.
+  - Standardized coupon codes to uppercase blocks of 4 separated by hyphens (12 or 16 character option).
+  - Implemented single-query batch duplication checking for maximum performance.
+  - Added coupon length option selector to the admin UI.

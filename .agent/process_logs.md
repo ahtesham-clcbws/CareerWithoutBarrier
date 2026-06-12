@@ -38,3 +38,25 @@
     - Added status banner to student Claim Form view and locked the form once confirmed.
 - Implemented immediate page refresh when a 100% discount coupon is applied in PaymentPage.php.
 - This ensures the modal closes and the page reflects the "Paid" status immediately for free registrations.
+- Updated Coupon Code Generation system (June 2026):
+    - Removed prefix from the generated coupon code strings (stored separately in database `prefix` column).
+    - Standardized code generation to 12 or 16-character uppercase alphanumeric blocks separated by hyphens.
+    - Replaced the slow duplication check loops with an efficient database-level `whereIn` batch lookup.
+    - Added a dropdown selector for coupon code length (12 or 16 characters) to the admin interface.
+- Created and executed a database migration adding a unique constraint to the `couponcode` field in `coupon_codes` table.
+- Implemented PDF Export of Active & Non-Used Coupons (June 2026):
+    - Registered `/print-coupons` route in `routes/admin.php`.
+    - Added `printCoupons` to `CouponCodeController` which queries and splits coupons into left/right side-by-side columns.
+    - Created `print-coupons.blade.php` with a clean, simple, zero-clutter two-column table layout.
+    - Added an "Export PDF" button next to results-per-page dropdown in the coupon list page which preserves active filters.
+    - Added a safety limit of 1,000 coupons for PDF rendering with a warning notice banner to prevent memory exhaustion / timeouts during bulk exports.
+- Enhanced PDF Export filters and added Batching (June 2026):
+    - Fixed the printCoupons method to correctly query and apply all frontend filters, including `status` (Active, Inactive, Applied) and `issued` status.
+    - Fixed a bug in `CouponList.php` where it checked `selectedStatus == 'not-issued'` instead of `selectedIssued`.
+    - Implemented 500-result batch partitioning: added a dynamic Batch selector dropdown next to the export button when filtered results exceed 500.
+    - Updated `printCoupons` to skip/take based on selected batch to protect PDF rendering speed and server memory.
+- Fixed PDF Side-by-Side Column Rendering Breaks (June 2026):
+    - Refactored `print-coupons.blade.php` to render left and right coupon entries row-by-row inside a single table. This prevents DomPDF from pushing columns to subsequent pages or causing blank areas at the top.
+    - Reset keys of sliced left/right coupon collections in the controller via `values()`.
+- Fixed Batch Selection Reset (June 2026):
+    - Modified Livewire `updated()` lifecycle hook in `CouponList.php` to only reset `selectedBatch = 1` if a filter parameter other than `selectedBatch` or `selectAll` is updated. This prevents the selection from resetting to Batch 1 instantly when changed.
