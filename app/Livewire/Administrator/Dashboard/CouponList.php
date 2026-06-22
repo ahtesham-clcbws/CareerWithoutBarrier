@@ -172,4 +172,16 @@ class CouponList extends Component
         CouponCode::where('id', $id)->update(['status' => $active ? 1 : 0]);
         $this->js("success('Status delete coupon')");
     }
+
+    public function deleteAll()
+    {
+        if (auth()->user()?->email !== 'ahtesham2000@ymail.com') {
+            $this->js("error('Unauthorized action.')");
+            return;
+        }
+
+        CouponCode::query()->delete();
+        $this->js("success('Successfully deleted all coupons.')");
+        $this->resetPage();
+    }
 }

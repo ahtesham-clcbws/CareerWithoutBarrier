@@ -113,13 +113,34 @@
         </div>
         <!-- datatablecl -->
         <div class="boxShadow container">
-
+            <!-- Import Coupons Section -->
+            <div class="mb-3 p-3 border rounded bg-light">
+                <form action="{{ route('coupon.import') }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2 flex-wrap">
+                    @csrf
+                    <div>
+                        <strong style="font-size: 14px;">Restore/Import Coupons (Excel):</strong>
+                    </div>
+                    <div>
+                        <input type="file" class="form-control form-control-sm" name="excel" required accept=".xlsx,.xls,.csv">
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-sm btn-success">Upload & Restore</button>
+                    </div>
+                </form>
+            </div>
 
             <div class="d-flex justify-content-between mb-2">
                 <div class="d-flex align-items-end flex-wrap gap-2">
                     @if (count($selectedCupons))
                         <div class="flex-fill"><button class="btn btn-danger" wire:click="deleteSelected">Delete
                                 Selected</button></div>
+                    @endif
+                    @if (auth()->user()?->email === 'ahtesham2000@ymail.com')
+                        <div class="flex-fill">
+                            <button class="btn btn-danger" wire:click="deleteAll" wire:confirm="Are you sure you want to delete ALL coupons from the system? This action is irreversible.">
+                                Delete All Coupons
+                            </button>
+                        </div>
                     @endif
                     <div class="flex-fill">
                         <select class="form-select" id="showResutsPerPage" wire:model.live="perPage">
@@ -143,7 +164,7 @@
                                 </select>
                             </div>
                         @endif
-                        <div class="flex-fill">
+                        <div class="flex-fill d-flex gap-2">
                             <a href="{{ route('coupon.print', [
                                 'prefix' => $selectedPrefix,
                                 'value' => $selectedValue,
@@ -155,6 +176,18 @@
                                 'batch' => $selectedBatch
                             ]) }}" target="_blank" class="btn btn-primary">
                                 Export PDF {{ $maxBatches > 1 ? "(B" . $selectedBatch . ")" : "" }}
+                            </a>
+                            <a href="{{ route('coupon.export', [
+                                'prefix' => $selectedPrefix,
+                                'value' => $selectedValue,
+                                'corporate_id' => $selectedInstitute,
+                                'valueType' => $selectedValueType,
+                                'status' => $selectedStatus,
+                                'issued' => $selectedIssued,
+                                'search' => $couponCodeSearch,
+                                'batch' => $selectedBatch
+                            ]) }}" class="btn btn-success">
+                                Export Excel {{ $maxBatches > 1 ? "(B" . $selectedBatch . ")" : "" }}
                             </a>
                         </div>
                     @endif

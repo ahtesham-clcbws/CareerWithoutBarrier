@@ -70,9 +70,13 @@ class PaymentPage extends Component
 
         $this->validate();
 
+        $cleanInput = strtoupper(str_replace(['-', ' '], '', trim($this->coupan_code)));
+        $formattedCode = implode('-', str_split($cleanInput, 4));
+        $this->coupan_code = $formattedCode;
+
         try {
             DB::beginTransaction();
-            $couponCode = CouponCode::where('couponcode', $this->coupan_code)->where('status', 1)->where('is_applied', 0)->first();
+            $couponCode = CouponCode::where('couponcode', $formattedCode)->where('status', 1)->where('is_applied', 0)->first();
             // $couponCode = CouponCode::where('is_applied', 0)
             //     ->where('couponcode', $this->coupan_code)
             //     ->first();

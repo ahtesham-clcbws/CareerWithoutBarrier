@@ -1,8 +1,15 @@
-# Tasks
-
-- [x] Calculate total filtered coupon counts and expose batch options in `CouponList.php` Livewire component
-- [x] Add the Batch select dropdown next to Export PDF button in `coupon-list.blade.php` view
-- [x] Update `printCoupons` in `CouponCodeController.php` to handle all filters and the batch parameter
-- [x] Verify PDF generation output
-  - [x] Verify filtering by "Applied only"
-  - [x] Verify batching options for unfiltered lists
+- `[x]` Create `app/Exports/CouponsExport.php` to format coupon rows for Excel.
+- `[x]` Add `exportCoupons` method to `app/Http/Controllers/CouponCodeController.php` mirroring PDF filter/batch logic.
+- `[x]` Define route `coupon.export` in `routes/admin.php`.
+- `[x]` Update `resources/views/livewire/administrator/dashboard/coupon-list.blade.php` to add the Excel export button.
+- `[x]` Create `app/Imports/CouponsImport.php` to parse and import coupon rows.
+- `[x]` Add `importCoupons` method to `app/Http/Controllers/CouponCodeController.php`.
+- `[x]` Define route `coupon.import` in `routes/admin.php`.
+- `[x]` Add import upload form in `resources/views/livewire/administrator/dashboard/coupon-list.blade.php`.
+- `[x]` Add `deleteAll` method to `app/Livewire/Administrator/Dashboard/CouponList.php` with email check.
+- `[x]` Add "Delete All Coupons" button in `resources/views/livewire/administrator/dashboard/coupon-list.blade.php` with email check.
+- `[x]` Update `OTP_TEMPLATE` and `getFormattedMessage` in `app/Services/Msg91Service.php`.
+- `[x]` Update `MSG91_OTP_TEMPLATE_ID` in `.env`.
+- `[x]` Update `applyCoupon` in `app/Http/Controllers/StudentController.php` to normalize coupon input.
+- `[x]` Update `applyCoupon` in `app/Livewire/Student/PaymentPage.php` to normalize coupon input.
+- `[x]` Verify restore, delete, SMS template, and dash/case insensitivity changes.

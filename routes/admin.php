@@ -243,6 +243,8 @@ Route::prefix('coupon')->group(function () {
         Route::get('/manage', [CouponCodeController::class, 'manage'])->name('coupon.manage');
         Route::any('/createCoupon', CreateCoupon::class)->name('coupon.createCoupon');
         Route::get('/print-coupons', [CouponCodeController::class, 'printCoupons'])->name('coupon.print');
+        Route::get('/export-coupons', [CouponCodeController::class, 'exportCoupons'])->name('coupon.export');
+        Route::post('/import-coupons', [CouponCodeController::class, 'importCoupons'])->name('coupon.import');
     });
 
     Route::any('/change_password', [AdminController::class, 'changePassword'])->name('admin.changePassword');

@@ -500,10 +500,13 @@ class StudentController extends Controller
             'coupan_code' => 'required|string',
         ]);
 
+        $cleanInput = strtoupper(str_replace(['-', ' '], '', trim($validated['coupan_code'])));
+        $formattedCode = implode('-', str_split($cleanInput, 4));
+
         try {
             DB::beginTransaction();
             $couponCode = CouponCode::where('is_applied', 0)
-                ->where('couponcode', $validated['coupan_code'])
+                ->where('couponcode', $formattedCode)
                 ->first();
 
             if (is_null($couponCode)) {

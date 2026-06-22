@@ -7,6 +7,9 @@ use App\Models\CouponCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CouponsExport;
+use App\Imports\CouponsImport;
 
 class CouponCodeController extends Controller
 {
@@ -300,5 +303,82 @@ class CouponCodeController extends Controller
         $pdf = Pdf::loadView('administrator.download.print-coupons', compact('leftCoupons', 'rightCoupons', 'isLimited', 'totalCount', 'batch', 'perBatch', 'half'));
         
         return $pdf->stream('Coupons List on ' . date('d-m-Y His A') . '.pdf');
+    }
+
+    public function exportCoupons(Request $request)
+    {
+        $query = CouponCode::orderByDesc('created_at');
+
+        if ($prefix = $request->input('prefix')) {
+            $query->where('prefix', $prefix);
+        }
+        
+        if ($status = $request->input('status')) {
+            if ($status == 'active') {
+                $query->where('status', 1)->where('is_applied', 0);
+            } else if ($status == 'inactive') {
+                $query->where('status', 0)->where('is_applied', 0);
+            } else if ($status == 'applied') {
+                $query->where('is_applied', 1);
+            }
+        }
+        
+        if ($issued = $request->input('issued')) {
+            if ($issued == 'issued') {
+                $query->whereNotNull('corporate_id');
+            } else if ($issued == 'not-issued') {
+                $query->whereNull('corporate_id');
+            }
+        }
+        
+        if ($value = $request->input('value')) {
+            $query->where('value', $value);
+        }
+        
+        if ($corporateId = $request->input('corporate_id')) {
+            if ($corporateId == 'admin-only') {
+                $query->whereNull('corporate_id');
+            } else {
+                $query->where('corporate_id', $corporateId);
+            }
+        }
+        
+        if ($valueType = $request->input('valueType')) {
+            $query->where('valueType', $valueType);
+        }
+        
+        if ($search = $request->input('search')) {
+            $query->where('couponcode', 'LIKE', '%' . $search . '%');
+        }
+
+        $totalCount = $query->count();
+        
+        $batch = (int)$request->input('batch', 1);
+        $perBatch = 500;
+        
+        if ($totalCount > $perBatch) {
+            $query->skip(($batch - 1) * $perBatch)->take($perBatch);
+        }
+
+        $filename = 'Coupons_List_' . date('d-m-Y_H_i_s_A') . '.xlsx';
+        return Excel::download(new CouponsExport($query), $filename);
+    }
+
+    public function importCoupons(Request $request)
+    {
+        $request->validate([
+            'excel' => 'required|file|mimes:xlsx,xls,csv'
+        ]);
+
+        try {
+            if ($request->hasFile('excel')) {
+                Excel::import(new CouponsImport, $request->file('excel'));
+                return redirect()->route('coupon.lists')->with('success', 'Coupons successfully restored/imported.');
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors('Error importing Excel file: ' . $th->getMessage());
+        }
+
+        return redirect()->back()->withErrors('Please upload a valid file.');
     }
 }
