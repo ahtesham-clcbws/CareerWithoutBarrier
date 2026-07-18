@@ -1,4 +1,8 @@
 ## process_logs.md
+- Implemented Direct Coupon Allotment page (July 2026):
+    - Created AllotCoupon Livewire component and blade view to allot generated coupons directly to an institute.
+    - Added routes and sidebar links.
+    - Tested successfully for syntax validity.
 - Updated AdminController.php to eager load corporate relationship on student codes.
 - Modified administrator.dashboard.studentlist.blade.php to show institute_name.
 - Updated StudentController, Api/ApplicationController, and Livewire components to save institute_name in corporate_name.

@@ -185,7 +185,7 @@
             </a>
 
             <!-- Discount Voucher -->
-            @php $isVoucherActive = Route::is(['coupon.createCoupon', 'coupon.lists']); @endphp
+            @php $isVoucherActive = Route::is(['coupon.createCoupon', 'coupon.lists', 'coupon.allotCoupon']); @endphp
             <a class="side-nav-item {{ $isVoucherActive ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#discountVoucher" href="javascript:void(0)" role="button" aria-expanded="{{ $isVoucherActive ? 'true' : 'false' }}" aria-controls="discountVoucher">
                 <img src="{{asset('admin/icons/DiscountVoucher.png')}}" class="nav_icon" alt="">
                 <span>Discount Voucher</span>
@@ -195,6 +195,7 @@
                 <div class="sub-menu">
                     <a class="sub-menu-item {{ Route::is('coupon.createCoupon') ? 'active' : '' }}" href="{{route('coupon.createCoupon')}}">Create Coupon</a>
                     <a class="sub-menu-item {{ Route::is('coupon.lists') ? 'active' : '' }}" href="{{route('coupon.lists')}}">Coupon List</a>
+                    <a class="sub-menu-item {{ Route::is('coupon.allotCoupon') ? 'active' : '' }}" href="{{route('coupon.allotCoupon')}}">Allot Coupon</a>
                 </div>
             </div>
 

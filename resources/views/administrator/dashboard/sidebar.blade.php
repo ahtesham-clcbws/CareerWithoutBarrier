@@ -86,6 +86,7 @@
         <div class="dropdown-menu" style="color:aquamarine" aria-labelledby="dropdownMenuLink">
           <a class="dropdown-item" href="{{route('coupon.createCoupon')}}">Create Coupon</a>
           <a class="dropdown-item" href="{{route('coupon.lists')}}">Coupon List</a>
+          <a class="dropdown-item" href="{{route('coupon.allotCoupon')}}">Allot Coupon</a>
           <!-- <a class="dropdown-item" href="#">Applied Coupon</a>
           <a class="dropdown-item" href="#">Issued Coupon</a> -->
         </div>

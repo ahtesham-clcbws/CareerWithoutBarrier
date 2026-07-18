@@ -27,6 +27,7 @@ use App\Livewire\Administrator\Settings\PopupSetting;
 use App\Livewire\Administrator\Settings\RegistrationSetting;
 use App\Livewire\Administrator\Settings\ResetPortal;
 use App\Livewire\Administrator\Dashboard\CreateCoupon;
+use App\Livewire\Administrator\Dashboard\AllotCoupon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
@@ -242,6 +243,7 @@ Route::prefix('coupon')->group(function () {
         Route::any('/filter', [CouponCodeController::class, 'filter'])->name('coupon.filter');
         Route::get('/manage', [CouponCodeController::class, 'manage'])->name('coupon.manage');
         Route::any('/createCoupon', CreateCoupon::class)->name('coupon.createCoupon');
+        Route::any('/allotCoupon', AllotCoupon::class)->name('coupon.allotCoupon');
         Route::get('/print-coupons', [CouponCodeController::class, 'printCoupons'])->name('coupon.print');
         Route::get('/export-coupons', [CouponCodeController::class, 'exportCoupons'])->name('coupon.export');
         Route::post('/import-coupons', [CouponCodeController::class, 'importCoupons'])->name('coupon.import');
