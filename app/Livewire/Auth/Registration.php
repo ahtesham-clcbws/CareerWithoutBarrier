@@ -85,6 +85,11 @@ class Registration extends Component
     public function couponVerify()
     {
         $this->resetValidation(['couponcode']);
+        $formattedCode = formatCouponCode($this->couponcode);
+        if ($formattedCode) {
+            $this->couponcode = $formattedCode;
+        }
+
         if (empty(trim($this->couponcode))) {
             $this->isCouponVerify = false;
             return $this->addError('couponcode', 'Referrence code is required');
@@ -225,9 +230,14 @@ class Registration extends Component
 
     public function registerVerifyCoupon()
     {
+        $formattedCode = formatCouponCode($this->couponcode);
+        if ($formattedCode) {
+            $this->couponcode = $formattedCode;
+        }
+
         if (!empty(trim($this->couponcode))) {
             $coupon = CouponCode::where('couponcode', $this->couponcode)->where('status', 1)->where('is_applied', 0)->first();
-            if ($coupon->corporate_id && $coupon->is_issued) {
+            if ($coupon && $coupon->corporate_id && $coupon->is_issued) {
                 $corporate = Corporate::find($coupon->corporate_id);
                 if ($corporate && $corporate->district_id == $this->selectedDistrict) {
                     $this->isCouponVerify = false;

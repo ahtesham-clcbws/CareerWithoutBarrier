@@ -233,10 +233,15 @@ class ApplicationController extends Controller
             'coupan_code' => 'required|string',
         ]);
 
+        $formattedCode = formatCouponCode($validated['coupan_code']);
+
         try {
             DB::beginTransaction();
             $couponCode = CouponCode::where('is_applied', 0)
-                ->where('couponcode', $validated['coupan_code'])
+                ->where(function($query) use ($formattedCode, $validated) {
+                    $query->where('couponcode', $formattedCode)
+                          ->orWhere('couponcode', $validated['coupan_code']);
+                })
                 ->first();
 
             if (is_null($couponCode)) {
@@ -248,26 +253,18 @@ class ApplicationController extends Controller
 
 
             $afterAppliedRemainValue = $student->disability == 'Yes' ? 0 : couponValueApply($couponCode->valueType, $couponCode->value);
-
-            $corporate = $couponCode?->corporate;
-            if ($corporate) {
-                $studentCode->corporate_id = $corporate->id;
-                $studentCode->corporate_name = $corporate->institute_name ?? $corporate->name;
-            }
-            $studentCode->forceFill($validated);
-            $studentCode->stud_id = $student->id;
+            $studentCode->corporate_id = $couponCode->corporate_id;
+            $studentCode->corporate_name = $couponCode->corporate?->name;
             $studentCode->coupan_code = $couponCode->couponcode;
+            $studentCode->used_coupon = true;
             $studentCode->is_coupan_code_applied = 1;
             $studentCode->coupan_value = 850 - $afterAppliedRemainValue > 0 ? 850 - $afterAppliedRemainValue : 0;
             $studentCode->fee_amount = $afterAppliedRemainValue;
 
-            if ($studentCode->fee_amount <= 0) {
-                $studentCode->used_coupon = 1;
-                $studentCode->is_paid = true;
-            }
             $studentCode->save();
 
             DB::commit();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Coupon code applied successfully.',
@@ -275,8 +272,11 @@ class ApplicationController extends Controller
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            logger('Failed:', [$th]);
-            return response()->json(['success' => false, 'error' => $th->getMessage(), 'message' => 'Failed to apply coupon.']);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'failed.' . $th->getMessage()
+            ], 500);
         }
     }
 
@@ -286,12 +286,18 @@ class ApplicationController extends Controller
 
         try {
             DB::beginTransaction();
-            $studentCode = StudentCode::where('stud_id', $student->id)->first();
+            $studentCode = StudentCode::where('stud_id', $student->id)->get()->last();
+            if (!$studentCode) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Student record not found.'
+                ], 404);
+            }
 
-            $studentCode->corporate_name = null;
             $studentCode->corporate_id = null;
+            $studentCode->corporate_name = null;
             $studentCode->coupan_code = null;
-            $studentCode->is_coupan_code_applied = false;
+            $studentCode->is_coupan_code_applied = 0;
             $studentCode->fee_amount = 850;
             if ($studentCode->fee_amount > 0) {
                 $studentCode->used_coupon = false;
@@ -299,7 +305,8 @@ class ApplicationController extends Controller
             $studentCode->coupan_value = 0;
             $studentCode->save();
 
-            $couponCode = CouponCode::where('couponcode', $request->coupon_code)->first();
+            $formattedCode = formatCouponCode($request->coupon_code);
+            $couponCode = CouponCode::where('couponcode', $formattedCode)->orWhere('couponcode', $request->coupon_code)->first();
 
             if ($couponCode) {
                 $couponCode->is_applied = false;

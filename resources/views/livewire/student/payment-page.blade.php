@@ -202,32 +202,31 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <div
-                            style="{{ $student->latestStudentCode?->is_coupan_code_applied ? 'margin-left: 16%;' : '' }}">
-                            <h6 class="modal-title" id="exampleModalLongTitle">
+                            style="{{ $student->latestStudentCode?->is_coupan_code_applied ? 'margin-left: auto; margin-right: auto;' : '' }}">
+                            <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">
                                 @if ($student->latestStudentCode?->is_coupan_code_applied)
                                     Refferel Coupon is Applied Successfully
                                 @else
                                     Apply Coupon Code:
                                 @endif
-                            </h6>
+                            </h5>
                         </div>
                         <button class="close" type="button" wire:click="$toggle('modalOpened')">
-                            <span aria-hidden="true"style="color:black;">&times;</span>
+                            <span aria-hidden="true" style="color:black; font-size: 1.5rem;">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="fee_amount-dv text-center">
-                            <p class="text-sucsess font-weight:20px;" id="fee_amount"
-                                style="margin-left: -45px;margin-bottom:0rem;" readonly>Fee Amount (Rs.) : 850</p>
+                        <div class="fee_amount-dv text-center my-2">
+                            <p class="font-weight-bold" id="fee_amount"
+                                style="margin-bottom:0.2rem; font-size: 1.1rem;">Fee Amount (Rs.) : 850&#8377;</p>
                             @if ($student->latestStudentCode?->is_coupan_code_applied)
-                                <p class="text-danger fee_discount_amount"
-                                    style="margin-left: -20px; margin-bottom:0rem;">Discount Amount (Rs.):
-                                    -{{ $student->latestStudentCode?->coupan_value }}</p>
+                                <p class="text-danger font-weight-bold fee_discount_amount"
+                                    style="margin-bottom:0.2rem; font-size: 1.1rem;">Discount Amount (Rs.):
+                                    -{{ $student->latestStudentCode?->coupan_value }}&#8377;</p>
 
-                                <p id="payable_amount" style="font-weight:700; ">Final Payable Amount (Rs.):
-                                    {{ $student->latestStudentCode?->fee_amount }} </p>
+                                <p id="payable_amount" style="font-weight:700; font-size: 1.1rem;">Final Payable Amount (Rs.):
+                                    {{ $student->latestStudentCode?->fee_amount }} &#8377;</p>
                             @endif
-
                         </div>
                         <div class="modalLoader" id="reply-loader" wire:loading>
                             <div class="d-flex justify-content-center">
@@ -237,19 +236,23 @@
                             </div>
                         </div>
 
-                        <label for="coupan_code">Coupan code: </label>
+                        <div class="mt-3">
+                            <label for="coupan_code" class="font-weight-bold">Coupan code: </label>
 
-                        <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Enter coupon code"
-                                wire:model="coupan_code" {{ $coupan_code ? 'readonly' : '' }}>
-                            <div class="input-group-append">
-                                <button class="btn btn-primary bg-success" id="applyCoupon" type="button"
-                                    style="display:{{ $student->latestStudentCode?->is_coupan_code_applied ? 'none' : 'block' }};"
-                                    wire:click="applyCoupon">Apply
-                                    Coupon</button>
-                                <button class="btn btn-primary text-danger" id="removeCoupon" type="button"
-                                    style="background: #fd0000;color: white !important;border: #f91818;{{ $student->latestStudentCode?->is_coupan_code_applied ? 'display:block' : 'display:none' }}"
-                                    wire:click="removeCoupon">Remove Coupon</button>
+                            <div class="input-group">
+                                <input class="form-control" type="text" placeholder="Enter coupon code"
+                                    wire:model="coupan_code" {{ $coupan_code ? 'readonly' : '' }}>
+                                @if (!($student->latestStudentCode?->is_coupan_code_applied && $student->latestStudentCode?->fee_amount <= 0))
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary bg-success" id="applyCoupon" type="button"
+                                            style="display:{{ $student->latestStudentCode?->is_coupan_code_applied ? 'none' : 'block' }};"
+                                            wire:click="applyCoupon">Apply
+                                            Coupon</button>
+                                        <button class="btn btn-primary text-danger" id="removeCoupon" type="button"
+                                            style="background: #fd0000;color: white !important;border: #f91818;{{ $student->latestStudentCode?->is_coupan_code_applied ? 'display:block' : 'display:none' }}"
+                                            wire:click="removeCoupon">Remove Coupon</button>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
@@ -258,26 +261,31 @@
                         @enderror
 
                     </div>
-                    <div class="modal-footer justify-content-center" id="pay-now-btn-modal"
+                    <div class="modal-footer flex-column justify-content-center text-center" id="pay-now-btn-modal"
                         style="display:block;text-align:center;">
                         @if ($student->latestStudentCode?->is_coupan_code_applied)
-                            <div style="display:block;text-align:center;">
-                                <h6 style="font-weight:700;">Discount Voucher Provided By: SQS Foundation</h6>
-                                @if (
-                                    $couponDetails &&
-                                        !empty(trim($couponDetails->description)))
-                                    {{ $couponDetails->description }}<br />
-                                @endif
-                                {!! $student->latestStudentCode?->corporate?->institute_name
-                                    ? '<p>Voucher issued By: ' . $student->latestStudentCode?->corporate?->institute_name . '</p>'
-                                    : '' !!}
+                            <div class="text-center my-2" style="display:block;text-align:center;">
+                                <h6 class="text-danger font-weight-bold" style="color: #ff007f !important;">Discount Voucher Provide By: SQS Foundation</h6>
+                                <p class="font-weight-bold text-secondary mb-1">
+                                    Discount Voucher is Sponsored By SQS Foundation<br />
+                                    {!! $student->latestStudentCode?->corporate?->institute_name
+                                        ? 'Voucher Issued By: ' . $student->latestStudentCode?->corporate?->institute_name
+                                        : 'Voucher Issued By: SQS Foundation' !!}
+                                </p>
                             </div>
                         @endif
-                        @if (!$student->latestStudentCode?->is_paid)
-                            @if ($student->latestStudentCode?->is_coupan_code_applied && $student->latestStudentCode?->fee_amount <= 0)
-                                <button class="btn btn-success" type="button" wire:click="completeFreeRegistration">Complete Registration</button>
-                            @else
-                                <button class="btn btn-primary" type="button" onclick="payWithRazorpay()">Pay Now</button>
+
+                        @if ($student->latestStudentCode?->is_coupan_code_applied && $student->latestStudentCode?->fee_amount <= 0)
+                            <div class="text-center mt-3">
+                                <button class="btn btn-info text-white font-weight-bold px-4 py-2" type="button"
+                                    style="background-color: #00a8e8; border-color: #00a8e8; border-radius: 6px;"
+                                    wire:click="$toggle('modalOpened')">
+                                    Thank You<br><small>SQS Foundation</small>
+                                </button>
+                            </div>
+                        @else
+                            @if (!$student->latestStudentCode?->is_paid)
+                                <button class="btn btn-primary mt-2" type="button" onclick="payWithRazorpay()">Pay Now</button>
                             @endif
                         @endif
                     </div>

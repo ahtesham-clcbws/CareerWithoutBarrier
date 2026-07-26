@@ -30,6 +30,14 @@ class PaymentPage extends Component
     //     }
     // }
 
+    public function mount()
+    {
+        $student = Auth::guard('student')->user();
+        if ($student?->latestStudentCode?->is_coupan_code_applied && $student?->latestStudentCode?->fee_amount <= 0) {
+            $this->modalOpened = true;
+        }
+    }
+
     public function render()
     {
         $this->student = Auth::guard('student')->user();

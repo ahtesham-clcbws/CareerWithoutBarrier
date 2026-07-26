@@ -301,12 +301,30 @@ function alternateSort(Collection $students, array $fields): Collection
     return $result->values();
 }
 
+/**
+ * Format raw coupon code input to standard dashed format (e.g. XXXX-XXXX-XXXX)
+ */
+if (!function_exists('formatCouponCode')) {
+    function formatCouponCode(?string $code): string
+    {
+        if (empty($code)) {
+            return '';
+        }
+        $cleanInput = strtoupper(str_replace(['-', ' '], '', trim($code)));
+        if (strlen($cleanInput) % 4 === 0) {
+            return implode('-', str_split($cleanInput, 4));
+        }
+        return $cleanInput;
+    }
+}
+
 function getCouponDetails(?string $couponCode = null)
 {
     if (!$couponCode) {
         return null;
     }
-    return CouponCode::where('couponcode', $couponCode)->first();
+    $formattedCode = formatCouponCode($couponCode);
+    return CouponCode::where('couponcode', $formattedCode)->orWhere('couponcode', $couponCode)->first();
 }
 
 /**

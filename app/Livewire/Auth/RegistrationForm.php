@@ -320,9 +320,16 @@ class RegistrationForm extends Component
     {
         if (!empty(trim($this->referrenceCode)) && $this->needReferrenceCode) {
             try {
+                $formattedCode = formatCouponCode($this->referrenceCode);
+                if ($formattedCode) {
+                    $this->referrenceCode = $formattedCode;
+                }
                 $couponCode = CouponCode::where('is_applied', 0)
                     ->where('status', 1)
-                    ->where('couponcode', $this->referrenceCode)
+                    ->where(function($query) use ($formattedCode) {
+                        $query->where('couponcode', $formattedCode)
+                              ->orWhere('couponcode', $this->referrenceCode);
+                    })
                     ->first();
                 if ($couponCode) {
                     if ($couponCode->corporate && $couponCode->corporate->district_id != $this->selectedDistrict) {
@@ -352,13 +359,14 @@ class RegistrationForm extends Component
     public function applyCoupon($studentId, $coupon)
     {
         try {
+            $formattedCoupon = formatCouponCode($coupon);
             $studentCode = StudentCode::where('stud_id', $studentId)->get()->last();
             if (!$studentCode) {
                 $studentCode = new StudentCode();
                 $studentCode->stud_id = $studentId;
             }
 
-            $couponCode = CouponCode::where('couponcode', $coupon)->first();
+            $couponCode = CouponCode::where('couponcode', $formattedCoupon)->orWhere('couponcode', $coupon)->first();
             if ($couponCode) {
                 $couponCode->is_applied = 1;
 

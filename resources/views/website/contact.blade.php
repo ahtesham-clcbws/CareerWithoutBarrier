@@ -234,14 +234,11 @@
 
         <div class="faq comm-p-t-b">
             <div class="container">
-                <div class="row tex-center">
-                    {{-- <div class="col-12">
-                        <h2>Contact</h2>
-                    </div> --}}
-                    <div class="col-lg-6 col-md-12">
-                        <form action="{{ route('home.contactinsert') }}" method="POST" style="height: 100% !important;">
+                <div class="row tex-center align-items-stretch">
+                    <div class="col-lg-6 col-md-12 d-flex flex-column mb-4 mb-lg-0">
+                        <form action="{{ route('home.contactinsert') }}" method="POST" class="d-flex flex-column h-100 w-100">
                             @csrf
-                            <div class="contact-input" style="height: 100% !important;">
+                            <div class="contact-input h-100 w-100">
                                 <ul>
                                     <li>
                                         <input name="full_name" type="text" value="{{ old('full_name') }}" required
@@ -319,8 +316,8 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-lg-6 col-md-12" style="height: 100% !important;">
-                        <div class="biz-card-container" style="height: 100% !important;">
+                    <div class="col-lg-6 col-md-12 d-flex flex-column">
+                        <div class="biz-card-container h-100 w-100 d-flex flex-column justify-content-center">
 
                             <!-- Header: Organized By -->
                             <div class="biz-card-header biz-card-section">
@@ -390,7 +387,7 @@
                             </div>
 
                             <!-- Footer: Tech Partner -->
-                            <div class="biz-card-footer biz-card-section">
+                            {{-- <div class="biz-card-footer biz-card-section">
                                 <p class="biz-card-footer-partner-label">Exam Agency & Tech Partner</p>
                                 <p class="biz-card-footer-company">WEBLIES EQUATIONS (PVT.) LTD</p>
                                 <p class="biz-card-footer-description">
@@ -398,7 +395,7 @@
                                         class="biz-card-star">★</span> Consultancy <span class="biz-card-star">★</span>
                                     Tech Solution
                                 </p>
-                            </div>
+                            </div> --}}
 
                         </div>
                     </div>

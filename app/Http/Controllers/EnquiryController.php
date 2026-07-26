@@ -162,7 +162,7 @@ class EnquiryController extends Controller
         } else if ($corporate && $request->type == 'signup-approve') {
             $corporate->message = $request->message;
             $corporate->signup_approved = true;
-            $corporate->status = true;
+            $corporate->status = false;
             $corporate->save();
 
             $corporate->notify(new InstitudeSignApproveMail($corporate));

@@ -443,40 +443,34 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-12">
-                            <div class="features-foter">
-                                <h2>Direct get in touch</h2>
-                                <h6>Application, Admit card & Result Related:</h6>
-
-                                <p class="mb-3">Phone No: 9336171302 <br />
-                                    Email: {{ strtolower('support@careerwithoutbarrier.com') }}</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-12">
-                            <div class="features-foter">
-                                <h2>Exam & Tech Agency</h2>
-                                <h6>Weblies Equations Private Limited</h6>
-                                <p class="mb-3">
-                                    Email: webliesequations@gmail.com<br />
-                                    Phone No: 9389696641
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12">
                             <?php
                             $termsCondition = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'terms-and-condition']])->first();
                             $institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
                             $imp_link = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'important-links']])->first();
                             ?>
                             <div class="features-foter">
-                                <h2>Important Link</h2>
+                                <h2>Quick Links</h2>
                                 <p><a href="{{ route('corporateEnquiry') }}">Collaborate with Us</a></p>
                                 <p><a href="{{ route('home.important-links') }}">Important Links</a></p>
+                                <p><a href="{{ URL::to('/faq') }}">Faq</a></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                            <div class="features-foter">
+                                <h2>Policies</h2>
                                 <p><a href="/p/privacy-policy">Privacy Policy</a></p>
                                 <p><a href="/p/terms-and-conditions">Terms &amp; Conditions</a></p>
                                 <p><a href="/p/refund-policy">Refund Policy</a></p>
-                                <p><a href="{{ URL::to('/faq') }}">Faq</a></p>
-                                {{-- <p><a href="{{ route('freeform') }}">Get 100% Free Form (Limited)</a></p> --}}
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-12">
+                            <div class="features-foter">
+                                <h2>Direct get in touch</h2>
+                                <h6>Application, Admit card & Result Related:</h6>
+
+                                <small class="mb-3 text-white">Phone No: 9336171302 <br />
+                                    support@careerwithoutbarrier.com</small>
                             </div>
                         </div>
                     </div>
