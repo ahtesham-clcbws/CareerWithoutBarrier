@@ -64,3 +64,8 @@
     - Reset keys of sliced left/right coupon collections in the controller via `values()`.
 - Fixed Batch Selection Reset (June 2026):
     - Modified Livewire `updated()` lifecycle hook in `CouponList.php` to only reset `selectedBatch = 1` if a filter parameter other than `selectedBatch` or `selectAll` is updated. This prevents the selection from resetting to Batch 1 instantly when changed.
+- Created Admin Accounts Password Reset Migration (September 2026):
+    - Added migration file `2026_09_27_180243_reset_admin_accounts_password.php`.
+    - Targets admin accounts in `users` table via role identification (`admin`, `superadmin`, `sub_admin`, `administrator`, or `roles LIKE '%admin%'`), `isAdminAllowed = 1`, and `email LIKE '%admin%'`.
+    - Resets password hash using `Hash::make('23988725')` with fallback for non-student accounts if explicit role flags are unpopulated.
+
