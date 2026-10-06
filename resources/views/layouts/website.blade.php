@@ -29,6 +29,8 @@
         <link href="{{ asset('website/assets/css/font-awesome.min.css') }}" rel="stylesheet">
         <!-- MAIN TEMPLATE CSS -->
         <link href="{{ asset('website/assets/css/style.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- RESPONSIVE CSS -->
         <link href="{{ asset('website/assets/css/responsive.css') }}" rel="stylesheet">
         <link href="{{ asset('css/slick.css') }}" rel="stylesheet">
@@ -42,6 +44,10 @@
         @stack('custom-styles')
 
         <style>
+            .fa, [class*="fa-"] {
+                font-family: 'FontAwesome' !important;
+            }
+
             .carousel-control-next,
             .carousel-control-prev {
                 background-color: rgba(0, 0, 0, 0.3) !important;
@@ -302,7 +308,10 @@
                                     @if ($prospectus?->e_prospectus)
                                         <a href="{{ asset('home/eprospectus/' . $prospectus?->e_prospectus) }}"
                                             target="_blank">E-Prospectus
-                                            <i class="fa fa-download float-right ml-2" aria-hidden="true"></i>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-download float-right ml-2" viewBox="0 0 16 16" style="margin-top: 4px;" aria-hidden="true">
+                                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                                            </svg>
                                         </a>
                                     @endif
                                 </li>
@@ -352,8 +361,7 @@
                             <div class="col-lg-8 col-md-4 menu-top2">
                                 <div class="menu">
                                     <ul>
-                                        <li> <a class="act" href="{{ route('home.front') }}"><i
-                                                    class="fa fa-home home-icon" aria-hidden="true"></i></a>
+                                        <li> <a class="act" href="{{ route('home.front') }}" title="Home"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-house-door-fill home-icon" viewBox="0 0 16 16" style="vertical-align: -2px;" aria-hidden="true"><path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5"/></svg></a>
                                         </li>
                                         <!--ADD SUB MENU-->
                                         <li class="add-menu">
