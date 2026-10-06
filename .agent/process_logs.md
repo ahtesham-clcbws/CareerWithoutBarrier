@@ -85,3 +85,9 @@
         - Removed duplicate `<link href="{{ asset('css/font-awesome.min.css') }}">` stylesheet inclusion in `layouts/website.blade.php`.
     - Executed production build (`npm run build`).
     - Staged and committed changes locally.
+- Header Icons Missing Glyph Resolution (October 2026):
+    - Restored `<link href="{{ asset('css/font-awesome.min.css') }}">` after `style.css` so Font Awesome isn't overridden by `style.css` universal selector rules.
+    - Added Cloudflare CDN Font Awesome 4.7.0 as an additional reliable fallback.
+    - Added `.fa, [class*="fa-"] { font-family: 'FontAwesome' !important; }` to prevent `* { font-family: "Poppins"; }` in `style.css` from turning icon characters into missing-glyph squares.
+    - Embedded inline Bootstrap Icons SVGs directly for both the Home menu icon and E-Prospectus Download icon to guarantee zero-failure rendering.
+
