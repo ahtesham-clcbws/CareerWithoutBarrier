@@ -1,16 +1,18 @@
 ## Decisions & "Why" (Last updated: 2026-10-06)
-- **Homepage & Layout Mobile Responsiveness**: Overhauled `homepage.blade.php`, `layouts/website.blade.php`, and `custom.js` to eliminate layout bugs on screens < 768px.
-- **Blade Architecture Isolation**: Relocated inline homepage `<style>` into `@push('custom-styles')` and eliminated obsolete jQuery 1.11.0 / migrate CDN scripts that were polluting the global scope ahead of layout's jQuery 3.6.0.
-- **Navigation Drawer Collision Elimination**: Removed the `.menu` class from `.menu-top3` to prevent duplicate fixed sliding overlays, added a `.menu-close-btn` and `.menu-backdrop` with body scroll lock.
-- **Form & Carousel Mobile Adaptations**: Fixed `.pop-up2` 50% width bug in modals, flexbox crushing on education category cards, course card title `line-height` blowouts, and tuned Splide breakpoints so mobile devices `<= 576px` display 1 card per slide.
+- **Header Layout Restoration**: Reverted the website header layout, markup, styling, and JavaScript logic back to the original version in [layouts/website.blade.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/resources/views/layouts/website.blade.php) and [custom.js](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/public/website/assets/js/custom.js).
+- **Font Awesome 404 Resolution**:
+  - `public/fonts/` previously contained font files saved with literal query parameters in filenames (`fontawesome-webfont.woff2_v=4.7.0`), causing web servers to 404 when looking for `fontawesome-webfont.woff2`.
+  - Standardized font assets in `public/fonts/` (`woff2`, `woff`, `ttf`, `eot`, `svg`) and removed the duplicate `<link href="{{ asset('css/font-awesome.min.css') }}">` inclusion from the layout.
+- **Homepage Mobile Improvements**: Preserved education cards flex-wrapping, scoped custom styles inside `@push('custom-styles')`, and kept Splide breakpoint improvements.
 
 ## Handoff Summary (2026-10-06)
-- **Modified Files**:
+- **Modified & Restored Files**:
   - [layouts/website.blade.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/resources/views/layouts/website.blade.php)
-  - [website/homepage.blade.php](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/resources/views/website/homepage.blade.php)
   - [public/website/assets/js/custom.js](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/public/website/assets/js/custom.js)
-- **Status**: Tested and verified with 0 PHP/Blade syntax errors.
+  - [public/fonts/](file:///mnt/WebliesNew/CareerWithoutBarrier/career-without-barrier/public/fonts)
+- **Status**: Committed to local git (`d00e2168`). Production assets built via `npm run build`.
 
 ## Unresolved Questions
 - None.
+
 

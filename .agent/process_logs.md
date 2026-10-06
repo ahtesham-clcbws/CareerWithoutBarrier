@@ -77,9 +77,11 @@
     - Prevented course title card breakage by eliminating hardcoded `line-height: 50px`.
     - Corrected viewport meta tag removing `maximum-scale=1` to restore WCAG 1.4.4 compliance.
     - Pruned unused database queries in layout footer.
-- Header & Hero Slider Hotfix (October 2026):
-    - Restored `css/font-awesome.min.css` whose `@font-face` paths link to working local font files (restoring `fa-bars` and icon glyphs).
-    - Removed custom sizing overrides on `.menu-book` and `.menu-book i`, returning the hamburger button to its exact native design.
-    - Added `d-none d-lg-block` to `.menu-top3` to eliminate "Get Discount Voucher" from overlapping the logo on mobile header, moving the link inside the mobile drawer menu.
-    - Restored `.slider { top: 72px; }` and `min-height: 450px !important;` with 450px height on mobile viewports so the slider is not obscured behind the 71px header or shrunk into a narrow strip.
-
+- Header Layout Restoration & Font Awesome 404 Fix (October 2026):
+    - Completely reverted the website header markup, styles, and JavaScript (`layouts/website.blade.php` and `custom.js`) back to the exact original layout and behavior as requested.
+    - Resolved `GET /fonts/fontawesome-webfont.woff2?v=4.7.0 net::ERR_ABORTED 404 (Not Found)`:
+        - Identified root cause: files in `public/fonts/` were saved with literal query strings in their filenames (`_v=4.7.0`).
+        - Standardized `public/fonts/` with proper filenames: `fontawesome-webfont.woff2`, `fontawesome-webfont.woff`, `fontawesome-webfont.ttf`, `fontawesome-webfont.eot`, and `fontawesome-webfont.svg`.
+        - Removed duplicate `<link href="{{ asset('css/font-awesome.min.css') }}">` stylesheet inclusion in `layouts/website.blade.php`.
+    - Executed production build (`npm run build`).
+    - Staged and committed changes locally.
