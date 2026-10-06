@@ -27,6 +27,7 @@
 
         <!-- FONT-AWESOME ICON CSS -->
         <link href="{{ asset('website/assets/css/font-awesome.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
         <!-- MAIN TEMPLATE CSS -->
         <link href="{{ asset('website/assets/css/style.css') }}" rel="stylesheet">
         <!-- RESPONSIVE CSS -->
@@ -265,24 +266,6 @@
                 overflow: hidden;
             }
             @media (max-width: 992px) {
-                .menu-book {
-                    width: 44px;
-                    height: 44px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    top: 15px;
-                    left: 12px;
-                    cursor: pointer;
-                }
-                .menu-book i {
-                    width: 38px;
-                    height: 38px;
-                    line-height: 28px;
-                    text-align: center;
-                    padding: 4px;
-                    font-size: 20px;
-                }
                 .pop-up2,
                 .pop-up3 {
                     width: 100% !important;
@@ -409,13 +392,16 @@
                                         <li> <a href="{{ route('home.scholarship') }}">Scholarship</a></li>
                                         <li> <a href="{{ route('home.contact') }}">Contact Us</a>
                                         </li>
+                                        <li class="d-lg-none">
+                                            <a href="{{ route('freeform') }}" style="color: #ba2af7 !important; font-weight: 700;">Get Discount Voucher</a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="menu-backdrop"></div>
                             </div>
                             <!--TOP SEARCH BAR-->
 
-                            <div class="col-lg-2 col-md-4 menu-top3 text-right" style="padding-right: 0;">
+                            <div class="col-lg-2 col-md-4 menu-top3 text-right d-none d-lg-block" style="padding-right: 0;">
                                 <a href="{{ route('freeform') }}"
                                     style="text-decoration: underline; font-size: 12px; font-weight: 900; color: #ba2af7;">Get
                                     Discount Voucher</a>

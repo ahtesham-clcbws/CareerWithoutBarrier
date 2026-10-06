@@ -27,33 +27,34 @@
     }
 
     .slider {
-        position: relative;
+        top: 72px;
         width: 100%;
+    }
+
+    .sliderBackgroundImage,
+    .slider.u-slick {
+        min-height: 450px !important;
         overflow: hidden;
     }
 
+    :root {
+        --slider-height: 90vh;
+    }
+
+    @media (max-width: 768px), (max-aspect-ratio: 1/1) {
+        :root {
+            --slider-height: 450px;
+        }
+        .slider {
+            top: 72px;
+        }
+    }
+
     .sliderBackgroundImage {
-        height: 60vh;
-        min-height: 380px;
-        max-height: 650px;
+        height: var(--slider-height) !important;
         background-position: center center;
         background-repeat: no-repeat;
         background-size: cover;
-    }
-
-    @media (max-width: 768px) {
-        .sliderBackgroundImage {
-            height: 48vw;
-            min-height: 200px;
-            max-height: 320px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .sliderBackgroundImage {
-            height: 52vw;
-            min-height: 180px;
-        }
     }
 
     /* Education Category Cards Grid */

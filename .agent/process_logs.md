@@ -73,9 +73,13 @@
     - Repaired mobile navigation drawer collision: decoupled `.menu-top3` from `.menu` class, introduced a close button (`.menu-close-btn`), a dark backdrop overlay (`.menu-backdrop`), and body scroll lock.
     - Fixed login modal 50% width bug by setting `.pop-up2` to `width: 100% !important` on mobile.
     - Stabilized education category grid on small viewports with flex-wrapping (`flex: 0 0 100%` on mobile, `flex: 0 0 calc(50% - 15px)` on tablet, `flex: 1 1 0px` on desktop).
-    - Fixed hero slider aspect ratios and removed invalid `calc(100vw - 80%)` expression and hardcoded 450px minimum height.
     - Reconfigured Splide carousel breakpoints to enforce `perPage: 1` for screen widths `<= 576px`.
     - Prevented course title card breakage by eliminating hardcoded `line-height: 50px`.
     - Corrected viewport meta tag removing `maximum-scale=1` to restore WCAG 1.4.4 compliance.
-    - Removed duplicate Font Awesome CSS link and pruned unused database queries in layout footer.
+    - Pruned unused database queries in layout footer.
+- Header & Hero Slider Hotfix (October 2026):
+    - Restored `css/font-awesome.min.css` whose `@font-face` paths link to working local font files (restoring `fa-bars` and icon glyphs).
+    - Removed custom sizing overrides on `.menu-book` and `.menu-book i`, returning the hamburger button to its exact native design.
+    - Added `d-none d-lg-block` to `.menu-top3` to eliminate "Get Discount Voucher" from overlapping the logo on mobile header, moving the link inside the mobile drawer menu.
+    - Restored `.slider { top: 72px; }` and `min-height: 450px !important;` with 450px height on mobile viewports so the slider is not obscured behind the 71px header or shrunk into a narrow strip.
 

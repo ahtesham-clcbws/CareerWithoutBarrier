@@ -19,14 +19,19 @@ SET `roll_no` = NULL,
 `exam_mins` = NULL;
 
 ## TODO after push
-# SSH
+# SSH (Configured alias - automatically cd's into project root)
+ssh cwb-server
+# or
+ssh cwb
+
+# Direct SSH:
 ssh -p 65002 u829699752@82.25.120.120
 # SSH: pass
 1988DEC7@htesham
 # SSH: project path
 cd domains/careerwithoutbarrier.com/public_html
 
-php artisan optimize:clear; php artisan clear-compiled; php artisan cache:clear;php artisan optimize;php artisan config:clear;
+git pull;php artisan optimize:clear; php artisan clear-compiled; php artisan cache:clear;php artisan optimize;php artisan config:clear;
 # check for migration
 php artisan migrate;
 # for storage:link
