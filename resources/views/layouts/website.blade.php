@@ -27,7 +27,6 @@
 
         <!-- FONT-AWESOME ICON CSS -->
         <link href="{{ asset('website/assets/css/font-awesome.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
         <!-- MAIN TEMPLATE CSS -->
         <link href="{{ asset('website/assets/css/style.css') }}" rel="stylesheet">
         <!-- RESPONSIVE CSS -->
@@ -239,32 +238,7 @@
                 margin-inline-end: 1rem;
             }
 
-            /* Responsive Mobile Menu Drawer & Modals */
-            .menu-close-btn {
-                display: flex;
-                justify-content: flex-end;
-                padding: 12px 15px 5px 0;
-                font-size: 24px;
-                cursor: pointer;
-                color: #ff0000;
-            }
-            .menu-backdrop {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                background: rgba(0, 0, 0, 0.55);
-                z-index: 19;
-                backdrop-filter: blur(2px);
-            }
-            .menu-backdrop.active {
-                display: block;
-            }
-            body.menu-open {
-                overflow: hidden;
-            }
+
             @media (max-width: 992px) {
                 .pop-up2,
                 .pop-up3 {
@@ -377,7 +351,6 @@
                             <!--TOP MENU LIST-->
                             <div class="col-lg-8 col-md-4 menu-top2">
                                 <div class="menu">
-                                    <div class="menu-close-btn d-lg-none"><i class="fa fa-times" aria-hidden="true"></i></div>
                                     <ul>
                                         <li> <a class="act" href="{{ route('home.front') }}"><i
                                                     class="fa fa-home home-icon" aria-hidden="true"></i></a>
@@ -392,16 +365,12 @@
                                         <li> <a href="{{ route('home.scholarship') }}">Scholarship</a></li>
                                         <li> <a href="{{ route('home.contact') }}">Contact Us</a>
                                         </li>
-                                        <li class="d-lg-none">
-                                            <a href="{{ route('freeform') }}" style="color: #ba2af7 !important; font-weight: 700;">Get Discount Voucher</a>
-                                        </li>
                                     </ul>
                                 </div>
-                                <div class="menu-backdrop"></div>
                             </div>
                             <!--TOP SEARCH BAR-->
 
-                            <div class="col-lg-2 col-md-4 menu-top3 text-right d-none d-lg-block" style="padding-right: 0;">
+                            <div class="col-lg-2 col-md-4 menu-top3 menu text-right" style="padding-right: 0;">
                                 <a href="{{ route('freeform') }}"
                                     style="text-decoration: underline; font-size: 12px; font-weight: 900; color: #ba2af7;">Get
                                     Discount Voucher</a>
@@ -1494,18 +1463,6 @@
                     },
                 }
             }
-
-            $(document).on('click', '.menu-close-btn, .menu-backdrop', function() {
-                $('.menu').removeClass('menuact');
-                $('.menu-backdrop').removeClass('active');
-                $('body').removeClass('menu-open');
-            });
-            $(document).on('click', '.menu-book i, .menu-book', function(e) {
-                e.stopPropagation();
-                $('.menu').toggleClass('menuact');
-                $('.menu-backdrop').toggleClass('active');
-                $('body').toggleClass('menu-open');
-            });
             document.addEventListener('DOMContentLoaded', function() {
                 if (document.getElementById('splide-testimonials')) {
                     var splide = new Splide('#splide-testimonials', {
