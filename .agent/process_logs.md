@@ -68,4 +68,14 @@
     - Added migration file `2026_09_27_180243_reset_admin_accounts_password.php`.
     - Targets admin accounts in `users` table via role identification (`admin`, `superadmin`, `sub_admin`, `administrator`, or `roles LIKE '%admin%'`), `isAdminAllowed = 1`, and `email LIKE '%admin%'`.
     - Resets password hash using `Hash::make('23988725')` with fallback for non-student accounts if explicit role flags are unpopulated.
+- Homepage & Website Layout Mobile Responsiveness Overhaul (October 2026):
+    - Resolved critical Blade architecture leak by wrapping homepage styles in `@push('custom-styles')` and purging obsolete jQuery 1.11.0 / migrate CDN scripts.
+    - Repaired mobile navigation drawer collision: decoupled `.menu-top3` from `.menu` class, introduced a close button (`.menu-close-btn`), a dark backdrop overlay (`.menu-backdrop`), and body scroll lock.
+    - Fixed login modal 50% width bug by setting `.pop-up2` to `width: 100% !important` on mobile.
+    - Stabilized education category grid on small viewports with flex-wrapping (`flex: 0 0 100%` on mobile, `flex: 0 0 calc(50% - 15px)` on tablet, `flex: 1 1 0px` on desktop).
+    - Fixed hero slider aspect ratios and removed invalid `calc(100vw - 80%)` expression and hardcoded 450px minimum height.
+    - Reconfigured Splide carousel breakpoints to enforce `perPage: 1` for screen widths `<= 576px`.
+    - Prevented course title card breakage by eliminating hardcoded `line-height: 50px`.
+    - Corrected viewport meta tag removing `maximum-scale=1` to restore WCAG 1.4.4 compliance.
+    - Removed duplicate Font Awesome CSS link and pruned unused database queries in layout footer.
 

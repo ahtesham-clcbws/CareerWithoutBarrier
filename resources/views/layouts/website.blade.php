@@ -5,7 +5,7 @@
         <!-- META TAGS -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#76cef1" />
         <meta name="description" content="">
         <meta name="keyword" content="">
@@ -29,7 +29,6 @@
         <link href="{{ asset('website/assets/css/font-awesome.min.css') }}" rel="stylesheet">
         <!-- MAIN TEMPLATE CSS -->
         <link href="{{ asset('website/assets/css/style.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
         <!-- RESPONSIVE CSS -->
         <link href="{{ asset('website/assets/css/responsive.css') }}" rel="stylesheet">
         <link href="{{ asset('css/slick.css') }}" rel="stylesheet">
@@ -238,6 +237,72 @@
                 -webkit-margin-end: 1rem;
                 margin-inline-end: 1rem;
             }
+
+            /* Responsive Mobile Menu Drawer & Modals */
+            .menu-close-btn {
+                display: flex;
+                justify-content: flex-end;
+                padding: 12px 15px 5px 0;
+                font-size: 24px;
+                cursor: pointer;
+                color: #ff0000;
+            }
+            .menu-backdrop {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.55);
+                z-index: 19;
+                backdrop-filter: blur(2px);
+            }
+            .menu-backdrop.active {
+                display: block;
+            }
+            body.menu-open {
+                overflow: hidden;
+            }
+            @media (max-width: 992px) {
+                .menu-book {
+                    width: 44px;
+                    height: 44px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    top: 15px;
+                    left: 12px;
+                    cursor: pointer;
+                }
+                .menu-book i {
+                    width: 38px;
+                    height: 38px;
+                    line-height: 28px;
+                    text-align: center;
+                    padding: 4px;
+                    font-size: 20px;
+                }
+                .pop-up2,
+                .pop-up3 {
+                    width: 100% !important;
+                    float: none !important;
+                }
+                .pop-up1 {
+                    min-height: 160px;
+                    background-size: cover !important;
+                    background-position: center !important;
+                }
+                .modal-dialog {
+                    margin: 0.5rem;
+                }
+                .closeButton {
+                    min-width: 40px;
+                    min-height: 40px;
+                    font-size: 16px !important;
+                    line-height: 38px;
+                }
+            }
         </style>
 
         @livewireStyles
@@ -329,6 +394,7 @@
                             <!--TOP MENU LIST-->
                             <div class="col-lg-8 col-md-4 menu-top2">
                                 <div class="menu">
+                                    <div class="menu-close-btn d-lg-none"><i class="fa fa-times" aria-hidden="true"></i></div>
                                     <ul>
                                         <li> <a class="act" href="{{ route('home.front') }}"><i
                                                     class="fa fa-home home-icon" aria-hidden="true"></i></a>
@@ -345,10 +411,11 @@
                                         </li>
                                     </ul>
                                 </div>
+                                <div class="menu-backdrop"></div>
                             </div>
                             <!--TOP SEARCH BAR-->
 
-                            <div class="col-lg-2 col-md-4 menu-top3 menu text-right" style="padding-right: 0;">
+                            <div class="col-lg-2 col-md-4 menu-top3 text-right" style="padding-right: 0;">
                                 <a href="{{ route('freeform') }}"
                                     style="text-decoration: underline; font-size: 12px; font-weight: 900; color: #ba2af7;">Get
                                     Discount Voucher</a>
@@ -444,11 +511,6 @@
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                            <?php
-                            $termsCondition = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'terms-and-condition']])->first();
-                            $institudeTermsCondition = TermsCondition::where([['status', 1], ['type', 'institute'], ['page_name', 'terms-and-condition']])->first();
-                            $imp_link = TermsCondition::where([['status', 1], ['type', 'website'], ['page_name', 'important-links']])->first();
-                            ?>
                             <div class="features-foter">
                                 <h2>Quick Links</h2>
                                 <p><a href="{{ route('corporateEnquiry') }}">Collaborate with Us</a></p>
@@ -481,7 +543,7 @@
         <section>
             <div class="cpy-right py-3">
                 <a><img class="mx-auto" src="{{ asset('logos/weblies-logo.png') }}"
-                        alt="Weblies equations private limited" style="max-width:350px;"></a>
+                        alt="Weblies equations private limited" style="max-width:min(350px, 90vw); height:auto;"></a>
             </div>
         </section>
 
@@ -1438,14 +1500,26 @@
                     1000: {
                         perPage: 3,
                     },
-                    640: {
+                    768: {
                         perPage: 2,
                     },
-                    340: {
+                    576: {
                         perPage: 1,
                     },
                 }
             }
+
+            $(document).on('click', '.menu-close-btn, .menu-backdrop', function() {
+                $('.menu').removeClass('menuact');
+                $('.menu-backdrop').removeClass('active');
+                $('body').removeClass('menu-open');
+            });
+            $(document).on('click', '.menu-book i, .menu-book', function(e) {
+                e.stopPropagation();
+                $('.menu').toggleClass('menuact');
+                $('.menu-backdrop').toggleClass('active');
+                $('body').toggleClass('menu-open');
+            });
             document.addEventListener('DOMContentLoaded', function() {
                 if (document.getElementById('splide-testimonials')) {
                     var splide = new Splide('#splide-testimonials', {

@@ -8,8 +8,16 @@ $(document).ready(function () {
     });
 
     //RESPONSIVE MENU BUTTON
-    $(".menu-book i").on("click", function () {
+    $(".menu-book i, .menu-book").on("click", function () {
         $(".menu").toggleClass("menuact");
+        $(".menu-backdrop").toggleClass("active");
+        $("body").toggleClass("menu-open");
+    });
+
+    $(document).on("click", ".menu-close-btn, .menu-backdrop", function () {
+        $(".menu").removeClass("menuact");
+        $(".menu-backdrop").removeClass("active");
+        $("body").removeClass("menu-open");
     });
 
 

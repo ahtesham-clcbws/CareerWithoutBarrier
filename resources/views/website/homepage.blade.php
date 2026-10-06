@@ -2,12 +2,13 @@
 
 @section('title', 'Home Page')
 
+@push('custom-styles')
 <style>
     .slick-current .ban-box-com {
-        transform: scale(1.1);
+        transform: scale(1.03);
         border-radius: 20px;
-        box-shadow: 12px 9px 16px 1px #333;
-        transition: all 0.7s ease;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        transition: all 0.5s ease;
         position: relative;
         z-index: 1;
         opacity: 1;
@@ -26,65 +27,93 @@
     }
 
     .slider {
-        top: 72px;
+        position: relative;
         width: 100%;
-
-
-    }
-
-    .ban-box ul li .ban-box-com {
-        padding: 40px;
-    }
-
-    .overlay {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 24px;
-        background-color: rgba(0, 0, 0, 0.5);
-        padding: 10px;
-        border-radius: 10px;
-        text-align: center;
-        width: 90%;
-    }
-
-    /* Default styles for mobile devices */
-    .responsive-item {
-        width: 100%;
-        /* Full width on small screens */
-    }
-
-    /* Styles for larger screens (e.g., desktops) */
-    @media screen and (min-width: 769px) {
-        .responsive-item {
-            width: calc(100% / <?=count($educations) ?>) !important;
-        }
-    }
-
-    .sliderBackgroundImage,
-    .slider.u-slick {
-        min-height: 450px !important;
         overflow: hidden;
     }
 
-    :root {
-        --slider-height: 90vh;
-    }
-
-    @media (max-aspect-ratio: 1/1) {
-        :root {
-            --slider-height: calc(100vw - 80%);
-        }
-    }
-
     .sliderBackgroundImage {
-        /* height: calc(100vh - 40%) !important; */
-        height: var(--slider-height) !important;
+        height: 60vh;
+        min-height: 380px;
+        max-height: 650px;
         background-position: center center;
         background-repeat: no-repeat;
         background-size: cover;
+    }
+
+    @media (max-width: 768px) {
+        .sliderBackgroundImage {
+            height: 48vw;
+            min-height: 200px;
+            max-height: 320px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .sliderBackgroundImage {
+            height: 52vw;
+            min-height: 180px;
+        }
+    }
+
+    /* Education Category Cards Grid */
+    .ban-box ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .ban-box ul li.responsive-item {
+        display: flex;
+        flex: 0 0 100%;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    @media screen and (min-width: 576px) and (max-width: 768px) {
+        .ban-box ul li.responsive-item {
+            flex: 0 0 calc(50% - 15px);
+            width: calc(50% - 15px);
+            margin: 7px;
+        }
+    }
+
+    @media screen and (min-width: 769px) {
+        .ban-box ul li.responsive-item {
+            flex: 1 1 0px;
+            width: calc(100% / <?= max(count($educations), 1) ?>) !important;
+            margin-bottom: 0;
+        }
+    }
+
+    .ban-box-com {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        padding: 30px 20px;
+    }
+
+    @media (min-width: 769px) {
+        .ban-box-com {
+            padding: 40px;
+        }
+    }
+
+    .ban-box-com h4 {
+        margin-top: 15px;
+        font-size: 18px;
+    }
+
+    .ban-box-com p {
+        flex-grow: 1;
+        margin-bottom: 20px;
     }
 
     .customAnchor,
@@ -98,41 +127,99 @@
         text-decoration: none !important;
     }
 
-    .ban-box ul {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    .course-card-title {
+        line-height: 1.35;
+        font-size: 16px;
+        font-weight: 700;
+        margin-left: 12px;
+        margin-bottom: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
-    .ban-box ul li.responsive-item {
-        display: flex;
-        flex: 1 1 0px;
+    .important-information-news .marquee-vert {
+        height: 470px;
+        min-height: 470px;
     }
 
-    .ban-box-com {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        justify-content: space-between;
-        align-items: center;
-        text-align: center;
+    @media (max-width: 767px) {
+        .important-information-news .marquee-vert {
+            height: 260px !important;
+            min-height: 260px !important;
+        }
+        .important-information .col-lg-6.pl-0 {
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+            margin-top: 15px;
+        }
     }
 
-    .ban-box-com h4 {
-        margin-top: 15px;
+    .govt-web-col {
+        min-width: 170px;
+        flex: 0 0 auto;
+        padding: 10px 15px;
     }
 
-    .ban-box-com p {
-        flex-grow: 1;
-        margin-bottom: 20px;
+    .govt-web-col img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+    }
+
+    @media (max-width: 576px) {
+        .govt-web-col {
+            min-width: 140px;
+            padding: 8px 10px;
+        }
+        .govt-web-col img {
+            width: 60px;
+            height: 60px;
+        }
+    }
+
+    .counter-section-widget {
+        padding: 30px 15px !important;
+    }
+
+    @media (max-width: 767px) {
+        .counter-section {
+            padding: 40px 0;
+        }
+        .counter-section-widget {
+            padding: 20px 10px !important;
+        }
+        .counter-section-widget h2 {
+            font-size: 28px !important;
+        }
+        .counter-section-widget .counter-section-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 14px;
+        }
+        .counter-section-widget .counter-section-icon img {
+            width: 44px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .traveller-advice ul.row-cols-2 > li {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+        .traveller-point {
+            padding: 20px 10px !important;
+        }
+        .traveller-point h4 {
+            font-size: 14px;
+        }
+        .never-ending-journey {
+            padding: 40px 10px 120px 10px !important;
+        }
     }
 </style>
-
-<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+@endpush
 
 @section('content')
     <section>
@@ -190,18 +277,16 @@
                 <div class="container">
                     <div class="row">
                         @foreach ($courses as $course)
-                            <div class="ani-eql col-lg-4 col-md-6 packages-ani mb-5">
+                            <div class="ani-eql col-lg-4 col-md-6 packages-ani mb-4">
                                 <div class="customAnchor overflow-hidden bg-white p-3 shadow" style="border-radius: 15px;">
                                     <a class="d-flex align-items-center"
                                         href="{{ route('home.career', encodeId($course->id)) }}" target="_blank">
-                                        <div style="width: 50px; height: 50px;">
+                                        <div style="width: 50px; height: 50px; flex-shrink: 0;">
                                             <img class="h-100 mx-auto"
                                                 src="{{ asset('home/course/' . $course->course_logo) }}"
                                                 alt="{{ $course->title }}">
                                         </div>
-                                        <p class="mb-0"
-                                            style="line-height: 50px; font-size:18px; font-weight:700; margin-left:12px;">
-                                            {{ $course->title }}</p>
+                                        <p class="course-card-title">{{ $course->title }}</p>
                                     </a>
                                 </div>
                             </div>
@@ -261,8 +346,7 @@
                         <div class="col-lg-6 col-12 h-100 pl-0">
                             <div class="important-information-news h-100">
                                 <div class="news-slider h-100 overflow-hidden">
-                                    <div class='marquee-vert'
-                                        style="height: 470px !important;min-height: 470px !important;">
+                                    <div class='marquee-vert'>
                                         @foreach ($notifications as $notice)
                                             <a class="news-link" href="#"><i class="fa fa-arrow-right"
                                                     aria-hidden="true"></i>
@@ -304,23 +388,20 @@
                 </div>
                 <div class="container">
                     <div class='marquee' style="outline: none; background-color: transparent; box-shadow: none;">
-                        <div class="row flex-nowrap">
+                        <div class="d-flex flex-nowrap align-items-center">
                             @foreach ($govtwebsites as $govtwebsite)
                                 @php
                                     $imageUrl = str_starts_with($govtwebsite->image, 'govt_websites/') 
                                         ? Storage::url($govtwebsite->image) 
                                         : asset('home/courses/' . $govtwebsite->image);
                                 @endphp
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-2 govt-web-col"
-                                    style="align-content: space-around;">
+                                <div class="govt-web-col">
                                     <div class="govt-web-logo">
                                         <div class="d-flex align-items-center justify-content-center">
                                             <a href="{{ $govtwebsite->website_link }}" target="_blank">
-                                                <img class=""
-                                                    src="{{ $imageUrl }}" alt="img"
-                                                    style="width: 100px; height: 100px;">
+                                                <img src="{{ $imageUrl }}" alt="img">
                                             </a>
-                                            <a href="{{ $govtwebsite->website_link }}" target="_blank" class="remark" style="color: #212529 !important;">{{ $govtwebsite->remark }}</a>
+                                            <a href="{{ $govtwebsite->website_link }}" target="_blank" class="remark ml-2" style="color: #212529 !important;">{{ $govtwebsite->remark }}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -331,11 +412,6 @@
             </div>
         </section>
     @endif
-    <style>
-        .counter-section-widget {
-            padding: 30px 10px !important;
-        }
-    </style>
 
     <div class="counter-section">
         <div class="container">
@@ -569,11 +645,11 @@
     @if ($popup && $popup->status == 1 && $popup->image)
         <div class="modal fade" id="popupModal" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <button class="close closeButton" data-dismiss="modal" type="button" aria-label="Close">
+                <div class="modal-content position-relative">
+                    <button class="close closeButton position-absolute" style="top: 10px; right: 10px; z-index: 1050; background: rgba(255,255,255,0.85);" data-dismiss="modal" type="button" aria-label="Close">
                         <i class="fa fa-times"></i>
                     </button>
-                    <img class="w-100" id="popupModalImage" src="" />
+                    <img class="w-100 img-fluid" id="popupModalImage" src="" />
                 </div>
             </div>
         </div>
