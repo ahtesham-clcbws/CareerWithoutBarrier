@@ -24,6 +24,7 @@ use App\Models\EProspectusModel;
 use App\Models\ExamSubject;
 use App\Models\FaqModel;
 use App\Models\GovtwebsiteModel;
+use App\Models\HomepageCounter;
 use App\Models\MobileNumber;
 use App\Models\NotificationModel;
 use App\Models\OtpVerifications;
@@ -98,7 +99,9 @@ class HomeController extends Controller
 
         $institudeTermsCondition = TermsCondition::where('status', 1)->where('type', 'institute')->orderBy('created_at')->first();
 
-        return view('website.homepage', compact('institudeTermsCondition', 'corporateTestimonials', 'studentTestimonials', 'benefits', 'ourContributors', 'ourJourneys', 'sliders', 'educations', 'govtwebsites', 'courses', 'notifications', 'blogNews'));
+        $homepageCounters = HomepageCounter::orderBy('order')->get()->keyBy('slot_key');
+
+        return view('website.homepage', compact('institudeTermsCondition', 'corporateTestimonials', 'studentTestimonials', 'benefits', 'ourContributors', 'ourJourneys', 'sliders', 'educations', 'govtwebsites', 'courses', 'notifications', 'blogNews', 'homepageCounters'));
     }
 
     public function companyInsert(Request $request) {}
@@ -1068,6 +1071,37 @@ class HomeController extends Controller
         $benefit->delete();
 
         return redirect()->back()->with('error', 'Benefits deleted successfully.');
+    }
+
+    public function counters()
+    {
+        $counters = HomepageCounter::orderBy('order')->get();
+        return view('administrator.Home.counters.index', compact('counters'));
+    }
+
+    public function updateCounters(Request $request)
+    {
+        $validated = $request->validate([
+            'counters' => 'required|array',
+            'counters.*.top_title' => 'nullable|string|max:255',
+            'counters.*.counter_value' => 'required|integer|min:0',
+            'counters.*.has_plus_icon' => 'nullable|boolean',
+            'counters.*.bottom_title' => 'nullable|string|max:255',
+        ]);
+
+        foreach ($validated['counters'] as $slotKey => $data) {
+            HomepageCounter::updateOrCreate(
+                ['slot_key' => $slotKey],
+                [
+                    'top_title' => $data['top_title'] ?? null,
+                    'counter_value' => (int) $data['counter_value'],
+                    'has_plus_icon' => !empty($data['has_plus_icon']),
+                    'bottom_title' => $data['bottom_title'] ?? null,
+                ]
+            );
+        }
+
+        return redirect()->back()->with('success', 'Home counters updated successfully!');
     }
 
     public function resetForgotPassword(Request $request)

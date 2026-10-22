@@ -417,59 +417,69 @@
     <div class="counter-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <div class="counter-section-widget text-center">
-                        <div class="counter-section-icon d-flex align-items-center justify-content-center mx-auto mb-3">
-                            <img class="img-fluid" src="{{ asset('website/assets/images/icons/student-icon.png') }}"
-                                alt="img">
-                        </div>
-                        <h6>100% Scholarship for</h6>
-                        <h2><span class="counter" data-count-start="1490" data-count-end="1500"
-                                data-speed="70">1500</span><span class="plus-icon"></span></h2>
-                        <h6>Applicants</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <div class="counter-section-widget text-center">
-                        <div class="counter-section-icon d-flex align-items-center justify-content-center mx-auto mb-3">
-                            <img class="img-fluid" src="{{ asset('website/assets/images/icons/certificate-icon.png') }}"
-                                alt="img">
-                        </div>
-                        <h6>Offered Institutes</h6>
-                        <h2><span class="counter" data-count-start="240" data-count-end="250" data-speed="70">250</span>+
-                        </h2>
-                        <h6>Institutes (Approx)</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 mb-3">
-                    <div class="counter-section-widget text-center">
-                        <div class="counter-section-icon d-flex align-items-center justify-content-center mx-auto mb-3">
-                            <img class="img-fluid" src="{{ asset('website/assets/images/icons/class-icon.png') }}"
-                                alt="img">
-                        </div>
-                        <h6>Zero Form Fee For</h6>
-                        <h2><span class="counter" data-count-start="19990" data-count-end="20000"
-                                data-speed="70">20000</span>
-                        </h2>
-                        <h6>Applicants</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12">
-                    <div class="counter-section-widget text-center">
-                        <div class="counter-section-icon d-flex align-items-center justify-content-center mx-auto mb-3">
-                            <img class="img-fluid" src="{{ asset('website/assets/images/icons/forign-icon.png') }}"
-                                alt="img">
-                        </div>
-                        <!-- <h2><span class="counter">Free</span></h2>
-                                            <h6>Online Education</h6>
-                                            <h6>For All</h6> -->
+                @php
+                    $counterDefaults = [
+                        'scholarship_counter' => [
+                            'icon' => asset('website/assets/images/icons/student-icon.png'),
+                            'top_title' => '100% Scholarship for',
+                            'counter_value' => 1500,
+                            'has_plus_icon' => true,
+                            'bottom_title' => 'Applicants',
+                            'col_class' => 'col-lg-3 col-md-3 col-sm-6 col-12 mb-3',
+                        ],
+                        'institutes_counter' => [
+                            'icon' => asset('website/assets/images/icons/certificate-icon.png'),
+                            'top_title' => 'Offered Institutes',
+                            'counter_value' => 250,
+                            'has_plus_icon' => true,
+                            'bottom_title' => 'Institutes (Approx)',
+                            'col_class' => 'col-lg-3 col-md-3 col-sm-6 col-12 mb-3',
+                        ],
+                        'form_fee_counter' => [
+                            'icon' => asset('website/assets/images/icons/class-icon.png'),
+                            'top_title' => 'Zero Form Fee For',
+                            'counter_value' => 20000,
+                            'has_plus_icon' => false,
+                            'bottom_title' => 'Applicants',
+                            'col_class' => 'col-lg-3 col-md-3 col-sm-6 col-12 mb-3',
+                        ],
+                        'free_education_counter' => [
+                            'icon' => asset('website/assets/images/icons/forign-icon.png'),
+                            'top_title' => 'Free online education for',
+                            'counter_value' => 100000,
+                            'has_plus_icon' => true,
+                            'bottom_title' => 'Students',
+                            'col_class' => 'col-lg-3 col-md-3 col-sm-6 col-12',
+                        ],
+                    ];
+                @endphp
 
-                        <h6>Free online education for</h6>
-                        <h2><span class="counter" data-count-start="99990" data-count-end="100000"
-                                data-speed="70">100000</span><span class="plus-icon"></span></h2>
-                        <h6>Students</h6>
+                @foreach ($counterDefaults as $slotKey => $default)
+                    @php
+                        $record = isset($homepageCounters) ? $homepageCounters->get($slotKey) : null;
+                        $topTitle = $record && filled($record->top_title) ? $record->top_title : $default['top_title'];
+                        $counterVal = $record && $record->counter_value !== null ? (int) $record->counter_value : (int) $default['counter_value'];
+                        $hasPlus = $record ? (bool) $record->has_plus_icon : (bool) $default['has_plus_icon'];
+                        $bottomTitle = $record && filled($record->bottom_title) ? $record->bottom_title : $default['bottom_title'];
+                        $countStart = max(0, $counterVal - 10);
+                    @endphp
+                    <div class="{{ $default['col_class'] }}">
+                        <div class="counter-section-widget text-center">
+                            <div class="counter-section-icon d-flex align-items-center justify-content-center mx-auto mb-3">
+                                <img class="img-fluid" src="{{ $default['icon'] }}" alt="img">
+                            </div>
+                            @if (filled($topTitle))
+                                <h6>{{ $topTitle }}</h6>
+                            @endif
+                            <h2>
+                                <span class="counter" data-count-start="{{ $countStart }}" data-count-end="{{ $counterVal }}" data-speed="70">{{ $counterVal }}</span>@if ($hasPlus)<span class="plus-icon">+</span>@endif
+                            </h2>
+                            @if (filled($bottomTitle))
+                                <h6>{{ $bottomTitle }}</h6>
+                            @endif
+                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

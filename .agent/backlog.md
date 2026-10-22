@@ -1,3 +1,12 @@
+# Current Sprint: Home Counters Administration
+- [x] Create database migration for `homepage_counters` with 4 initial default seeded rows.
+- [x] Create `HomepageCounter` Eloquent Model with typed attributes.
+- [x] Add `counters()` and `updateCounters()` methods in `HomeController`.
+- [x] Register routes `admin.home.counters` and `admin.home.counters.update` in `routes/admin.php`.
+- [x] Add "Home Counters" navigation item to admin sidebar under Home Page Master (`resources/views/administrator/layouts/sidebar.blade.php`).
+- [x] Create blade view `resources/views/administrator/Home/counters/index.blade.php`.
+- [x] Update frontend homepage controller logic & view `resources/views/website/homepage.blade.php` to render dynamic counter values with calculated `count_start = max(0, counter_value - 10)`.
+
 # Mobile Responsiveness Improvements
 
 - [x] Review and enhance **homepage.blade.php** and **layouts/website.blade.php** for mobile layout.

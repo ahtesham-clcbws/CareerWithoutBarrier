@@ -175,6 +175,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::any('/benefit', [HomeController::class, 'benefits'])->name('admin.home.benefit');
         Route::get('/deletebenefits/{id}', [HomeController::class, 'deletebenefits'])->name('admin.home.deletebenefits');
 
+        Route::get('/counters', [HomeController::class, 'counters'])->name('admin.home.counters');
+        Route::post('/counters/update', [HomeController::class, 'updateCounters'])->name('admin.home.counters.update');
+
         Route::post('/testimonial-toggle-status', [AdminController::class, 'testimonialToggleStatus'])->name('testimonial.toggle.status');
 
         Route::any('/about_us', [AdminController::class, 'aboutUs'])->name('admin.aboutus');

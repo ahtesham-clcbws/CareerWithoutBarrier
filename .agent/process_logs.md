@@ -1,4 +1,12 @@
 ## process_logs.md
+- Implemented Home Counters Administration (October 2026):
+    - Created migration `2026_10_22_131647_create_homepage_counters_table.php` with initial seed data for the 4 fixed slots (`scholarship_counter`, `institutes_counter`, `form_fee_counter`, `free_education_counter`).
+    - Created `HomepageCounter` model with accessor for `count_start` (`max(0, counter_value - 10)`).
+    - Added routes `admin.home.counters` and `admin.home.counters.update` in `routes/admin.php`.
+    - Implemented `counters()` and `updateCounters()` in `HomeController.php`.
+    - Added "Home Counters" navigation link to admin sidebar under "Home Page Master".
+    - Created administrative UI at `resources/views/administrator/Home/counters/index.blade.php` displaying predefined icons, live start counter preview, and inputs for top title, counter end value, plus switch, and bottom title.
+    - Updated `resources/views/website/homepage.blade.php` to render dynamic counters with seamless default fallbacks.
 - Implemented Direct Coupon Allotment page (July 2026):
     - Created AllotCoupon Livewire component and blade view to allot generated coupons directly to an institute.
     - Added routes and sidebar links.

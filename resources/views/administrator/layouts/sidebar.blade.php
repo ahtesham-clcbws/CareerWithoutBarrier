@@ -147,7 +147,7 @@
 
             <!-- Home Page Master -->
             @php
-                $homePages = ['admin.home.slider', 'admin.home.courseList', 'admin.home.govtwebsite', 'admin.home.faq', 'news.blognews', 'news.notification', 'admin.home.eprospectus', 'admin.home.ourJourney', 'admin.home.ourContributor', 'admin.home.benefit'];
+                $homePages = ['admin.home.slider', 'admin.home.courseList', 'admin.home.govtwebsite', 'admin.home.faq', 'news.blognews', 'news.notification', 'admin.home.eprospectus', 'admin.home.ourJourney', 'admin.home.ourContributor', 'admin.home.benefit', 'admin.home.counters'];
                 $isHomeActive = Route::is($homePages);
             @endphp
             <a class="side-nav-item {{ $isHomeActive ? 'active' : '' }}" data-bs-toggle="collapse" data-bs-target="#homePageMaster" href="javascript:void(0)" role="button" aria-expanded="{{ $isHomeActive ? 'true' : 'false' }}" aria-controls="homePageMaster">
@@ -167,6 +167,7 @@
                     <a class="sub-menu-item {{ Route::is('admin.home.ourJourney') ? 'active' : '' }}" href="{{ route('admin.home.ourJourney') }}">Our Journey</a>
                     <a class="sub-menu-item {{ Route::is('admin.home.ourContributor') ? 'active' : '' }}" href="{{ route('admin.home.ourContributor') }}">Our Contributors</a>
                     <a class="sub-menu-item {{ Route::is('admin.home.benefit') ? 'active' : '' }}" href="{{ route('admin.home.benefit') }}">Our Benefits</a>
+                    <a class="sub-menu-item {{ Route::is('admin.home.counters') ? 'active' : '' }}" href="{{ route('admin.home.counters') }}">Home Counters</a>
                 </div>
             </div>
 
