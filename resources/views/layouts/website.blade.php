@@ -284,6 +284,11 @@
         <div id="preloader" style="opacity: .5;">
             <div class="plod"><span>&nbsp;</span><span>&nbsp;</span></div>
         </div>
+        {{-- ================= NEW REDESIGNED HEADER ================= --}}
+        @include('layouts.partials.header')
+
+        {{-- ================= OLD HEADER (SAVED FOR BACKUP - DO NOT DELETE) ================= --}}
+        {{--
         <!--SECTION: TOP NAV-->
         <section>
             <div class="nav">
@@ -388,6 +393,8 @@
                 </div>
             </div>
         </section>
+        --}}
+        {{-- ================= END OLD HEADER BACKUP ================= --}}
         <!--TOP HEADER RIGHT SIDE BAR-->
         <section>
             <div class="side-bar">
@@ -461,11 +468,11 @@
             <div class="footer comm-p-t-b" style="padding-bottom: 5px !important">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-12">
-                            <div class="logo h-100 d-flex flex-column justify-content-between">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12 mb-4 mb-md-0">
+                            <div class="logo h-100 d-flex flex-column justify-content-between align-items-center align-items-md-start">
                                 <a href="/"><img src="{{ asset('logos/logo-square.png') }}"
                                         alt="logo"></a>
-                                <p class="text-lowercase mt-4" style="font-size: 80%;">
+                                <p class="text-lowercase mt-4 text-center text-md-left" style="font-size: 80%;">
                                     <a class="text-white" href="https://www.sqsfoundation.com"><i
                                             class="fa fa-globe"></i>&nbsp;&nbsp;www.sqsfoundation.com</a><br />
                                     <a class="text-white" href="mailto:info@sqsfoundation.com"><i
@@ -473,7 +480,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                             <div class="features-foter">
                                 <h2>Quick Links</h2>
                                 <p><a href="{{ route('corporateEnquiry') }}">Collaborate with Us</a></p>
@@ -481,7 +488,7 @@
                                 <p><a href="{{ URL::to('/faq') }}">Faq</a></p>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-6">
                             <div class="features-foter">
                                 <h2>Policies</h2>
                                 <p><a href="/p/privacy-policy">Privacy Policy</a></p>
@@ -489,12 +496,12 @@
                                 <p><a href="/p/refund-policy">Refund Policy</a></p>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12 mt-4 mt-md-0 text-center text-md-left">
                             <div class="features-foter">
                                 <h2>Direct get in touch</h2>
-                                <h6>Application, Admit card & Result Related:</h6>
+                                <h6 class="mt-2 mb-1">Application, Admit card & Result Related:</h6>
 
-                                <small class="mb-3 text-white">Phone No: 9336171302 <br />
+                                <small class="mb-3 text-white d-block">Phone No: 9336171302 <br />
                                     support@careerwithoutbarrier.com</small>
                             </div>
                         </div>
@@ -771,7 +778,7 @@
 
                                         <li class="full"> <label> Password<span class="text-danger">*</span></label>
                                             <input class="form-control" name="password" type="password"
-                                                placeholder="Password *" required>
+                                                placeholder="Password *" required autocomplete="current-password">
                                             <i class="fa fa-fw fa-eye-slash field-icon toggle-password"
                                                 toggle="#password-field"></i>
                                             @error('password')

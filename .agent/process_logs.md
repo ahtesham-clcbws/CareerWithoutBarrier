@@ -98,4 +98,16 @@
     - Added Cloudflare CDN Font Awesome 4.7.0 as an additional reliable fallback.
     - Added `.fa, [class*="fa-"] { font-family: 'FontAwesome' !important; }` to prevent `* { font-family: "Poppins"; }` in `style.css` from turning icon characters into missing-glyph squares.
     - Embedded inline Bootstrap Icons SVGs directly for both the Home menu icon and E-Prospectus Download icon to guarantee zero-failure rendering.
+- Footer Mobile Layout Optimization (November 2026):
+    - Updated footer grid in `resources/views/layouts/website.blade.php`.
+    - Placed Quick Links and Policies in a single row with 2 equal columns on mobile viewports (`col-6`).
+    - Centered "Direct Get in Touch" section on mobile with `text-center text-md-left` and proper block spacing.
+- Header 100% Redesign & Mobile Drawer Development (November 2026):
+    - Created modular header partial at `resources/views/layouts/partials/header.blade.php`.
+    - Preserved exact legacy header code in `resources/views/layouts/website.blade.php` inside dedicated backup comment tags.
+    - Designed modern desktop navigation: Dark top bar with tagline, E-prospectus download, auth triggers; white sticky navbar with responsive logo, active route indicators, and "Get Discount Voucher" badge.
+    - Built modern off-canvas mobile drawer: 3-line hamburger button, frosted backdrop (`backdrop-filter: blur(3px)`), touch-friendly close button, chevron-guided navigation links, voucher card, and full action/auth buttons.
+    - Verified all pages (`/`, `/aboutus`, `/preparation`, `/scholarship`, `/contact`) return HTTP 200 without layout shifts.
+
+
 

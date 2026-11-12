@@ -26,35 +26,49 @@
         border-radius: 5px;
     }
 
-    .slider {
-        top: 72px;
+    .hero-slider-section {
+        position: relative;
         width: 100%;
-    }
-
-    .sliderBackgroundImage,
-    .slider.u-slick {
-        min-height: 450px !important;
+        margin-top: 0;
+        padding: 0;
         overflow: hidden;
     }
 
-    :root {
-        --slider-height: 90vh;
+    .slider {
+        position: relative;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        top: 0 !important;
     }
 
-    @media (max-width: 768px), (max-aspect-ratio: 1/1) {
-        :root {
-            --slider-height: 450px;
+    .slider.u-slick,
+    .slide-wrapper {
+        min-height: 0 !important;
+        height: auto !important;
+        overflow: hidden;
+    }
+
+    .slide-wrapper {
+        width: 100%;
+        outline: none;
+    }
+
+    .slider-banner-img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: contain;
+    }
+
+    @media (max-width: 991px) {
+        .hero-slider-section {
+            margin-top: 0;
         }
         .slider {
-            top: 72px;
+            top: 0 !important;
+            margin-top: 0 !important;
         }
-    }
-
-    .sliderBackgroundImage {
-        height: var(--slider-height) !important;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: cover;
     }
 
     /* Education Category Cards Grid */
@@ -223,11 +237,12 @@
 @endpush
 
 @section('content')
-    <section>
+    <section class="hero-slider-section">
         <div class="slider u-slick">
             @foreach ($sliders as $key => $slider)
                 <?php $thisImage = asset('home/slider/' . $slider->image); ?>
-                <div class="slide-wrapper sliderBackgroundImage" style="background-image:url('<?= $thisImage ?>')">
+                <div class="slide-wrapper">
+                    <img src="{{ $thisImage }}" alt="Banner" class="slider-banner-img">
                 </div>
             @endforeach
         </div>
