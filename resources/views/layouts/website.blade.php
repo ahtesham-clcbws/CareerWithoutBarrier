@@ -396,7 +396,7 @@
         --}}
         {{-- ================= END OLD HEADER BACKUP ================= --}}
         <!--TOP HEADER RIGHT SIDE BAR-->
-        <section>
+        <section style="display: none;">
             <div class="side-bar">
                 <!--TOP HEADER RIGHT SIDE BAR IMG-->
                 <div class="side-bar-im">

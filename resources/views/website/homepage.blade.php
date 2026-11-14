@@ -240,9 +240,19 @@
     <section class="hero-slider-section">
         <div class="slider u-slick">
             @foreach ($sliders as $key => $slider)
-                <?php $thisImage = asset('home/slider/' . $slider->image); ?>
+                <?php
+                    $imgName = $slider->image;
+                    if (file_exists(public_path('website/assets/images/slider/' . $imgName))) {
+                        $thisImage = asset('website/assets/images/slider/' . $imgName);
+                    } else {
+                        $thisImage = asset('home/slider/' . $imgName);
+                    }
+                ?>
                 <div class="slide-wrapper">
-                    <img src="{{ $thisImage }}" alt="Banner" class="slider-banner-img">
+                    <img src="{{ $thisImage }}"
+                         onerror="this.onerror=null;this.src='{{ asset('website/assets/images/slider/' . $imgName) }}';"
+                         alt="Banner"
+                         class="slider-banner-img">
                 </div>
             @endforeach
         </div>
