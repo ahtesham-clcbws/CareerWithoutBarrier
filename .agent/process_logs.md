@@ -98,6 +98,13 @@
     - Added Cloudflare CDN Font Awesome 4.7.0 as an additional reliable fallback.
     - Added `.fa, [class*="fa-"] { font-family: 'FontAwesome' !important; }` to prevent `* { font-family: "Poppins"; }` in `style.css` from turning icon characters into missing-glyph squares.
     - Embedded inline Bootstrap Icons SVGs directly for both the Home menu icon and E-Prospectus Download icon to guarantee zero-failure rendering.
+- Authentication Code Page Mobile Table Optimization (November 2026):
+    - Redesigned `resources/views/livewire/pages/free-form.blade.php` for mobile responsiveness.
+    - Fixed input-group flex overflow on small screens so the search input and search button stay on one line.
+    - Added responsive Mobile Card View showing index, institute name, logo, phone, address, and coupon badges.
+    - Implemented mobile view switch (`Cards` / `Table`) and horizontal swipe hint.
+    - Set table `min-width: 860px` with clear column boundaries and padded badges to eliminate text squishing.
+    - Removed `margin-top: 72px` from orange top banner.
 - Footer Mobile Layout Optimization (November 2026):
     - Updated footer grid in `resources/views/layouts/website.blade.php`.
     - Placed Quick Links and Policies in a single row with 2 equal columns on mobile viewports (`col-6`).

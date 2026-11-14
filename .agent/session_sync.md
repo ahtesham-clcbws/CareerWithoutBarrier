@@ -1,4 +1,11 @@
-## Decisions & "Why" (Last updated: 2026-11-13)
+## Decisions & "Why" (Last updated: 2026-11-14)
+- **Authentication Code / FreeForm Table Mobile Optimization**:
+  - Resolved mobile layout breakdown in `resources/views/livewire/pages/free-form.blade.php`.
+  - Fixed search input group breakage where `width: 100% !important` in legacy CSS caused search icon to wrap onto a separate line.
+  - Implemented responsive mobile card view for institutes with full contact, address, and coupon badges visible without horizontal scrolling.
+  - Added a mobile view toggle (`Cards View` vs `Table View`) with scroll hint indicator.
+  - Enforced `min-width: 860px` on the table to prevent columns from being crushed into unreadable 40px columns when viewed on small viewports.
+  - Removed top banner `margin-top: 72px` hack to naturally connect with the redesigned header.
 - **Footer Mobile Layout Optimization**:
   - Reconfigured "Quick Links" and "Policies" columns to `col-6` on mobile (`col-lg-3 col-md-3 col-sm-6 col-6`), putting them side-by-side in a single 2-column row.
   - Centered the "Direct Get in Touch" section on mobile using `text-center text-md-left` and added `mt-4 mt-md-0` with block display for contact info.
