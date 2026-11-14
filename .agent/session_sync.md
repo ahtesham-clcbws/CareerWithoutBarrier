@@ -41,3 +41,10 @@
 - None.
 
 
+
+## Handoff Summary (2026-11-14) - About Us Mission Tab Fix
+- Fixed "Our Mision" typo to "Our Mission" in database and Blade template.
+- Resolved mobile squished 50/50 layout in `.custom-tooltip-container`; full-width stacked cards on mobile.
+- Fixed 404 circular badges with asset fallbacks and Blade `onerror` handlers.
+- Compiled assets with `npm run build` and ran `php artisan optimize:clear`.
+- Committed to `master` (commit `85e90cd8`).

@@ -125,3 +125,10 @@
 
 
 
+
+## $(date '+%Y-%m-%d %H:%M:%S') - About Us Mission Tab Responsiveness & Typography Fix
+- Corrected typo "Our Mision" -> "Our Mission" in database record and added Blade sanitization fallback.
+- Restructured `.custom-tooltip-container` on mobile from 50/50 squeezed grid to vertical stacked full-width layout with responsive padding.
+- Fixed 404 mission circular icons by copying template icons to `public/home/aboutus/` and implementing resilient `file_exists` / `onerror` fallbacks to `website/assets/images/prepration/icon-{1..4}.png`.
+- Modernized `.carrier-glance .nav-tabs` for mobile with horizontal smooth scrolling and active styling.
+- Executed `npm run build` and `php artisan optimize:clear`.
