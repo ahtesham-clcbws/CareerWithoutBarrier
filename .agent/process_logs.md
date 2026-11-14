@@ -132,3 +132,12 @@
 - Fixed 404 mission circular icons by copying template icons to `public/home/aboutus/` and implementing resilient `file_exists` / `onerror` fallbacks to `website/assets/images/prepration/icon-{1..4}.png`.
 - Modernized `.carrier-glance .nav-tabs` for mobile with horizontal smooth scrolling and active styling.
 - Executed `npm run build` and `php artisan optimize:clear`.
+
+## $(date '+%Y-%m-%d %H:%M:%S') - Scholarship Page Mobile Interactive Redesign
+- Transformed mobile scholarship selector into a sleek horizontal-swipeable card strip (`scroll-snap-type: x mandatory`).
+- Repositioned scholarship poster directly below the card selector on mobile with rounded corners and clean elevation.
+- Fixed 404 poster images (`CareerWebsiteScholarshipA/B/C.png`) in `public/home/aboutus/` matching DB records.
+- Enhanced mobile quick action bar with responsive `E-prospectus` and `Guidelines` action buttons.
+- Ensured HTML tables in rich text overview have horizontal scroll container (`overflow-x: auto`) on mobile viewports.
+- Optimized tab switching jQuery handlers to prevent callback repetition and ensure flicker-free transitions.
+- Ran `npm run build` and `php artisan optimize:clear`.
