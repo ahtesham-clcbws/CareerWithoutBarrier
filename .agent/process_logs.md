@@ -98,6 +98,13 @@
     - Added Cloudflare CDN Font Awesome 4.7.0 as an additional reliable fallback.
     - Added `.fa, [class*="fa-"] { font-family: 'FontAwesome' !important; }` to prevent `* { font-family: "Poppins"; }` in `style.css` from turning icon characters into missing-glyph squares.
     - Embedded inline Bootstrap Icons SVGs directly for both the Home menu icon and E-Prospectus Download icon to guarantee zero-failure rendering.
+- Contact Us Page Mobile Responsiveness Resolution (November 2026):
+    - Refactored `.contact-input` form in `resources/views/website/contact.blade.php`.
+    - Made all inputs full width on mobile viewports (< 768px), fixing the half-width "Email *" anomaly.
+    - Hidden the `.contact-input:before` circle artifact that overlapped the top-left field.
+    - Swapped the single-line message input for a flexible `<textarea>` element.
+    - Upgraded submit button to a full-width mobile button with hover transitions.
+    - Prevented phone numbers in SQS business card from wrapping incorrectly on small mobile viewports.
 - Authentication Code Page Mobile Table Optimization (November 2026):
     - Redesigned `resources/views/livewire/pages/free-form.blade.php` for mobile responsiveness.
     - Fixed input-group flex overflow on small screens so the search input and search button stay on one line.

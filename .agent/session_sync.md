@@ -1,4 +1,11 @@
 ## Decisions & "Why" (Last updated: 2026-11-14)
+- **Contact Us Page Mobile Responsiveness**:
+  - Fixed mobile form input bug where "Email *" was stuck at 50% width and misaligned with `margin-left: 10px`.
+  - Replaced legacy `nth-child` column widths with `.cwb-half-col` (50% side-by-side on desktop `>= 768px`, 100% full-width on mobile `< 768px`).
+  - Removed overlapping light-blue circular blob (`.contact-input:before`) that cut into the top-left of the form on mobile.
+  - Replaced message text input with a responsive `<textarea>` and made the submit button full-width and touch-friendly on mobile screens.
+  - Added `flex-wrap: wrap` to `.biz-card-phone-section` to prevent phone numbers from overflowing on narrow devices.
+  - Cleaned up unclosed `<body class="conact-page">` inside Blade content section.
 - **Authentication Code / FreeForm Table Mobile Optimization**:
   - Resolved mobile layout breakdown in `resources/views/livewire/pages/free-form.blade.php`.
   - Fixed search input group breakage where `width: 100% !important` in legacy CSS caused search icon to wrap onto a separate line.

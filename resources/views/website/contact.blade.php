@@ -150,7 +150,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .biz-card-phone-number {
@@ -214,9 +215,116 @@
             font-size: 0.8em;
             margin: 0 5px;
         }
+
+        /* Contact Form Responsive Overrides */
+        .contact-input {
+            background: #ffffff !important;
+            padding: 35px 30px !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+            border: 1px solid #e2e8f0 !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Eliminate overlapping decorative blob on mobile */
+        .contact-input:before {
+            display: none !important;
+        }
+
+        .contact-input ul {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            gap: 14px !important;
+        }
+
+        .contact-input ul li {
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        @media (min-width: 768px) {
+            .contact-input ul li.cwb-half-col {
+                width: calc(50% - 7px) !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .contact-input {
+                padding: 24px 16px !important;
+            }
+            .contact-input ul li.cwb-half-col {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+        }
+
+        .contact-input input[type="text"],
+        .contact-input input[type="number"],
+        .contact-input input[type="email"],
+        .contact-input select,
+        .contact-input textarea {
+            width: 100% !important;
+            background: #f0f4ff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 8px !important;
+            padding: 12px 18px !important;
+            font-size: 14.5px !important;
+            font-weight: 500 !important;
+            color: #1e293b !important;
+            transition: all 0.2s ease !important;
+            line-height: 1.5 !important;
+            box-sizing: border-box !important;
+        }
+
+        .contact-input input:focus,
+        .contact-input select:focus,
+        .contact-input textarea:focus {
+            border-color: #3b82f6 !important;
+            background: #ffffff !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+            outline: none !important;
+        }
+
+        .contact-input select {
+            height: 48px !important;
+        }
+
+        .contact-input textarea {
+            min-height: 90px !important;
+            resize: vertical;
+        }
+
+        .contact-input .btn-submit-contact {
+            background: #007bff !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+            padding: 11px 32px !important;
+            border-radius: 6px !important;
+            border: none !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .contact-input .btn-submit-contact:hover {
+            background: #0056b3 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25) !important;
+        }
+
+        @media (max-width: 767px) {
+            .contact-input .btn-submit-contact {
+                width: 100% !important;
+            }
+        }
     </style>
 
-    <body class="conact-page">
+    <div>
         <section>
             <div class="common-banner contact-us-banner">
                 <div class="container">
@@ -244,72 +352,63 @@
                                         <input name="full_name" type="text" value="{{ old('full_name') }}" required
                                             placeholder="Enter Full Name*">
                                         @error('full_name')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </li>
-                                    <li class="mobile-input">
+                                    <li class="cwb-half-col">
                                         <input class="get-otp-mobile" name="mobile" type="number"
                                             value="{{ old('mobile') }}" required placeholder="Mobile">
+                                        @error('mobile')
+                                            <span class="text-danger small">{{ $message }}</span>
+                                        @enderror
                                     </li>
 
-                                    <li style="margin-left: 10px;">
-                                        <input name="email" type="text" value="{{ old('email') }}" required
+                                    <li class="cwb-half-col">
+                                        <input name="email" type="email" value="{{ old('email') }}" required
                                             placeholder="Email *">
-
+                                        @error('email')
+                                            <span class="text-danger small">{{ $message }}</span>
+                                        @enderror
                                     </li>
-                                    @error('mobile')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                    @error('email')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
                                     <li>
                                         <input name="city" type="text" value="{{ old('city') }}" required
                                             placeholder="City/District Name *">
                                         @error('city')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </li>
                                     <li>
-
-                                        <select class="form-control" id="reason_contact" name="reason_contact"
-                                            value="{{ old('reason_contact') }}"
-                                            style="background-color:#f0f4ff;border:0px;" required
+                                        <select class="form-control" id="reason_contact" name="reason_contact" required
                                             onchange="get_other_reason()">
                                             <option value="">Select Reason to Contact</option>
-                                            <option value="Student's Application Related Issue">Student's Application
-                                                Related Issue</option>
-                                            <option value="Student's Admit Card Related Issue">Student's Admit Card
-                                                Related Issue</option>
-                                            <option value="Student's Result Related Issue">Student's Result Related
-                                                Issue</option>
-                                            <option value="Institutional Enquiry / Signup">Institutional Enquiry /
-                                                Signup</option>
-                                            <option value="Institutional Login Issue">Institutional Login Issue
-                                            </option>
-                                            <option value="Other Issues">Other Issues</option>
+                                            <option value="Student's Application Related Issue" {{ old('reason_contact') == "Student's Application Related Issue" ? 'selected' : '' }}>Student's Application Related Issue</option>
+                                            <option value="Student's Admit Card Related Issue" {{ old('reason_contact') == "Student's Admit Card Related Issue" ? 'selected' : '' }}>Student's Admit Card Related Issue</option>
+                                            <option value="Student's Result Related Issue" {{ old('reason_contact') == "Student's Result Related Issue" ? 'selected' : '' }}>Student's Result Related Issue</option>
+                                            <option value="Institutional Enquiry / Signup" {{ old('reason_contact') == "Institutional Enquiry / Signup" ? 'selected' : '' }}>Institutional Enquiry / Signup</option>
+                                            <option value="Institutional Login Issue" {{ old('reason_contact') == "Institutional Login Issue" ? 'selected' : '' }}>Institutional Login Issue</option>
+                                            <option value="Other Issues" {{ old('reason_contact') == "Other Issues" ? 'selected' : '' }}>Other Issues</option>
                                         </select>
                                         @error('reason_contact')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </li>
                                     <li id="otherdd" style="display:none;">
                                         <input id="subjectres" name="subjectres" type="text"
-                                            value="{{ old('subjectres') }}" style="height:40px;background-color:white;"
+                                            value="{{ old('subjectres') }}"
                                             placeholder="Explain other issue *">
                                         @error('subjectres')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </li>
                                     <li>
-                                        <input name="message" type="text" value="{{ old('message') }}"
-                                            style="height:80px;" required placeholder="Your message here">
+                                        <textarea name="message" class="form-control" rows="3" required
+                                            placeholder="Your message here">{{ old('message') }}</textarea>
                                         @error('message')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </li>
-                                    <li style="padding:0px "><input class="sub bg-primary btn-sm" type="submit"
-                                            value="Submit" style="width:100px;height:40px;border-radius:5px;padding:0px;">
+                                    <li class="pt-2">
+                                        <input class="btn-submit-contact" type="submit" value="Submit">
                                     </li>
                                 </ul>
 
@@ -402,6 +501,7 @@
                 </div>
             </div>
         </div>
+    </div>
     @endsection
 
     <script>
